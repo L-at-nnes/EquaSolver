@@ -1,0 +1,360 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquaSolver - Advanced Calculator</title>
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Particles Background -->
+    <div id="particles-js"></div>
+    
+    <!-- Settings Button -->
+    <button class="settings-btn" id="settingsBtn" title="Settings">
+        <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="3"></circle>
+            <path d="M12 1v6M12 17v6M4.22 4.22l4.24 4.24M15.54 15.54l4.24 4.24M1 12h6M17 12h6M4.22 19.78l4.24-4.24M15.54 8.46l4.24-4.24"></path>
+        </svg>
+    </button>
+
+    <!-- Settings Panel -->
+    <div class="settings-panel" id="settingsPanel">
+        <div class="settings-content">
+            <h2 data-translate="settings">Settings</h2>
+            
+            <div class="setting-group">
+                <label data-translate="theme">Theme</label>
+                <div class="theme-selector">
+                    <button class="theme-btn" data-theme="cyberpunk" title="Cyberpunk">
+                        <div class="theme-preview cyberpunk-preview"></div>
+                    </button>
+                    <button class="theme-btn" data-theme="neon" title="Neon">
+                        <div class="theme-preview neon-preview"></div>
+                    </button>
+                    <button class="theme-btn active" data-theme="matrix" title="Matrix">
+                        <div class="theme-preview matrix-preview"></div>
+                    </button>
+                    <button class="theme-btn" data-theme="sunset" title="Sunset">
+                        <div class="theme-preview sunset-preview"></div>
+                    </button>
+                    <button class="theme-btn" data-theme="ocean" title="Ocean">
+                        <div class="theme-preview ocean-preview"></div>
+                    </button>
+                    <button class="theme-btn" data-theme="galaxy" title="Galaxy">
+                        <div class="theme-preview galaxy-preview"></div>
+                    </button>
+                </div>
+            </div>
+
+            <div class="setting-group">
+                <label data-translate="language">Language</label>
+                <div class="language-selector">
+                    <button class="lang-btn" data-lang="fr">
+                        <img class="flag-img" data-lang-flag="fr" alt="FR">
+                        <span>Français</span>
+                    </button>
+                    <button class="lang-btn active" data-lang="en">
+                        <img class="flag-img" data-lang-flag="en" alt="EN">
+                        <span>English</span>
+                    </button>
+                    <button class="lang-btn" data-lang="es">
+                        <img class="flag-img" data-lang-flag="es" alt="ES">
+                        <span>Español</span>
+                    </button>
+                    <button class="lang-btn" data-lang="de">
+                        <img class="flag-img" data-lang-flag="de" alt="DE">
+                        <span>Deutsch</span>
+                    </button>
+                    <button class="lang-btn" data-lang="it">
+                        <img class="flag-img" data-lang-flag="it" alt="IT">
+                        <span>Italiano</span>
+                    </button>
+                </div>
+            </div>
+
+            <button class="close-settings" id="closeSettings" data-translate="close">Close</button>
+        </div>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Home Screen -->
+        <div id="homeScreen" class="home-screen active">
+            <header class="home-header">
+                <h1 class="logo">
+                    <span class="logo-icon">∑</span>
+                    EquaSolver
+                </h1>
+                <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
+                <p class="welcome-text" data-translate="welcome">Choose your tool to get started</p>
+            </header>
+
+            <div class="tools-grid">
+                <div class="tool-card" data-tool="standard">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="4" width="16" height="16" rx="2"></rect>
+                            <line x1="8" y1="12" x2="16" y2="12"></line>
+                            <line x1="12" y1="8" x2="12" y2="16"></line>
+                        </svg>
+                    </div>
+                    <h3 data-translate="standard">Standard</h3>
+                    <p data-translate="standardDesc">Basic calculator operations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <div class="tool-card" data-tool="linear">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="20" x2="20" y2="4"></line>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 data-translate="linear">Linear</h3>
+                    <p data-translate="linearDesc">Solve 1st degree equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <div class="tool-card" data-tool="quadratic">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 20 Q12 4 21 20"></path>
+                            <circle cx="12" cy="8" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 data-translate="quadratic">Quadratic</h3>
+                    <p data-translate="quadraticDesc">Solve 2nd degree equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <div class="tool-card" data-tool="cubic">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 20 Q8 4 12 12 T21 4"></path>
+                            <circle cx="12" cy="12" r="2"></circle>
+                        </svg>
+                    </div>
+                    <h3 data-translate="cubic">Cubic</h3>
+                    <p data-translate="cubicDesc">Solve 3rd degree equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <div class="tool-card" data-tool="systems">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="4" y1="8" x2="20" y2="8"></line>
+                            <line x1="4" y1="16" x2="20" y2="16"></line>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </div>
+                    <h3 data-translate="systems">Systems</h3>
+                    <p data-translate="systemsDesc">Solve systems of equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <div class="tool-card" data-tool="history">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="10"></circle>
+                            <polyline points="12 6 12 12 16 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3 data-translate="historyTitle">History</h3>
+                    <p data-translate="historyDesc">View calculation history</p>
+                    <div class="tool-glow"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Calculator Screen -->
+        <div id="calculatorScreen" class="calculator-screen">
+            <button class="back-btn" id="backBtn">
+                <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <line x1="19" y1="12" x2="5" y2="12"></line>
+                    <polyline points="12 19 5 12 12 5"></polyline>
+                </svg>
+                <span data-translate="back">Back</span>
+            </button>
+
+            <header>
+                <h1 class="logo">
+                    <span class="logo-icon">∑</span>
+                    EquaSolver
+                </h1>
+                <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
+            </header>
+
+        <div class="calculator-wrapper">
+            <!-- Calculator Tabs -->
+            <div class="tabs">
+                <button class="tab active" data-tab="standard" data-translate="standard">Standard</button>
+                <button class="tab" data-tab="linear" data-translate="linear">Linear</button>
+                <button class="tab" data-tab="quadratic" data-translate="quadratic">Quadratic</button>
+                <button class="tab" data-tab="cubic" data-translate="cubic">Cubic</button>
+                <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
+            </div>
+
+            <!-- Standard Calculator -->
+            <div class="calculator-panel active" id="standard">
+                <div class="display-container">
+                    <div class="display-history" id="history"></div>
+                    <input type="text" class="display" id="display" readonly placeholder="0">
+                </div>
+                
+                <div class="buttons-grid">
+                    <button class="btn function" data-action="clear">C</button>
+                    <button class="btn function" data-action="delete">⌫</button>
+                    <button class="btn function" data-action="percent">%</button>
+                    <button class="btn operator" data-value="/">÷</button>
+                    
+                    <button class="btn number" data-value="7">7</button>
+                    <button class="btn number" data-value="8">8</button>
+                    <button class="btn number" data-value="9">9</button>
+                    <button class="btn operator" data-value="*">×</button>
+                    
+                    <button class="btn number" data-value="4">4</button>
+                    <button class="btn number" data-value="5">5</button>
+                    <button class="btn number" data-value="6">6</button>
+                    <button class="btn operator" data-value="-">−</button>
+                    
+                    <button class="btn number" data-value="1">1</button>
+                    <button class="btn number" data-value="2">2</button>
+                    <button class="btn number" data-value="3">3</button>
+                    <button class="btn operator" data-value="+">+</button>
+                    
+                    <button class="btn number" data-value="0">0</button>
+                    <button class="btn number" data-value=".">.</button>
+                    <button class="btn function" data-action="power">x²</button>
+                    <button class="btn equals" data-action="equals">=</button>
+                </div>
+            </div>
+
+            <!-- Linear Equation Solver -->
+            <div class="calculator-panel" id="linear">
+                <div class="equation-display">
+                    <h3 data-translate="linearTitle">Linear Equation</h3>
+                    <div class="equation-preview">ax + b = 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="equation-input-line">
+                        <input type="number" id="linearA" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x +</span>
+                        <input type="number" id="linearB" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">= 0</span>
+                    </div>
+                    <p class="input-hint" data-translate="linearHint">Use Tab to navigate between fields</p>
+                </div>
+                
+                <button class="btn-solve" id="solveLinear" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="linearSolution"></div>
+            </div>
+
+            <!-- Quadratic Equation Solver -->
+            <div class="calculator-panel" id="quadratic">
+                <div class="equation-display">
+                    <h3 data-translate="quadraticTitle">Quadratic Equation</h3>
+                    <div class="equation-preview">ax² + bx + c = 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="equation-input-line">
+                        <input type="number" id="quadA" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x² +</span>
+                        <input type="number" id="quadB" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x +</span>
+                        <input type="number" id="quadC" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">= 0</span>
+                    </div>
+                    <p class="input-hint" data-translate="quadraticHint">Use Tab to navigate between fields</p>
+                </div>
+                
+                <button class="btn-solve" id="solveQuadratic" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="quadraticSolution"></div>
+            </div>
+
+            <!-- Cubic Equation Solver -->
+            <div class="calculator-panel" id="cubic">
+                <div class="equation-display">
+                    <h3 data-translate="cubicTitle">Cubic Equation</h3>
+                    <div class="equation-preview">ax³ + bx² + cx + d = 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="equation-input-line">
+                        <input type="number" id="cubicA" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x³ +</span>
+                        <input type="number" id="cubicB" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x² +</span>
+                        <input type="number" id="cubicC" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">x +</span>
+                        <input type="number" id="cubicD" step="any" class="coef-input" placeholder="0" value="">
+                        <span class="equation-text">= 0</span>
+                    </div>
+                    <p class="input-hint" data-translate="cubicHint">Use Tab to navigate between fields</p>
+                </div>
+                
+                <button class="btn-solve" id="solveCubic" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="cubicSolution"></div>
+            </div>
+
+            <!-- System of Equations Solver -->
+            <div class="calculator-panel" id="systems">
+                <div class="equation-display">
+                    <h3 data-translate="systemsTitle">System of 2 Equations</h3>
+                    <div class="equation-preview-small">
+                        <div>ax + by = e</div>
+                        <div>cx + dy = f</div>
+                    </div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="system-row">
+                        <span class="equation-label">Eq. 1:</span>
+                        <input type="number" id="sysA" step="any" class="coef-input-small" placeholder="0" value="">
+                        <span class="equation-text-small">x +</span>
+                        <input type="number" id="sysB" step="any" class="coef-input-small" placeholder="0" value="">
+                        <span class="equation-text-small">y =</span>
+                        <input type="number" id="sysE" step="any" class="coef-input-small" placeholder="0" value="">
+                    </div>
+                    <div class="system-row">
+                        <span class="equation-label">Eq. 2:</span>
+                        <input type="number" id="sysC" step="any" class="coef-input-small" placeholder="0" value="">
+                        <span class="equation-text-small">x +</span>
+                        <input type="number" id="sysD" step="any" class="coef-input-small" placeholder="0" value="">
+                        <span class="equation-text-small">y =</span>
+                        <input type="number" id="sysF" step="any" class="coef-input-small" placeholder="0" value="">
+                    </div>
+                    <p class="input-hint" data-translate="systemsHint">Use Tab to navigate between fields</p>
+                </div>
+                
+                <button class="btn-solve" id="solveSystems" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="systemsSolution"></div>
+            </div>
+        </div>
+
+        <!-- History Panel -->
+        <div class="history-panel">
+            <div class="history-header">
+                <h3 data-translate="historyTitle">History</h3>
+                <button class="clear-history" id="clearHistory" data-translate="clearHistory">Clear</button>
+            </div>
+            <div class="history-list" id="historyList"></div>
+        </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    <script src="js/flags.js"></script>
+    <script src="js/translations.js"></script>
+    <script src="js/script.js"></script>
+</body>
+</html>
