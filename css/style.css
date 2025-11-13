@@ -104,9 +104,16 @@ body {
 .container {
     position: relative;
     z-index: 1;
-    max-width: 1400px;
+    max-width: 95%;
+    width: 100%;
     margin: 0 auto;
     padding: 2rem;
+}
+
+@media (min-width: 1400px) {
+    .container {
+        max-width: 1400px;
+    }
 }
 
 /* Home Screen */
@@ -310,8 +317,8 @@ header {
     bottom: 2rem;
     right: 2rem;
     z-index: 1000;
-    width: 60px;
-    height: 60px;
+    width: 80px;
+    height: 80px;
     border-radius: 50%;
     background: var(--bg-panel);
     border: 2px solid var(--border-color);
@@ -322,6 +329,11 @@ header {
     display: flex;
     align-items: center;
     justify-content: center;
+}
+
+.settings-btn svg {
+    width: 40px;
+    height: 40px;
 }
 
 .settings-btn:hover {
@@ -852,6 +864,87 @@ header {
     font-style: italic;
     text-align: center;
     opacity: 0.7;
+}
+
+/* Slider Groups */
+.slider-group {
+    margin-bottom: 1.5rem;
+}
+
+.slider-group label {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.slider-group label span {
+    color: var(--primary);
+    font-family: 'Orbitron', monospace;
+    font-size: 1.2rem;
+    font-weight: bold;
+    min-width: 50px;
+    text-align: right;
+}
+
+.coef-slider {
+    width: 100%;
+    height: 8px;
+    border-radius: 5px;
+    background: linear-gradient(90deg, var(--bg-panel), var(--border-color));
+    outline: none;
+    opacity: 0.9;
+    transition: opacity 0.3s;
+    cursor: pointer;
+}
+
+.coef-slider:hover {
+    opacity: 1;
+}
+
+.coef-slider::-webkit-slider-thumb {
+    appearance: none;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    cursor: pointer;
+    border: 2px solid var(--bg-panel);
+    box-shadow: 0 0 10px var(--shadow-color);
+    transition: var(--transition);
+}
+
+.coef-slider::-webkit-slider-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.coef-slider::-moz-range-thumb {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    cursor: pointer;
+    border: 2px solid var(--bg-panel);
+    box-shadow: 0 0 10px var(--shadow-color);
+    transition: var(--transition);
+}
+
+.coef-slider::-moz-range-thumb:hover {
+    transform: scale(1.2);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.equation-section-title {
+    color: var(--primary);
+    font-size: 1.1rem;
+    margin: 1.5rem 0 1rem 0;
+    font-family: 'Orbitron', sans-serif;
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 0.5rem;
 }
 
 .equation-input {
