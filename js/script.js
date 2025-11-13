@@ -14,10 +14,20 @@ let state = {
 // INITIALIZATION
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
+    // Set default theme first
+    document.body.className = 'theme-matrix';
+    
+    // Clear old settings to force defaults
+    localStorage.removeItem('equasolver_settings');
+    
     initParticles();
     initEventListeners();
     loadFlags();
-    loadSettings();
+    
+    // Force default settings
+    changeTheme('matrix');
+    changeLanguage('en');
+    
     updateTranslations();
     updateHistoryDisplay();
 });
@@ -129,6 +139,9 @@ function initEventListeners() {
     document.getElementById('solveCubic').addEventListener('click', solveCubicEquation);
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
     
+    // Slider updates for equations
+    setupSliderListeners();
+    
     // History management
     document.getElementById('clearHistory').addEventListener('click', clearHistory);
     
@@ -145,6 +158,117 @@ function initEventListeners() {
     
     // Keyboard support
     document.addEventListener('keydown', handleKeyboard);
+}
+
+// Setup slider listeners for real-time updates
+function setupSliderListeners() {
+    // Linear equation sliders
+    const linearA = document.getElementById('linearA');
+    const linearB = document.getElementById('linearB');
+    linearA.addEventListener('input', () => {
+        document.getElementById('linearAValue').textContent = linearA.value;
+        updateLinearPreview();
+    });
+    linearB.addEventListener('input', () => {
+        document.getElementById('linearBValue').textContent = linearB.value;
+        updateLinearPreview();
+    });
+    updateLinearPreview();
+    
+    // Quadratic equation sliders
+    const quadA = document.getElementById('quadA');
+    const quadB = document.getElementById('quadB');
+    const quadC = document.getElementById('quadC');
+    quadA.addEventListener('input', () => {
+        document.getElementById('quadAValue').textContent = quadA.value;
+        updateQuadraticPreview();
+    });
+    quadB.addEventListener('input', () => {
+        document.getElementById('quadBValue').textContent = quadB.value;
+        updateQuadraticPreview();
+    });
+    quadC.addEventListener('input', () => {
+        document.getElementById('quadCValue').textContent = quadC.value;
+        updateQuadraticPreview();
+    });
+    updateQuadraticPreview();
+    
+    // Cubic equation sliders
+    const cubicA = document.getElementById('cubicA');
+    const cubicB = document.getElementById('cubicB');
+    const cubicC = document.getElementById('cubicC');
+    const cubicD = document.getElementById('cubicD');
+    cubicA.addEventListener('input', () => {
+        document.getElementById('cubicAValue').textContent = cubicA.value;
+        updateCubicPreview();
+    });
+    cubicB.addEventListener('input', () => {
+        document.getElementById('cubicBValue').textContent = cubicB.value;
+        updateCubicPreview();
+    });
+    cubicC.addEventListener('input', () => {
+        document.getElementById('cubicCValue').textContent = cubicC.value;
+        updateCubicPreview();
+    });
+    cubicD.addEventListener('input', () => {
+        document.getElementById('cubicDValue').textContent = cubicD.value;
+        updateCubicPreview();
+    });
+    updateCubicPreview();
+    
+    // System equation sliders
+    const sysA = document.getElementById('sysA');
+    const sysB = document.getElementById('sysB');
+    const sysE = document.getElementById('sysE');
+    const sysC = document.getElementById('sysC');
+    const sysD = document.getElementById('sysD');
+    const sysF = document.getElementById('sysF');
+    
+    [sysA, sysB, sysE, sysC, sysD, sysF].forEach((slider, idx) => {
+        const ids = ['sysA', 'sysB', 'sysE', 'sysC', 'sysD', 'sysF'];
+        slider.addEventListener('input', () => {
+            document.getElementById(ids[idx] + 'Value').textContent = slider.value;
+            updateSystemsPreview();
+        });
+    });
+    updateSystemsPreview();
+}
+
+// Update preview functions
+function updateLinearPreview() {
+    const a = document.getElementById('linearA').value;
+    const b = document.getElementById('linearB').value;
+    document.getElementById('linearPreview').textContent = `${a}x + ${b} = 0`;
+}
+
+function updateQuadraticPreview() {
+    const a = document.getElementById('quadA').value;
+    const b = document.getElementById('quadB').value;
+    const c = document.getElementById('quadC').value;
+    document.getElementById('quadraticPreview').textContent = `${a}x² + ${b}x + ${c} = 0`;
+}
+
+function updateCubicPreview() {
+    const a = document.getElementById('cubicA').value;
+    const b = document.getElementById('cubicB').value;
+    const c = document.getElementById('cubicC').value;
+    const d = document.getElementById('cubicD').value;
+    document.getElementById('cubicPreview').textContent = `${a}x³ + ${b}x² + ${c}x + ${d} = 0`;
+}
+
+function updateSystemsPreview() {
+    const a = document.getElementById('sysA').value;
+    const b = document.getElementById('sysB').value;
+    const e = document.getElementById('sysE').value;
+    const c = document.getElementById('sysC').value;
+    const d = document.getElementById('sysD').value;
+    const f = document.getElementById('sysF').value;
+    
+    const preview = document.getElementById('systemsPreview');
+    preview.innerHTML = `
+        <div>${a}x + ${b}y = ${e}</div>
+        <div>${c}x + ${d}y = ${f}</div>
+    `;
 }
 
 // ===================================
@@ -239,11 +363,17 @@ function saveSettings() {
 
 function loadSettings() {
     const saved = localStorage.getItem('equasolver_settings');
-    if (!saved) return;
+    if (!saved) {
+        // No saved settings, use defaults
+        changeTheme('matrix');
+        changeLanguage('en');
+        return;
+    }
     
     const settings = JSON.parse(saved);
-    if (settings.theme) changeTheme(settings.theme);
-    if (settings.lang) changeLanguage(settings.lang);
+    // Always default to matrix and english if not explicitly saved
+    changeTheme(settings.theme || 'matrix');
+    changeLanguage(settings.lang || 'en');
 }
 
 // ===================================
