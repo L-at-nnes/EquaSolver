@@ -110,15 +110,59 @@ For the equation `x² - 5x + 6 = 0`, enter:
 ```
 EquaSolver/
 ├── index.html              # Main application file
+├── package.json            # NPM dependencies and test scripts
 ├── css/
 │   └── style.css          # Styles, themes, and animations
 ├── js/
 │   ├── script.js          # Core application logic and solvers
 │   ├── translations.js    # Multi-language translation data
 │   └── flags.js           # Base64-encoded country flags
+├── tests/                  # Jest test suite
+│   ├── calculator.test.js # Standard calculator tests
+│   ├── linear.test.js     # Linear equations tests
+│   ├── quadratic.test.js  # Quadratic equations tests
+│   ├── cubic.test.js      # Cubic equations tests
+│   ├── systems.test.js    # Systems of equations tests
+│   └── README.md          # Testing documentation
 ├── README.md              # Project documentation
 └── LICENSE                # MIT License
 ```
+
+---
+
+## Testing
+
+This project includes a comprehensive test suite using **Jest**.
+
+### Running Tests
+
+```bash
+# Install dependencies
+npm install
+
+# Run all tests
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Generate coverage report
+npm run test:coverage
+```
+
+### Test Coverage
+
+The test suite includes:
+- ✅ **35+ test cases** covering all mathematical operations
+- ✅ Linear equation solving
+- ✅ Quadratic equation solving (all discriminant cases)
+- ✅ Cubic equation solving
+- ✅ System of equations (Cramer's rule)
+- ✅ Edge cases and error handling
+
+See [tests/README.md](tests/README.md) for detailed testing documentation.
+
+---
 
 ### Mathematical Methods
 
