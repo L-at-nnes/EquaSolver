@@ -10,6 +10,13 @@ desktop.ini
 *.swo
 *~
 
+# Node modules
+node_modules/
+package-lock.json
+
+# Test coverage
+coverage/
+
 # Logs
 *.log
 npm-debug.log*
