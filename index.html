@@ -108,39 +108,24 @@
                     <div class="tool-glow"></div>
                 </div>
 
-                <div class="tool-card" data-tool="linear">
+                <div class="tool-card" data-tool="multi-degree">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <line x1="4" y1="20" x2="20" y2="4"></line>
-                            <circle cx="12" cy="12" r="2"></circle>
+                            <path d="M4 20h4l3-16h4"></path>
+                            <path d="M19 4c0 2.761-2.239 5-5 5-2.76 0-5-2.239-5-5"></path>
+                            <path d="M19 15c0 2.761-2.239 5-5 5-2.76 0-5-2.239-5-5"></path>
                         </svg>
                     </div>
-                    <h3 data-translate="linear">Linear</h3>
-                    <p data-translate="linearDesc">Solve 1st degree equations</p>
-                    <div class="tool-glow"></div>
-                </div>
-
-                <div class="tool-card" data-tool="quadratic">
-                    <div class="tool-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 20 Q12 4 21 20"></path>
-                            <circle cx="12" cy="8" r="2"></circle>
-                        </svg>
+                    <h3 data-translate="multiDegreeTitle">Multi-degree Equations</h3>
+                    <p data-translate="multiDegreeDesc">Solve linear up to cubic cases</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="multiDegreeHint">Choose a degree</p>
+                        <button class="submenu-btn" data-subtool="linear" data-translate="degreeOne">1st degree</button>
+                        <button class="submenu-btn" data-subtool="quadratic" data-translate="degreeTwo">2nd degree</button>
+                        <button class="submenu-btn" data-subtool="cubic" data-translate="degreeThree">3rd degree</button>
+                        <button class="submenu-btn" data-subtool="quartic" data-translate="degreeFour">4th degree</button>
+                        <button class="submenu-btn" data-subtool="quintic" data-translate="degreeFive">5th degree</button>
                     </div>
-                    <h3 data-translate="quadratic">Quadratic</h3>
-                    <p data-translate="quadraticDesc">Solve 2nd degree equations</p>
-                    <div class="tool-glow"></div>
-                </div>
-
-                <div class="tool-card" data-tool="cubic">
-                    <div class="tool-icon">
-                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                            <path d="M3 20 Q8 4 12 12 T21 4"></path>
-                            <circle cx="12" cy="12" r="2"></circle>
-                        </svg>
-                    </div>
-                    <h3 data-translate="cubic">Cubic</h3>
-                    <p data-translate="cubicDesc">Solve 3rd degree equations</p>
                     <div class="tool-glow"></div>
                 </div>
 
@@ -196,6 +181,8 @@
                 <button class="tab" data-tab="linear" data-translate="linear">Linear</button>
                 <button class="tab" data-tab="quadratic" data-translate="quadratic">Quadratic</button>
                 <button class="tab" data-tab="cubic" data-translate="cubic">Cubic</button>
+                <button class="tab" data-tab="quartic" data-translate="quartic">Quartic</button>
+                <button class="tab" data-tab="quintic" data-translate="quintic">Quintic</button>
                 <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
             </div>
 
@@ -242,15 +229,15 @@
                 </div>
                 
                 <div class="equation-builder">
-                    <div class="slider-group">
-                        <label>a (coefficient of x): <span id="linearAValue">0</span></label>
-                        <input type="range" id="linearA" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>a (coefficient of x):</label>
+                        <input type="number" id="linearA" value="0" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>b (constant): <span id="linearBValue">0</span></label>
-                        <input type="range" id="linearB" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>b (constant):</label>
+                        <input type="number" id="linearB" value="0" step="0.1" class="coef-input">
                     </div>
-                    <p class="input-hint" data-translate="linearHint">Adjust sliders to set coefficients</p>
+                    <p class="input-hint" data-translate="linearHint">Enter coefficients manually</p>
                 </div>
                 
                 <button class="btn-solve" id="solveLinear" data-translate="solve">Solve</button>
@@ -262,23 +249,23 @@
             <div class="calculator-panel" id="quadratic">
                 <div class="equation-display">
                     <h3 data-translate="quadraticTitle">Quadratic Equation</h3>
-                    <div class="equation-preview" id="quadraticPreview">0x² + 0x + 0 = 0</div>
+                    <div class="equation-preview" id="quadraticPreview">1x² + 0x + 0 = 0</div>
                 </div>
                 
                 <div class="equation-builder">
-                    <div class="slider-group">
-                        <label>a (coefficient of x²): <span id="quadAValue">0</span></label>
-                        <input type="range" id="quadA" min="-10" max="10" step="0.5" value="1" class="coef-slider">
+                    <div class="input-group">
+                        <label>a (coefficient of x²):</label>
+                        <input type="number" id="quadA" value="1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>b (coefficient of x): <span id="quadBValue">0</span></label>
-                        <input type="range" id="quadB" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>b (coefficient of x):</label>
+                        <input type="number" id="quadB" value="0" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>c (constant): <span id="quadCValue">0</span></label>
-                        <input type="range" id="quadC" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>c (constant):</label>
+                        <input type="number" id="quadC" value="0" step="0.1" class="coef-input">
                     </div>
-                    <p class="input-hint" data-translate="quadraticHint">Adjust sliders to set coefficients</p>
+                    <p class="input-hint" data-translate="quadraticHint">Enter coefficients manually</p>
                 </div>
                 
                 <button class="btn-solve" id="solveQuadratic" data-translate="solve">Solve</button>
@@ -290,27 +277,27 @@
             <div class="calculator-panel" id="cubic">
                 <div class="equation-display">
                     <h3 data-translate="cubicTitle">Cubic Equation</h3>
-                    <div class="equation-preview" id="cubicPreview">0x³ + 0x² + 0x + 0 = 0</div>
+                    <div class="equation-preview" id="cubicPreview">1x³ + 0x² + 0x + 0 = 0</div>
                 </div>
                 
                 <div class="equation-builder">
-                    <div class="slider-group">
-                        <label>a (coefficient of x³): <span id="cubicAValue">1</span></label>
-                        <input type="range" id="cubicA" min="-10" max="10" step="0.5" value="1" class="coef-slider">
+                    <div class="input-group">
+                        <label>a (coefficient of x³):</label>
+                        <input type="number" id="cubicA" value="1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>b (coefficient of x²): <span id="cubicBValue">0</span></label>
-                        <input type="range" id="cubicB" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>b (coefficient of x²):</label>
+                        <input type="number" id="cubicB" value="0" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>c (coefficient of x): <span id="cubicCValue">0</span></label>
-                        <input type="range" id="cubicC" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>c (coefficient of x):</label>
+                        <input type="number" id="cubicC" value="0" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>d (constant): <span id="cubicDValue">0</span></label>
-                        <input type="range" id="cubicD" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>d (constant):</label>
+                        <input type="number" id="cubicD" value="0" step="0.1" class="coef-input">
                     </div>
-                    <p class="input-hint" data-translate="cubicHint">Adjust sliders to set coefficients</p>
+                    <p class="input-hint" data-translate="cubicHint">Enter coefficients manually</p>
                 </div>
                 
                 <button class="btn-solve" id="solveCubic" data-translate="solve">Solve</button>
@@ -318,45 +305,121 @@
                 <div class="solution-container" id="cubicSolution"></div>
             </div>
 
+            <!-- Quartic Equation Solver -->
+            <div class="calculator-panel" id="quartic">
+                <div class="equation-display">
+                    <h3 data-translate="quarticTitle">Quartic Equation</h3>
+                    <div class="equation-preview" id="quarticPreview">1x⁴ + 0x³ + 0x² + 0x + 0 = 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x⁴):</label>
+                        <input type="number" id="quartA" value="1" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (coefficient of x³):</label>
+                        <input type="number" id="quartB" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c (coefficient of x²):</label>
+                        <input type="number" id="quartC" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>d (coefficient of x):</label>
+                        <input type="number" id="quartD" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>e (constant):</label>
+                        <input type="number" id="quartE" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="quarticHint">Enter coefficients manually</p>
+                </div>
+                
+                <button class="btn-solve" id="solveQuartic" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="quarticSolution"></div>
+            </div>
+
+            <!-- Quintic Equation Solver -->
+            <div class="calculator-panel" id="quintic">
+                <div class="equation-display">
+                    <h3 data-translate="quinticTitle">Quintic Equation</h3>
+                    <div class="equation-preview" id="quinticPreview">1x⁵ + 0x⁴ + 0x³ + 0x² + 0x + 0 = 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x⁵):</label>
+                        <input type="number" id="quintA" value="1" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (coefficient of x⁴):</label>
+                        <input type="number" id="quintB" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c (coefficient of x³):</label>
+                        <input type="number" id="quintC" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>d (coefficient of x²):</label>
+                        <input type="number" id="quintD" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>e (coefficient of x):</label>
+                        <input type="number" id="quintE" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>f (constant):</label>
+                        <input type="number" id="quintF" value="0" step="0.1" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="quinticHint">Enter coefficients manually</p>
+                </div>
+                
+                <button class="btn-solve" id="solveQuintic" data-translate="solve">Solve</button>
+                
+                <div class="solution-container" id="quinticSolution"></div>
+            </div>
+
             <!-- System of Equations Solver -->
             <div class="calculator-panel" id="systems">
                 <div class="equation-display">
                     <h3 data-translate="systemsTitle">System of 2 Equations</h3>
                     <div class="equation-preview-small" id="systemsPreview">
-                        <div>0x + 0y = 0</div>
-                        <div>0x + 0y = 0</div>
+                        <div>1x + 1y = 0</div>
+                        <div>1x - 1y = 0</div>
                     </div>
                 </div>
                 
                 <div class="equation-builder">
                     <h4 class="equation-section-title">Equation 1: ax + by = e</h4>
-                    <div class="slider-group">
-                        <label>a: <span id="sysAValue">1</span></label>
-                        <input type="range" id="sysA" min="-10" max="10" step="0.5" value="1" class="coef-slider">
+                    <div class="input-group">
+                        <label>a:</label>
+                        <input type="number" id="sysA" value="1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>b: <span id="sysBValue">1</span></label>
-                        <input type="range" id="sysB" min="-10" max="10" step="0.5" value="1" class="coef-slider">
+                    <div class="input-group">
+                        <label>b:</label>
+                        <input type="number" id="sysB" value="1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>e: <span id="sysEValue">0</span></label>
-                        <input type="range" id="sysE" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>e:</label>
+                        <input type="number" id="sysE" value="0" step="0.1" class="coef-input">
                     </div>
                     
                     <h4 class="equation-section-title">Equation 2: cx + dy = f</h4>
-                    <div class="slider-group">
-                        <label>c: <span id="sysCValue">1</span></label>
-                        <input type="range" id="sysC" min="-10" max="10" step="0.5" value="1" class="coef-slider">
+                    <div class="input-group">
+                        <label>c:</label>
+                        <input type="number" id="sysC" value="1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>d: <span id="sysDValue">-1</span></label>
-                        <input type="range" id="sysD" min="-10" max="10" step="0.5" value="-1" class="coef-slider">
+                    <div class="input-group">
+                        <label>d:</label>
+                        <input type="number" id="sysD" value="-1" step="0.1" class="coef-input">
                     </div>
-                    <div class="slider-group">
-                        <label>f: <span id="sysFValue">0</span></label>
-                        <input type="range" id="sysF" min="-10" max="10" step="0.5" value="0" class="coef-slider">
+                    <div class="input-group">
+                        <label>f:</label>
+                        <input type="number" id="sysF" value="0" step="0.1" class="coef-input">
                     </div>
-                    <p class="input-hint" data-translate="systemsHint">Adjust sliders to set coefficients</p>
+                    <p class="input-hint" data-translate="systemsHint">Enter coefficients manually</p>
                 </div>
                 
                 <button class="btn-solve" id="solveSystems" data-translate="solve">Solve</button>

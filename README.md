@@ -28,6 +28,8 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Linear Equations** (ax + b = 0) - First-degree polynomial equation solver
 - **Quadratic Equations** (ax² + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis
 - **Cubic Equations** (ax³ + bx² + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula
+- **Quartic Equations** (ax⁴ + bx³ + cx² + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method
+- **Quintic Equations** (ax⁵ + bx⁴ + cx³ + dx² + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
 - **Systems of Linear Equations** - Solve 2×2 linear systems using Cramer's rule
 
 ### User Interface
@@ -35,6 +37,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Six Themes** - Choose from Cyberpunk, Matrix, Sunset, Ocean, Galaxy, and Neon color schemes
 - **Multi-Language Support** - Available in English, French, Spanish, German, and Italian
 - **Interactive Background** - Dynamic particle system that responds to mouse interactions
+- **Keyboard Input** - Enter equation coefficients directly via keyboard for faster input
 - **Step-by-Step Solutions** - View detailed solution steps for educational purposes
 - **Calculation History** - Access your last 50 calculations for reference
 - **Responsive Design** - Optimized for desktop, tablet, and mobile devices
@@ -122,6 +125,8 @@ EquaSolver/
 │   ├── linear.test.js     # Linear equations tests
 │   ├── quadratic.test.js  # Quadratic equations tests
 │   ├── cubic.test.js      # Cubic equations tests
+│   ├── quartic.test.js    # Quartic equations tests
+│   ├── quintic.test.js    # Quintic equations tests
 │   ├── systems.test.js    # Systems of equations tests
 │   └── README.md          # Testing documentation
 ├── README.md              # Project documentation
@@ -153,10 +158,12 @@ npm run test:coverage
 ### Test Coverage
 
 The test suite includes:
-- ✅ **35+ test cases** covering all mathematical operations
+- ✅ **47+ test cases** covering all mathematical operations
 - ✅ Linear equation solving
 - ✅ Quadratic equation solving (all discriminant cases)
 - ✅ Cubic equation solving
+- ✅ Quartic equation solving (Durand-Kerner numerical method)
+- ✅ Quintic equation solving (numerical root finding)
 - ✅ System of equations (Cramer's rule)
 - ✅ Edge cases and error handling
 
@@ -178,6 +185,13 @@ Implements Cardano's formula:
 1. Depressed cubic transformation
 2. Discriminant calculation
 3. Solution classification based on discriminant value
+
+#### Quartic and Quintic Equations
+Uses the Durand-Kerner numerical method:
+1. Initialize approximate roots using unit circle distribution
+2. Iteratively refine roots using polynomial evaluation
+3. Filter for real solutions with tolerance threshold
+4. Converges to accurate roots within specified tolerance
 
 #### Systems of Linear Equations
 Applies Cramer's rule with determinants:
@@ -249,7 +263,7 @@ If you find this project helpful, please consider:
 > **Note:** The following items represent potential future enhancements and ideas. No timeline or guarantee is provided for implementation. Contributions are welcome for any of these features.
 
 ### Planned Features
-- [ ] Add support for higher-degree polynomial equations (4th, 5th degree)
+- [x] Add support for higher-degree polynomial equations (4th, 5th degree)
 - [ ] Implement matrix calculator (addition, multiplication, determinants, inverse)
 - [ ] Add graphing capabilities to visualize equations
 - [ ] Export solutions to PDF format

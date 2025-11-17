@@ -137,6 +137,8 @@ function initEventListeners() {
     document.getElementById('solveLinear').addEventListener('click', solveLinearEquation);
     document.getElementById('solveQuadratic').addEventListener('click', solveQuadraticEquation);
     document.getElementById('solveCubic').addEventListener('click', solveCubicEquation);
+    document.getElementById('solveQuartic').addEventListener('click', solveQuarticEquation);
+    document.getElementById('solveQuintic').addEventListener('click', solveQuinticEquation);
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
     
     // Slider updates for equations
@@ -147,9 +149,12 @@ function initEventListeners() {
     
     // Navigation cards
     document.querySelectorAll('.tool-card').forEach(card => {
-        card.addEventListener('click', () => {
-            const tool = card.dataset.tool;
-            tool === 'history' ? showHistoryScreen() : showCalculatorScreen(tool);
+        card.addEventListener('click', () => handleToolSelection(card.dataset.tool));
+    });
+    document.querySelectorAll('.submenu-btn').forEach(btn => {
+        btn.addEventListener('click', event => {
+            event.stopPropagation();
+            handleToolSelection(btn.dataset.subtool);
         });
     });
     
@@ -162,61 +167,62 @@ function initEventListeners() {
 
 // Setup slider listeners for real-time updates
 function setupSliderListeners() {
-    // Linear equation sliders
+    // Linear equation inputs
     const linearA = document.getElementById('linearA');
     const linearB = document.getElementById('linearB');
-    linearA.addEventListener('input', () => {
-        document.getElementById('linearAValue').textContent = linearA.value;
-        updateLinearPreview();
-    });
-    linearB.addEventListener('input', () => {
-        document.getElementById('linearBValue').textContent = linearB.value;
-        updateLinearPreview();
-    });
+    linearA.addEventListener('input', updateLinearPreview);
+    linearB.addEventListener('input', updateLinearPreview);
     updateLinearPreview();
     
-    // Quadratic equation sliders
+    // Quadratic equation inputs
     const quadA = document.getElementById('quadA');
     const quadB = document.getElementById('quadB');
     const quadC = document.getElementById('quadC');
-    quadA.addEventListener('input', () => {
-        document.getElementById('quadAValue').textContent = quadA.value;
-        updateQuadraticPreview();
-    });
-    quadB.addEventListener('input', () => {
-        document.getElementById('quadBValue').textContent = quadB.value;
-        updateQuadraticPreview();
-    });
-    quadC.addEventListener('input', () => {
-        document.getElementById('quadCValue').textContent = quadC.value;
-        updateQuadraticPreview();
-    });
+    quadA.addEventListener('input', updateQuadraticPreview);
+    quadB.addEventListener('input', updateQuadraticPreview);
+    quadC.addEventListener('input', updateQuadraticPreview);
     updateQuadraticPreview();
     
-    // Cubic equation sliders
+    // Cubic equation inputs
     const cubicA = document.getElementById('cubicA');
     const cubicB = document.getElementById('cubicB');
     const cubicC = document.getElementById('cubicC');
     const cubicD = document.getElementById('cubicD');
-    cubicA.addEventListener('input', () => {
-        document.getElementById('cubicAValue').textContent = cubicA.value;
-        updateCubicPreview();
-    });
-    cubicB.addEventListener('input', () => {
-        document.getElementById('cubicBValue').textContent = cubicB.value;
-        updateCubicPreview();
-    });
-    cubicC.addEventListener('input', () => {
-        document.getElementById('cubicCValue').textContent = cubicC.value;
-        updateCubicPreview();
-    });
-    cubicD.addEventListener('input', () => {
-        document.getElementById('cubicDValue').textContent = cubicD.value;
-        updateCubicPreview();
-    });
+    cubicA.addEventListener('input', updateCubicPreview);
+    cubicB.addEventListener('input', updateCubicPreview);
+    cubicC.addEventListener('input', updateCubicPreview);
+    cubicD.addEventListener('input', updateCubicPreview);
     updateCubicPreview();
     
-    // System equation sliders
+    // Quartic equation inputs
+    const quartA = document.getElementById('quartA');
+    const quartB = document.getElementById('quartB');
+    const quartC = document.getElementById('quartC');
+    const quartD = document.getElementById('quartD');
+    const quartE = document.getElementById('quartE');
+    quartA.addEventListener('input', updateQuarticPreview);
+    quartB.addEventListener('input', updateQuarticPreview);
+    quartC.addEventListener('input', updateQuarticPreview);
+    quartD.addEventListener('input', updateQuarticPreview);
+    quartE.addEventListener('input', updateQuarticPreview);
+    updateQuarticPreview();
+    
+    // Quintic equation inputs
+    const quintA = document.getElementById('quintA');
+    const quintB = document.getElementById('quintB');
+    const quintC = document.getElementById('quintC');
+    const quintD = document.getElementById('quintD');
+    const quintE = document.getElementById('quintE');
+    const quintF = document.getElementById('quintF');
+    quintA.addEventListener('input', updateQuinticPreview);
+    quintB.addEventListener('input', updateQuinticPreview);
+    quintC.addEventListener('input', updateQuinticPreview);
+    quintD.addEventListener('input', updateQuinticPreview);
+    quintE.addEventListener('input', updateQuinticPreview);
+    quintF.addEventListener('input', updateQuinticPreview);
+    updateQuinticPreview();
+    
+    // System equation inputs
     const sysA = document.getElementById('sysA');
     const sysB = document.getElementById('sysB');
     const sysE = document.getElementById('sysE');
@@ -224,13 +230,12 @@ function setupSliderListeners() {
     const sysD = document.getElementById('sysD');
     const sysF = document.getElementById('sysF');
     
-    [sysA, sysB, sysE, sysC, sysD, sysF].forEach((slider, idx) => {
-        const ids = ['sysA', 'sysB', 'sysE', 'sysC', 'sysD', 'sysF'];
-        slider.addEventListener('input', () => {
-            document.getElementById(ids[idx] + 'Value').textContent = slider.value;
-            updateSystemsPreview();
-        });
-    });
+    sysA.addEventListener('input', updateSystemsPreview);
+    sysB.addEventListener('input', updateSystemsPreview);
+    sysE.addEventListener('input', updateSystemsPreview);
+    sysC.addEventListener('input', updateSystemsPreview);
+    sysD.addEventListener('input', updateSystemsPreview);
+    sysF.addEventListener('input', updateSystemsPreview);
     updateSystemsPreview();
 }
 
@@ -254,6 +259,25 @@ function updateCubicPreview() {
     const c = document.getElementById('cubicC').value;
     const d = document.getElementById('cubicD').value;
     document.getElementById('cubicPreview').textContent = `${a}x³ + ${b}x² + ${c}x + ${d} = 0`;
+}
+
+function updateQuarticPreview() {
+    const a = document.getElementById('quartA').value;
+    const b = document.getElementById('quartB').value;
+    const c = document.getElementById('quartC').value;
+    const d = document.getElementById('quartD').value;
+    const e = document.getElementById('quartE').value;
+    document.getElementById('quarticPreview').textContent = `${a}x⁴ + ${b}x³ + ${c}x² + ${d}x + ${e} = 0`;
+}
+
+function updateQuinticPreview() {
+    const a = document.getElementById('quintA').value;
+    const b = document.getElementById('quintB').value;
+    const c = document.getElementById('quintC').value;
+    const d = document.getElementById('quintD').value;
+    const e = document.getElementById('quintE').value;
+    const f = document.getElementById('quintF').value;
+    document.getElementById('quinticPreview').textContent = `${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0`;
 }
 
 function updateSystemsPreview() {
@@ -295,6 +319,28 @@ function showHistoryScreen() {
     
     document.querySelector('.calculator-wrapper').style.display = 'none';
     document.querySelector('.history-panel').style.display = 'block';
+}
+
+function handleToolSelection(tool) {
+    const polynomialTools = ['linear', 'quadratic', 'cubic', 'quartic', 'quintic'];
+
+    if (!tool) return;
+    if (tool === 'history') {
+        showHistoryScreen();
+        return;
+    }
+
+    if (tool === 'multi-degree') {
+        showCalculatorScreen('linear');
+        return;
+    }
+
+    if (polynomialTools.includes(tool)) {
+        showCalculatorScreen(tool);
+        return;
+    }
+
+    showCalculatorScreen(tool);
 }
 
 function switchTab(tab) {
@@ -659,6 +705,189 @@ function solveCubicEquation() {
     
     resultDiv.innerHTML = html;
     addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${solutions.map(s => s.toFixed(4)).join(', ')}`);
+}
+
+// ===================================
+// QUARTIC EQUATION SOLVER (Numerical)
+// ===================================
+function solveQuarticEquation() {
+    const a = parseFloat(document.getElementById('quartA').value);
+    const b = parseFloat(document.getElementById('quartB').value);
+    const c = parseFloat(document.getElementById('quartC').value);
+    const d = parseFloat(document.getElementById('quartD').value);
+    const e = parseFloat(document.getElementById('quartE').value);
+    const resultDiv = document.getElementById('quarticSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d) || isNaN(e)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    if (a === 0) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    const roots = findPolynomialRoots([a, b, c, d, e]);
+    
+    let html = `<h3>${trans.solution}</h3>`;
+    html += `<div class="solution">`;
+    
+    if (roots.length === 0) {
+        html += `<p>${trans.noRealSolutions}</p>`;
+    } else {
+        html += `<p>${roots.length} ${trans.solutionsFound}:</p>`;
+        roots.forEach((root, i) => {
+            html += `<p>x${i + 1} = ${root.toFixed(4)}</p>`;
+        });
+    }
+    
+    html += `</div>`;
+    resultDiv.innerHTML = html;
+    addToHistory(`${a}x⁴ + ${b}x³ + ${c}x² + ${d}x + ${e} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
+}
+
+// ===================================
+// QUINTIC EQUATION SOLVER (Numerical)
+// ===================================
+function solveQuinticEquation() {
+    const a = parseFloat(document.getElementById('quintA').value);
+    const b = parseFloat(document.getElementById('quintB').value);
+    const c = parseFloat(document.getElementById('quintC').value);
+    const d = parseFloat(document.getElementById('quintD').value);
+    const e = parseFloat(document.getElementById('quintE').value);
+    const f = parseFloat(document.getElementById('quintF').value);
+    const resultDiv = document.getElementById('quinticSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b) || isNaN(c) || isNaN(d) || isNaN(e) || isNaN(f)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    if (a === 0) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    const roots = findPolynomialRoots([a, b, c, d, e, f]);
+    
+    let html = `<h3>${trans.solution}</h3>`;
+    html += `<div class="solution">`;
+    
+    if (roots.length === 0) {
+        html += `<p>${trans.noRealSolutions}</p>`;
+    } else {
+        html += `<p>${roots.length} ${trans.solutionsFound}:</p>`;
+        roots.forEach((root, i) => {
+            html += `<p>x${i + 1} = ${root.toFixed(4)}</p>`;
+        });
+    }
+    
+    html += `</div>`;
+    resultDiv.innerHTML = html;
+    addToHistory(`${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
+}
+
+// Numerical root finding using Durand-Kerner method
+function findPolynomialRoots(coeffs) {
+    const degree = coeffs.length - 1;
+    if (degree < 1) return [];
+    
+    // Normalize coefficients
+    const normalized = coeffs.map(c => c / coeffs[0]);
+    
+    // Initial guesses (unit circle)
+    const roots = [];
+    for (let i = 0; i < degree; i++) {
+        const angle = (2 * Math.PI * i) / degree;
+        roots.push({ re: Math.cos(angle), im: Math.sin(angle) });
+    }
+    
+    // Durand-Kerner iterations
+    const maxIter = 100;
+    const tolerance = 1e-6;
+    
+    for (let iter = 0; iter < maxIter; iter++) {
+        let maxChange = 0;
+        
+        for (let i = 0; i < degree; i++) {
+            const z = roots[i];
+            const pz = evalPoly(normalized, z);
+            
+            let prod = { re: 1, im: 0 };
+            for (let j = 0; j < degree; j++) {
+                if (i !== j) {
+                    const diff = complexSub(z, roots[j]);
+                    prod = complexMul(prod, diff);
+                }
+            }
+            
+            const delta = complexDiv(pz, prod);
+            roots[i] = complexSub(z, delta);
+            
+            const change = Math.sqrt(delta.re * delta.re + delta.im * delta.im);
+            maxChange = Math.max(maxChange, change);
+        }
+        
+        if (maxChange < tolerance) break;
+    }
+    
+    // Extract real roots
+    return roots
+        .filter(z => Math.abs(z.im) < 0.01)
+        .map(z => z.re)
+        .sort((a, b) => a - b);
+}
+
+function evalPoly(coeffs, z) {
+    let result = { re: 0, im: 0 };
+    for (let i = 0; i < coeffs.length; i++) {
+        const power = complexPow(z, coeffs.length - 1 - i);
+        const term = complexScale(power, coeffs[i]);
+        result = complexAdd(result, term);
+    }
+    return result;
+}
+
+function complexPow(z, n) {
+    if (n === 0) return { re: 1, im: 0 };
+    if (n === 1) return z;
+    
+    let result = { re: 1, im: 0 };
+    for (let i = 0; i < n; i++) {
+        result = complexMul(result, z);
+    }
+    return result;
+}
+
+function complexScale(z, scalar) {
+    return { re: z.re * scalar, im: z.im * scalar };
+}
+
+function complexAdd(a, b) {
+    return { re: a.re + b.re, im: a.im + b.im };
+}
+
+function complexSub(a, b) {
+    return { re: a.re - b.re, im: a.im - b.im };
+}
+
+function complexMul(a, b) {
+    return {
+        re: a.re * b.re - a.im * b.im,
+        im: a.re * b.im + a.im * b.re
+    };
+}
+
+function complexDiv(a, b) {
+    const denom = b.re * b.re + b.im * b.im;
+    if (denom === 0) return { re: 0, im: 0 };
+    return {
+        re: (a.re * b.re + a.im * b.im) / denom,
+        im: (a.im * b.re - a.re * b.im) / denom
+    };
 }
 
 // ===================================

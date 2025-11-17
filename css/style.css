@@ -218,6 +218,41 @@ body {
     font-size: 0.95rem;
 }
 
+.tool-submenu {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    align-items: center;
+}
+
+.submenu-title {
+    font-size: 0.85rem;
+    color: var(--secondary);
+    letter-spacing: 1px;
+    text-transform: uppercase;
+}
+
+.submenu-btn {
+    width: 100%;
+    max-width: 200px;
+    padding: 0.6rem 1rem;
+    border-radius: 999px;
+    border: 2px solid transparent;
+    background: rgba(255, 255, 255, 0.08);
+    color: var(--text-primary);
+    cursor: pointer;
+    transition: var(--transition);
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.submenu-btn:hover {
+    border-color: var(--primary);
+    background: rgba(0, 0, 0, 0.2);
+    color: var(--primary);
+}
+
 .tool-glow {
     position: absolute;
     bottom: 0;
@@ -888,6 +923,43 @@ header {
     font-weight: bold;
     min-width: 50px;
     text-align: right;
+}
+
+/* Input Groups for polynomial coefficients */
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+}
+
+.coef-input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--primary);
+    font-size: 1.1rem;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: var(--transition);
+    outline: none;
+}
+
+.coef-input:hover {
+    border-color: var(--primary);
+}
+
+.coef-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--shadow-color);
+    background: rgba(var(--primary-rgb), 0.05);
 }
 
 .coef-slider {
