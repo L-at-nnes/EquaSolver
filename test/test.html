@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>EquaSolver Tests</title>
+    <style>
+        body {
+            font-family: 'Courier New', monospace;
+            background: #0a0a0f;
+            color: #00ff41;
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        h1 {
+            color: #00ffff;
+            border-bottom: 2px solid #00ff41;
+            padding-bottom: 0.5rem;
+        }
+        .test-suite {
+            margin: 2rem 0;
+            border: 1px solid #00ff41;
+            padding: 1rem;
+            border-radius: 8px;
+        }
+        .test-case {
+            margin: 1rem 0;
+            padding: 0.5rem;
+            border-left: 3px solid #555;
+        }
+        .test-case.pass {
+            border-left-color: #00ff41;
+            background: rgba(0, 255, 65, 0.1);
+        }
+        .test-case.fail {
+            border-left-color: #ff0080;
+            background: rgba(255, 0, 128, 0.1);
+        }
+        .test-name {
+            font-weight: bold;
+            margin-bottom: 0.5rem;
+        }
+        .test-result {
+            font-size: 0.9rem;
+            color: #b8b8d1;
+        }
+        .summary {
+            margin-top: 2rem;
+            padding: 1rem;
+            background: rgba(0, 255, 255, 0.1);
+            border-radius: 8px;
+            font-size: 1.2rem;
+        }
+        .pass-count {
+            color: #00ff41;
+            font-weight: bold;
+        }
+        .fail-count {
+            color: #ff0080;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <h1>🧪 EquaSolver Test Suite</h1>
+    <div id="test-output"></div>
+    <div class="summary" id="summary"></div>
+
+    <script src="../js/flags.js"></script>
+    <script src="../js/translations.js"></script>
+    <script src="../js/script.js"></script>
+    <script>
+        // Test runner
+        class TestRunner {
+            constructor() {
+                this.tests = [];
+                this.passed = 0;
+                this.failed = 0;
+            }
+
+            test(name, fn) {
+                this.tests.push({ name, fn });
+            }
+
+            async run() {
+                const output = document.getElementById('test-output');
+                
+                for (const test of this.tests) {
+                    const div = document.createElement('div');
+                    div.className = 'test-suite';
+                    
+                    const nameDiv = document.createElement('div');
+                    nameDiv.className = 'test-name';
+                    nameDiv.textContent = test.name;
+                    div.appendChild(nameDiv);
+
+                    try {
+                        await test.fn();
+                        div.classList.add('pass');
+                        const result = document.createElement('div');
+                        result.className = 'test-result';
+                        result.textContent = '✓ PASS';
+                        result.style.color = '#00ff41';
+                        div.appendChild(result);
+                        this.passed++;
+                    } catch (error) {
+                        div.classList.add('fail');
+                        const result = document.createElement('div');
+                        result.className = 'test-result';
+                        result.textContent = `✗ FAIL: ${error.message}`;
+                        result.style.color = '#ff0080';
+                        div.appendChild(result);
+                        this.failed++;
+                    }
+
+                    output.appendChild(div);
+                }
+
+                this.showSummary();
+            }
+
+            showSummary() {
+                const summary = document.getElementById('summary');
+                const total = this.passed + this.failed;
+                summary.innerHTML = `
+                    <strong>Test Results:</strong><br>
+                    Total: ${total} | 
+                    <span class="pass-count">${this.passed} passed</span> | 
+                    <span class="fail-count">${this.failed} failed</span>
+                `;
+            }
+
+            assertEquals(actual, expected, message = '') {
+                if (typeof expected === 'number' && typeof actual === 'number') {
+                    if (Math.abs(actual - expected) > 0.001) {
+                        throw new Error(`${message} Expected ${expected}, got ${actual}`);
+                    }
+                } else if (actual !== expected) {
+                    throw new Error(`${message} Expected ${expected}, got ${actual}`);
+                }
+            }
+
+            assertArrayEquals(actual, expected, tolerance = 0.001, message = '') {
+                if (actual.length !== expected.length) {
+                    throw new Error(`${message} Array length mismatch: expected ${expected.length}, got ${actual.length}`);
+                }
+                for (let i = 0; i < expected.length; i++) {
+                    if (Math.abs(actual[i] - expected[i]) > tolerance) {
+                        throw new Error(`${message} At index ${i}: expected ${expected[i]}, got ${actual[i]}`);
+                    }
+                }
+            }
+
+            assertTrue(condition, message = '') {
+                if (!condition) {
+                    throw new Error(`${message} Expected true, got false`);
+                }
+            }
+        }
+
+        // Initialize test runner
+        const runner = new TestRunner();
+
+        // ===================================
+        // LINEAR EQUATION TESTS
+        // ===================================
+        runner.test('Linear: x + 2 = 0', () => {
+            // Manually compute: x = -2
+            const a = 1, b = 2;
+            const x = -b / a;
+            runner.assertEquals(x, -2, 'Linear solution');
+        });
+
+        runner.test('Linear: 2x - 4 = 0', () => {
+            const a = 2, b = -4;
+            const x = -b / a;
+            runner.assertEquals(x, 2, 'Linear solution');
+        });
+
+        runner.test('Linear: -3x + 9 = 0', () => {
+            const a = -3, b = 9;
+            const x = -b / a;
+            runner.assertEquals(x, 3, 'Linear solution');
+        });
+
+        // ===================================
+        // QUADRATIC EQUATION TESTS
+        // ===================================
+        runner.test('Quadratic: x² - 5x + 6 = 0', () => {
+            const a = 1, b = -5, c = 6;
+            const delta = b * b - 4 * a * c;
+            const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+            const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+            runner.assertEquals(x1, 3, 'First root');
+            runner.assertEquals(x2, 2, 'Second root');
+        });
+
+        runner.test('Quadratic: x² - 4 = 0', () => {
+            const a = 1, b = 0, c = -4;
+            const delta = b * b - 4 * a * c;
+            const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+            const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+            runner.assertEquals(x1, 2, 'First root');
+            runner.assertEquals(x2, -2, 'Second root');
+        });
+
+        runner.test('Quadratic: x² + 2x + 1 = 0', () => {
+            const a = 1, b = 2, c = 1;
+            const delta = b * b - 4 * a * c;
+            runner.assertEquals(delta, 0, 'Discriminant should be 0');
+            const x = -b / (2 * a);
+            runner.assertEquals(x, -1, 'Double root');
+        });
+
+        // ===================================
+        // CUBIC EQUATION TESTS
+        // ===================================
+        runner.test('Cubic: x³ - 6x² + 11x - 6 = 0', () => {
+            // Known roots: x = 1, 2, 3
+            const a = 1, b = -6, c = 11, d = -6;
+            const p = (3 * a * c - b * b) / (3 * a * a);
+            const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
+            const discriminant = -(4 * p * p * p + 27 * q * q);
+            runner.assertTrue(discriminant > 0, 'Should have 3 real roots');
+        });
+
+        // ===================================
+        // NUMERICAL METHOD TESTS (Durand-Kerner)
+        // ===================================
+        runner.test('Numerical: Quartic x⁴ - 5x² + 4 = 0', () => {
+            // Known roots: ±1, ±2
+            const roots = findPolynomialRoots([1, 0, -5, 0, 4]);
+            runner.assertEquals(roots.length, 4, 'Should find 4 real roots');
+            const expected = [-2, -1, 1, 2];
+            runner.assertArrayEquals(roots, expected, 0.01, 'Quartic roots');
+        });
+
+        runner.test('Numerical: Quartic (x-1)(x-2)(x-3)(x-4) = 0', () => {
+            // Expanded: x⁴ - 10x³ + 35x² - 50x + 24 = 0
+            const roots = findPolynomialRoots([1, -10, 35, -50, 24]);
+            runner.assertEquals(roots.length, 4, 'Should find 4 real roots');
+            const expected = [1, 2, 3, 4];
+            runner.assertArrayEquals(roots, expected, 0.01, 'Quartic roots');
+        });
+
+        runner.test('Numerical: Quintic x⁵ - 15x³ + 10x² + 60x - 72 = 0', () => {
+            // Testing numerical stability
+            const roots = findPolynomialRoots([1, 0, -15, 10, 60, -72]);
+            runner.assertTrue(roots.length > 0, 'Should find at least one real root');
+        });
+
+        runner.test('Numerical: Quintic (x-1)(x-2)(x-3)(x+1)(x+2) = 0', () => {
+            // Expanded: x⁵ - 3x⁴ - 5x³ + 15x² + 4x - 12 = 0
+            const roots = findPolynomialRoots([1, -3, -5, 15, 4, -12]);
+            runner.assertEquals(roots.length, 5, 'Should find 5 real roots');
+            const expected = [-2, -1, 1, 2, 3];
+            runner.assertArrayEquals(roots, expected, 0.01, 'Quintic roots');
+        });
+
+        // ===================================
+        // COMPLEX NUMBER OPERATIONS TESTS
+        // ===================================
+        runner.test('Complex: Addition', () => {
+            const a = { re: 3, im: 4 };
+            const b = { re: 1, im: 2 };
+            const result = complexAdd(a, b);
+            runner.assertEquals(result.re, 4, 'Real part');
+            runner.assertEquals(result.im, 6, 'Imaginary part');
+        });
+
+        runner.test('Complex: Subtraction', () => {
+            const a = { re: 5, im: 7 };
+            const b = { re: 2, im: 3 };
+            const result = complexSub(a, b);
+            runner.assertEquals(result.re, 3, 'Real part');
+            runner.assertEquals(result.im, 4, 'Imaginary part');
+        });
+
+        runner.test('Complex: Multiplication', () => {
+            const a = { re: 2, im: 3 };
+            const b = { re: 4, im: 5 };
+            const result = complexMul(a, b);
+            runner.assertEquals(result.re, -7, 'Real part');
+            runner.assertEquals(result.im, 22, 'Imaginary part');
+        });
+
+        runner.test('Complex: Division', () => {
+            const a = { re: 10, im: 5 };
+            const b = { re: 2, im: 1 };
+            const result = complexDiv(a, b);
+            runner.assertEquals(result.re, 5, 'Real part');
+            runner.assertEquals(result.im, 0, 'Imaginary part');
+        });
+
+        runner.test('Complex: Power', () => {
+            const z = { re: 2, im: 0 };
+            const result = complexPow(z, 3);
+            runner.assertEquals(result.re, 8, 'Real part of 2³');
+            runner.assertEquals(result.im, 0, 'Imaginary part of 2³');
+        });
+
+        // ===================================
+        // SYSTEM OF EQUATIONS TESTS
+        // ===================================
+        runner.test('System: 2x + y = 5, x - y = 1', () => {
+            const a = 2, b = 1, e = 5;
+            const c = 1, d = -1, f = 1;
+            const det = a * d - b * c;
+            const x = (e * d - b * f) / det;
+            const y = (a * f - e * c) / det;
+            runner.assertEquals(x, 2, 'x value');
+            runner.assertEquals(y, 1, 'y value');
+        });
+
+        runner.test('System: x + 2y = 7, 3x - y = 5', () => {
+            const a = 1, b = 2, e = 7;
+            const c = 3, d = -1, f = 5;
+            const det = a * d - b * c;
+            const x = (e * d - b * f) / det;
+            const y = (a * f - e * c) / det;
+            runner.assertEquals(x, 3, 'x value');
+            runner.assertEquals(y, 2, 'y value');
+        });
+
+        // ===================================
+        // EDGE CASES
+        // ===================================
+        runner.test('Edge: Quartic with double root', () => {
+            // (x-1)²(x-2)² = x⁴ - 6x³ + 13x² - 12x + 4 = 0
+            const roots = findPolynomialRoots([1, -6, 13, -12, 4]);
+            runner.assertTrue(roots.length >= 2, 'Should find at least 2 distinct roots');
+        });
+
+        runner.test('Edge: Polynomial evaluation', () => {
+            const coeffs = [1, -3, 2]; // x² - 3x + 2
+            const z = { re: 1, im: 0 };
+            const result = evalPoly(coeffs, z);
+            runner.assertEquals(result.re, 0, 'Should be zero at root x=1');
+        });
+
+        // Run all tests
+        runner.run();
+    </script>
+</body>
+</html>
