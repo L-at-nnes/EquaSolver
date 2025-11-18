@@ -140,9 +140,13 @@ function initEventListeners() {
     document.getElementById('solveQuartic').addEventListener('click', solveQuarticEquation);
     document.getElementById('solveQuintic').addEventListener('click', solveQuinticEquation);
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
+    document.getElementById('calculateMatrix').addEventListener('click', calculateMatrix);
     
     // Slider updates for equations
     setupSliderListeners();
+    
+    // Matrix calculator setup
+    setupMatrixCalculator();
     
     // History management
     document.getElementById('clearHistory').addEventListener('click', clearHistory);
@@ -979,4 +983,221 @@ function updateHistoryDisplay() {
 function clearHistory() {
     localStorage.removeItem('equasolver_history');
     updateHistoryDisplay();
+}
+
+// ==================== MATRIX CALCULATOR ====================
+
+function setupMatrixCalculator() {
+    const matrixSize = document.getElementById('matrixSize');
+    const matrixOperation = document.getElementById('matrixOperation');
+    
+    matrixSize.addEventListener('change', updateMatrixGrids);
+    matrixOperation.addEventListener('change', updateMatrixVisibility);
+    
+    updateMatrixGrids();
+    updateMatrixVisibility();
+}
+
+function updateMatrixGrids() {
+    const size = parseInt(document.getElementById('matrixSize').value);
+    createMatrixGrid('matrixAGrid', size);
+    createMatrixGrid('matrixBGrid', size);
+}
+
+function createMatrixGrid(gridId, size) {
+    const grid = document.getElementById(gridId);
+    grid.className = `matrix-grid size-${size}`;
+    grid.innerHTML = '';
+    
+    for (let i = 0; i < size * size; i++) {
+        const input = document.createElement('input');
+        input.type = 'number';
+        input.className = 'matrix-cell';
+        input.value = '0';
+        input.step = '0.1';
+        grid.appendChild(input);
+    }
+}
+
+function updateMatrixVisibility() {
+    const operation = document.getElementById('matrixOperation').value;
+    const matrixBWrapper = document.getElementById('matrixBWrapper');
+    
+    // Show matrix B only for addition and multiplication
+    if (operation === 'add' || operation === 'multiply') {
+        matrixBWrapper.style.display = 'block';
+    } else {
+        matrixBWrapper.style.display = 'none';
+    }
+}
+
+function getMatrixFromGrid(gridId, size) {
+    const grid = document.getElementById(gridId);
+    const inputs = grid.querySelectorAll('.matrix-cell');
+    const matrix = [];
+    
+    for (let i = 0; i < size; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < size; j++) {
+            matrix[i][j] = parseFloat(inputs[i * size + j].value) || 0;
+        }
+    }
+    
+    return matrix;
+}
+
+function calculateMatrix() {
+    const size = parseInt(document.getElementById('matrixSize').value);
+    const operation = document.getElementById('matrixOperation').value;
+    const matrixA = getMatrixFromGrid('matrixAGrid', size);
+    
+    const solution = document.getElementById('matrixSolution');
+    solution.innerHTML = '';
+    
+    try {
+        let result;
+        let resultHTML = '';
+        
+        switch (operation) {
+            case 'add':
+                const matrixB = getMatrixFromGrid('matrixBGrid', size);
+                result = addMatrices(matrixA, matrixB);
+                resultHTML = displayMatrixResult('Addition Result', result);
+                break;
+                
+            case 'multiply':
+                const matrixB2 = getMatrixFromGrid('matrixBGrid', size);
+                result = multiplyMatrices(matrixA, matrixB2);
+                resultHTML = displayMatrixResult('Multiplication Result', result);
+                break;
+                
+            case 'determinant':
+                const det = calculateDeterminant(matrixA);
+                resultHTML = `
+                    <div class="matrix-result">
+                        <h4 data-translate="determinantCalc">Determinant</h4>
+                        <div class="solution-text">det(A) = ${det.toFixed(4)}</div>
+                    </div>
+                `;
+                break;
+                
+            case 'inverse':
+                result = invertMatrix(matrixA);
+                if (result === null) {
+                    throw new Error(translations[currentLanguage].singularMatrix);
+                }
+                resultHTML = displayMatrixResult('Inverse Matrix', result);
+                break;
+        }
+        
+        solution.innerHTML = resultHTML;
+        
+    } catch (error) {
+        solution.innerHTML = `
+            <div class="error-message">
+                <p>${error.message}</p>
+            </div>
+        `;
+    }
+}
+
+function addMatrices(A, B) {
+    const size = A.length;
+    const result = [];
+    
+    for (let i = 0; i < size; i++) {
+        result[i] = [];
+        for (let j = 0; j < size; j++) {
+            result[i][j] = A[i][j] + B[i][j];
+        }
+    }
+    
+    return result;
+}
+
+function multiplyMatrices(A, B) {
+    const size = A.length;
+    const result = [];
+    
+    for (let i = 0; i < size; i++) {
+        result[i] = [];
+        for (let j = 0; j < size; j++) {
+            result[i][j] = 0;
+            for (let k = 0; k < size; k++) {
+                result[i][j] += A[i][k] * B[k][j];
+            }
+        }
+    }
+    
+    return result;
+}
+
+function calculateDeterminant(matrix) {
+    const size = matrix.length;
+    
+    if (size === 2) {
+        return matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0];
+    } else if (size === 3) {
+        return (
+            matrix[0][0] * (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) -
+            matrix[0][1] * (matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) +
+            matrix[0][2] * (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0])
+        );
+    }
+    
+    return 0;
+}
+
+function invertMatrix(matrix) {
+    const size = matrix.length;
+    const det = calculateDeterminant(matrix);
+    
+    if (Math.abs(det) < 1e-10) {
+        return null; // Singular matrix
+    }
+    
+    if (size === 2) {
+        return [
+            [matrix[1][1] / det, -matrix[0][1] / det],
+            [-matrix[1][0] / det, matrix[0][0] / det]
+        ];
+    } else if (size === 3) {
+        const inv = [];
+        
+        // Calculate cofactor matrix
+        inv[0] = [];
+        inv[0][0] = (matrix[1][1] * matrix[2][2] - matrix[1][2] * matrix[2][1]) / det;
+        inv[0][1] = -(matrix[0][1] * matrix[2][2] - matrix[0][2] * matrix[2][1]) / det;
+        inv[0][2] = (matrix[0][1] * matrix[1][2] - matrix[0][2] * matrix[1][1]) / det;
+        
+        inv[1] = [];
+        inv[1][0] = -(matrix[1][0] * matrix[2][2] - matrix[1][2] * matrix[2][0]) / det;
+        inv[1][1] = (matrix[0][0] * matrix[2][2] - matrix[0][2] * matrix[2][0]) / det;
+        inv[1][2] = -(matrix[0][0] * matrix[1][2] - matrix[0][2] * matrix[1][0]) / det;
+        
+        inv[2] = [];
+        inv[2][0] = (matrix[1][0] * matrix[2][1] - matrix[1][1] * matrix[2][0]) / det;
+        inv[2][1] = -(matrix[0][0] * matrix[2][1] - matrix[0][1] * matrix[2][0]) / det;
+        inv[2][2] = (matrix[0][0] * matrix[1][1] - matrix[0][1] * matrix[1][0]) / det;
+        
+        return inv;
+    }
+    
+    return null;
+}
+
+function displayMatrixResult(title, matrix) {
+    const size = matrix.length;
+    const cells = matrix.flat().map(val => 
+        `<div class="matrix-display-cell">${val.toFixed(4)}</div>`
+    ).join('');
+    
+    return `
+        <div class="matrix-result">
+            <h4>${title}</h4>
+            <div class="matrix-display size-${size}">
+                ${cells}
+            </div>
+        </div>
+    `;
 }

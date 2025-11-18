@@ -142,6 +142,20 @@
                     <div class="tool-glow"></div>
                 </div>
 
+                <div class="tool-card" data-tool="matrix">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="14" y="3" width="7" height="7" rx="1"></rect>
+                            <rect x="3" y="14" width="7" height="7" rx="1"></rect>
+                            <rect x="14" y="14" width="7" height="7" rx="1"></rect>
+                        </svg>
+                    </div>
+                    <h3 data-translate="matrix">Matrices</h3>
+                    <p data-translate="matrixDesc">Operations on matrices</p>
+                    <div class="tool-glow"></div>
+                </div>
+
                 <div class="tool-card" data-tool="history">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -184,6 +198,7 @@
                 <button class="tab" data-tab="quartic" data-translate="quartic">Quartic</button>
                 <button class="tab" data-tab="quintic" data-translate="quintic">Quintic</button>
                 <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
+                <button class="tab" data-tab="matrix" data-translate="matrix">Matrix</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -425,6 +440,57 @@
                 <button class="btn-solve" id="solveSystems" data-translate="solve">Solve</button>
                 
                 <div class="solution-container" id="systemsSolution"></div>
+            </div>
+
+            <!-- Matrix Calculator -->
+            <div class="calculator-panel" id="matrix">
+                <div class="equation-display">
+                    <h3 data-translate="matrixTitle">Matrix Calculator</h3>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="matrix-controls">
+                        <div class="control-group">
+                            <label data-translate="matrixSize">Matrix size:</label>
+                            <select id="matrixSize" class="matrix-select">
+                                <option value="2">2×2</option>
+                                <option value="3">3×3</option>
+                            </select>
+                        </div>
+                        
+                        <div class="control-group">
+                            <label data-translate="operation">Operation:</label>
+                            <select id="matrixOperation" class="matrix-select">
+                                <option value="add" data-translate="addition">Addition</option>
+                                <option value="multiply" data-translate="multiplication">Multiplication</option>
+                                <option value="determinant" data-translate="determinantCalc">Determinant</option>
+                                <option value="inverse" data-translate="inverse">Inverse</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="matrix-input-container">
+                        <div class="matrix-wrapper" id="matrixAWrapper">
+                            <h4 data-translate="matrixA">Matrix A</h4>
+                            <div class="matrix-grid" id="matrixAGrid">
+                                <!-- Generated dynamically -->
+                            </div>
+                        </div>
+
+                        <div class="matrix-wrapper" id="matrixBWrapper">
+                            <h4 data-translate="matrixB">Matrix B</h4>
+                            <div class="matrix-grid" id="matrixBGrid">
+                                <!-- Generated dynamically -->
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <p class="input-hint" data-translate="matrixHint">Enter matrix values</p>
+                </div>
+                
+                <button class="btn-solve" id="calculateMatrix" data-translate="calculate">Calculate</button>
+                
+                <div class="solution-container" id="matrixSolution"></div>
             </div>
         </div>
 
