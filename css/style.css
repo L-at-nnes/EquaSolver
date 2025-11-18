@@ -1062,32 +1062,32 @@ header {
 /* Matrix Calculator Styles */
 .matrix-controls {
     display: flex;
-    gap: 2rem;
-    margin-bottom: 2rem;
+    gap: 1rem;
+    margin-bottom: 1.5rem;
     flex-wrap: wrap;
 }
 
 .control-group {
     flex: 1;
-    min-width: 200px;
+    min-width: 150px;
 }
 
 .control-group label {
     display: block;
     color: var(--text-secondary);
     margin-bottom: 0.5rem;
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-weight: 500;
 }
 
 .matrix-select {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.6rem 0.8rem;
     background: var(--bg-panel);
     border: 2px solid var(--border-color);
     border-radius: 10px;
     color: var(--primary);
-    font-size: 1rem;
+    font-size: 0.95rem;
     font-family: 'Orbitron', monospace;
     font-weight: bold;
     cursor: pointer;
@@ -1106,26 +1106,29 @@ header {
 
 .matrix-input-container {
     display: flex;
-    gap: 2rem;
+    gap: 1rem;
     margin-bottom: 1.5rem;
     flex-wrap: wrap;
 }
 
 .matrix-wrapper {
     flex: 1;
-    min-width: 200px;
+    min-width: 180px;
+    max-width: 100%;
 }
 
 .matrix-wrapper h4 {
     color: var(--primary);
-    margin-bottom: 1rem;
+    margin-bottom: 0.75rem;
+    font-size: 1rem;
     font-family: 'Orbitron', sans-serif;
 }
 
 .matrix-grid {
     display: grid;
-    gap: 0.5rem;
+    gap: 0.4rem;
     margin-bottom: 1rem;
+    max-width: 100%;
 }
 
 .matrix-grid.size-2 {
@@ -1137,17 +1140,19 @@ header {
 }
 
 .matrix-cell {
-    padding: 0.75rem;
+    padding: 0.5rem;
     background: var(--bg-panel);
     border: 2px solid var(--border-color);
-    border-radius: 8px;
+    border-radius: 6px;
     color: var(--primary);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-family: 'Orbitron', monospace;
     font-weight: bold;
     text-align: center;
     transition: var(--transition);
     outline: none;
+    width: 100%;
+    min-width: 0;
 }
 
 .matrix-cell:hover {
