@@ -31,6 +31,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Quartic Equations** (ax⁴ + bx³ + cx² + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method
 - **Quintic Equations** (ax⁵ + bx⁴ + cx³ + dx² + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
 - **Systems of Linear Equations** - Solve 2×2 linear systems using Cramer's rule
+- **Matrix Calculator** - Operations on 2×2 and 3×3 matrices (addition, multiplication, determinant, inverse)
 
 ### User Interface
 
@@ -87,6 +88,14 @@ For the equation `x² - 5x + 6 = 0`, enter:
 - b = -5
 - c = 6
 
+**Matrix Operations:**  
+For matrix addition of two 2×2 matrices:
+```
+A = [1  2]    B = [5  6]
+    [3  4]        [7  8]
+```
+Select "Addition" operation and enter the values in the grid inputs.
+
 ### Keyboard Shortcuts
 
 - **Numbers & Operators** - Direct keyboard input
@@ -128,6 +137,7 @@ EquaSolver/
 │   ├── quartic.test.js    # Quartic equations tests
 │   ├── quintic.test.js    # Quintic equations tests
 │   ├── systems.test.js    # Systems of equations tests
+│   ├── matrix.test.js     # Matrix calculator tests
 │   └── README.md          # Testing documentation
 ├── README.md              # Project documentation
 └── LICENSE                # MIT License
@@ -158,13 +168,14 @@ npm run test:coverage
 ### Test Coverage
 
 The test suite includes:
-- ✅ **47+ test cases** covering all mathematical operations
+- ✅ **63+ test cases** covering all mathematical operations
 - ✅ Linear equation solving
 - ✅ Quadratic equation solving (all discriminant cases)
 - ✅ Cubic equation solving
 - ✅ Quartic equation solving (Durand-Kerner numerical method)
 - ✅ Quintic equation solving (numerical root finding)
 - ✅ System of equations (Cramer's rule)
+- ✅ Matrix operations (addition, multiplication, determinant, inverse)
 - ✅ Edge cases and error handling
 
 See [tests/README.md](tests/README.md) for detailed testing documentation.
@@ -198,6 +209,13 @@ Applies Cramer's rule with determinants:
 1. Calculate the main determinant
 2. Calculate determinants for each variable
 3. Determine solution type (unique, infinite, or no solution)
+
+#### Matrix Operations
+Supports 2×2 and 3×3 matrices:
+- **Addition**: Element-wise sum of corresponding entries
+- **Multiplication**: Standard matrix multiplication using dot products
+- **Determinant**: Computed using cofactor expansion for 2×2 and 3×3 matrices
+- **Inverse**: Calculated using adjugate matrix method (returns null for singular matrices)
 
 ---
 
@@ -264,7 +282,7 @@ If you find this project helpful, please consider:
 
 ### Planned Features
 - [x] Add support for higher-degree polynomial equations (4th, 5th degree)
-- [ ] Implement matrix calculator (addition, multiplication, determinants, inverse)
+- [x] Implement matrix calculator (addition, multiplication, determinants, inverse)
 - [ ] Add graphing capabilities to visualize equations
 - [ ] Export solutions to PDF format
 - [ ] Add more theme options (custom theme builder)
