@@ -1204,6 +1204,167 @@ header {
     text-align: center;
 }
 
+/* Graph Visualization Styles */
+.graph-controls {
+    margin-bottom: 1.5rem;
+}
+
+.graph-equation-inputs {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.graph-input-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.graph-input-group label {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.graph-input {
+    padding: 0.6rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 1rem;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: var(--transition);
+    outline: none;
+}
+
+.graph-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--shadow-color);
+}
+
+.graph-range-controls {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin-bottom: 1.5rem;
+}
+
+.range-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.range-group label {
+    color: var(--text-secondary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+.range-inputs {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.range-inputs span {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+}
+
+.range-input {
+    flex: 1;
+    padding: 0.6rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-family: 'Orbitron', monospace;
+    font-weight: bold;
+    transition: var(--transition);
+    outline: none;
+}
+
+.range-input:focus {
+    border-color: var(--primary);
+    box-shadow: 0 0 15px var(--shadow-color);
+}
+
+.graph-options {
+    display: flex;
+    gap: 2rem;
+    margin-bottom: 1.5rem;
+}
+
+.checkbox-label {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--text-secondary);
+    cursor: pointer;
+    font-size: 0.95rem;
+}
+
+.checkbox-label input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    cursor: pointer;
+    accent-color: var(--primary);
+}
+
+.graph-container {
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    padding: 1rem;
+    margin: 1.5rem 0;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    overflow: auto;
+}
+
+#graphCanvas {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    background: rgba(0, 0, 0, 0.3);
+    border-radius: 8px;
+}
+
+.graph-buttons {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+.graph-btn {
+    padding: 0.75rem 1.5rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 10px;
+    color: var(--primary);
+    font-size: 0.95rem;
+    font-family: 'Orbitron', sans-serif;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.graph-btn:hover {
+    border-color: var(--primary);
+    background: rgba(var(--primary-rgb), 0.1);
+    transform: translateY(-2px);
+}
+
+.graph-btn:active {
+    transform: translateY(0);
+}
 
 /* Solution Container */
 .solution-container {

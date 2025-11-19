@@ -156,6 +156,18 @@
                     <div class="tool-glow"></div>
                 </div>
 
+                <div class="tool-card" data-tool="graph">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="3 17 9 11 13 15 21 7"></polyline>
+                            <polyline points="14 7 21 7 21 14"></polyline>
+                        </svg>
+                    </div>
+                    <h3 data-translate="graph">Graph</h3>
+                    <p data-translate="graphDesc">Visualize equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
                 <div class="tool-card" data-tool="history">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -199,6 +211,7 @@
                 <button class="tab" data-tab="quintic" data-translate="quintic">Quintic</button>
                 <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
                 <button class="tab" data-tab="matrix" data-translate="matrix">Matrix</button>
+                <button class="tab" data-tab="graph" data-translate="graph">Graph</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -491,6 +504,72 @@
                 <button class="btn-solve" id="calculateMatrix" data-translate="calculate">Calculate</button>
                 
                 <div class="solution-container" id="matrixSolution"></div>
+            </div>
+
+            <!-- Graph Visualization -->
+            <div class="calculator-panel" id="graph">
+                <div class="equation-display">
+                    <h3 data-translate="graphTitle">Graph Visualization</h3>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="graph-controls">
+                        <div class="control-group">
+                            <label data-translate="selectEquation">Select equation:</label>
+                            <select id="graphEquationType" class="matrix-select">
+                                <option value="linear">Linear (ax + b)</option>
+                                <option value="quadratic">Quadratic (ax² + bx + c)</option>
+                                <option value="cubic">Cubic (ax³ + bx² + cx + d)</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="graph-equation-inputs" id="graphInputs">
+                        <!-- Generated dynamically based on equation type -->
+                    </div>
+
+                    <div class="graph-range-controls">
+                        <div class="range-group">
+                            <label data-translate="xRange">X Range:</label>
+                            <div class="range-inputs">
+                                <input type="number" id="xMin" value="-10" step="1" class="range-input">
+                                <span>to</span>
+                                <input type="number" id="xMax" value="10" step="1" class="range-input">
+                            </div>
+                        </div>
+                        <div class="range-group">
+                            <label data-translate="yRange">Y Range:</label>
+                            <div class="range-inputs">
+                                <input type="number" id="yMin" value="-10" step="1" class="range-input">
+                                <span>to</span>
+                                <input type="number" id="yMax" value="10" step="1" class="range-input">
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="graph-options">
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showGrid" checked>
+                            <span data-translate="showGrid">Show grid</span>
+                        </label>
+                        <label class="checkbox-label">
+                            <input type="checkbox" id="showAxes" checked>
+                            <span data-translate="showAxes">Show axes</span>
+                        </label>
+                    </div>
+                </div>
+                
+                <button class="btn-solve" id="plotGraph" data-translate="plotGraph">Plot Graph</button>
+                
+                <div class="graph-container">
+                    <canvas id="graphCanvas" width="800" height="600"></canvas>
+                </div>
+
+                <div class="graph-buttons">
+                    <button class="graph-btn" id="resetView" data-translate="resetView">Reset View</button>
+                    <button class="graph-btn" id="zoomIn" data-translate="zoomIn">Zoom In</button>
+                    <button class="graph-btn" id="zoomOut" data-translate="zoomOut">Zoom Out</button>
+                </div>
             </div>
         </div>
 

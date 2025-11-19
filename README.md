@@ -32,6 +32,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Quintic Equations** (ax⁵ + bx⁴ + cx³ + dx² + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
 - **Systems of Linear Equations** - Solve 2×2 linear systems using Cramer's rule
 - **Matrix Calculator** - Operations on 2×2 and 3×3 matrices (addition, multiplication, determinant, inverse)
+- **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
 
 ### User Interface
 
@@ -283,7 +284,7 @@ If you find this project helpful, please consider:
 ### Planned Features
 - [x] Add support for higher-degree polynomial equations (4th, 5th degree)
 - [x] Implement matrix calculator (addition, multiplication, determinants, inverse)
-- [ ] Add graphing capabilities to visualize equations
+- [x] Add graphing capabilities to visualize equations
 - [ ] Export solutions to PDF format
 - [ ] Add more theme options (custom theme builder)
 - [ ] Implement equation input via LaTeX syntax
