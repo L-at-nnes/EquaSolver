@@ -79,7 +79,19 @@ const translations = {
         calculate: "Calculer",
         matrixHint: "Entrez les valeurs de la matrice",
         singularMatrix: "Matrice singulière (déterminant = 0, pas d'inverse)",
-        invalidMatrix: "Matrices invalides pour cette opération"
+        invalidMatrix: "Matrices invalides pour cette opération",
+        graph: "Graphique",
+        graphTitle: "Visualisation graphique",
+        graphDesc: "Visualiser les équations",
+        selectEquation: "Sélectionner l'équation",
+        xRange: "Plage X",
+        yRange: "Plage Y",
+        showGrid: "Afficher la grille",
+        showAxes: "Afficher les axes",
+        plotGraph: "Tracer le graphique",
+        resetView: "Réinitialiser la vue",
+        zoomIn: "Zoom avant",
+        zoomOut: "Zoom arrière"
     },
     en: {
         settings: "Settings",
@@ -160,7 +172,19 @@ const translations = {
         calculate: "Calculate",
         matrixHint: "Enter matrix values",
         singularMatrix: "Singular matrix (determinant = 0, no inverse)",
-        invalidMatrix: "Invalid matrices for this operation"
+        invalidMatrix: "Invalid matrices for this operation",
+        graph: "Graph",
+        graphTitle: "Graph Visualization",
+        graphDesc: "Visualize equations",
+        selectEquation: "Select equation",
+        xRange: "X Range",
+        yRange: "Y Range",
+        showGrid: "Show grid",
+        showAxes: "Show axes",
+        plotGraph: "Plot graph",
+        resetView: "Reset view",
+        zoomIn: "Zoom in",
+        zoomOut: "Zoom out"
     },
     es: {
         settings: "Configuración",
@@ -241,7 +265,19 @@ const translations = {
         calculate: "Calcular",
         matrixHint: "Ingrese valores de matriz",
         singularMatrix: "Matriz singular (determinante = 0, sin inversa)",
-        invalidMatrix: "Matrices inválidas para esta operación"
+        invalidMatrix: "Matrices inválidas para esta operación",
+        graph: "Gráfico",
+        graphTitle: "Visualización gráfica",
+        graphDesc: "Visualizar ecuaciones",
+        selectEquation: "Seleccionar ecuación",
+        xRange: "Rango X",
+        yRange: "Rango Y",
+        showGrid: "Mostrar cuadrícula",
+        showAxes: "Mostrar ejes",
+        plotGraph: "Trazar gráfico",
+        resetView: "Restablecer vista",
+        zoomIn: "Acercar",
+        zoomOut: "Alejar"
     },
     de: {
         settings: "Einstellungen",
@@ -322,7 +358,19 @@ const translations = {
         calculate: "Berechnen",
         matrixHint: "Matrixwerte eingeben",
         singularMatrix: "Singuläre Matrix (Determinante = 0, keine Inverse)",
-        invalidMatrix: "Ungültige Matrizen für diese Operation"
+        invalidMatrix: "Ungültige Matrizen für diese Operation",
+        graph: "Diagramm",
+        graphTitle: "Diagrammvisualisierung",
+        graphDesc: "Gleichungen visualisieren",
+        selectEquation: "Gleichung auswählen",
+        xRange: "X-Bereich",
+        yRange: "Y-Bereich",
+        showGrid: "Gitter anzeigen",
+        showAxes: "Achsen anzeigen",
+        plotGraph: "Diagramm zeichnen",
+        resetView: "Ansicht zurücksetzen",
+        zoomIn: "Vergrößern",
+        zoomOut: "Verkleinern"
     },
     it: {
         settings: "Impostazioni",
@@ -403,6 +451,18 @@ const translations = {
         calculate: "Calcola",
         matrixHint: "Inserisci valori matrice",
         singularMatrix: "Matrice singolare (determinante = 0, nessuna inversa)",
-        invalidMatrix: "Matrici non valide per questa operazione"
+        invalidMatrix: "Matrici non valide per questa operazione",
+        graph: "Grafico",
+        graphTitle: "Visualizzazione grafica",
+        graphDesc: "Visualizza equazioni",
+        selectEquation: "Seleziona equazione",
+        xRange: "Intervallo X",
+        yRange: "Intervallo Y",
+        showGrid: "Mostra griglia",
+        showAxes: "Mostra assi",
+        plotGraph: "Traccia grafico",
+        resetView: "Ripristina vista",
+        zoomIn: "Ingrandisci",
+        zoomOut: "Rimpicciolisci"
     }
 };
