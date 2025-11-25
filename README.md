@@ -318,7 +318,7 @@ If you find this project helpful, please consider:
 - [ ] Add progressive web app (PWA) support
 
 ### Internationalization
-- [ ] Add Russian language translation
+- [x] Add Russian language translation
 
 ---
 
