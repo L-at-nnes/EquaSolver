@@ -179,6 +179,15 @@ function initEventListeners() {
     
     // Keyboard support
     document.addEventListener('keydown', handleKeyboard);
+    
+    // Force all coef-input and range-input to be editable without restrictions
+    document.addEventListener('DOMContentLoaded', () => {
+        document.querySelectorAll('.coef-input, .range-input, .graph-input').forEach(input => {
+            input.removeAttribute('readonly');
+            input.removeAttribute('disabled');
+            input.setAttribute('autocomplete', 'off');
+        });
+    });
 }
 
 // Setup slider listeners for real-time updates
@@ -545,6 +554,12 @@ function updateDisplay() {
 // KEYBOARD SUPPORT
 // ===================================
 function handleKeyboard(e) {
+    // Ne gérer les raccourcis clavier QUE si on n'est PAS dans un input
+    // Permet de taper librement dans les champs de coefficients
+    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+        return; // Laisser l'utilisateur taper normalement
+    }
+    
     if (e.key >= '0' && e.key <= '9') {
         handleValue(e.key);
     } else if (e.key === '.') {
@@ -1253,7 +1268,17 @@ function setupGraphVisualization() {
     
     // Range inputs
     ['xMin', 'xMax', 'yMin', 'yMax'].forEach(id => {
-        document.getElementById(id).addEventListener('change', updateGraphRange);
+        const input = document.getElementById(id);
+        input.addEventListener('change', updateGraphRange);
+        // Permettre toute modification
+        input.addEventListener('keydown', (e) => {
+            // Ne rien bloquer
+            return true;
+        });
+        input.addEventListener('input', (e) => {
+            // Ne rien bloquer
+            return true;
+        });
     });
     
     updateGraphInputs();
