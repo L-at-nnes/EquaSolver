@@ -142,6 +142,15 @@ function initEventListeners() {
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
     document.getElementById('calculateMatrix').addEventListener('click', calculateMatrix);
     
+    // PDF Export buttons
+    document.getElementById('exportLinearPdf').addEventListener('click', () => exportToPDF('linear'));
+    document.getElementById('exportQuadraticPdf').addEventListener('click', () => exportToPDF('quadratic'));
+    document.getElementById('exportCubicPdf').addEventListener('click', () => exportToPDF('cubic'));
+    document.getElementById('exportQuarticPdf').addEventListener('click', () => exportToPDF('quartic'));
+    document.getElementById('exportQuinticPdf').addEventListener('click', () => exportToPDF('quintic'));
+    document.getElementById('exportSystemsPdf').addEventListener('click', () => exportToPDF('systems'));
+    document.getElementById('exportMatrixPdf').addEventListener('click', () => exportToPDF('matrix'));
+    
     // Slider updates for equations
     setupSliderListeners();
     
@@ -592,6 +601,7 @@ function solveLinearEquation() {
     }
     
     resultDiv.innerHTML = html;
+    showExportButton('linear');
 }
 
 // ===================================
@@ -646,6 +656,7 @@ function solveQuadraticEquation() {
     </div>`;
     
     resultDiv.innerHTML = html;
+    showExportButton('quadratic');
 }
 
 // ===================================
@@ -711,6 +722,7 @@ function solveCubicEquation() {
     }
     
     resultDiv.innerHTML = html;
+    showExportButton('cubic');
     addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${solutions.map(s => s.toFixed(4)).join(', ')}`);
 }
 
@@ -752,6 +764,7 @@ function solveQuarticEquation() {
     
     html += `</div>`;
     resultDiv.innerHTML = html;
+    showExportButton('quartic');
     addToHistory(`${a}x⁴ + ${b}x³ + ${c}x² + ${d}x + ${e} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
 }
 
@@ -794,6 +807,7 @@ function solveQuinticEquation() {
     
     html += `</div>`;
     resultDiv.innerHTML = html;
+    showExportButton('quintic');
     addToHistory(`${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
 }
 
@@ -947,6 +961,7 @@ function solveSystemEquations() {
     }
     
     resultDiv.innerHTML = html;
+    showExportButton('systems');
 }
 
 // ===================================
@@ -1094,6 +1109,7 @@ function calculateMatrix() {
         }
         
         solution.innerHTML = resultHTML;
+        showExportButton('matrix');
         
     } catch (error) {
         solution.innerHTML = `
@@ -1232,6 +1248,9 @@ function setupGraphVisualization() {
     document.getElementById('zoomIn').addEventListener('click', () => zoomGraph(0.8));
     document.getElementById('zoomOut').addEventListener('click', () => zoomGraph(1.25));
     
+    // Export graph PDF
+    document.getElementById('exportGraphPdf').addEventListener('click', exportGraphToPDF);
+    
     // Range inputs
     ['xMin', 'xMax', 'yMin', 'yMax'].forEach(id => {
         document.getElementById(id).addEventListener('change', updateGraphRange);
@@ -1321,6 +1340,7 @@ function plotGraph() {
     graphState.coefficients = { a, b, c, d };
     
     drawGraph();
+    showExportButton('graph');
 }
 
 function drawGraph() {
@@ -1505,4 +1525,152 @@ function zoomGraph(factor) {
     document.getElementById('yMax').value = graphState.yMax.toFixed(1);
     
     drawGraph();
+}
+
+// ==================== PDF EXPORT ====================
+
+function showExportButton(type) {
+    const exportBtn = document.getElementById(`export${type.charAt(0).toUpperCase() + type.slice(1)}Pdf`);
+    if (exportBtn) {
+        exportBtn.style.display = 'block';
+    }
+}
+
+function exportToPDF(type) {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    
+    // Set font
+    doc.setFont('helvetica');
+    
+    // Title
+    doc.setFontSize(20);
+    doc.text('EquaSolver - Solution', 105, 20, { align: 'center' });
+    
+    // Date
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 30, { align: 'center' });
+    
+    let yPos = 50;
+    
+    // Get solution content based on type
+    const solutionContainer = document.getElementById(`${type}Solution`);
+    if (!solutionContainer || !solutionContainer.textContent.trim()) {
+        alert('No solution to export. Please solve the equation first.');
+        return;
+    }
+    
+    // Extract equation and solution text
+    const equationDisplay = document.querySelector(`#${type} .equation-preview`);
+    const solutionText = solutionContainer.textContent;
+    
+    // Equation
+    if (equationDisplay) {
+        doc.setFontSize(14);
+        doc.setFont('helvetica', 'bold');
+        doc.text('Equation:', 20, yPos);
+        yPos += 10;
+        doc.setFont('helvetica', 'normal');
+        doc.text(equationDisplay.textContent, 20, yPos);
+        yPos += 15;
+    }
+    
+    // Solution
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Solution:', 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    
+    // Split solution text into lines that fit
+    const lines = doc.splitTextToSize(solutionText, 170);
+    lines.forEach(line => {
+        if (yPos > 270) {
+            doc.addPage();
+            yPos = 20;
+        }
+        doc.text(line, 20, yPos);
+        yPos += 7;
+    });
+    
+    // Save PDF
+    const fileName = `equasolver_${type}_${Date.now()}.pdf`;
+    doc.save(fileName);
+}
+
+function exportGraphToPDF() {
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF();
+    const canvas = document.getElementById('graphCanvas');
+    
+    if (!graphState.coefficients.a && graphState.coefficients.a !== 0) {
+        alert('Please plot a graph first.');
+        return;
+    }
+    
+    // Set font
+    doc.setFont('helvetica');
+    
+    // Title
+    doc.setFontSize(20);
+    doc.text('EquaSolver - Graph', 105, 20, { align: 'center' });
+    
+    // Date
+    doc.setFontSize(10);
+    doc.text(`Generated: ${new Date().toLocaleString()}`, 105, 30, { align: 'center' });
+    
+    let yPos = 45;
+    
+    // Equation type and coefficients
+    doc.setFontSize(14);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Equation:', 20, yPos);
+    yPos += 10;
+    
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'normal');
+    
+    const { equationType, coefficients, xMin, xMax, yMin, yMax } = graphState;
+    const { a, b, c, d } = coefficients;
+    
+    let equationText = '';
+    switch(equationType) {
+        case 'linear':
+            equationText = `y = ${a}x + ${b}`;
+            break;
+        case 'quadratic':
+            equationText = `y = ${a}x² + ${b}x + ${c}`;
+            break;
+        case 'cubic':
+            equationText = `y = ${a}x³ + ${b}x² + ${c}x + ${d}`;
+            break;
+    }
+    
+    doc.text(equationText, 20, yPos);
+    yPos += 15;
+    
+    // Range information
+    doc.setFontSize(12);
+    doc.setFont('helvetica', 'bold');
+    doc.text('Range:', 20, yPos);
+    yPos += 10;
+    
+    doc.setFont('helvetica', 'normal');
+    doc.text(`X: [${xMin}, ${xMax}]`, 20, yPos);
+    yPos += 7;
+    doc.text(`Y: [${yMin}, ${yMax}]`, 20, yPos);
+    yPos += 15;
+    
+    // Add canvas image
+    const imgData = canvas.toDataURL('image/png');
+    const imgWidth = 170;
+    const imgHeight = (canvas.height / canvas.width) * imgWidth;
+    
+    doc.addImage(imgData, 'PNG', 20, yPos, imgWidth, imgHeight);
+    
+    // Save PDF
+    const fileName = `equasolver_graph_${Date.now()}.pdf`;
+    doc.save(fileName);
 }

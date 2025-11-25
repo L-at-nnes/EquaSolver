@@ -1059,6 +1059,38 @@ header {
     box-shadow: 0 10px 40px var(--shadow-color);
 }
 
+/* Button Group */
+.button-group {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.button-group .btn-solve {
+    margin-bottom: 0;
+    flex: 1;
+}
+
+.btn-export {
+    flex: 1;
+    padding: 1.5rem;
+    background: linear-gradient(135deg, var(--accent), var(--secondary));
+    border: none;
+    border-radius: 12px;
+    color: white;
+    font-size: 1.3rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+.btn-export:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 10px 40px var(--shadow-color);
+}
+
 /* Matrix Calculator Styles */
 .matrix-controls {
     display: flex;
