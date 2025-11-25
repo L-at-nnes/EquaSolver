@@ -33,11 +33,12 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Systems of Linear Equations** - Solve 2×2 linear systems using Cramer's rule
 - **Matrix Calculator** - Operations on 2×2 and 3×3 matrices (addition, multiplication, determinant, inverse)
 - **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
+- **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
 
 - **Six Themes** - Choose from Cyberpunk, Matrix, Sunset, Ocean, Galaxy, and Neon color schemes
-- **Multi-Language Support** - Available in English, French, Spanish, German, and Italian
+- **Multi-Language Support** - Available in English, French, Spanish, German, Italian, and Russian
 - **Interactive Background** - Dynamic particle system that responds to mouse interactions
 - **Keyboard Input** - Enter equation coefficients directly via keyboard for faster input
 - **Step-by-Step Solutions** - View detailed solution steps for educational purposes
@@ -97,6 +98,13 @@ A = [1  2]    B = [5  6]
 ```
 Select "Addition" operation and enter the values in the grid inputs.
 
+**Exporting to PDF:**
+
+After solving any equation or plotting a graph:
+1. Click the **"Export PDF"** button that appears next to the "Solve" or "Plot Graph" button
+2. The PDF will be automatically downloaded with the equation, solution steps, and (for graphs) the visual representation
+3. PDF files are named with the format: `equasolver_[type]_[timestamp].pdf`
+
 ### Keyboard Shortcuts
 
 - **Numbers & Operators** - Direct keyboard input
@@ -111,10 +119,11 @@ Select "Addition" operation and enter the values in the grid inputs.
 
 ### Technology Stack
 
-- **HTML5** - Semantic markup and structure
+- **HTML5** - Semantic markup and structure including Canvas API for graph rendering
 - **CSS3** - Advanced styling with Grid, Flexbox, and animations
 - **Vanilla JavaScript** - Pure JavaScript with no framework dependencies
 - **Particles.js** - Interactive particle background system
+- **jsPDF** - Client-side PDF generation library
 - **Google Fonts** - Orbitron and Roboto typefaces
 - **SVG Graphics** - Scalable vector icons and flag images
 
