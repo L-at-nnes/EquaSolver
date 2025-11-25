@@ -285,7 +285,7 @@ If you find this project helpful, please consider:
 - [x] Add support for higher-degree polynomial equations (4th, 5th degree)
 - [x] Implement matrix calculator (addition, multiplication, determinants, inverse)
 - [x] Add graphing capabilities to visualize equations
-- [ ] Export solutions to PDF format
+- [x] Export solutions to PDF format
 - [ ] Add more theme options (custom theme builder)
 - [ ] Implement equation input via LaTeX syntax
 - [ ] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
@@ -309,10 +309,7 @@ If you find this project helpful, please consider:
 - [ ] Add progressive web app (PWA) support
 
 ### Internationalization
-- [ ] Add more language translations (Japanese, Chinese, Russian, Arabic)
-- [ ] Implement right-to-left (RTL) support for Arabic
-- [ ] Add localized number formatting
-- [ ] Create translation contribution workflow
+- [ ] Add Russian language translation
 
 ---
 
