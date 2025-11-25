@@ -1272,11 +1272,11 @@ function updateGraphInputs() {
             html = `
                 <div class="graph-input-group">
                     <label>a:</label>
-                    <input type="number" id="graphA" value="1" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphA" value="1" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>b:</label>
-                    <input type="number" id="graphB" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphB" value="0" step="0.1" class="graph-input">
                 </div>
             `;
             break;
@@ -1284,15 +1284,15 @@ function updateGraphInputs() {
             html = `
                 <div class="graph-input-group">
                     <label>a:</label>
-                    <input type="number" id="graphA" value="1" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphA" value="1" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>b:</label>
-                    <input type="number" id="graphB" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphB" value="0" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>c:</label>
-                    <input type="number" id="graphC" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphC" value="0" step="0.1" class="graph-input">
                 </div>
             `;
             break;
@@ -1300,19 +1300,19 @@ function updateGraphInputs() {
             html = `
                 <div class="graph-input-group">
                     <label>a:</label>
-                    <input type="number" id="graphA" value="1" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphA" value="1" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>b:</label>
-                    <input type="number" id="graphB" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphB" value="0" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>c:</label>
-                    <input type="number" id="graphC" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphC" value="0" step="0.1" class="graph-input">
                 </div>
                 <div class="graph-input-group">
                     <label>d:</label>
-                    <input type="number" id="graphD" value="0" step="0.1" class="graph-input">
+                    <input type="text" inputmode="decimal" id="graphD" value="0" step="0.1" class="graph-input">
                 </div>
             `;
             break;
