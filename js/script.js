@@ -3,6 +3,7 @@
 // ===================================
 let currentTheme = 'matrix';
 let currentLang = 'en';
+let currentMode = 'dark';
 let state = {
     display: '0',
     operation: null,
@@ -17,16 +18,17 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set default theme first
     document.body.className = 'theme-matrix';
     
-    // Clear old settings to force defaults
-    localStorage.removeItem('equasolver_settings');
+    // Load saved settings or use defaults
+    const savedSettings = JSON.parse(localStorage.getItem('equasolver_settings') || '{}');
     
     initParticles();
     initEventListeners();
     loadFlags();
     
-    // Force default settings
-    changeTheme('matrix');
-    changeLanguage('en');
+    // Apply saved settings or defaults
+    changeTheme(savedSettings.theme || 'matrix');
+    changeLanguage(savedSettings.lang || 'en');
+    changeMode(savedSettings.mode || 'dark');
     
     updateTranslations();
     updateHistoryDisplay();
@@ -116,6 +118,11 @@ function initEventListeners() {
     // Theme selection
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.addEventListener('click', () => changeTheme(btn.dataset.theme));
+    });
+    
+    // Mode selection
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.addEventListener('click', () => changeMode(btn.dataset.mode));
     });
     
     // Language selection
@@ -410,6 +417,22 @@ function changeLanguage(lang) {
     saveSettings();
 }
 
+function changeMode(mode) {
+    currentMode = mode;
+    
+    if (mode === 'light') {
+        document.body.classList.add('light-mode');
+    } else {
+        document.body.classList.remove('light-mode');
+    }
+    
+    document.querySelectorAll('.mode-btn').forEach(btn => {
+        btn.classList.toggle('active', btn.dataset.mode === mode);
+    });
+    
+    saveSettings();
+}
+
 function updateTranslations() {
     const trans = translations[currentLang];
     
@@ -428,7 +451,8 @@ function updateTranslations() {
 function saveSettings() {
     localStorage.setItem('equasolver_settings', JSON.stringify({
         theme: currentTheme,
-        lang: currentLang
+        lang: currentLang,
+        mode: currentMode
     }));
 }
 

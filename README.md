@@ -37,6 +37,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 ### User Interface
 
+- **Dark/Light Mode** - Toggle between dark and light modes independently of theme selection
 - **Six Themes** - Choose from Cyberpunk, Matrix, Sunset, Ocean, Galaxy, and Neon color schemes
 - **Multi-Language Support** - Available in English, French, Spanish, German, Italian, and Russian
 - **Interactive Background** - Dynamic particle system that responds to mouse interactions
@@ -302,7 +303,7 @@ If you find this project helpful, please consider:
 - [x] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
 - [ ] Support for parametric and polar equations
 - [ ] Add step-by-step explanation animations
-- [ ] Implement dark/light mode toggle independent of themes
+- [x] Implement dark/light mode toggle independent of themes
 
 ### Documentation & Testing
 - [ ] Write comprehensive API documentation
