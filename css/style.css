@@ -642,6 +642,46 @@ header {
     overflow: hidden;
 }
 
+/* Scientific Functions Row */
+.scientific-functions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
+}
+
+.btn.scientific {
+    padding: 1rem;
+    font-size: 1rem;
+    background: var(--bg-panel);
+    color: var(--accent);
+    border: 2px solid var(--accent);
+}
+
+.btn.scientific:hover {
+    background: var(--accent);
+    color: var(--bg-primary);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.btn.span-3 {
+    grid-column: span 3;
+}
+
+.btn.span-2 {
+    grid-column: span 2;
+}
+
+.btn.span-col-2 {
+    grid-column: span 2;
+}
+
+.btn.span-row-2 {
+    grid-row: span 2;
+}
+
 .btn::before {
     content: '';
     position: absolute;
@@ -703,6 +743,16 @@ header {
 .btn.equals:hover {
     transform: scale(1.05);
     box-shadow: 0 5px 30px var(--shadow-color);
+}
+
+/* Scientific Functions Row */
+.scientific-functions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 0.5rem;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    border-top: 2px solid var(--border-color);
 }
 
 /* Equation Display */

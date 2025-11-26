@@ -129,7 +129,7 @@ function initEventListeners() {
     });
     
     // Standard calculator buttons
-    document.querySelectorAll('.btn').forEach(btn => {
+    document.querySelectorAll('#standard .btn').forEach(btn => {
         btn.addEventListener('click', handleCalculatorButton);
     });
     
@@ -469,6 +469,8 @@ function handleCalculatorButton(e) {
         handlePercent();
     } else if (action === 'power') {
         handlePower();
+    } else if (btn.classList.contains('scientific')) {
+        handleScientificFunction(action);
     }
 }
 
@@ -549,6 +551,223 @@ function deleteLastDigit() {
 function updateDisplay() {
     document.getElementById('display').value = state.display;
 }
+
+// ===================================
+// SCIENTIFIC CALCULATOR
+// ===================================
+function handleScientificButton(e) {
+    const btn = e.target;
+    const action = btn.dataset.action;
+    const value = btn.dataset.value || btn.textContent;
+    
+    if (btn.classList.contains('number')) {
+        handleSciValue(value);
+    } else if (btn.classList.contains('operator')) {
+        handleSciOperator(value);
+    } else if (action === 'equals') {
+        calculateScientific();
+    } else if (action === 'clear') {
+        clearScientific();
+    } else if (action === 'delete') {
+        deleteSciLastDigit();
+    } else if (action === 'ans') {
+        handleAnswer();
+    } else if (btn.classList.contains('scientific')) {
+        handleScientificFunction(action);
+    }
+}
+
+function handleSciValue(value) {
+    if (sciState.waitingForOperand) {
+        sciState.display = value;
+        sciState.waitingForOperand = false;
+    } else {
+        sciState.display = sciState.display === '0' ? value : sciState.display + value;
+    }
+    updateSciDisplay();
+}
+
+function handleSciOperator(op) {
+    const currentValue = parseFloat(sciState.display);
+    
+    if (sciState.operation && !sciState.waitingForOperand) {
+        calculateScientific();
+    } else {
+        sciState.previousValue = currentValue;
+    }
+    
+    sciState.operation = op;
+    sciState.waitingForOperand = true;
+}
+
+function calculateScientific() {
+    const prev = sciState.previousValue;
+    const current = parseFloat(sciState.display);
+    let result;
+    
+    switch (sciState.operation) {
+        case '+': result = prev + current; break;
+        case '−': result = prev - current; break;
+        case '×': result = prev * current; break;
+        case '÷': 
+            if (current === 0) {
+                sciState.display = 'Error';
+                updateSciDisplay();
+                return;
+            }
+            result = prev / current; 
+            break;
+        case '^': result = Math.pow(prev, current); break;
+        default: return;
+    }
+    
+    const expression = `${prev} ${sciState.operation} ${current}`;
+    
+    sciState.display = String(result);
+    sciState.operation = null;
+    sciState.previousValue = null;
+    sciState.waitingForOperand = true;
+    sciState.lastAnswer = result;
+    updateSciDisplay();
+    
+    addToSciHistory(`${expression} = ${result}`);
+}
+
+function handleScientificFunction(func) {
+    const current = parseFloat(sciState.display);
+    let result;
+    let expression = '';
+    
+    try {
+        switch (func) {
+            case 'sin':
+                result = Math.sin(current);
+                expression = `sin(${current})`;
+                break;
+            case 'cos':
+                result = Math.cos(current);
+                expression = `cos(${current})`;
+                break;
+            case 'tan':
+                result = Math.tan(current);
+                expression = `tan(${current})`;
+                break;
+            case 'asin':
+                if (current < -1 || current > 1) throw new Error('Domain error');
+                result = Math.asin(current);
+                expression = `asin(${current})`;
+                break;
+            case 'acos':
+                if (current < -1 || current > 1) throw new Error('Domain error');
+                result = Math.acos(current);
+                expression = `acos(${current})`;
+                break;
+            case 'atan':
+                result = Math.atan(current);
+                expression = `atan(${current})`;
+                break;
+            case 'ln':
+                if (current <= 0) throw new Error('Domain error');
+                result = Math.log(current);
+                expression = `ln(${current})`;
+                break;
+            case 'log':
+                if (current <= 0) throw new Error('Domain error');
+                result = Math.log10(current);
+                expression = `log(${current})`;
+                break;
+            case 'exp':
+                result = Math.exp(current);
+                expression = `e^${current}`;
+                break;
+            case 'sqrt':
+                if (current < 0) throw new Error('Domain error');
+                result = Math.sqrt(current);
+                expression = `√${current}`;
+                break;
+            case 'power':
+                sciState.previousValue = current;
+                sciState.operation = '^';
+                sciState.waitingForOperand = true;
+                return;
+            case 'factorial':
+                if (current < 0 || !Number.isInteger(current)) throw new Error('Domain error');
+                result = factorial(current);
+                expression = `${current}!`;
+                break;
+            case 'pi':
+                sciState.display = String(Math.PI);
+                sciState.waitingForOperand = false;
+                updateSciDisplay();
+                return;
+            case 'e':
+                sciState.display = String(Math.E);
+                sciState.waitingForOperand = false;
+                updateSciDisplay();
+                return;
+            default:
+                return;
+        }
+        
+        sciState.display = String(result);
+        sciState.waitingForOperand = true;
+        sciState.lastAnswer = result;
+        updateSciDisplay();
+        addToSciHistory(`${expression} = ${result}`);
+        
+    } catch (error) {
+        sciState.display = 'Error';
+        updateSciDisplay();
+    }
+}
+
+function factorial(n) {
+    if (n === 0 || n === 1) return 1;
+    if (n > 170) throw new Error('Number too large');
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+
+function handleAnswer() {
+    sciState.display = String(sciState.lastAnswer);
+    sciState.waitingForOperand = false;
+    updateSciDisplay();
+}
+
+function clearScientific() {
+    sciState.display = '0';
+    sciState.operation = null;
+    sciState.previousValue = null;
+    sciState.waitingForOperand = false;
+    updateSciDisplay();
+}
+
+function deleteSciLastDigit() {
+    sciState.display = sciState.display.slice(0, -1) || '0';
+    updateSciDisplay();
+}
+
+function updateSciDisplay() {
+    document.getElementById('sciDisplay').value = sciState.display;
+}
+
+function addToSciHistory(entry) {
+    const historyDiv = document.getElementById('sciHistory');
+    const historyEntry = document.createElement('div');
+    historyEntry.className = 'history-item';
+    historyEntry.textContent = entry;
+    
+    historyDiv.insertBefore(historyEntry, historyDiv.firstChild);
+    
+    // Keep only last 5 entries
+    while (historyDiv.children.length > 5) {
+        historyDiv.removeChild(historyDiv.lastChild);
+    }
+}
+
 
 // ===================================
 // KEYBOARD SUPPORT
