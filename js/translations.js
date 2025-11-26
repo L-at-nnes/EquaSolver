@@ -2,6 +2,9 @@
 const translations = {
     fr: {
         settings: "Paramètres",
+        mode: "Mode",
+        darkMode: "Sombre",
+        lightMode: "Clair",
         theme: "Thème",
         language: "Langue",
         close: "Fermer",
@@ -98,6 +101,9 @@ const translations = {
     },
     en: {
         settings: "Settings",
+        mode: "Mode",
+        darkMode: "Dark",
+        lightMode: "Light",
         theme: "Theme",
         language: "Language",
         close: "Close",
@@ -194,6 +200,9 @@ const translations = {
     },
     es: {
         settings: "Configuración",
+        mode: "Modo",
+        darkMode: "Oscuro",
+        lightMode: "Claro",
         theme: "Tema",
         language: "Idioma",
         close: "Cerrar",
@@ -290,6 +299,9 @@ const translations = {
     },
     de: {
         settings: "Einstellungen",
+        mode: "Modus",
+        darkMode: "Dunkel",
+        lightMode: "Hell",
         theme: "Thema",
         language: "Sprache",
         close: "Schließen",
@@ -386,6 +398,9 @@ const translations = {
     },
     it: {
         settings: "Impostazioni",
+        mode: "Modalità",
+        darkMode: "Scuro",
+        lightMode: "Chiaro",
         theme: "Tema",
         language: "Lingua",
         close: "Chiudi",
@@ -482,6 +497,9 @@ const translations = {
     },
     ru: {
         settings: "Настройки",
+        mode: "Режим",
+        darkMode: "Темный",
+        lightMode: "Светлый",
         theme: "Тема",
         language: "Язык",
         close: "Закрыть",
