@@ -24,7 +24,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 ### Equation Solving Capabilities
 
-- **Standard Calculator** - Perform basic arithmetic operations with a familiar interface
+- **Standard Calculator** - Basic arithmetic operations with scientific functions (sin, cos, tan, √, ln, log, e^x, n!, π, e)
 - **Linear Equations** (ax + b = 0) - First-degree polynomial equation solver
 - **Quadratic Equations** (ax² + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis
 - **Cubic Equations** (ax³ + bx² + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula
@@ -68,7 +68,7 @@ That's all! The application runs entirely client-side with no server or build pr
 
 ### Basic Calculator
 
-The standard calculator supports all fundamental arithmetic operations. You can interact using either the on-screen buttons or your keyboard.
+The standard calculator supports arithmetic operations and scientific functions. Use the numeric keypad for basic calculations, and the scientific function buttons below for advanced operations like trigonometry, logarithms, and factorials.
 
 ### Solving Equations
 
@@ -178,7 +178,9 @@ npm run test:coverage
 ### Test Coverage
 
 The test suite includes:
-- ✅ **63+ test cases** covering all mathematical operations
+- ✅ **97+ test cases** covering all mathematical operations
+- ✅ Standard calculator (arithmetic operations)
+- ✅ Scientific functions (trigonometry, logarithms, factorials)
 - ✅ Linear equation solving
 - ✅ Quadratic equation solving (all discriminant cases)
 - ✅ Cubic equation solving
@@ -297,7 +299,7 @@ If you find this project helpful, please consider:
 - [x] Export solutions to PDF format
 - [ ] Add more theme options (custom theme builder)
 - [ ] Implement equation input via LaTeX syntax
-- [ ] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
+- [x] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
 - [ ] Support for parametric and polar equations
 - [ ] Add step-by-step explanation animations
 - [ ] Implement dark/light mode toggle independent of themes
