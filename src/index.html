@@ -284,6 +284,7 @@
                 <button class="tab" data-tab="parametric" data-translate="parametric">Parametric</button>
                 <button class="tab" data-tab="polar" data-translate="polar">Polar</button>
                 <button class="tab" data-tab="latex" data-translate="latex">LaTeX</button>
+                <button class="tab" data-tab="gcdlcm" data-translate="gcdlcm">GCD/LCM</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -820,6 +821,29 @@
                 </div>
                 
                 <div class="solution-container" id="latexSolution"></div>
+            </div>
+
+            <!-- GCD/LCM Calculator -->
+            <div class="calculator-panel" id="gcdlcm">
+                <div class="equation-display">
+                    <h3 data-translate="gcdlcmTitle">GCD and LCM Calculator</h3>
+                    <p class="equation-preview" data-translate="gcdlcmDesc">Calculate the Greatest Common Divisor and Least Common Multiple of two or more numbers</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="enterNumbers">Enter numbers (comma separated):</label>
+                        <input type="text" id="gcdlcmInput" class="equation-input" placeholder="e.g., 12, 18, 24">
+                    </div>
+                    <p class="input-hint" data-translate="gcdlcmHint">Enter at least 2 positive integers separated by commas</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateGcdLcm" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportGcdLcmPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="gcdlcmSolution"></div>
             </div>
         </div>
 

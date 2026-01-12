@@ -67,7 +67,7 @@ Open `tests/manual/test.html` in your browser to run interactive tests that vali
 
 ```
 tests/
-|-- unit/                       # Jest unit tests (291 tests)
+|-- unit/                       # Jest unit tests (371 tests)
 |   |-- calculator.test.js      # Standard calculator operations
 |   |-- linear.test.js          # Linear equations (ax + b = 0)
 |   |-- quadratic.test.js       # Quadratic equations (ax^2 + bx + c = 0)
@@ -82,6 +82,8 @@ tests/
 |   |-- polar.test.js           # Polar equations
 |   |-- customtheme.test.js     # Custom theme builder
 |   |-- animations.test.js      # Step-by-step animations
+|   |-- gcdlcm.test.js          # GCD/LCM calculator
+|   |-- pwa.test.js             # PWA and mobile optimization
 |   |-- integration.test.js     # Integration tests
 |-- e2e/                        # Playwright E2E tests
 |   |-- app.spec.js             # Full application E2E tests
@@ -91,7 +93,7 @@ tests/
 
 ## Unit Test Coverage (Jest)
 
-**291 test cases** covering:
+**371 test cases** covering:
 
 ### Core Functionality
 - Basic arithmetic operations (+, -, *, /)
@@ -118,6 +120,10 @@ tests/
 - Polar curve evaluation (cardioid, rose, spiral, lemniscate)
 - Custom theme builder (color validation, contrast calculation)
 - Step-by-step animation generation
+- GCD and LCM calculation (Euclidean algorithm)
+- Prime factorization
+- PWA and service worker support
+- Mobile device detection and optimization
 
 ### Edge Cases & Error Handling
 - Division by zero

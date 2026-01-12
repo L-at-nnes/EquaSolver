@@ -136,7 +136,17 @@ const translations = {
         offlineReady: "Application prete pour utilisation hors ligne",
         updateAvailable: "Nouvelle version disponible",
         installApp: "Installer l'application",
-        installed: "Application installee"
+        installed: "Application installee",
+        gcdlcm: "PGCD/PPCM",
+        gcdlcmTitle: "Calculateur PGCD et PPCM",
+        gcdlcmDesc: "Calculer le Plus Grand Commun Diviseur et le Plus Petit Commun Multiple de deux nombres ou plus",
+        enterNumbers: "Entrez les nombres (separes par des virgules):",
+        gcdlcmHint: "Entrez au moins 2 entiers positifs separes par des virgules",
+        gcdlcmError: "Veuillez entrer au moins 2 entiers positifs",
+        numbers: "Nombres",
+        gcdResult: "PGCD (Plus Grand Commun Diviseur)",
+        lcmResult: "PPCM (Plus Petit Commun Multiple)",
+        primeFactorizations: "Decompositions en facteurs premiers"
     },
     en: {
         settings: "Settings",
@@ -275,7 +285,17 @@ const translations = {
         offlineReady: "App ready for offline use",
         updateAvailable: "New version available",
         installApp: "Install app",
-        installed: "App installed"
+        installed: "App installed",
+        gcdlcm: "GCD/LCM",
+        gcdlcmTitle: "GCD and LCM Calculator",
+        gcdlcmDesc: "Calculate the Greatest Common Divisor and Least Common Multiple of two or more numbers",
+        enterNumbers: "Enter numbers (comma separated):",
+        gcdlcmHint: "Enter at least 2 positive integers separated by commas",
+        gcdlcmError: "Please enter at least 2 positive integers",
+        numbers: "Numbers",
+        gcdResult: "GCD (Greatest Common Divisor)",
+        lcmResult: "LCM (Least Common Multiple)",
+        primeFactorizations: "Prime Factorizations"
     },
     es: {
         settings: "Configuración",
@@ -413,7 +433,17 @@ const translations = {
         offlineReady: "Aplicacion lista para uso sin conexion",
         updateAvailable: "Nueva version disponible",
         installApp: "Instalar aplicacion",
-        installed: "Aplicacion instalada"
+        installed: "Aplicacion instalada",
+        gcdlcm: "MCD/MCM",
+        gcdlcmTitle: "Calculadora MCD y MCM",
+        gcdlcmDesc: "Calcular el Maximo Comun Divisor y el Minimo Comun Multiplo de dos o mas numeros",
+        enterNumbers: "Ingrese los numeros (separados por comas):",
+        gcdlcmHint: "Ingrese al menos 2 enteros positivos separados por comas",
+        gcdlcmError: "Por favor ingrese al menos 2 enteros positivos",
+        numbers: "Numeros",
+        gcdResult: "MCD (Maximo Comun Divisor)",
+        lcmResult: "MCM (Minimo Comun Multiplo)",
+        primeFactorizations: "Factorizaciones primas"
     },
     de: {
         settings: "Einstellungen",
@@ -551,7 +581,17 @@ const translations = {
         offlineReady: "App bereit fur Offline-Nutzung",
         updateAvailable: "Neue Version verfugbar",
         installApp: "App installieren",
-        installed: "App installiert"
+        installed: "App installiert",
+        gcdlcm: "GGT/KGV",
+        gcdlcmTitle: "GGT und KGV Rechner",
+        gcdlcmDesc: "Berechnen Sie den grossten gemeinsamen Teiler und das kleinste gemeinsame Vielfache von zwei oder mehr Zahlen",
+        enterNumbers: "Zahlen eingeben (durch Kommas getrennt):",
+        gcdlcmHint: "Geben Sie mindestens 2 positive ganze Zahlen durch Kommas getrennt ein",
+        gcdlcmError: "Bitte geben Sie mindestens 2 positive ganze Zahlen ein",
+        numbers: "Zahlen",
+        gcdResult: "GGT (Grosster Gemeinsamer Teiler)",
+        lcmResult: "KGV (Kleinstes Gemeinsames Vielfaches)",
+        primeFactorizations: "Primfaktorzerlegungen"
     },
     it: {
         settings: "Impostazioni",
@@ -689,7 +729,17 @@ const translations = {
         offlineReady: "App pronta per uso offline",
         updateAvailable: "Nuova versione disponibile",
         installApp: "Installa app",
-        installed: "App installata"
+        installed: "App installata",
+        gcdlcm: "MCD/MCM",
+        gcdlcmTitle: "Calcolatore MCD e MCM",
+        gcdlcmDesc: "Calcola il Massimo Comune Divisore e il Minimo Comune Multiplo di due o piu numeri",
+        enterNumbers: "Inserisci i numeri (separati da virgole):",
+        gcdlcmHint: "Inserisci almeno 2 numeri interi positivi separati da virgole",
+        gcdlcmError: "Inserisci almeno 2 numeri interi positivi",
+        numbers: "Numeri",
+        gcdResult: "MCD (Massimo Comune Divisore)",
+        lcmResult: "MCM (Minimo Comune Multiplo)",
+        primeFactorizations: "Scomposizioni in fattori primi"
     },
     ru: {
         settings: "Настройки",
@@ -827,6 +877,16 @@ const translations = {
         offlineReady: "Приложение готово к работе оффлайн",
         updateAvailable: "Доступна новая версия",
         installApp: "Установить приложение",
-        installed: "Приложение установлено"
+        installed: "Приложение установлено",
+        gcdlcm: "НОД/НОК",
+        gcdlcmTitle: "Калькулятор НОД и НОК",
+        gcdlcmDesc: "Вычислить наибольший общий делитель и наименьшее общее кратное двух или более чисел",
+        enterNumbers: "Введите числа (через запятую):",
+        gcdlcmHint: "Введите минимум 2 положительных целых числа через запятую",
+        gcdlcmError: "Пожалуйста, введите минимум 2 положительных целых числа",
+        numbers: "Числа",
+        gcdResult: "НОД (Наибольший Общий Делитель)",
+        lcmResult: "НОК (Наименьшее Общее Кратное)",
+        primeFactorizations: "Разложения на простые множители"
     }
 };
