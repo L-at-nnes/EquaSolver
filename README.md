@@ -50,6 +50,8 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Calculation History** - Access your last 50 calculations for reference
 - **Responsive Design** - Optimized for desktop, tablet, and mobile devices
 - **Keyboard Navigation** - Full keyboard support with intuitive shortcuts
+- **Progressive Web App** - Install on any device, works offline with service worker caching
+- **Mobile Optimization** - Reduced particle rendering and optimized performance on mobile devices
 
 ---
 
@@ -150,6 +152,8 @@ EquaSolver/
 |-- index.html                  # Redirect to src/index.html
 |-- src/                        # Source files
 |   |-- index.html              # Main application file
+|   |-- manifest.json           # PWA manifest for installability
+|   |-- sw.js                   # Service worker for offline support
 |   |-- assets/
 |   |   |-- icon.svg            # Application icon
 |   |-- css/
@@ -159,7 +163,7 @@ EquaSolver/
 |       |-- translations.js     # Multi-language translation data
 |       |-- flags.js            # Base64-encoded country flags
 |-- tests/                      # Test suite
-|   |-- unit/                   # Jest unit tests (15 test files)
+|   |-- unit/                   # Jest unit tests (16 test files)
 |   |-- e2e/                    # Playwright E2E tests
 |   |-- manual/                 # Manual browser testing
 |-- docs/
@@ -209,7 +213,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 291 test cases:**
+**Unit Tests (Jest) - 316 test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -223,6 +227,8 @@ The test suite includes:
 - Parametric and polar equations
 - Custom theme builder
 - Step-by-step animation system
+- PWA and service worker support
+- Mobile optimization and performance
 - Integration and state management
 - Edge cases and error handling
 
@@ -360,11 +366,11 @@ If you find this project helpful, please consider:
 - [x] Create contribution guidelines document
 
 ### Optimization & Performance
-- [ ] Optimize particle rendering for mobile devices
-- [ ] Implement service worker for offline functionality
-- [ ] Add lazy loading for improved initial load time
-- [ ] Optimize CSS and JavaScript bundle sizes
-- [ ] Add progressive web app (PWA) support
+- [x] Optimize particle rendering for mobile devices
+- [x] Implement service worker for offline functionality
+- [x] Add lazy loading for improved initial load time
+- [x] Optimize CSS and JavaScript bundle sizes
+- [x] Add progressive web app (PWA) support
 
 ### Internationalization
 - [x] English language (default)

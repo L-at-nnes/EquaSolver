@@ -47,21 +47,25 @@ function loadFlags() {
 // ===================================
 // PARTICLES.JS CONFIGURATION
 // ===================================
-function initParticles() {
-    if (typeof particlesJS === 'undefined') return;
-    
-    particlesJS('particles-js', {
+function isMobileDevice() {
+    return window.innerWidth <= 768 || 
+           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+}
+
+function getParticleConfig() {
+    const isMobile = isMobileDevice();
+    return {
         particles: {
             number: { 
-                value: 80, 
-                density: { enable: true, value_area: 800 } 
+                value: isMobile ? 30 : 80, 
+                density: { enable: true, value_area: isMobile ? 600 : 800 } 
             },
             color: { value: '#ff0080' },
             shape: { type: 'circle' },
             opacity: { value: 0.5, random: true },
-            size: { value: 3, random: true },
+            size: { value: isMobile ? 2 : 3, random: true },
             line_linked: {
-                enable: true,
+                enable: !isMobile,
                 distance: 150,
                 color: '#00ffff',
                 opacity: 0.4,
@@ -69,7 +73,7 @@ function initParticles() {
             },
             move: {
                 enable: true,
-                speed: 2,
+                speed: isMobile ? 1 : 2,
                 direction: 'none',
                 random: true,
                 straight: false,
@@ -80,13 +84,41 @@ function initParticles() {
         interactivity: {
             detect_on: 'canvas',
             events: {
-                onhover: { enable: true, mode: 'repulse' },
-                onclick: { enable: true, mode: 'push' },
+                onhover: { enable: !isMobile, mode: 'repulse' },
+                onclick: { enable: !isMobile, mode: 'push' },
                 resize: true
             }
         },
-        retina_detect: true
-    });
+        retina_detect: !isMobile
+    };
+}
+
+function initParticles() {
+    if (typeof particlesJS === 'undefined') return;
+    
+    particlesJS('particles-js', getParticleConfig());
+}
+
+window.addEventListener('resize', debounce(() => {
+    if (typeof pJSDom !== 'undefined' && pJSDom[0]) {
+        const config = getParticleConfig();
+        pJSDom[0].pJS.particles.number.value = config.particles.number.value;
+        pJSDom[0].pJS.particles.line_linked.enable = config.particles.line_linked.enable;
+        pJSDom[0].pJS.interactivity.events.onhover.enable = config.interactivity.events.onhover.enable;
+        pJSDom[0].pJS.fn.particlesRefresh();
+    }
+}, 250));
+
+function debounce(func, wait) {
+    let timeout;
+    return function executedFunction(...args) {
+        const later = () => {
+            clearTimeout(timeout);
+            func(...args);
+        };
+        clearTimeout(timeout);
+        timeout = setTimeout(later, wait);
+    };
 }
 
 // Update particle colors based on theme
