@@ -345,40 +345,48 @@ If you find this project helpful, please consider:
 
 ## Roadmap & TODO
 
-> **Note:** The following items represent potential future enhancements and ideas. No timeline or guarantee is provided for implementation. Contributions are welcome for any of these features.
+> **Note:** The following items represent potential future enhancements. Contributions are welcome for any of these features.
 
 ### Planned Features
-- [x] Add support for higher-degree polynomial equations (4th, 5th degree)
-- [x] Implement matrix calculator (addition, multiplication, determinants, inverse)
-- [x] Add graphing capabilities to visualize equations
-- [x] Export solutions to PDF format
-- [x] Add more theme options (custom theme builder)
-- [x] Implement equation input via LaTeX syntax
-- [x] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
-- [x] Support for parametric and polar equations
-- [x] Add step-by-step explanation animations
-- [x] Implement dark/light mode toggle independent of themes
+- [ ] Add complex number support for equation solvers
+- [ ] Implement inequality solver (linear and quadratic inequalities)
+- [ ] Add derivative and integral calculator
+- [ ] Support for trigonometric equation solving
+- [ ] Add logarithmic and exponential equation solvers
+- [ ] Implement 3x3 system of linear equations solver
+- [ ] Add polynomial long division calculator
+- [ ] Support for absolute value equations
 
-### Documentation & Testing
-- [x] Write comprehensive API documentation
-- [x] Add unit tests for equation solvers
-- [x] Implement end-to-end testing
-- [x] Create contribution guidelines document
+### Advanced Calculations
+- [ ] Add GCD and LCM calculator
+- [ ] Implement prime factorization
+- [ ] Add modular arithmetic calculator (modulo, modular inverse, modular exponentiation)
+- [ ] Implement combinatorics calculator (permutations, combinations, binomial coefficients)
+- [ ] Add base converter (binary, octal, decimal, hexadecimal)
+- [ ] Implement fraction calculator with simplification
+- [ ] Add percentage calculator (increase, decrease, difference)
+- [ ] Implement ratio and proportion solver
+- [ ] Add unit converter (length, mass, temperature, time, area, volume)
+- [ ] Implement statistics calculator (mean, median, mode, variance, standard deviation)
+- [ ] Add sequence calculator (arithmetic, geometric, Fibonacci)
+- [ ] Implement limit calculator for simple functions
+- [ ] Add Taylor series expansion calculator
+- [ ] Implement numerical integration (trapezoidal, Simpson's rule)
 
-### Optimization & Performance
-- [x] Optimize particle rendering for mobile devices
-- [x] Implement service worker for offline functionality
-- [x] Add lazy loading for improved initial load time
-- [x] Optimize CSS and JavaScript bundle sizes
-- [x] Add progressive web app (PWA) support
+### User Experience
+- [ ] Implement undo/redo functionality for calculator
+- [ ] Add favorites system to bookmark frequent calculations
+- [ ] Add print-friendly view for solutions
 
-### Internationalization
-- [x] English language (default)
-- [x] French language translation
-- [x] Spanish language translation
-- [x] German language translation
-- [x] Italian language translation
-- [x] Russian language translation
+### Visualization
+- [ ] Add 3D graphing capabilities for 3-variable equations
+- [ ] Implement zoom and pan gestures on touch devices
+- [ ] Add animation for graph plotting
+- [ ] Support for multiple equations overlay on same graph
+- [ ] Add intersection point detection between curves
+
+### Deployment
+- [ ] Deploy application with GitHub Pages
 
 ---
 
