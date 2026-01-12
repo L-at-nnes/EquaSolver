@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-1.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
@@ -147,6 +147,7 @@ After solving any equation or plotting a graph:
 
 ```
 EquaSolver/
+|-- index.html                  # Redirect to src/index.html
 |-- src/                        # Source files
 |   |-- index.html              # Main application file
 |   |-- assets/
@@ -158,29 +159,17 @@ EquaSolver/
 |       |-- translations.js     # Multi-language translation data
 |       |-- flags.js            # Base64-encoded country flags
 |-- tests/                      # Test suite
-|   |-- unit/                   # Jest unit tests
-|   |   |-- calculator.test.js  # Standard calculator tests
-|   |   |-- linear.test.js      # Linear equations tests
-|   |   |-- quadratic.test.js   # Quadratic equations tests
-|   |   |-- cubic.test.js       # Cubic equations tests
-|   |   |-- quartic.test.js     # Quartic equations tests
-|   |   |-- quintic.test.js     # Quintic equations tests
-|   |   |-- systems.test.js     # Systems of equations tests
-|   |   |-- matrix.test.js      # Matrix calculator tests
-|   |   |-- scientific.test.js  # Scientific functions tests
-|   |   |-- latex.test.js       # LaTeX input parser tests
-|   |   |-- parametric.test.js  # Parametric equations tests
-|   |   |-- polar.test.js       # Polar equations tests
-|   |   |-- customtheme.test.js # Custom theme builder tests
-|   |   |-- animations.test.js  # Step-by-step animation tests
-|   |   |-- integration.test.js # Integration tests
-|   |-- manual/
-|       |-- test.html           # Manual browser testing
+|   |-- unit/                   # Jest unit tests (15 test files)
+|   |-- e2e/                    # Playwright E2E tests
+|   |-- manual/                 # Manual browser testing
 |-- docs/
+|   |-- API.md                  # API documentation
 |   |-- TESTING.md              # Testing documentation
-|-- coverage/                   # Test coverage reports
+|-- coverage/                   # Test coverage reports (generated)
 |-- .github/workflows/          # CI/CD configuration
 |-- package.json                # NPM dependencies and scripts
+|-- playwright.config.js        # Playwright E2E configuration
+|-- CONTRIBUTING.md             # Contribution guidelines
 |-- README.md                   # Project documentation
 |-- LICENSE                     # MIT License
 ```
@@ -189,7 +178,7 @@ EquaSolver/
 
 ## Testing
 
-This project includes a comprehensive test suite using **Jest**.
+This project includes a comprehensive test suite using **Jest** for unit tests and **Playwright** for end-to-end tests.
 
 ### Running Tests
 
@@ -205,12 +194,22 @@ npm run test:watch
 
 # Generate coverage report
 npm run test:coverage
+
+# Run E2E tests (requires Playwright)
+npm run test:e2e
+
+# Run E2E tests with UI
+npm run test:e2e:ui
+
+# Run all tests (unit + E2E)
+npm run test:all
 ```
 
 ### Test Coverage
 
 The test suite includes:
-- **150+ test cases** covering all mathematical operations
+
+**Unit Tests (Jest) - 291 test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -227,7 +226,18 @@ The test suite includes:
 - Integration and state management
 - Edge cases and error handling
 
-See [tests/README.md](tests/README.md) for detailed testing documentation.
+**E2E Tests (Playwright):**
+- Application loading and navigation
+- Settings panel (themes, languages, dark/light mode)
+- Calculator operations
+- Equation solvers (linear, quadratic, matrix)
+- Tab navigation
+- History management
+- Keyboard navigation
+- Responsive design
+- Accessibility
+
+See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
 
 ---
 
@@ -282,7 +292,9 @@ Supports 2×2 and 3×3 matrices:
 
 ## Contributing
 
-Contributions are welcome and appreciated. To contribute:
+Contributions are welcome and appreciated! Please read our [Contributing Guidelines](CONTRIBUTING.md) before getting started.
+
+To contribute:
 
 1. Fork the repository
 2. Create a feature branch (`git checkout -b feature/YourFeature`)
@@ -342,12 +354,10 @@ If you find this project helpful, please consider:
 - [x] Implement dark/light mode toggle independent of themes
 
 ### Documentation & Testing
-- [ ] Write comprehensive API documentation
-- [ ] Create video tutorials for complex features
-- [ ] Add unit tests for equation solvers
-- [ ] Implement end-to-end testing
-- [ ] Add accessibility (WCAG 2.1) compliance testing
-- [ ] Create contribution guidelines document
+- [x] Write comprehensive API documentation
+- [x] Add unit tests for equation solvers
+- [x] Implement end-to-end testing
+- [x] Create contribution guidelines document
 
 ### Optimization & Performance
 - [ ] Optimize particle rendering for mobile devices
@@ -357,7 +367,12 @@ If you find this project helpful, please consider:
 - [ ] Add progressive web app (PWA) support
 
 ### Internationalization
-- [x] Add Russian language translation
+- [x] English language (default)
+- [x] French language translation
+- [x] Spanish language translation
+- [x] German language translation
+- [x] Italian language translation
+- [x] Russian language translation
 
 ---
 

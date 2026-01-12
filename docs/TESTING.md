@@ -1,6 +1,6 @@
 # Testing Guide
 
-This project uses **Jest** for automated unit testing and includes manual browser tests.
+This project uses a comprehensive testing strategy with **Jest** for unit testing, **Playwright** for end-to-end (E2E) testing, and manual browser tests for interactive validation.
 
 ## Installation
 
@@ -10,11 +10,17 @@ Install the test dependencies:
 npm install
 ```
 
+For E2E tests, install Playwright browsers:
+
+```bash
+npx playwright install chromium
+```
+
 ## Running Tests
 
-### Automated Tests (Jest)
+### Unit Tests (Jest)
 
-**Run all tests:**
+**Run all unit tests:**
 ```bash
 npm test
 ```
@@ -29,6 +35,30 @@ npm run test:watch
 npm run test:coverage
 ```
 
+### End-to-End Tests (Playwright)
+
+**Run E2E tests:**
+```bash
+npm run test:e2e
+```
+
+**Run E2E tests with UI:**
+```bash
+npm run test:e2e:ui
+```
+
+**Run E2E tests in headed mode (visible browser):**
+```bash
+npx playwright test --headed
+```
+
+### All Tests
+
+**Run unit + E2E tests:**
+```bash
+npm run test:all
+```
+
 ### Manual Browser Tests
 
 Open `tests/manual/test.html` in your browser to run interactive tests that validate the mathematical functions directly in the browser environment.
@@ -37,7 +67,7 @@ Open `tests/manual/test.html` in your browser to run interactive tests that vali
 
 ```
 tests/
-|-- unit/                       # Jest unit tests
+|-- unit/                       # Jest unit tests (291 tests)
 |   |-- calculator.test.js      # Standard calculator operations
 |   |-- linear.test.js          # Linear equations (ax + b = 0)
 |   |-- quadratic.test.js       # Quadratic equations (ax^2 + bx + c = 0)
@@ -53,54 +83,127 @@ tests/
 |   |-- customtheme.test.js     # Custom theme builder
 |   |-- animations.test.js      # Step-by-step animations
 |   |-- integration.test.js     # Integration tests
+|-- e2e/                        # Playwright E2E tests
+|   |-- app.spec.js             # Full application E2E tests
 |-- manual/
     |-- test.html               # Browser-based manual tests
 ```
 
-## Test Coverage
+## Unit Test Coverage (Jest)
 
-The tests cover:
+**291 test cases** covering:
+
+### Core Functionality
 - Basic arithmetic operations (+, -, *, /)
-- Scientific functions (sin, cos, tan, log, sqrt, etc.)
-- Linear equation solving with animations
-- Quadratic equation solving (all discriminant cases)
-- Cubic equation solving
+- Scientific functions (sin, cos, tan, log, sqrt, pow, factorial, etc.)
+- Expression evaluation and parsing
+
+### Equation Solvers
+- Linear equation solving with step-by-step animations
+- Quadratic equation solving (positive, zero, negative discriminant)
+- Cubic equation solving (Cardano's formula)
 - Quartic equation solving (Durand-Kerner method)
 - Quintic equation solving (numerical methods)
 - System of equations (Cramer's rule)
-- Matrix operations (addition, multiplication, determinant, inverse)
+
+### Matrix Operations
+- Matrix addition (2x2, 3x3)
+- Matrix multiplication (2x2, 3x3)
+- Determinant calculation
+- Matrix inverse
+
+### Advanced Features
 - LaTeX equation parsing and preview
-- Parametric curve plotting
-- Polar curve plotting
+- Parametric curve evaluation (circle, ellipse, spiral, Lissajous)
+- Polar curve evaluation (cardioid, rose, spiral, lemniscate)
 - Custom theme builder (color validation, contrast calculation)
 - Step-by-step animation generation
-- Edge cases (zero, negatives, fractions)
-- Error handling (division by zero, parallel lines)
+
+### Edge Cases & Error Handling
+- Division by zero
+- Invalid inputs
+- Boundary conditions
+- Parallel lines in systems
+- Singular matrices
+
+## E2E Test Coverage (Playwright)
+
+**30+ test scenarios** covering:
+
+### Application Loading
+- Page loads successfully
+- Title and header verification
+- Navigation elements present
+
+### Settings Panel
+- Theme switching (Cyberpunk, Matrix, Ocean, etc.)
+- Custom theme builder
+- Language switching (EN, FR, ES, DE, IT, RU)
+- Dark/light mode toggle
+- Particle effects toggle
+
+### Calculator Operations
+- Basic arithmetic
+- Scientific functions
+- Keyboard input
+- Clear and backspace
+
+### Equation Solvers
+- Linear equations with animated steps
+- Quadratic equations (all discriminant cases)
+- Matrix operations
+
+### User Interface
+- Tab navigation
+- History management
+- Responsive design
+- Keyboard navigation
+- Accessibility features
 
 ## Example Test Results
 
 ```
-PASS  tests/linear.test.js
-PASS  tests/quadratic.test.js
-PASS  tests/cubic.test.js
-PASS  tests/quartic.test.js
-PASS  tests/quintic.test.js
-PASS  tests/systems.test.js
-PASS  tests/matrix.test.js
-PASS  tests/calculator.test.js
-PASS  tests/scientific.test.js
-PASS  tests/latex.test.js
-PASS  tests/parametric.test.js
-PASS  tests/polar.test.js
-PASS  tests/customtheme.test.js
-PASS  tests/animations.test.js
-PASS  tests/integration.test.js
+PASS  tests/unit/calculator.test.js
+PASS  tests/unit/linear.test.js
+PASS  tests/unit/quadratic.test.js
+PASS  tests/unit/cubic.test.js
+PASS  tests/unit/quartic.test.js
+PASS  tests/unit/quintic.test.js
+PASS  tests/unit/systems.test.js
+PASS  tests/unit/matrix.test.js
+PASS  tests/unit/scientific.test.js
+PASS  tests/unit/latex.test.js
+PASS  tests/unit/parametric.test.js
+PASS  tests/unit/polar.test.js
+PASS  tests/unit/customtheme.test.js
+PASS  tests/unit/animations.test.js
+PASS  tests/unit/integration.test.js
 
 Test Suites: 15 passed, 15 total
-Tests:       150+ passed
+Tests:       291 passed, 291 total
+Time:        ~8s
 ```
 
+## Coverage Report
+
+Run `npm run test:coverage` to generate a detailed coverage report:
+
+```
+----------------------|---------|----------|---------|---------|
+File                  | % Stmts | % Branch | % Funcs | % Lines |
+----------------------|---------|----------|---------|---------|
+All files             |   85+   |   80+    |   90+   |   85+   |
+----------------------|---------|----------|---------|---------|
+```
+
+Coverage reports are generated in the `coverage/` directory:
+- `coverage/lcov-report/index.html` - Interactive HTML report
+- `coverage/lcov.info` - LCOV format for CI integration
+- `coverage/coverage-final.json` - JSON format
+
 ## Writing New Tests
+
+### Unit Tests (Jest)
 
 Follow Jest conventions:
 
@@ -118,3 +221,59 @@ For floating-point comparisons, use `toBeCloseTo`:
 ```javascript
 expect(0.1 + 0.2).toBeCloseTo(0.3, 5); // 5 decimal places
 ```
+
+### E2E Tests (Playwright)
+
+Follow Playwright conventions:
+
+```javascript
+import { test, expect } from '@playwright/test';
+
+test.describe('Feature Name', () => {
+    test('should do something in the browser', async ({ page }) => {
+        await page.goto('/');
+        await page.click('#some-button');
+        await expect(page.locator('#result')).toContainText('Expected');
+    });
+});
+```
+
+## Continuous Integration
+
+The test suite is designed for CI/CD integration:
+
+```yaml
+# Example GitHub Actions workflow
+- name: Run Unit Tests
+  run: npm test
+
+- name: Run E2E Tests
+  run: npm run test:e2e
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**Jest tests failing with module errors:**
+```bash
+# Clear Jest cache
+npx jest --clearCache
+npm test
+```
+
+**Playwright browser not installed:**
+```bash
+npx playwright install chromium
+```
+
+**E2E tests timing out:**
+- Increase timeout in playwright.config.js
+- Check that the server is running on the correct port
+
+**Coverage not generating:**
+```bash
+npm run test:coverage
+# Check coverage/lcov-report/index.html
+```
+
