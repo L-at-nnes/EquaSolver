@@ -24,25 +24,29 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 ### Equation Solving Capabilities
 
-- **Standard Calculator** - Basic arithmetic operations with scientific functions (sin, cos, tan, √, ln, log, e^x, n!, π, e)
-- **Linear Equations** (ax + b = 0) - First-degree polynomial equation solver
-- **Quadratic Equations** (ax² + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis
-- **Cubic Equations** (ax³ + bx² + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula
-- **Quartic Equations** (ax⁴ + bx³ + cx² + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method
-- **Quintic Equations** (ax⁵ + bx⁴ + cx³ + dx² + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
-- **Systems of Linear Equations** - Solve 2×2 linear systems using Cramer's rule
-- **Matrix Calculator** - Operations on 2×2 and 3×3 matrices (addition, multiplication, determinant, inverse)
+- **Standard Calculator** - Basic arithmetic operations with scientific functions (sin, cos, tan, sqrt, ln, log, e^x, n!, pi, e)
+- **Linear Equations** (ax + b = 0) - First-degree polynomial equation solver with animated step-by-step solutions
+- **Quadratic Equations** (ax^2 + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis and animated steps
+- **Cubic Equations** (ax^3 + bx^2 + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula
+- **Quartic Equations** (ax^4 + bx^3 + cx^2 + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method
+- **Quintic Equations** (ax^5 + bx^4 + cx^3 + dx^2 + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
+- **Systems of Linear Equations** - Solve 2x2 linear systems using Cramer's rule
+- **Matrix Calculator** - Operations on 2x2 and 3x3 matrices (addition, multiplication, determinant, inverse)
 - **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
+- **Parametric Equations** - Plot parametric curves with x(t) and y(t) functions including circle, ellipse, spiral, and Lissajous presets
+- **Polar Equations** - Plot polar curves r(theta) with presets for cardioid, rose curves, spiral, and lemniscate
+- **LaTeX Input** - Enter equations using LaTeX syntax with real-time preview and automatic parsing
 - **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
 
 - **Dark/Light Mode** - Toggle between dark and light modes independently of theme selection
-- **Six Themes** - Choose from Cyberpunk, Matrix, Sunset, Ocean, Galaxy, and Neon color schemes
+- **Seven Themes** - Choose from Cyberpunk, Matrix, Sunset, Ocean, Galaxy, Neon, and Custom color schemes
+- **Custom Theme Builder** - Create your own theme with personalized primary, secondary, accent, and background colors
 - **Multi-Language Support** - Available in English, French, Spanish, German, Italian, and Russian
 - **Interactive Background** - Dynamic particle system that responds to mouse interactions
 - **Keyboard Input** - Enter equation coefficients directly via keyboard for faster input
-- **Step-by-Step Solutions** - View detailed solution steps for educational purposes
+- **Step-by-Step Solutions** - View detailed solution steps with smooth animations for educational purposes
 - **Calculation History** - Access your last 50 calculations for reference
 - **Responsive Design** - Optimized for desktop, tablet, and mobile devices
 - **Keyboard Navigation** - Full keyboard support with intuitive shortcuts
@@ -58,8 +62,19 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 ### Installation
 
-1. Download or clone the repository
-2. Open the `index.html` file in your web browser
+1. Download or clone the repository:
+   ```bash
+   git clone https://github.com/YOUR_USERNAME/EquaSolver.git
+   cd EquaSolver
+   ```
+
+2. Open the application:
+   - **Option 1**: Open `index.html` in your web browser (auto-redirects to the app)
+   - **Option 2**: Open `src/index.html` directly
+   - **Option 3**: Use a local server for development:
+     ```bash
+     npx serve .
+     ```
 
 That's all! The application runs entirely client-side with no server or build process required.
 
@@ -132,26 +147,42 @@ After solving any equation or plotting a graph:
 
 ```
 EquaSolver/
-├── index.html              # Main application file
-├── package.json            # NPM dependencies and test scripts
-├── css/
-│   └── style.css          # Styles, themes, and animations
-├── js/
-│   ├── script.js          # Core application logic and solvers
-│   ├── translations.js    # Multi-language translation data
-│   └── flags.js           # Base64-encoded country flags
-├── tests/                  # Jest test suite
-│   ├── calculator.test.js # Standard calculator tests
-│   ├── linear.test.js     # Linear equations tests
-│   ├── quadratic.test.js  # Quadratic equations tests
-│   ├── cubic.test.js      # Cubic equations tests
-│   ├── quartic.test.js    # Quartic equations tests
-│   ├── quintic.test.js    # Quintic equations tests
-│   ├── systems.test.js    # Systems of equations tests
-│   ├── matrix.test.js     # Matrix calculator tests
-│   └── README.md          # Testing documentation
-├── README.md              # Project documentation
-└── LICENSE                # MIT License
+|-- src/                        # Source files
+|   |-- index.html              # Main application file
+|   |-- assets/
+|   |   |-- icon.svg            # Application icon
+|   |-- css/
+|   |   |-- style.css           # Styles, themes, and animations
+|   |-- js/
+|       |-- script.js           # Core application logic and solvers
+|       |-- translations.js     # Multi-language translation data
+|       |-- flags.js            # Base64-encoded country flags
+|-- tests/                      # Test suite
+|   |-- unit/                   # Jest unit tests
+|   |   |-- calculator.test.js  # Standard calculator tests
+|   |   |-- linear.test.js      # Linear equations tests
+|   |   |-- quadratic.test.js   # Quadratic equations tests
+|   |   |-- cubic.test.js       # Cubic equations tests
+|   |   |-- quartic.test.js     # Quartic equations tests
+|   |   |-- quintic.test.js     # Quintic equations tests
+|   |   |-- systems.test.js     # Systems of equations tests
+|   |   |-- matrix.test.js      # Matrix calculator tests
+|   |   |-- scientific.test.js  # Scientific functions tests
+|   |   |-- latex.test.js       # LaTeX input parser tests
+|   |   |-- parametric.test.js  # Parametric equations tests
+|   |   |-- polar.test.js       # Polar equations tests
+|   |   |-- customtheme.test.js # Custom theme builder tests
+|   |   |-- animations.test.js  # Step-by-step animation tests
+|   |   |-- integration.test.js # Integration tests
+|   |-- manual/
+|       |-- test.html           # Manual browser testing
+|-- docs/
+|   |-- TESTING.md              # Testing documentation
+|-- coverage/                   # Test coverage reports
+|-- .github/workflows/          # CI/CD configuration
+|-- package.json                # NPM dependencies and scripts
+|-- README.md                   # Project documentation
+|-- LICENSE                     # MIT License
 ```
 
 ---
@@ -179,17 +210,22 @@ npm run test:coverage
 ### Test Coverage
 
 The test suite includes:
-- ✅ **97+ test cases** covering all mathematical operations
-- ✅ Standard calculator (arithmetic operations)
-- ✅ Scientific functions (trigonometry, logarithms, factorials)
-- ✅ Linear equation solving
-- ✅ Quadratic equation solving (all discriminant cases)
-- ✅ Cubic equation solving
-- ✅ Quartic equation solving (Durand-Kerner numerical method)
-- ✅ Quintic equation solving (numerical root finding)
-- ✅ System of equations (Cramer's rule)
-- ✅ Matrix operations (addition, multiplication, determinant, inverse)
-- ✅ Edge cases and error handling
+- **150+ test cases** covering all mathematical operations
+- Standard calculator (arithmetic operations)
+- Scientific functions (trigonometry, logarithms, factorials)
+- Linear equation solving with animated steps
+- Quadratic equation solving (all discriminant cases)
+- Cubic equation solving
+- Quartic equation solving (Durand-Kerner numerical method)
+- Quintic equation solving (numerical root finding)
+- System of equations (Cramer's rule)
+- Matrix operations (addition, multiplication, determinant, inverse)
+- LaTeX equation parsing
+- Parametric and polar equations
+- Custom theme builder
+- Step-by-step animation system
+- Integration and state management
+- Edge cases and error handling
 
 See [tests/README.md](tests/README.md) for detailed testing documentation.
 
@@ -235,12 +271,12 @@ Supports 2×2 and 3×3 matrices:
 ## Browser Compatibility
 
 | Browser         | Minimum Version | Status |
-|----------------|-----------------|--------|
-| Google Chrome  | Latest          | ✅ Fully Supported |
-| Mozilla Firefox| Latest          | ✅ Fully Supported |
-| Safari         | Latest          | ✅ Fully Supported |
-| Microsoft Edge | Latest          | ✅ Fully Supported |
-| Opera          | Latest          | ✅ Fully Supported |
+|----------------|------------------|--------|
+| Google Chrome  | Latest           | Fully Supported |
+| Mozilla Firefox| Latest           | Fully Supported |
+| Safari         | Latest           | Fully Supported |
+| Microsoft Edge | Latest           | Fully Supported |
+| Opera          | Latest           | Fully Supported |
 
 ---
 
@@ -282,10 +318,10 @@ You are free to use, modify, and distribute this software for personal or commer
 ## Support
 
 If you find this project helpful, please consider:
-- ⭐ Starring the repository
-- 🐛 Reporting bugs via the issue tracker
-- 💡 Suggesting new features or improvements
-- 📢 Sharing with others who might benefit
+- Starring the repository
+- Reporting bugs via the issue tracker
+- Suggesting new features or improvements
+- Sharing with others who might benefit
 
 ---
 
@@ -298,11 +334,11 @@ If you find this project helpful, please consider:
 - [x] Implement matrix calculator (addition, multiplication, determinants, inverse)
 - [x] Add graphing capabilities to visualize equations
 - [x] Export solutions to PDF format
-- [ ] Add more theme options (custom theme builder)
-- [ ] Implement equation input via LaTeX syntax
+- [x] Add more theme options (custom theme builder)
+- [x] Implement equation input via LaTeX syntax
 - [x] Add scientific calculator mode with advanced functions (sin, cos, log, etc.)
-- [ ] Support for parametric and polar equations
-- [ ] Add step-by-step explanation animations
+- [x] Support for parametric and polar equations
+- [x] Add step-by-step explanation animations
 - [x] Implement dark/light mode toggle independent of themes
 
 ### Documentation & Testing

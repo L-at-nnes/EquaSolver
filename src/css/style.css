@@ -137,15 +137,15 @@ body.light-mode .tool-card {
 .container {
     position: relative;
     z-index: 1;
-    max-width: 95%;
+    max-width: 98%;
     width: 100%;
     margin: 0 auto;
     padding: 2rem;
 }
 
-@media (min-width: 1400px) {
+@media (min-width: 1600px) {
     .container {
-        max-width: 1400px;
+        max-width: 1600px;
     }
 }
 
@@ -607,24 +607,29 @@ header {
 /* Tabs */
 .tabs {
     display: flex;
-    gap: 1rem;
+    flex-wrap: wrap;
+    gap: 0.5rem;
     margin-bottom: 2rem;
     border-bottom: 2px solid var(--bg-panel);
+    overflow-x: auto;
+    padding-bottom: 0.5rem;
 }
 
 .tab {
-    flex: 1;
-    padding: 1rem;
+    flex: 1 1 auto;
+    min-width: fit-content;
+    padding: 0.75rem 1rem;
     background: none;
     border: none;
     color: var(--text-secondary);
-    font-size: 1rem;
+    font-size: 0.9rem;
     font-weight: 500;
     cursor: pointer;
     position: relative;
     transition: var(--transition);
     text-transform: uppercase;
-    letter-spacing: 1px;
+    letter-spacing: 0.5px;
+    white-space: nowrap;
 }
 
 .tab::after {
@@ -1727,3 +1732,372 @@ header {
         font-size: 1.1rem;
     }
 }
+
+/* ===================================
+   CUSTOM THEME BUILDER
+   =================================== */
+.custom-theme-builder {
+    background: var(--bg-panel);
+    border-radius: 12px;
+    padding: 1.5rem;
+    border: 2px solid var(--border-color);
+    margin-top: 1rem;
+}
+
+.color-picker-group {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.color-picker-item {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.color-picker-item label {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+}
+
+.color-picker {
+    width: 100%;
+    height: 40px;
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    cursor: pointer;
+    background: transparent;
+    padding: 2px;
+}
+
+.color-picker::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
+
+.color-picker::-webkit-color-swatch {
+    border: none;
+    border-radius: 6px;
+}
+
+.btn-apply-theme,
+.btn-save-theme {
+    width: 100%;
+    padding: 0.8rem;
+    margin-top: 0.5rem;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border: none;
+    border-radius: 8px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-apply-theme:hover,
+.btn-save-theme:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+.btn-save-theme {
+    background: linear-gradient(135deg, var(--accent), var(--secondary));
+}
+
+.custom-preview {
+    background: linear-gradient(135deg, #ff0080, #00ffff);
+    position: relative;
+}
+
+.custom-preview::after {
+    content: '+';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 24px;
+    font-weight: bold;
+    color: white;
+    text-shadow: 0 0 10px rgba(0,0,0,0.5);
+}
+
+.theme-custom {
+    --primary: var(--custom-primary, #ff0080);
+    --secondary: var(--custom-secondary, #00ffff);
+    --accent: var(--custom-accent, #ffff00);
+    --bg-primary: var(--custom-bg-primary, #0a0a0f);
+    --bg-secondary: var(--custom-bg-secondary, #1a1a2e);
+    --bg-panel: var(--custom-bg-panel, #16213e);
+    --border-color: var(--custom-primary, #ff0080);
+    --shadow-color: var(--custom-shadow, rgba(255, 0, 128, 0.5));
+    --glow-color: var(--custom-primary, #ff0080);
+}
+
+/* ===================================
+   LATEX INPUT STYLES
+   =================================== */
+.latex-input {
+    width: 100%;
+    padding: 1rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 12px;
+    color: var(--text-primary);
+    font-size: 1.2rem;
+    font-family: 'Courier New', monospace;
+    resize: vertical;
+    min-height: 80px;
+    transition: var(--transition);
+}
+
+.latex-input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 20px var(--shadow-color);
+}
+
+.latex-preview-container {
+    background: var(--bg-panel);
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--border-color);
+    min-height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.latex-rendered {
+    font-size: 1.5rem;
+    font-family: 'Orbitron', monospace;
+    color: var(--primary);
+    text-align: center;
+}
+
+.latex-shortcuts,
+.latex-examples {
+    margin-top: 1.5rem;
+}
+
+.latex-shortcuts label,
+.latex-examples label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.shortcut-buttons,
+.example-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.shortcut-btn,
+.example-btn {
+    padding: 0.5rem 1rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--primary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.shortcut-btn:hover,
+.example-btn:hover {
+    background: var(--primary);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+}
+
+/* ===================================
+   PARAMETRIC AND POLAR STYLES
+   =================================== */
+.polar-presets {
+    margin-top: 1.5rem;
+}
+
+.polar-presets label {
+    display: block;
+    color: var(--text-secondary);
+    margin-bottom: 0.75rem;
+    font-size: 0.95rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.5rem;
+}
+
+.preset-btn {
+    padding: 0.6rem 1.2rem;
+    background: var(--bg-panel);
+    border: 2px solid var(--border-color);
+    border-radius: 8px;
+    color: var(--secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.preset-btn:hover {
+    background: var(--secondary);
+    color: var(--bg-primary);
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px var(--shadow-color);
+}
+
+/* ===================================
+   STEP-BY-STEP ANIMATION STYLES
+   =================================== */
+.animated-steps {
+    opacity: 1;
+}
+
+.step-item {
+    opacity: 0;
+    transform: translateX(-20px);
+    animation: slideInStep 0.5s ease forwards;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 8px;
+    border-left: 3px solid var(--primary);
+}
+
+.step-item.visible {
+    opacity: 1;
+    transform: translateX(0);
+}
+
+@keyframes slideInStep {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+.step-number {
+    display: inline-block;
+    width: 28px;
+    height: 28px;
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    border-radius: 50%;
+    text-align: center;
+    line-height: 28px;
+    font-weight: bold;
+    margin-right: 0.75rem;
+    font-size: 0.9rem;
+    color: white;
+}
+
+.step-content {
+    display: inline-block;
+    vertical-align: middle;
+}
+
+.step-equation {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.1rem;
+    color: var(--text-primary);
+    margin-top: 0.5rem;
+    padding: 0.5rem;
+    background: rgba(0, 0, 0, 0.2);
+    border-radius: 6px;
+}
+
+.step-explanation {
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+    margin-top: 0.25rem;
+}
+
+.final-result {
+    background: linear-gradient(135deg, rgba(var(--primary-rgb), 0.2), rgba(var(--secondary-rgb), 0.2));
+    padding: 1.5rem;
+    border-radius: 12px;
+    border: 2px solid var(--primary);
+    text-align: center;
+    animation: pulseResult 0.5s ease;
+}
+
+@keyframes pulseResult {
+    0% {
+        transform: scale(0.95);
+        opacity: 0;
+    }
+    50% {
+        transform: scale(1.02);
+    }
+    100% {
+        transform: scale(1);
+        opacity: 1;
+    }
+}
+
+.final-result h4 {
+    color: var(--accent);
+    font-family: 'Orbitron', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 0.5rem;
+}
+
+.result-value {
+    font-family: 'Orbitron', monospace;
+    font-size: 1.8rem;
+    color: var(--primary);
+    font-weight: bold;
+}
+
+/* Animation toggle button */
+.animation-toggle {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-bottom: 1rem;
+    padding: 0.5rem;
+    background: var(--bg-panel);
+    border-radius: 8px;
+    width: fit-content;
+}
+
+.animation-toggle label {
+    color: var(--text-secondary);
+    font-size: 0.9rem;
+    cursor: pointer;
+}
+
+.animation-toggle input[type="checkbox"] {
+    width: 18px;
+    height: 18px;
+    accent-color: var(--primary);
+    cursor: pointer;
+}
+
+/* Speed control */
+.speed-control {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    margin-left: 1rem;
+}
+
+.speed-control label {
+    font-size: 0.85rem;
+}
+
+.speed-slider {
+    width: 80px;
+    height: 4px;
+    accent-color: var(--primary);
+}
+
