@@ -1,0 +1,42 @@
+{
+    "name": "EquaSolver",
+    "short_name": "EquaSolver",
+    "description": "A modern, feature-rich equation solver with an elegant user interface",
+    "start_url": "./index.html",
+    "display": "standalone",
+    "background_color": "#0a0a0f",
+    "theme_color": "#00ff41",
+    "orientation": "any",
+    "scope": "./",
+    "icons": [
+        {
+            "src": "assets/icon.svg",
+            "sizes": "any",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        },
+        {
+            "src": "assets/icon-192.svg",
+            "sizes": "192x192",
+            "type": "image/svg+xml",
+            "purpose": "any maskable"
+        }
+    ],
+    "categories": ["education", "utilities", "productivity"],
+    "lang": "en",
+    "dir": "ltr",
+    "shortcuts": [
+        {
+            "name": "Calculator",
+            "short_name": "Calc",
+            "url": "./index.html#standard",
+            "description": "Open the standard calculator"
+        },
+        {
+            "name": "Quadratic Solver",
+            "short_name": "Quadratic",
+            "url": "./index.html#quadratic",
+            "description": "Solve quadratic equations"
+        }
+    ]
+}

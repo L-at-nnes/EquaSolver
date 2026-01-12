@@ -132,7 +132,11 @@ const translations = {
         deltaEqualsZero: "Delta = 0, une solution",
         deltaGreaterThanZero: "Delta > 0, deux solutions",
         calcX1: "Calculer x1",
-        calcX2: "Calculer x2"
+        calcX2: "Calculer x2",
+        offlineReady: "Application prete pour utilisation hors ligne",
+        updateAvailable: "Nouvelle version disponible",
+        installApp: "Installer l'application",
+        installed: "Application installee"
     },
     en: {
         settings: "Settings",
@@ -267,7 +271,11 @@ const translations = {
         deltaEqualsZero: "Delta = 0, one solution",
         deltaGreaterThanZero: "Delta > 0, two solutions",
         calcX1: "Calculate x1",
-        calcX2: "Calculate x2"
+        calcX2: "Calculate x2",
+        offlineReady: "App ready for offline use",
+        updateAvailable: "New version available",
+        installApp: "Install app",
+        installed: "App installed"
     },
     es: {
         settings: "Configuración",
@@ -401,7 +409,11 @@ const translations = {
         deltaEqualsZero: "Delta = 0, una solución",
         deltaGreaterThanZero: "Delta > 0, dos soluciones",
         calcX1: "Calcular x1",
-        calcX2: "Calcular x2"
+        calcX2: "Calcular x2",
+        offlineReady: "Aplicacion lista para uso sin conexion",
+        updateAvailable: "Nueva version disponible",
+        installApp: "Instalar aplicacion",
+        installed: "Aplicacion instalada"
     },
     de: {
         settings: "Einstellungen",
@@ -535,7 +547,11 @@ const translations = {
         deltaEqualsZero: "Delta = 0, eine Lösung",
         deltaGreaterThanZero: "Delta > 0, zwei Lösungen",
         calcX1: "x1 berechnen",
-        calcX2: "x2 berechnen"
+        calcX2: "x2 berechnen",
+        offlineReady: "App bereit fur Offline-Nutzung",
+        updateAvailable: "Neue Version verfugbar",
+        installApp: "App installieren",
+        installed: "App installiert"
     },
     it: {
         settings: "Impostazioni",
@@ -669,7 +685,11 @@ const translations = {
         deltaEqualsZero: "Delta = 0, una soluzione",
         deltaGreaterThanZero: "Delta > 0, due soluzioni",
         calcX1: "Calcola x1",
-        calcX2: "Calcola x2"
+        calcX2: "Calcola x2",
+        offlineReady: "App pronta per uso offline",
+        updateAvailable: "Nuova versione disponibile",
+        installApp: "Installa app",
+        installed: "App installata"
     },
     ru: {
         settings: "Настройки",
@@ -803,6 +823,10 @@ const translations = {
         deltaEqualsZero: "Дельта = 0, одно решение",
         deltaGreaterThanZero: "Дельта > 0, два решения",
         calcX1: "Вычислить x1",
-        calcX2: "Вычислить x2"
+        calcX2: "Вычислить x2",
+        offlineReady: "Приложение готово к работе оффлайн",
+        updateAvailable: "Доступна новая версия",
+        installApp: "Установить приложение",
+        installed: "Приложение установлено"
     }
 };
