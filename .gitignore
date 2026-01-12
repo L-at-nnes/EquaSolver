@@ -1,6 +1,4 @@
-# OS files
-.DS_Store
-Thumbs.db
+# OS file
 desktop.ini
 
 # Editor files
@@ -12,7 +10,6 @@ desktop.ini
 
 # Node modules
 node_modules/
-package-lock.json
 
 # Test coverage
 coverage/

@@ -25,12 +25,12 @@
     "testEnvironment": "jsdom",
     "coverageDirectory": "coverage",
     "collectCoverageFrom": [
-      "js/**/*.js",
-      "!js/flags.js",
-      "!js/translations.js"
+      "src/js/**/*.js",
+      "!src/js/flags.js",
+      "!src/js/translations.js"
     ],
     "testMatch": [
-      "**/tests/**/*.test.js"
+      "**/tests/unit/**/*.test.js"
     ]
   }
 }

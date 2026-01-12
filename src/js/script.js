@@ -73,8 +73,8 @@ function initParticles() {
                 direction: 'none',
                 random: true,
                 straight: false,
-                out_mode: 'out',
-                bounce: false
+                out_mode: 'bounce',
+                bounce: true
             }
         },
         interactivity: {
@@ -1941,4 +1941,797 @@ function exportGraphToPDF() {
     // Save PDF
     const fileName = `equasolver_graph_${Date.now()}.pdf`;
     doc.save(fileName);
+}
+
+// ===================================
+// CUSTOM THEME BUILDER
+// ===================================
+let customThemeColors = {
+    primary: '#ff0080',
+    secondary: '#00ffff',
+    accent: '#ffff00',
+    bgPrimary: '#0a0a0f',
+    bgSecondary: '#1a1a2e'
+};
+
+function setupCustomThemeBuilder() {
+    const customThemeBtn = document.querySelector('[data-theme="custom"]');
+    const themeBuilder = document.getElementById('customThemeBuilder');
+    const applyBtn = document.getElementById('applyCustomTheme');
+    const saveBtn = document.getElementById('saveCustomTheme');
+    
+    if (customThemeBtn) {
+        customThemeBtn.addEventListener('click', () => {
+            themeBuilder.style.display = themeBuilder.style.display === 'none' ? 'block' : 'none';
+        });
+    }
+    
+    // Load saved custom theme
+    const savedCustomTheme = localStorage.getItem('equasolver_custom_theme');
+    if (savedCustomTheme) {
+        customThemeColors = JSON.parse(savedCustomTheme);
+        updateColorPickerValues();
+    }
+    
+    // Color picker listeners
+    ['customPrimary', 'customSecondary', 'customAccent', 'customBgPrimary', 'customBgSecondary'].forEach(id => {
+        const picker = document.getElementById(id);
+        if (picker) {
+            picker.addEventListener('input', () => {
+                updateCustomThemePreview();
+            });
+        }
+    });
+    
+    if (applyBtn) {
+        applyBtn.addEventListener('click', applyCustomTheme);
+    }
+    
+    if (saveBtn) {
+        saveBtn.addEventListener('click', saveCustomTheme);
+    }
+}
+
+function updateColorPickerValues() {
+    document.getElementById('customPrimary').value = customThemeColors.primary;
+    document.getElementById('customSecondary').value = customThemeColors.secondary;
+    document.getElementById('customAccent').value = customThemeColors.accent;
+    document.getElementById('customBgPrimary').value = customThemeColors.bgPrimary;
+    document.getElementById('customBgSecondary').value = customThemeColors.bgSecondary;
+}
+
+function updateCustomThemePreview() {
+    const preview = document.querySelector('.custom-preview');
+    if (preview) {
+        const primary = document.getElementById('customPrimary').value;
+        const secondary = document.getElementById('customSecondary').value;
+        preview.style.background = `linear-gradient(135deg, ${primary}, ${secondary})`;
+    }
+}
+
+function applyCustomTheme() {
+    customThemeColors = {
+        primary: document.getElementById('customPrimary').value,
+        secondary: document.getElementById('customSecondary').value,
+        accent: document.getElementById('customAccent').value,
+        bgPrimary: document.getElementById('customBgPrimary').value,
+        bgSecondary: document.getElementById('customBgSecondary').value
+    };
+    
+    document.documentElement.style.setProperty('--custom-primary', customThemeColors.primary);
+    document.documentElement.style.setProperty('--custom-secondary', customThemeColors.secondary);
+    document.documentElement.style.setProperty('--custom-accent', customThemeColors.accent);
+    document.documentElement.style.setProperty('--custom-bg-primary', customThemeColors.bgPrimary);
+    document.documentElement.style.setProperty('--custom-bg-secondary', customThemeColors.bgSecondary);
+    
+    // Calculate shadow color from primary
+    const r = parseInt(customThemeColors.primary.slice(1, 3), 16);
+    const g = parseInt(customThemeColors.primary.slice(3, 5), 16);
+    const b = parseInt(customThemeColors.primary.slice(5, 7), 16);
+    document.documentElement.style.setProperty('--custom-shadow', `rgba(${r}, ${g}, ${b}, 0.5)`);
+    
+    changeTheme('custom');
+}
+
+function saveCustomTheme() {
+    applyCustomTheme();
+    localStorage.setItem('equasolver_custom_theme', JSON.stringify(customThemeColors));
+}
+
+// ===================================
+// LATEX EQUATION PARSER
+// ===================================
+function setupLatexInput() {
+    const latexInput = document.getElementById('latexInput');
+    const solveBtn = document.getElementById('solveLatex');
+    
+    if (latexInput) {
+        latexInput.addEventListener('input', updateLatexPreview);
+        updateLatexPreview();
+    }
+    
+    if (solveBtn) {
+        solveBtn.addEventListener('click', solveLatexEquation);
+    }
+    
+    // Shortcut buttons
+    document.querySelectorAll('.shortcut-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const insert = btn.dataset.insert;
+            insertLatexSymbol(insert);
+        });
+    });
+    
+    // Example buttons
+    document.querySelectorAll('.example-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            latexInput.value = btn.dataset.example;
+            updateLatexPreview();
+        });
+    });
+}
+
+function insertLatexSymbol(symbol) {
+    const input = document.getElementById('latexInput');
+    const start = input.selectionStart;
+    const end = input.selectionEnd;
+    const text = input.value;
+    
+    input.value = text.substring(0, start) + symbol + text.substring(end);
+    input.focus();
+    
+    // Position cursor inside brackets if applicable
+    if (symbol.includes('{}')) {
+        input.selectionStart = input.selectionEnd = start + symbol.indexOf('{') + 1;
+    } else {
+        input.selectionStart = input.selectionEnd = start + symbol.length;
+    }
+    
+    updateLatexPreview();
+}
+
+function updateLatexPreview() {
+    const input = document.getElementById('latexInput');
+    const preview = document.getElementById('latexRendered');
+    
+    if (!input || !preview) return;
+    
+    // Convert LaTeX to readable format
+    let latex = input.value;
+    let display = latex
+        .replace(/\^(\d)/g, '<sup>$1</sup>')
+        .replace(/\^{([^}]+)}/g, '<sup>$1</sup>')
+        .replace(/_(\d)/g, '<sub>$1</sub>')
+        .replace(/_{([^}]+)}/g, '<sub>$1</sub>')
+        .replace(/\\sqrt{([^}]+)}/g, 'sqrt($1)')
+        .replace(/\\frac{([^}]+)}{([^}]+)}/g, '($1)/($2)')
+        .replace(/\\pm/g, ' + or - ')
+        .replace(/\\pi/g, 'pi')
+        .replace(/\\theta/g, 'theta')
+        .replace(/\\infty/g, 'infinity');
+    
+    preview.innerHTML = display;
+}
+
+function parseLatexEquation(latex) {
+    // Parse LaTeX equation into coefficients
+    // Supports: ax^n + bx^(n-1) + ... + c = 0
+    
+    let equation = latex
+        .replace(/\s+/g, '')
+        .replace(/\\cdot/g, '*')
+        .replace(/\\times/g, '*')
+        .replace(/\^{(\d+)}/g, '^$1');
+    
+    // Split by = 0
+    const parts = equation.split('=');
+    if (parts.length !== 2) {
+        throw new Error('Equation must contain = sign');
+    }
+    
+    equation = parts[0];
+    
+    // Find the degree
+    let maxDegree = 0;
+    const degreeMatches = equation.match(/x\^(\d+)/g);
+    if (degreeMatches) {
+        degreeMatches.forEach(match => {
+            const deg = parseInt(match.replace('x^', ''));
+            if (deg > maxDegree) maxDegree = deg;
+        });
+    }
+    
+    // Check for x without power (degree 1)
+    if (/[+-]?\d*x(?!\^)/.test(equation) && maxDegree < 1) {
+        maxDegree = 1;
+    }
+    
+    if (maxDegree === 0) {
+        // Check if there's an x term
+        if (equation.includes('x')) {
+            maxDegree = 1;
+        }
+    }
+    
+    // Extract coefficients
+    const coefficients = new Array(maxDegree + 1).fill(0);
+    
+    // Add + at the beginning if equation doesn't start with - or +
+    if (!equation.startsWith('-') && !equation.startsWith('+')) {
+        equation = '+' + equation;
+    }
+    
+    // Match terms like +3x^2, -5x, +7
+    const termRegex = /([+-]?\d*\.?\d*)x\^(\d+)|([+-]?\d*\.?\d*)x(?!\^)|([+-]\d+\.?\d*)/g;
+    let match;
+    
+    while ((match = termRegex.exec(equation)) !== null) {
+        if (match[1] !== undefined && match[2] !== undefined) {
+            // Term like 3x^2
+            const coef = match[1] === '' || match[1] === '+' ? 1 : (match[1] === '-' ? -1 : parseFloat(match[1]));
+            const power = parseInt(match[2]);
+            coefficients[maxDegree - power] = coef;
+        } else if (match[3] !== undefined) {
+            // Term like 3x
+            const coef = match[3] === '' || match[3] === '+' ? 1 : (match[3] === '-' ? -1 : parseFloat(match[3]));
+            coefficients[maxDegree - 1] = coef;
+        } else if (match[4] !== undefined) {
+            // Constant term
+            coefficients[maxDegree] = parseFloat(match[4]);
+        }
+    }
+    
+    return { degree: maxDegree, coefficients };
+}
+
+function solveLatexEquation() {
+    const latex = document.getElementById('latexInput').value;
+    const resultDiv = document.getElementById('latexSolution');
+    const trans = translations[currentLang];
+    
+    try {
+        const parsed = parseLatexEquation(latex);
+        const { degree, coefficients } = parsed;
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<p>Detected: Degree ${degree} polynomial</p>`;
+        html += `<p>Coefficients: [${coefficients.join(', ')}]</p>`;
+        
+        let solutions = [];
+        
+        switch (degree) {
+            case 1:
+                // Linear: ax + b = 0
+                const a1 = coefficients[0];
+                const b1 = coefficients[1];
+                if (a1 !== 0) {
+                    solutions = [-b1 / a1];
+                }
+                break;
+            case 2:
+                // Quadratic
+                const a2 = coefficients[0];
+                const b2 = coefficients[1];
+                const c2 = coefficients[2];
+                const delta = b2 * b2 - 4 * a2 * c2;
+                if (delta >= 0) {
+                    solutions = [
+                        (-b2 + Math.sqrt(delta)) / (2 * a2),
+                        (-b2 - Math.sqrt(delta)) / (2 * a2)
+                    ];
+                    if (delta === 0) solutions = [solutions[0]];
+                }
+                break;
+            default:
+                // Higher degree - use numerical method
+                solutions = findPolynomialRoots(coefficients);
+        }
+        
+        if (solutions.length === 0) {
+            html += `<div class="solution"><p>${trans.noRealSolutions}</p></div>`;
+        } else {
+            html += `<div class="solution animated-steps">`;
+            solutions.forEach((sol, i) => {
+                html += `<div class="step-item" style="animation-delay: ${i * 0.2}s;">
+                    <span class="step-number">${i + 1}</span>
+                    <span class="step-content">x = ${sol.toFixed(6)}</span>
+                </div>`;
+            });
+            html += `</div>`;
+        }
+        
+        resultDiv.innerHTML = html;
+        showExportButton('latex');
+        addToHistory(`LaTeX: ${latex} -> ${solutions.map(s => s.toFixed(4)).join(', ')}`);
+        
+    } catch (error) {
+        resultDiv.innerHTML = `<p class="error">${error.message}</p>`;
+    }
+}
+
+// ===================================
+// PARAMETRIC EQUATIONS
+// ===================================
+function setupParametricGraph() {
+    const plotBtn = document.getElementById('plotParametric');
+    const xInput = document.getElementById('parametricX');
+    const yInput = document.getElementById('parametricY');
+    
+    if (plotBtn) {
+        plotBtn.addEventListener('click', plotParametricGraph);
+    }
+    
+    if (xInput) {
+        xInput.addEventListener('input', updateParametricPreview);
+    }
+    if (yInput) {
+        yInput.addEventListener('input', updateParametricPreview);
+    }
+}
+
+function updateParametricPreview() {
+    const xExpr = document.getElementById('parametricX').value;
+    const yExpr = document.getElementById('parametricY').value;
+    const preview = document.getElementById('parametricPreview');
+    
+    if (preview) {
+        preview.innerHTML = `<div>x(t) = ${xExpr}</div><div>y(t) = ${yExpr}</div>`;
+    }
+}
+
+function evaluateExpression(expr, varName, value) {
+    // Safe math expression evaluator
+    let processed = expr
+        .replace(new RegExp(varName, 'g'), `(${value})`)
+        .replace(/\^/g, '**')
+        .replace(/sin/g, 'Math.sin')
+        .replace(/cos/g, 'Math.cos')
+        .replace(/tan/g, 'Math.tan')
+        .replace(/sqrt/g, 'Math.sqrt')
+        .replace(/abs/g, 'Math.abs')
+        .replace(/exp/g, 'Math.exp')
+        .replace(/log/g, 'Math.log')
+        .replace(/pi/g, 'Math.PI')
+        .replace(/pow/g, 'Math.pow');
+    
+    try {
+        return eval(processed);
+    } catch (e) {
+        return NaN;
+    }
+}
+
+function plotParametricGraph() {
+    const canvas = document.getElementById('parametricCanvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    const xExpr = document.getElementById('parametricX').value;
+    const yExpr = document.getElementById('parametricY').value;
+    const tMin = parseFloat(document.getElementById('tMin').value);
+    const tMax = parseFloat(document.getElementById('tMax').value);
+    
+    // Clear canvas
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Calculate points
+    const points = [];
+    const steps = 1000;
+    let minX = Infinity, maxX = -Infinity;
+    let minY = Infinity, maxY = -Infinity;
+    
+    for (let i = 0; i <= steps; i++) {
+        const t = tMin + (tMax - tMin) * i / steps;
+        const x = evaluateExpression(xExpr, 't', t);
+        const y = evaluateExpression(yExpr, 't', t);
+        
+        if (!isNaN(x) && !isNaN(y) && isFinite(x) && isFinite(y)) {
+            points.push({ x, y });
+            if (x < minX) minX = x;
+            if (x > maxX) maxX = x;
+            if (y < minY) minY = y;
+            if (y > maxY) maxY = y;
+        }
+    }
+    
+    // Add margin
+    const margin = 0.1;
+    const rangeX = (maxX - minX) * (1 + margin);
+    const rangeY = (maxY - minY) * (1 + margin);
+    minX -= rangeX * margin / 2;
+    maxX += rangeX * margin / 2;
+    minY -= rangeY * margin / 2;
+    maxY += rangeY * margin / 2;
+    
+    // Draw grid
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 1;
+    for (let i = 0; i <= 20; i++) {
+        const px = (i / 20) * width;
+        const py = (i / 20) * height;
+        ctx.beginPath();
+        ctx.moveTo(px, 0);
+        ctx.lineTo(px, height);
+        ctx.stroke();
+        ctx.beginPath();
+        ctx.moveTo(0, py);
+        ctx.lineTo(width, py);
+        ctx.stroke();
+    }
+    
+    // Draw axes
+    ctx.strokeStyle = '#00ff88';
+    ctx.lineWidth = 2;
+    
+    if (minX <= 0 && maxX >= 0) {
+        const x0 = ((0 - minX) / (maxX - minX)) * width;
+        ctx.beginPath();
+        ctx.moveTo(x0, 0);
+        ctx.lineTo(x0, height);
+        ctx.stroke();
+    }
+    
+    if (minY <= 0 && maxY >= 0) {
+        const y0 = height - ((0 - minY) / (maxY - minY)) * height;
+        ctx.beginPath();
+        ctx.moveTo(0, y0);
+        ctx.lineTo(width, y0);
+        ctx.stroke();
+    }
+    
+    // Draw curve
+    ctx.strokeStyle = '#ff0080';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    
+    let firstPoint = true;
+    points.forEach(point => {
+        const px = ((point.x - minX) / (maxX - minX)) * width;
+        const py = height - ((point.y - minY) / (maxY - minY)) * height;
+        
+        if (firstPoint) {
+            ctx.moveTo(px, py);
+            firstPoint = false;
+        } else {
+            ctx.lineTo(px, py);
+        }
+    });
+    
+    ctx.stroke();
+    showExportButton('parametric');
+}
+
+// ===================================
+// POLAR EQUATIONS
+// ===================================
+function setupPolarGraph() {
+    const plotBtn = document.getElementById('plotPolar');
+    const rInput = document.getElementById('polarR');
+    
+    if (plotBtn) {
+        plotBtn.addEventListener('click', plotPolarGraph);
+    }
+    
+    if (rInput) {
+        rInput.addEventListener('input', updatePolarPreview);
+    }
+    
+    // Preset buttons
+    document.querySelectorAll('.preset-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            applyPolarPreset(btn.dataset.preset);
+        });
+    });
+}
+
+function updatePolarPreview() {
+    const rExpr = document.getElementById('polarR').value;
+    const preview = document.getElementById('polarPreview');
+    
+    if (preview) {
+        preview.textContent = `r(theta) = ${rExpr}`;
+    }
+}
+
+function applyPolarPreset(preset) {
+    const rInput = document.getElementById('polarR');
+    const thetaMax = document.getElementById('thetaMax');
+    
+    const presets = {
+        circle: { r: '2', max: '6.28' },
+        cardioid: { r: '1 + cos(theta)', max: '6.28' },
+        rose3: { r: 'cos(3*theta)', max: '6.28' },
+        rose4: { r: 'cos(2*theta)', max: '6.28' },
+        spiral: { r: 'theta', max: '18.84' },
+        lemniscate: { r: 'sqrt(abs(4*cos(2*theta)))', max: '6.28' }
+    };
+    
+    if (presets[preset]) {
+        rInput.value = presets[preset].r;
+        thetaMax.value = presets[preset].max;
+        updatePolarPreview();
+    }
+}
+
+function plotPolarGraph() {
+    const canvas = document.getElementById('polarCanvas');
+    const ctx = canvas.getContext('2d');
+    const width = canvas.width;
+    const height = canvas.height;
+    
+    const rExpr = document.getElementById('polarR').value;
+    const thetaMin = parseFloat(document.getElementById('thetaMin').value);
+    const thetaMax = parseFloat(document.getElementById('thetaMax').value);
+    
+    // Clear canvas
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, width, height);
+    
+    // Calculate points and convert to Cartesian
+    const points = [];
+    const steps = 1000;
+    let maxR = 0;
+    
+    for (let i = 0; i <= steps; i++) {
+        const theta = thetaMin + (thetaMax - thetaMin) * i / steps;
+        const r = evaluateExpression(rExpr, 'theta', theta);
+        
+        if (!isNaN(r) && isFinite(r)) {
+            const x = r * Math.cos(theta);
+            const y = r * Math.sin(theta);
+            points.push({ x, y, r: Math.abs(r) });
+            if (Math.abs(r) > maxR) maxR = Math.abs(r);
+        }
+    }
+    
+    // Add margin
+    maxR *= 1.2;
+    
+    // Center of canvas
+    const centerX = width / 2;
+    const centerY = height / 2;
+    const scale = Math.min(width, height) / (2 * maxR);
+    
+    // Draw polar grid
+    ctx.strokeStyle = '#1a1a1a';
+    ctx.lineWidth = 1;
+    
+    // Radial lines
+    for (let angle = 0; angle < 2 * Math.PI; angle += Math.PI / 6) {
+        ctx.beginPath();
+        ctx.moveTo(centerX, centerY);
+        ctx.lineTo(centerX + maxR * scale * Math.cos(angle), centerY - maxR * scale * Math.sin(angle));
+        ctx.stroke();
+    }
+    
+    // Concentric circles
+    const numCircles = 5;
+    for (let i = 1; i <= numCircles; i++) {
+        const r = (maxR / numCircles) * i * scale;
+        ctx.beginPath();
+        ctx.arc(centerX, centerY, r, 0, 2 * Math.PI);
+        ctx.stroke();
+    }
+    
+    // Draw axes
+    ctx.strokeStyle = '#00ff88';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(0, centerY);
+    ctx.lineTo(width, centerY);
+    ctx.stroke();
+    ctx.beginPath();
+    ctx.moveTo(centerX, 0);
+    ctx.lineTo(centerX, height);
+    ctx.stroke();
+    
+    // Draw curve
+    ctx.strokeStyle = '#ff0080';
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    
+    let firstPoint = true;
+    points.forEach(point => {
+        const px = centerX + point.x * scale;
+        const py = centerY - point.y * scale;
+        
+        if (firstPoint) {
+            ctx.moveTo(px, py);
+            firstPoint = false;
+        } else {
+            ctx.lineTo(px, py);
+        }
+    });
+    
+    ctx.stroke();
+    showExportButton('polar');
+}
+
+// ===================================
+// STEP-BY-STEP ANIMATIONS
+// ===================================
+let animationEnabled = true;
+let animationSpeed = 500; // ms per step
+
+function generateAnimatedSteps(steps, containerSelector) {
+    const container = document.querySelector(containerSelector);
+    if (!container) return;
+    
+    let html = '<div class="animated-steps">';
+    
+    steps.forEach((step, index) => {
+        const delay = animationEnabled ? index * (animationSpeed / 1000) : 0;
+        html += `
+            <div class="step-item" style="animation-delay: ${delay}s;">
+                <span class="step-number">${index + 1}</span>
+                <div class="step-content">
+                    <div class="step-explanation">${step.explanation}</div>
+                    <div class="step-equation">${step.equation}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += '</div>';
+    return html;
+}
+
+function solveLinearWithAnimation() {
+    const a = parseFloat(document.getElementById('linearA').value);
+    const b = parseFloat(document.getElementById('linearB').value);
+    const resultDiv = document.getElementById('linearSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    let html = `<h3>${trans.solution}</h3>`;
+    
+    if (a === 0) {
+        if (b === 0) {
+            html += `<p class="solution">${trans.infiniteSolutions}</p>`;
+        } else {
+            html += `<p class="solution">${trans.noSolution}</p>`;
+        }
+    } else {
+        const x = -b / a;
+        
+        const steps = [
+            { explanation: trans.startEquation || 'Starting equation', equation: `${a}x + ${b} = 0` },
+            { explanation: trans.moveConstant || 'Move constant to the right side', equation: `${a}x = ${-b}` },
+            { explanation: trans.divideByCoef || 'Divide by coefficient', equation: `x = ${-b} / ${a}` },
+            { explanation: trans.simplify || 'Simplify', equation: `x = ${x.toFixed(4)}` }
+        ];
+        
+        html += generateAnimatedSteps(steps, '#linearSolution');
+        html += `<div class="final-result">
+            <h4>${trans.result || 'Result'}</h4>
+            <div class="result-value">x = ${x.toFixed(4)}</div>
+        </div>`;
+        
+        addToHistory(`${a}x + ${b} = 0 -> x = ${x.toFixed(4)}`);
+    }
+    
+    resultDiv.innerHTML = html;
+    showExportButton('linear');
+}
+
+function solveQuadraticWithAnimation() {
+    const a = parseFloat(document.getElementById('quadA').value);
+    const b = parseFloat(document.getElementById('quadB').value);
+    const c = parseFloat(document.getElementById('quadC').value);
+    const resultDiv = document.getElementById('quadraticSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b) || isNaN(c) || a === 0) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    const delta = b * b - 4 * a * c;
+    let html = `<h3>${trans.solution}</h3>`;
+    
+    const steps = [
+        { explanation: trans.startEquation || 'Starting equation', equation: `${a}x^2 + ${b}x + ${c} = 0` },
+        { explanation: trans.calcDiscriminant || 'Calculate discriminant', equation: `Delta = b^2 - 4ac = ${b}^2 - 4(${a})(${c})` },
+        { explanation: trans.discriminantValue || 'Discriminant value', equation: `Delta = ${delta.toFixed(4)}` }
+    ];
+    
+    if (delta < 0) {
+        steps.push({ explanation: trans.deltaLessThanZero || 'Delta < 0, no real solutions', equation: trans.noRealSolutions });
+        html += generateAnimatedSteps(steps, '#quadraticSolution');
+        html += `<div class="final-result"><h4>${trans.noSolution}</h4></div>`;
+    } else if (delta === 0) {
+        const x = -b / (2 * a);
+        steps.push({ explanation: trans.deltaEqualsZero || 'Delta = 0, one solution', equation: `x = -b / 2a = ${-b} / ${2 * a}` });
+        steps.push({ explanation: trans.simplify || 'Simplify', equation: `x = ${x.toFixed(4)}` });
+        html += generateAnimatedSteps(steps, '#quadraticSolution');
+        html += `<div class="final-result">
+            <h4>${trans.oneSolution}</h4>
+            <div class="result-value">x = ${x.toFixed(4)}</div>
+        </div>`;
+        addToHistory(`${a}x^2 + ${b}x + ${c} = 0 -> x = ${x.toFixed(4)}`);
+    } else {
+        const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+        const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+        steps.push({ explanation: trans.deltaGreaterThanZero || 'Delta > 0, two solutions', equation: `sqrt(Delta) = ${Math.sqrt(delta).toFixed(4)}` });
+        steps.push({ explanation: trans.calcX1 || 'Calculate x1', equation: `x1 = (-b + sqrt(Delta)) / 2a = ${x1.toFixed(4)}` });
+        steps.push({ explanation: trans.calcX2 || 'Calculate x2', equation: `x2 = (-b - sqrt(Delta)) / 2a = ${x2.toFixed(4)}` });
+        html += generateAnimatedSteps(steps, '#quadraticSolution');
+        html += `<div class="final-result">
+            <h4>${trans.twoSolutions}</h4>
+            <div class="result-value">x1 = ${x1.toFixed(4)}</div>
+            <div class="result-value">x2 = ${x2.toFixed(4)}</div>
+        </div>`;
+        addToHistory(`${a}x^2 + ${b}x + ${c} = 0 -> x1 = ${x1.toFixed(4)}, x2 = ${x2.toFixed(4)}`);
+    }
+    
+    resultDiv.innerHTML = html;
+    showExportButton('quadratic');
+}
+
+// Override original solve functions with animated versions
+const originalSolveLinear = solveLinearEquation;
+const originalSolveQuadratic = solveQuadraticEquation;
+
+solveLinearEquation = function() {
+    if (animationEnabled) {
+        solveLinearWithAnimation();
+    } else {
+        originalSolveLinear();
+    }
+};
+
+solveQuadraticEquation = function() {
+    if (animationEnabled) {
+        solveQuadraticWithAnimation();
+    } else {
+        originalSolveQuadratic();
+    }
+};
+
+// ===================================
+// INITIALIZATION EXTENSION
+// ===================================
+document.addEventListener('DOMContentLoaded', () => {
+    // Initialize new features
+    setTimeout(() => {
+        setupCustomThemeBuilder();
+        setupLatexInput();
+        setupParametricGraph();
+        setupPolarGraph();
+    }, 100);
+});
+
+// Export functions for testing
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = {
+        // Basic calculator
+        factorial,
+        // Complex number operations
+        complexAdd,
+        complexSub,
+        complexMul,
+        complexDiv,
+        complexScale,
+        complexPow,
+        evalPoly,
+        findPolynomialRoots,
+        // Matrix operations
+        addMatrices,
+        multiplyMatrices,
+        calculateDeterminant,
+        invertMatrix,
+        // LaTeX parser
+        parseLatexEquation,
+        // Expression evaluator
+        evaluateExpression,
+        // Animation settings
+        animationEnabled,
+        animationSpeed
+    };
 }
