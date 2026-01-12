@@ -12,6 +12,7 @@ This document provides comprehensive documentation for all public functions in E
   - [Quintic Equations](#quintic-equations)
   - [Systems of Equations](#systems-of-equations)
 - [Matrix Operations](#matrix-operations)
+- [GCD and LCM Functions](#gcd-and-lcm-functions)
 - [Calculator Functions](#calculator-functions)
 - [Expression Evaluation](#expression-evaluation)
 - [Graphing Functions](#graphing-functions)
@@ -229,6 +230,121 @@ Calculates the inverse of a square matrix.
 | `matrix` | `number[][]` | Square matrix (2x2 or 3x3) |
 
 **Returns:** `number[][] | null` - Inverse matrix or null if singular
+
+---
+
+## GCD and LCM Functions
+
+### `gcd(a, b)`
+
+Calculates the Greatest Common Divisor of two numbers using the Euclidean algorithm.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `a` | `number` | First positive integer |
+| `b` | `number` | Second positive integer |
+
+**Returns:** `number` - The GCD of a and b
+
+**Example:**
+```javascript
+gcd(12, 18);  // Returns 6
+gcd(7, 13);   // Returns 1 (coprime numbers)
+```
+
+---
+
+### `lcm(a, b)`
+
+Calculates the Least Common Multiple of two numbers.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `a` | `number` | First positive integer |
+| `b` | `number` | Second positive integer |
+
+**Returns:** `number` - The LCM of a and b
+
+**Example:**
+```javascript
+lcm(4, 6);   // Returns 12
+lcm(3, 5);   // Returns 15
+```
+
+---
+
+### `gcdMultiple(numbers)`
+
+Calculates the GCD of multiple numbers.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `numbers` | `number[]` | Array of positive integers |
+
+**Returns:** `number` - The GCD of all numbers
+
+**Example:**
+```javascript
+gcdMultiple([12, 18, 24]);  // Returns 6
+```
+
+---
+
+### `lcmMultiple(numbers)`
+
+Calculates the LCM of multiple numbers.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `numbers` | `number[]` | Array of positive integers |
+
+**Returns:** `number` - The LCM of all numbers
+
+**Example:**
+```javascript
+lcmMultiple([4, 6, 8]);  // Returns 24
+```
+
+---
+
+### `primeFactorization(n)`
+
+Returns the prime factorization of a number.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `n` | `number` | Positive integer to factorize |
+
+**Returns:** `Object` - Object with prime factors as keys and exponents as values
+
+**Example:**
+```javascript
+primeFactorization(12);   // Returns { 2: 2, 3: 1 }
+primeFactorization(100);  // Returns { 2: 2, 5: 2 }
+```
+
+---
+
+### `formatFactorization(factors)`
+
+Formats a prime factorization object as a readable string.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `factors` | `Object` | Prime factorization object |
+
+**Returns:** `string` - Formatted string (e.g., "2^2 x 3")
+
+**Example:**
+```javascript
+formatFactorization({ 2: 2, 3: 1 });  // Returns "2^2 x 3"
+```
 
 ---
 
@@ -489,6 +605,12 @@ module.exports = {
     matrixInverse,
     factorial,
     evaluateExpression,
-    parseLatexEquation
+    parseLatexEquation,
+    gcd,
+    lcm,
+    gcdMultiple,
+    lcmMultiple,
+    primeFactorization,
+    formatFactorization
 };
 ```

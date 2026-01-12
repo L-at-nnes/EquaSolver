@@ -2727,6 +2727,134 @@ solveQuadraticEquation = function() {
 };
 
 // ===================================
+// GCD AND LCM CALCULATOR
+// ===================================
+function gcd(a, b) {
+    a = Math.abs(Math.floor(a));
+    b = Math.abs(Math.floor(b));
+    while (b !== 0) {
+        const temp = b;
+        b = a % b;
+        a = temp;
+    }
+    return a;
+}
+
+function lcm(a, b) {
+    if (a === 0 || b === 0) return 0;
+    return Math.abs(Math.floor(a) * Math.floor(b)) / gcd(a, b);
+}
+
+function gcdMultiple(numbers) {
+    if (numbers.length === 0) return 0;
+    if (numbers.length === 1) return Math.abs(Math.floor(numbers[0]));
+    return numbers.reduce((acc, num) => gcd(acc, num));
+}
+
+function lcmMultiple(numbers) {
+    if (numbers.length === 0) return 0;
+    if (numbers.length === 1) return Math.abs(Math.floor(numbers[0]));
+    return numbers.reduce((acc, num) => lcm(acc, num));
+}
+
+function primeFactorization(n) {
+    n = Math.abs(Math.floor(n));
+    if (n <= 1) return {};
+    
+    const factors = {};
+    let divisor = 2;
+    
+    while (n >= 2) {
+        if (n % divisor === 0) {
+            factors[divisor] = (factors[divisor] || 0) + 1;
+            n = n / divisor;
+        } else {
+            divisor++;
+        }
+    }
+    
+    return factors;
+}
+
+function formatFactorization(factors) {
+    if (Object.keys(factors).length === 0) return '1';
+    return Object.entries(factors)
+        .map(([prime, exp]) => exp > 1 ? `${prime}^${exp}` : prime)
+        .join(' x ');
+}
+
+function setupGcdLcmCalculator() {
+    const calculateBtn = document.getElementById('calculateGcdLcm');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateGcdLcm);
+    
+    const input = document.getElementById('gcdlcmInput');
+    if (input) {
+        input.addEventListener('keypress', (e) => {
+            if (e.key === 'Enter') calculateGcdLcm();
+        });
+    }
+}
+
+function calculateGcdLcm() {
+    const input = document.getElementById('gcdlcmInput');
+    const resultDiv = document.getElementById('gcdlcmSolution');
+    
+    if (!input || !resultDiv) return;
+    
+    const inputValue = input.value.trim();
+    if (!inputValue) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].enterNumbers || 'Please enter numbers'}</div>`;
+        return;
+    }
+    
+    const numbers = inputValue.split(',')
+        .map(s => parseInt(s.trim(), 10))
+        .filter(n => !isNaN(n) && n > 0);
+    
+    if (numbers.length < 2) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].gcdlcmError || 'Please enter at least 2 positive integers'}</div>`;
+        return;
+    }
+    
+    const gcdResult = gcdMultiple(numbers);
+    const lcmResult = lcmMultiple(numbers);
+    
+    const numbersStr = numbers.join(', ');
+    
+    let html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].numbers || 'Numbers'}:</div>
+            <div class="result-value">${numbersStr}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].gcdResult || 'GCD (Greatest Common Divisor)'}:</div>
+            <div class="result-value highlight">${gcdResult}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].lcmResult || 'LCM (Least Common Multiple)'}:</div>
+            <div class="result-value highlight">${lcmResult}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].primeFactorizations || 'Prime Factorizations'}:</div>
+            <div class="factorization-list">`;
+    
+    numbers.forEach(num => {
+        const factors = primeFactorization(num);
+        html += `<div class="factorization-item">${num} = ${formatFactorization(factors)}</div>`;
+    });
+    
+    html += `</div></div>`;
+    
+    resultDiv.innerHTML = html;
+    
+    addToHistory(`GCD(${numbersStr}) = ${gcdResult}, LCM(${numbersStr}) = ${lcmResult}`);
+    
+    document.getElementById('exportGcdLcmPdf').style.display = 'inline-block';
+}
+
+// ===================================
 // INITIALIZATION EXTENSION
 // ===================================
 document.addEventListener('DOMContentLoaded', () => {
@@ -2736,6 +2864,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupLatexInput();
         setupParametricGraph();
         setupPolarGraph();
+        setupGcdLcmCalculator();
     }, 100);
 });
 
@@ -2764,6 +2893,13 @@ if (typeof module !== 'undefined' && module.exports) {
         evaluateExpression,
         // Animation settings
         animationEnabled,
-        animationSpeed
+        animationSpeed,
+        // GCD/LCM functions
+        gcd,
+        lcm,
+        gcdMultiple,
+        lcmMultiple,
+        primeFactorization,
+        formatFactorization
     };
 }

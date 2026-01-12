@@ -36,6 +36,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Parametric Equations** - Plot parametric curves with x(t) and y(t) functions including circle, ellipse, spiral, and Lissajous presets
 - **Polar Equations** - Plot polar curves r(theta) with presets for cardioid, rose curves, spiral, and lemniscate
 - **LaTeX Input** - Enter equations using LaTeX syntax with real-time preview and automatic parsing
+- **GCD and LCM Calculator** - Calculate greatest common divisor and least common multiple with prime factorization
 - **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
@@ -213,7 +214,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 316 test cases:**
+**Unit Tests (Jest) - 371 test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -227,6 +228,7 @@ The test suite includes:
 - Parametric and polar equations
 - Custom theme builder
 - Step-by-step animation system
+- GCD/LCM calculator with prime factorization
 - PWA and service worker support
 - Mobile optimization and performance
 - Integration and state management
@@ -358,8 +360,8 @@ If you find this project helpful, please consider:
 - [ ] Support for absolute value equations
 
 ### Advanced Calculations
-- [ ] Add GCD and LCM calculator
-- [ ] Implement prime factorization
+- [x] Add GCD and LCM calculator
+- [x] Implement prime factorization
 - [ ] Add modular arithmetic calculator (modulo, modular inverse, modular exponentiation)
 - [ ] Implement combinatorics calculator (permutations, combinations, binomial coefficients)
 - [ ] Add base converter (binary, octal, decimal, hexadecimal)
