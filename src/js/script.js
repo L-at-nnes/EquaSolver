@@ -2865,8 +2865,1332 @@ document.addEventListener('DOMContentLoaded', () => {
         setupParametricGraph();
         setupPolarGraph();
         setupGcdLcmCalculator();
+        setupModularCalculator();
+        setupCombinatoricsCalculator();
+        setupFractionsCalculator();
+        setupPercentageCalculator();
+        setupRatioCalculator();
+        setupBaseConverter();
+        setupUnitConverter();
+        setupStatisticsCalculator();
+        setupSequenceCalculator();
+        setupLimitCalculator();
+        setupTaylorCalculator();
+        setupIntegrationCalculator();
     }, 100);
 });
+
+// ===================================
+// MODULAR ARITHMETIC CALCULATOR
+// ===================================
+function setupModularCalculator() {
+    const calculateBtn = document.getElementById('calculateModular');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateModular);
+    
+    const operationSelect = document.getElementById('modularOperation');
+    if (operationSelect) {
+        operationSelect.addEventListener('change', () => {
+            const bGroup = document.getElementById('modValueBGroup');
+            if (bGroup) {
+                bGroup.style.display = operationSelect.value === 'power' ? 'block' : 'none';
+            }
+        });
+        // Initialize visibility
+        const bGroup = document.getElementById('modValueBGroup');
+        if (bGroup) bGroup.style.display = 'none';
+    }
+}
+
+function modulo(a, n) {
+    return ((a % n) + n) % n;
+}
+
+function modularInverse(a, n) {
+    // Extended Euclidean Algorithm
+    let [oldR, r] = [a, n];
+    let [oldS, s] = [1, 0];
+    
+    while (r !== 0) {
+        const quotient = Math.floor(oldR / r);
+        [oldR, r] = [r, oldR - quotient * r];
+        [oldS, s] = [s, oldS - quotient * s];
+    }
+    
+    if (oldR !== 1) return null; // No inverse exists
+    return modulo(oldS, n);
+}
+
+function modularPower(base, exp, mod) {
+    if (mod === 1) return 0;
+    let result = 1;
+    base = modulo(base, mod);
+    while (exp > 0) {
+        if (exp % 2 === 1) {
+            result = modulo(result * base, mod);
+        }
+        exp = Math.floor(exp / 2);
+        base = modulo(base * base, mod);
+    }
+    return result;
+}
+
+function calculateModular() {
+    const operation = document.getElementById('modularOperation').value;
+    const a = parseInt(document.getElementById('modValueA').value);
+    const b = parseInt(document.getElementById('modValueB').value);
+    const n = parseInt(document.getElementById('modValueN').value);
+    const resultDiv = document.getElementById('modularSolution');
+    
+    if (isNaN(a) || isNaN(n) || n <= 0) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let result, html;
+    
+    switch (operation) {
+        case 'modulo':
+            result = modulo(a, n);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].moduloResult || 'a mod n'}:</div>
+                    <div class="result-value">${a} mod ${n} = <span class="highlight">${result}</span></div>
+                </div>`;
+            addToHistory(`${a} mod ${n} = ${result}`);
+            break;
+            
+        case 'inverse':
+            result = modularInverse(a, n);
+            if (result === null) {
+                html = `<div class="error">${translations[currentLang].noModInverse || 'No modular inverse exists (a and n are not coprime)'}</div>`;
+            } else {
+                html = `
+                    <div class="result-group">
+                        <div class="result-label">${translations[currentLang].modInverseResult || 'Modular Inverse'}:</div>
+                        <div class="result-value">${a}⁻¹ mod ${n} = <span class="highlight">${result}</span></div>
+                    </div>
+                    <div class="result-group">
+                        <div class="result-label">${translations[currentLang].verification || 'Verification'}:</div>
+                        <div class="result-value">${a} × ${result} mod ${n} = ${modulo(a * result, n)}</div>
+                    </div>`;
+                addToHistory(`${a}⁻¹ mod ${n} = ${result}`);
+            }
+            break;
+            
+        case 'power':
+            if (isNaN(b) || b < 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+                return;
+            }
+            result = modularPower(a, b, n);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].modPowerResult || 'a^b mod n'}:</div>
+                    <div class="result-value">${a}^${b} mod ${n} = <span class="highlight">${result}</span></div>
+                </div>`;
+            addToHistory(`${a}^${b} mod ${n} = ${result}`);
+            break;
+    }
+    
+    resultDiv.innerHTML = html;
+    document.getElementById('exportModularPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// COMBINATORICS CALCULATOR
+// ===================================
+function setupCombinatoricsCalculator() {
+    const calculateBtn = document.getElementById('calculateCombinatorics');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateCombinatorics);
+    
+    const operationSelect = document.getElementById('combinatoricsOperation');
+    if (operationSelect) {
+        operationSelect.addEventListener('change', () => {
+            const rGroup = document.getElementById('combValueRGroup');
+            if (rGroup) {
+                rGroup.style.display = operationSelect.value === 'factorial' ? 'none' : 'block';
+            }
+        });
+    }
+}
+
+function factorialBig(n) {
+    if (n < 0) return null;
+    if (n <= 1) return 1;
+    let result = 1;
+    for (let i = 2; i <= n; i++) {
+        result *= i;
+    }
+    return result;
+}
+
+function permutation(n, r) {
+    if (n < 0 || r < 0 || r > n) return null;
+    return factorialBig(n) / factorialBig(n - r);
+}
+
+function combination(n, r) {
+    if (n < 0 || r < 0 || r > n) return null;
+    return factorialBig(n) / (factorialBig(r) * factorialBig(n - r));
+}
+
+function calculateCombinatorics() {
+    const operation = document.getElementById('combinatoricsOperation').value;
+    const n = parseInt(document.getElementById('combValueN').value);
+    const r = parseInt(document.getElementById('combValueR').value);
+    const resultDiv = document.getElementById('combinatoricsSolution');
+    
+    if (isNaN(n) || n < 0) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let result, html;
+    
+    switch (operation) {
+        case 'factorial':
+            if (n > 170) {
+                resultDiv.innerHTML = `<div class="error">Number too large (max 170)</div>`;
+                return;
+            }
+            result = factorialBig(n);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].factorialResult || 'n!'}:</div>
+                    <div class="result-value">${n}! = <span class="highlight">${result.toLocaleString()}</span></div>
+                </div>`;
+            addToHistory(`${n}! = ${result}`);
+            break;
+            
+        case 'permutation':
+            if (isNaN(r) || r < 0 || r > n) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidNR || 'n must be ≥ r and both must be non-negative'}</div>`;
+                return;
+            }
+            result = permutation(n, r);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].permutationResult || 'P(n,r)'}:</div>
+                    <div class="result-value">P(${n},${r}) = ${n}!/(${n}-${r})! = <span class="highlight">${result.toLocaleString()}</span></div>
+                </div>`;
+            addToHistory(`P(${n},${r}) = ${result}`);
+            break;
+            
+        case 'combination':
+            if (isNaN(r) || r < 0 || r > n) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidNR || 'n must be ≥ r and both must be non-negative'}</div>`;
+                return;
+            }
+            result = combination(n, r);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].combinationResult || 'C(n,r)'}:</div>
+                    <div class="result-value">C(${n},${r}) = ${n}!/[${r}!(${n}-${r})!] = <span class="highlight">${result.toLocaleString()}</span></div>
+                </div>`;
+            addToHistory(`C(${n},${r}) = ${result}`);
+            break;
+    }
+    
+    resultDiv.innerHTML = html;
+    document.getElementById('exportCombinatoricsPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// FRACTIONS CALCULATOR
+// ===================================
+function setupFractionsCalculator() {
+    const calculateBtn = document.getElementById('calculateFractions');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateFractions);
+    
+    const operationSelect = document.getElementById('fractionOperation');
+    if (operationSelect) {
+        operationSelect.addEventListener('change', () => {
+            const frac2Group = document.getElementById('fraction2Group');
+            if (frac2Group) {
+                frac2Group.style.display = operationSelect.value === 'simplify' ? 'none' : 'block';
+            }
+        });
+    }
+}
+
+function simplifyFractionFunc(num, den) {
+    if (den === 0) return null;
+    const g = gcd(Math.abs(num), Math.abs(den));
+    let simpNum = num / g;
+    let simpDen = den / g;
+    if (simpDen < 0) {
+        simpNum = -simpNum;
+        simpDen = -simpDen;
+    }
+    return { num: simpNum, den: simpDen };
+}
+
+function fractionToMixed(num, den) {
+    if (den === 0) return null;
+    const whole = Math.floor(Math.abs(num) / Math.abs(den));
+    const remainder = Math.abs(num) % Math.abs(den);
+    const sign = (num < 0) !== (den < 0) ? -1 : 1;
+    return { whole: sign * whole, num: remainder, den: Math.abs(den) };
+}
+
+function calculateFractions() {
+    const operation = document.getElementById('fractionOperation').value;
+    const num1 = parseInt(document.getElementById('frac1Num').value);
+    const den1 = parseInt(document.getElementById('frac1Den').value);
+    const num2 = parseInt(document.getElementById('frac2Num').value);
+    const den2 = parseInt(document.getElementById('frac2Den').value);
+    const resultDiv = document.getElementById('fractionsSolution');
+    
+    if (isNaN(num1) || isNaN(den1) || den1 === 0) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidFraction || 'Invalid fraction'}</div>`;
+        return;
+    }
+    
+    let resultNum, resultDen, html;
+    
+    switch (operation) {
+        case 'simplify':
+            const simplified = simplifyFractionFunc(num1, den1);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].simplifiedForm || 'Simplified form'}:</div>
+                    <div class="result-value">${num1}/${den1} = <span class="highlight">${simplified.num}/${simplified.den}</span></div>
+                </div>
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].decimalValue || 'Decimal value'}:</div>
+                    <div class="result-value">${(num1 / den1).toFixed(6)}</div>
+                </div>`;
+            addToHistory(`${num1}/${den1} = ${simplified.num}/${simplified.den}`);
+            break;
+            
+        case 'add':
+            if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidFraction || 'Invalid fraction'}</div>`;
+                return;
+            }
+            resultNum = num1 * den2 + num2 * den1;
+            resultDen = den1 * den2;
+            break;
+            
+        case 'subtract':
+            if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidFraction || 'Invalid fraction'}</div>`;
+                return;
+            }
+            resultNum = num1 * den2 - num2 * den1;
+            resultDen = den1 * den2;
+            break;
+            
+        case 'multiply':
+            if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidFraction || 'Invalid fraction'}</div>`;
+                return;
+            }
+            resultNum = num1 * num2;
+            resultDen = den1 * den2;
+            break;
+            
+        case 'divide':
+            if (isNaN(num2) || isNaN(den2) || den2 === 0 || num2 === 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidFraction || 'Invalid fraction'}</div>`;
+                return;
+            }
+            resultNum = num1 * den2;
+            resultDen = den1 * num2;
+            break;
+    }
+    
+    if (operation !== 'simplify') {
+        const result = simplifyFractionFunc(resultNum, resultDen);
+        const opSymbol = { add: '+', subtract: '−', multiply: '×', divide: '÷' }[operation];
+        html = `
+            <div class="result-group">
+                <div class="result-label">${translations[currentLang].fractionResult || 'Result'}:</div>
+                <div class="result-value">${num1}/${den1} ${opSymbol} ${num2}/${den2} = <span class="highlight">${result.num}/${result.den}</span></div>
+            </div>
+            <div class="result-group">
+                <div class="result-label">${translations[currentLang].decimalValue || 'Decimal value'}:</div>
+                <div class="result-value">${(result.num / result.den).toFixed(6)}</div>
+            </div>`;
+        addToHistory(`${num1}/${den1} ${opSymbol} ${num2}/${den2} = ${result.num}/${result.den}`);
+    }
+    
+    resultDiv.innerHTML = html;
+    document.getElementById('exportFractionsPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// PERCENTAGE CALCULATOR
+// ===================================
+function setupPercentageCalculator() {
+    const calculateBtn = document.getElementById('calculatePercentage');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculatePercentage);
+}
+
+function calculatePercentage() {
+    const operation = document.getElementById('percentageOperation').value;
+    const x = parseFloat(document.getElementById('percentValueX').value);
+    const y = parseFloat(document.getElementById('percentValueY').value);
+    const resultDiv = document.getElementById('percentageSolution');
+    
+    if (isNaN(x) || isNaN(y)) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let result, html;
+    
+    switch (operation) {
+        case 'percentOf':
+            result = (x / 100) * y;
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].percentResult || 'Result'}:</div>
+                    <div class="result-value">${x}% of ${y} = <span class="highlight">${result.toFixed(4)}</span></div>
+                </div>`;
+            addToHistory(`${x}% of ${y} = ${result.toFixed(4)}`);
+            break;
+            
+        case 'percentChange':
+            if (x === 0) {
+                resultDiv.innerHTML = `<div class="error">Cannot calculate change from 0</div>`;
+                return;
+            }
+            result = ((y - x) / Math.abs(x)) * 100;
+            const changeType = result >= 0 ? (translations[currentLang].isIncreaseOf || 'increase') : (translations[currentLang].isDecreaseOf || 'decrease');
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].changePercent || 'Change'}:</div>
+                    <div class="result-value">From ${x} to ${y} is a <span class="highlight">${Math.abs(result).toFixed(2)}%</span> ${changeType}</div>
+                </div>`;
+            addToHistory(`Change from ${x} to ${y} = ${result.toFixed(2)}%`);
+            break;
+            
+        case 'percentIncrease':
+            result = x * (1 + y / 100);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].newValue || 'New value'}:</div>
+                    <div class="result-value">${x} + ${y}% = <span class="highlight">${result.toFixed(4)}</span></div>
+                </div>`;
+            addToHistory(`${x} + ${y}% = ${result.toFixed(4)}`);
+            break;
+            
+        case 'percentDecrease':
+            result = x * (1 - y / 100);
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].newValue || 'New value'}:</div>
+                    <div class="result-value">${x} - ${y}% = <span class="highlight">${result.toFixed(4)}</span></div>
+                </div>`;
+            addToHistory(`${x} - ${y}% = ${result.toFixed(4)}`);
+            break;
+    }
+    
+    resultDiv.innerHTML = html;
+    document.getElementById('exportPercentagePdf').style.display = 'inline-block';
+}
+
+// ===================================
+// RATIO CALCULATOR
+// ===================================
+function setupRatioCalculator() {
+    const calculateBtn = document.getElementById('calculateRatio');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateRatio);
+    
+    const operationSelect = document.getElementById('ratioOperation');
+    if (operationSelect) {
+        operationSelect.addEventListener('change', () => {
+            const cGroup = document.getElementById('ratioCGroup');
+            if (cGroup) {
+                cGroup.style.display = operationSelect.value === 'proportion' ? 'block' : 'none';
+            }
+        });
+        // Initialize
+        const cGroup = document.getElementById('ratioCGroup');
+        if (cGroup) cGroup.style.display = 'none';
+    }
+}
+
+function calculateRatio() {
+    const operation = document.getElementById('ratioOperation').value;
+    const a = parseFloat(document.getElementById('ratioValueA').value);
+    const b = parseFloat(document.getElementById('ratioValueB').value);
+    const c = parseFloat(document.getElementById('ratioValueC').value);
+    const resultDiv = document.getElementById('ratioSolution');
+    
+    if (isNaN(a) || isNaN(b) || a === 0 && b === 0) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let html;
+    
+    switch (operation) {
+        case 'simplify':
+            const g = gcd(Math.abs(Math.round(a)), Math.abs(Math.round(b)));
+            const simpA = Math.round(a) / g;
+            const simpB = Math.round(b) / g;
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].simplifiedRatio || 'Simplified ratio'}:</div>
+                    <div class="result-value">${Math.round(a)}:${Math.round(b)} = <span class="highlight">${simpA}:${simpB}</span></div>
+                </div>`;
+            addToHistory(`${Math.round(a)}:${Math.round(b)} = ${simpA}:${simpB}`);
+            break;
+            
+        case 'proportion':
+            if (isNaN(c) || a === 0) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+                return;
+            }
+            const x = (b * c) / a;
+            html = `
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].proportionResult || 'Proportion solution'}:</div>
+                    <div class="result-value">${a}:${b} = ${c}:x</div>
+                </div>
+                <div class="result-group">
+                    <div class="result-label">${translations[currentLang].missingValue || 'Missing value x'}:</div>
+                    <div class="result-value">x = <span class="highlight">${x.toFixed(4)}</span></div>
+                </div>`;
+            addToHistory(`${a}:${b} = ${c}:${x.toFixed(4)}`);
+            break;
+    }
+    
+    resultDiv.innerHTML = html;
+    document.getElementById('exportRatioPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// STATISTICS CALCULATOR
+// ===================================
+function setupStatisticsCalculator() {
+    const calculateBtn = document.getElementById('calculateStatistics');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateStatistics);
+}
+
+function calculateMean(data) {
+    return data.reduce((a, b) => a + b, 0) / data.length;
+}
+
+function calculateMedian(data) {
+    const sorted = [...data].sort((a, b) => a - b);
+    const mid = Math.floor(sorted.length / 2);
+    return sorted.length % 2 !== 0 ? sorted[mid] : (sorted[mid - 1] + sorted[mid]) / 2;
+}
+
+function calculateMode(data) {
+    const frequency = {};
+    data.forEach(val => frequency[val] = (frequency[val] || 0) + 1);
+    
+    const maxFreq = Math.max(...Object.values(frequency));
+    const modes = Object.keys(frequency).filter(key => frequency[key] === maxFreq).map(Number);
+    
+    if (modes.length === data.length) return null; // No mode
+    return modes;
+}
+
+function calculateVariance(data, isSample = true) {
+    const mean = calculateMean(data);
+    const squaredDiffs = data.map(val => Math.pow(val - mean, 2));
+    const divisor = isSample ? data.length - 1 : data.length;
+    return squaredDiffs.reduce((a, b) => a + b, 0) / divisor;
+}
+
+function calculateStdDev(data, isSample = true) {
+    return Math.sqrt(calculateVariance(data, isSample));
+}
+
+function calculateStatistics() {
+    const input = document.getElementById('statsInput').value.trim();
+    const resultDiv = document.getElementById('statisticsSolution');
+    
+    if (!input) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    const data = input.split(',').map(s => parseFloat(s.trim())).filter(n => !isNaN(n));
+    
+    if (data.length < 2) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Enter at least 2 numbers'}</div>`;
+        return;
+    }
+    
+    const mean = calculateMean(data);
+    const median = calculateMedian(data);
+    const mode = calculateMode(data);
+    const variance = calculateVariance(data);
+    const stdDev = calculateStdDev(data);
+    const sum = data.reduce((a, b) => a + b, 0);
+    const min = Math.min(...data);
+    const max = Math.max(...data);
+    const range = max - min;
+    
+    let modeText;
+    if (mode === null) {
+        modeText = translations[currentLang].noMode || 'No mode';
+    } else if (mode.length > 3) {
+        modeText = translations[currentLang].multipleMode || 'Multiple modes';
+    } else {
+        modeText = mode.join(', ');
+    }
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].count || 'Count'}:</div>
+            <div class="result-value">${data.length}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].sum || 'Sum'}:</div>
+            <div class="result-value">${sum.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].mean || 'Mean'}:</div>
+            <div class="result-value highlight">${mean.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].median || 'Median'}:</div>
+            <div class="result-value highlight">${median.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].mode || 'Mode'}:</div>
+            <div class="result-value">${modeText}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].variance || 'Variance'}:</div>
+            <div class="result-value">${variance.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].stdDeviation || 'Standard Deviation'}:</div>
+            <div class="result-value highlight">${stdDev.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].range || 'Range'}:</div>
+            <div class="result-value">${range.toFixed(4)} (${min} - ${max})</div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`Stats: n=${data.length}, μ=${mean.toFixed(2)}, σ=${stdDev.toFixed(2)}`);
+    document.getElementById('exportStatisticsPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// SEQUENCE CALCULATOR
+// ===================================
+function setupSequenceCalculator() {
+    const calculateBtn = document.getElementById('calculateSequence');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateSequence);
+    
+    const typeSelect = document.getElementById('sequenceType');
+    if (typeSelect) {
+        typeSelect.addEventListener('change', updateSequenceInputs);
+        updateSequenceInputs();
+    }
+}
+
+function updateSequenceInputs() {
+    const type = document.getElementById('sequenceType').value;
+    const firstTermGroup = document.getElementById('seqFirstTermGroup');
+    const diffGroup = document.getElementById('seqDiffGroup');
+    const ratioGroup = document.getElementById('seqRatioGroup');
+    
+    if (type === 'fibonacci') {
+        if (firstTermGroup) firstTermGroup.style.display = 'none';
+        if (diffGroup) diffGroup.style.display = 'none';
+        if (ratioGroup) ratioGroup.style.display = 'none';
+    } else if (type === 'arithmetic') {
+        if (firstTermGroup) firstTermGroup.style.display = 'block';
+        if (diffGroup) diffGroup.style.display = 'block';
+        if (ratioGroup) ratioGroup.style.display = 'none';
+    } else if (type === 'geometric') {
+        if (firstTermGroup) firstTermGroup.style.display = 'block';
+        if (diffGroup) diffGroup.style.display = 'none';
+        if (ratioGroup) ratioGroup.style.display = 'block';
+    }
+}
+
+function generateArithmeticSequence(a1, d, n) {
+    const terms = [];
+    for (let i = 0; i < n; i++) {
+        terms.push(a1 + i * d);
+    }
+    const nthTerm = a1 + (n - 1) * d;
+    const sum = (n / 2) * (2 * a1 + (n - 1) * d);
+    return { terms, nthTerm, sum, formula: `aₙ = ${a1} + (n-1)×${d}` };
+}
+
+function generateGeometricSequence(a1, r, n) {
+    const terms = [];
+    for (let i = 0; i < n; i++) {
+        terms.push(a1 * Math.pow(r, i));
+    }
+    const nthTerm = a1 * Math.pow(r, n - 1);
+    const sum = r === 1 ? a1 * n : a1 * (1 - Math.pow(r, n)) / (1 - r);
+    return { terms, nthTerm, sum, formula: `aₙ = ${a1} × ${r}^(n-1)` };
+}
+
+function generateFibonacciSequence(n) {
+    const terms = [0, 1];
+    for (let i = 2; i < n; i++) {
+        terms.push(terms[i - 1] + terms[i - 2]);
+    }
+    const sum = terms.slice(0, n).reduce((a, b) => a + b, 0);
+    return { terms: terms.slice(0, n), nthTerm: terms[n - 1], sum, formula: 'Fₙ = Fₙ₋₁ + Fₙ₋₂' };
+}
+
+function calculateSequence() {
+    const type = document.getElementById('sequenceType').value;
+    const n = parseInt(document.getElementById('seqNumTerms').value);
+    const resultDiv = document.getElementById('sequencesSolution');
+    
+    if (isNaN(n) || n < 1 || n > 100) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input (1-100 terms)'}</div>`;
+        return;
+    }
+    
+    let result;
+    
+    switch (type) {
+        case 'arithmetic':
+            const a1 = parseFloat(document.getElementById('seqFirstTerm').value);
+            const d = parseFloat(document.getElementById('seqDiff').value);
+            if (isNaN(a1) || isNaN(d)) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+                return;
+            }
+            result = generateArithmeticSequence(a1, d, n);
+            break;
+            
+        case 'geometric':
+            const g1 = parseFloat(document.getElementById('seqFirstTerm').value);
+            const r = parseFloat(document.getElementById('seqRatio').value);
+            if (isNaN(g1) || isNaN(r)) {
+                resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+                return;
+            }
+            result = generateGeometricSequence(g1, r, n);
+            break;
+            
+        case 'fibonacci':
+            result = generateFibonacciSequence(n);
+            break;
+    }
+    
+    const termsDisplay = result.terms.length > 15 
+        ? result.terms.slice(0, 10).join(', ') + ', ... , ' + result.terms.slice(-3).join(', ')
+        : result.terms.join(', ');
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].generalFormula || 'General formula'}:</div>
+            <div class="result-value">${result.formula}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].sequenceTerms || 'Sequence terms'}:</div>
+            <div class="result-value" style="word-break: break-all;">${termsDisplay}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].nthTermResult || 'nth term'} (n=${n}):</div>
+            <div class="result-value highlight">${result.nthTerm.toFixed(4)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].sumOfTerms || 'Sum of terms'}:</div>
+            <div class="result-value highlight">${result.sum.toFixed(4)}</div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`${type} sequence: n=${n}, aₙ=${result.nthTerm.toFixed(2)}, Σ=${result.sum.toFixed(2)}`);
+    document.getElementById('exportSequencesPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// LIMIT CALCULATOR
+// ===================================
+function setupLimitCalculator() {
+    const calculateBtn = document.getElementById('calculateLimit');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateLimit);
+}
+
+function evaluateLimitFunction(expr, x) {
+    try {
+        // Replace common math functions
+        let safeExpr = expr
+            .replace(/\^/g, '**')
+            .replace(/sin/g, 'Math.sin')
+            .replace(/cos/g, 'Math.cos')
+            .replace(/tan/g, 'Math.tan')
+            .replace(/sqrt/g, 'Math.sqrt')
+            .replace(/log/g, 'Math.log10')
+            .replace(/ln/g, 'Math.log')
+            .replace(/abs/g, 'Math.abs')
+            .replace(/exp/g, 'Math.exp')
+            .replace(/pi/gi, 'Math.PI')
+            .replace(/e(?![xp])/g, 'Math.E');
+        
+        return Function('x', `"use strict"; return (${safeExpr})`)(x);
+    } catch (e) {
+        return NaN;
+    }
+}
+
+function calculateLimit() {
+    const expr = document.getElementById('limitFunction').value.trim();
+    const pointStr = document.getElementById('limitPoint').value.trim().toLowerCase();
+    const direction = document.getElementById('limitDirection').value;
+    const resultDiv = document.getElementById('limitsSolution');
+    
+    if (!expr) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let point;
+    let isInfinity = false;
+    let isNegInfinity = false;
+    
+    if (pointStr === 'infinity' || pointStr === 'inf' || pointStr === '∞') {
+        isInfinity = true;
+        point = 1e10;
+    } else if (pointStr === '-infinity' || pointStr === '-inf' || pointStr === '-∞') {
+        isNegInfinity = true;
+        point = -1e10;
+    } else {
+        point = parseFloat(pointStr);
+        if (isNaN(point)) {
+            resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid limit point'}</div>`;
+            return;
+        }
+    }
+    
+    const epsilon = 1e-8;
+    let leftLimit, rightLimit, limitValue;
+    
+    if (isInfinity || isNegInfinity) {
+        const val1 = evaluateLimitFunction(expr, point);
+        const val2 = evaluateLimitFunction(expr, point * 1.1);
+        
+        if (Math.abs(val1 - val2) < 1e-6) {
+            limitValue = val1;
+        } else if (val1 > val2 && isInfinity || val1 < val2 && isNegInfinity) {
+            limitValue = Infinity;
+        } else {
+            limitValue = -Infinity;
+        }
+    } else {
+        leftLimit = evaluateLimitFunction(expr, point - epsilon);
+        rightLimit = evaluateLimitFunction(expr, point + epsilon);
+        
+        if (direction === 'left') {
+            limitValue = leftLimit;
+        } else if (direction === 'right') {
+            limitValue = rightLimit;
+        } else {
+            if (Math.abs(leftLimit - rightLimit) < 1e-6) {
+                limitValue = (leftLimit + rightLimit) / 2;
+            } else {
+                resultDiv.innerHTML = `
+                    <div class="result-group">
+                        <div class="result-label">${translations[currentLang].limitDNE || 'Limit does not exist'}:</div>
+                        <div class="result-value">Left limit ≈ ${leftLimit.toFixed(6)}, Right limit ≈ ${rightLimit.toFixed(6)}</div>
+                    </div>`;
+                return;
+            }
+        }
+    }
+    
+    let limitDisplay;
+    if (!isFinite(limitValue)) {
+        limitDisplay = limitValue > 0 ? '∞' : '-∞';
+    } else if (isNaN(limitValue)) {
+        limitDisplay = translations[currentLang].indeterminate || 'Indeterminate';
+    } else {
+        limitDisplay = limitValue.toFixed(6);
+    }
+    
+    const pointDisplay = isInfinity ? '∞' : (isNegInfinity ? '-∞' : point);
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].limitResult || 'Limit result'}:</div>
+            <div class="result-value">lim(x→${pointDisplay}) [${expr}] = <span class="highlight">${limitDisplay}</span></div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`lim(x→${pointDisplay}) [${expr}] = ${limitDisplay}`);
+    document.getElementById('exportLimitsPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// TAYLOR SERIES CALCULATOR
+// ===================================
+function setupTaylorCalculator() {
+    const calculateBtn = document.getElementById('calculateTaylor');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateTaylor);
+}
+
+function taylorSin(x, a, n) {
+    let result = 0;
+    for (let k = 0; k < n; k++) {
+        const term = Math.pow(-1, k) * Math.pow(x - a, 2*k + 1) / factorialBig(2*k + 1);
+        result += term;
+    }
+    return result;
+}
+
+function taylorCos(x, a, n) {
+    let result = 0;
+    for (let k = 0; k < n; k++) {
+        const term = Math.pow(-1, k) * Math.pow(x - a, 2*k) / factorialBig(2*k);
+        result += term;
+    }
+    return result;
+}
+
+function taylorExp(x, a, n) {
+    let result = 0;
+    const ea = Math.exp(a);
+    for (let k = 0; k < n; k++) {
+        result += ea * Math.pow(x - a, k) / factorialBig(k);
+    }
+    return result;
+}
+
+function taylorLn(x, a, n) {
+    // ln(1+x) around a=0
+    if (a !== 0) return NaN;
+    let result = 0;
+    for (let k = 1; k <= n; k++) {
+        result += Math.pow(-1, k + 1) * Math.pow(x, k) / k;
+    }
+    return result;
+}
+
+function taylorAtan(x, a, n) {
+    if (a !== 0) return NaN;
+    let result = 0;
+    for (let k = 0; k < n; k++) {
+        result += Math.pow(-1, k) * Math.pow(x, 2*k + 1) / (2*k + 1);
+    }
+    return result;
+}
+
+function getTaylorFormula(func, a, n) {
+    const formulas = {
+        sin: a === 0 ? `x - x³/3! + x⁵/5! - x⁷/7! + ...` : `Σ (-1)ⁿ(x-${a})^(2n+1)/(2n+1)!`,
+        cos: a === 0 ? `1 - x²/2! + x⁴/4! - x⁶/6! + ...` : `Σ (-1)ⁿ(x-${a})^(2n)/(2n)!`,
+        exp: a === 0 ? `1 + x + x²/2! + x³/3! + ...` : `e^${a} × Σ (x-${a})ⁿ/n!`,
+        ln: `x - x²/2 + x³/3 - x⁴/4 + ...`,
+        atan: `x - x³/3 + x⁵/5 - x⁷/7 + ...`
+    };
+    return formulas[func];
+}
+
+function calculateTaylor() {
+    const func = document.getElementById('taylorFunction').value;
+    const a = parseFloat(document.getElementById('taylorPoint').value);
+    const n = parseInt(document.getElementById('taylorTerms').value);
+    const resultDiv = document.getElementById('taylorSolution');
+    
+    if (isNaN(a) || isNaN(n) || n < 1 || n > 15) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    // Test values
+    const testX = a + 0.5;
+    let approxValue, exactValue;
+    
+    switch (func) {
+        case 'sin':
+            approxValue = taylorSin(testX, a, n);
+            exactValue = Math.sin(testX);
+            break;
+        case 'cos':
+            approxValue = taylorCos(testX, a, n);
+            exactValue = Math.cos(testX);
+            break;
+        case 'exp':
+            approxValue = taylorExp(testX, a, n);
+            exactValue = Math.exp(testX);
+            break;
+        case 'ln':
+            if (a !== 0) {
+                resultDiv.innerHTML = `<div class="error">ln(1+x) expansion only valid for a=0</div>`;
+                return;
+            }
+            approxValue = taylorLn(testX, a, n);
+            exactValue = Math.log(1 + testX);
+            break;
+        case 'atan':
+            if (a !== 0) {
+                resultDiv.innerHTML = `<div class="error">arctan(x) expansion only valid for a=0</div>`;
+                return;
+            }
+            approxValue = taylorAtan(testX, a, n);
+            exactValue = Math.atan(testX);
+            break;
+    }
+    
+    const error = Math.abs(exactValue - approxValue);
+    const formula = getTaylorFormula(func, a, n);
+    const isMaclaurin = a === 0;
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${isMaclaurin ? (translations[currentLang].maclaurinNote || 'Maclaurin series (a=0)') : (translations[currentLang].taylorResult || 'Taylor Series')}:</div>
+            <div class="result-value">${func}(x) ≈ ${formula}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].polynomialApprox || 'Polynomial approximation'} (x=${testX}, ${n} terms):</div>
+            <div class="result-value">P(${testX}) ≈ <span class="highlight">${approxValue.toFixed(8)}</span></div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">Exact value:</div>
+            <div class="result-value">${func}(${testX}) = ${exactValue.toFixed(8)}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].estimatedError || 'Error'}:</div>
+            <div class="result-value">${error.toExponential(4)}</div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`Taylor ${func}(x) at a=${a}, ${n} terms`);
+    document.getElementById('exportTaylorPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// NUMERICAL INTEGRATION
+// ===================================
+function setupIntegrationCalculator() {
+    const calculateBtn = document.getElementById('calculateIntegration');
+    if (!calculateBtn) return;
+    
+    calculateBtn.addEventListener('click', calculateIntegration);
+}
+
+function trapezoidalRule(f, a, b, n) {
+    const h = (b - a) / n;
+    let sum = (f(a) + f(b)) / 2;
+    
+    for (let i = 1; i < n; i++) {
+        sum += f(a + i * h);
+    }
+    
+    return h * sum;
+}
+
+function simpsonsRule(f, a, b, n) {
+    // n must be even
+    if (n % 2 !== 0) n++;
+    
+    const h = (b - a) / n;
+    let sum = f(a) + f(b);
+    
+    for (let i = 1; i < n; i++) {
+        const x = a + i * h;
+        sum += (i % 2 === 0 ? 2 : 4) * f(x);
+    }
+    
+    return (h / 3) * sum;
+}
+
+function calculateIntegration() {
+    const expr = document.getElementById('integrationFunction').value.trim();
+    const a = parseFloat(document.getElementById('integrationLower').value);
+    const b = parseFloat(document.getElementById('integrationUpper').value);
+    let n = parseInt(document.getElementById('integrationIntervals').value);
+    const method = document.getElementById('integrationMethod').value;
+    const resultDiv = document.getElementById('integrationSolution');
+    
+    if (!expr || isNaN(a) || isNaN(b) || isNaN(n) || n < 2) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    // Create function from expression
+    const f = (x) => evaluateLimitFunction(expr, x);
+    
+    // Test if function is valid
+    if (isNaN(f((a + b) / 2))) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid function'}</div>`;
+        return;
+    }
+    
+    let result;
+    let methodName;
+    
+    if (method === 'trapezoidal') {
+        result = trapezoidalRule(f, a, b, n);
+        methodName = translations[currentLang].trapezoidalRule || 'Trapezoidal Rule';
+    } else {
+        if (n % 2 !== 0) n++;
+        result = simpsonsRule(f, a, b, n);
+        methodName = translations[currentLang].simpsonsRule || "Simpson's Rule";
+    }
+    
+    // Estimate error by comparing with more intervals
+    const finerResult = method === 'trapezoidal' 
+        ? trapezoidalRule(f, a, b, n * 2)
+        : simpsonsRule(f, a, b, n * 2);
+    const estimatedError = Math.abs(result - finerResult);
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].integrationResult || 'Integration Result'}:</div>
+            <div class="result-value">∫[${a} to ${b}] ${expr} dx ≈ <span class="highlight">${result.toFixed(8)}</span></div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].methodUsed || 'Method'}:</div>
+            <div class="result-value">${methodName}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].intervalsUsed || 'Intervals'}:</div>
+            <div class="result-value">${n}</div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].estimatedError || 'Estimated error'}:</div>
+            <div class="result-value">${estimatedError.toExponential(4)}</div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`∫[${a},${b}] ${expr} dx ≈ ${result.toFixed(6)}`);
+    document.getElementById('exportIntegrationPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// BASE CONVERTER
+// ===================================
+function setupBaseConverter() {
+    const convertBtn = document.getElementById('convertBase');
+    if (!convertBtn) return;
+    
+    convertBtn.addEventListener('click', convertBase);
+}
+
+function convertBase() {
+    const input = document.getElementById('baseInput').value.trim().toUpperCase();
+    const fromBase = parseInt(document.getElementById('fromBase').value);
+    const resultDiv = document.getElementById('baseConverterSolution');
+    
+    if (!input) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    // Validate input for the given base
+    const validChars = '0123456789ABCDEF'.substring(0, fromBase);
+    const isValid = input.split('').every(char => validChars.includes(char) || char === '-');
+    
+    if (!isValid) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidBaseNumber || 'Invalid number for the selected base'}</div>`;
+        return;
+    }
+    
+    // Convert to decimal first
+    const isNegative = input.startsWith('-');
+    const cleanInput = isNegative ? input.substring(1) : input;
+    const decimal = parseInt(cleanInput, fromBase);
+    
+    if (isNaN(decimal)) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    const sign = isNegative ? '-' : '';
+    const binary = sign + Math.abs(decimal).toString(2);
+    const octal = sign + Math.abs(decimal).toString(8);
+    const hex = sign + Math.abs(decimal).toString(16).toUpperCase();
+    const dec = sign + Math.abs(decimal).toString(10);
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].binaryResult || 'Binary (base 2)'}:</div>
+            <div class="result-value"><span class="highlight">${binary}</span></div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].octalResult || 'Octal (base 8)'}:</div>
+            <div class="result-value"><span class="highlight">${octal}</span></div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].decimalResult || 'Decimal (base 10)'}:</div>
+            <div class="result-value"><span class="highlight">${dec}</span></div>
+        </div>
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].hexResult || 'Hexadecimal (base 16)'}:</div>
+            <div class="result-value"><span class="highlight">${hex}</span></div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`${input} (base ${fromBase}) = ${dec} (base 10)`);
+    document.getElementById('exportBaseConverterPdf').style.display = 'inline-block';
+}
+
+// ===================================
+// UNIT CONVERTER
+// ===================================
+const unitConversions = {
+    length: {
+        meter: 1,
+        kilometer: 0.001,
+        centimeter: 100,
+        millimeter: 1000,
+        mile: 0.000621371,
+        yard: 1.09361,
+        foot: 3.28084,
+        inch: 39.3701
+    },
+    mass: {
+        kilogram: 1,
+        gram: 1000,
+        milligram: 1000000,
+        pound: 2.20462,
+        ounce: 35.274,
+        ton: 0.001
+    },
+    temperature: {
+        celsius: 'special',
+        fahrenheit: 'special',
+        kelvin: 'special'
+    },
+    time: {
+        second: 1,
+        minute: 1/60,
+        hour: 1/3600,
+        day: 1/86400,
+        week: 1/604800,
+        month: 1/2592000,
+        year: 1/31536000
+    },
+    area: {
+        squareMeter: 1,
+        squareKilometer: 0.000001,
+        squareFoot: 10.7639,
+        squareMile: 3.861e-7,
+        acre: 0.000247105,
+        hectare: 0.0001
+    },
+    volume: {
+        liter: 1,
+        milliliter: 1000,
+        cubicMeter: 0.001,
+        gallon: 0.264172,
+        quart: 1.05669,
+        pint: 2.11338,
+        cup: 4.22675
+    }
+};
+
+function setupUnitConverter() {
+    const convertBtn = document.getElementById('convertUnit');
+    if (!convertBtn) return;
+    
+    convertBtn.addEventListener('click', convertUnit);
+    
+    const categorySelect = document.getElementById('unitCategory');
+    if (categorySelect) {
+        categorySelect.addEventListener('change', updateUnitOptions);
+        updateUnitOptions(); // Initialize
+    }
+}
+
+function updateUnitOptions() {
+    const category = document.getElementById('unitCategory').value;
+    const fromSelect = document.getElementById('fromUnit');
+    const toSelect = document.getElementById('toUnit');
+    
+    if (!fromSelect || !toSelect) return;
+    
+    const units = Object.keys(unitConversions[category]);
+    
+    fromSelect.innerHTML = '';
+    toSelect.innerHTML = '';
+    
+    units.forEach((unit, index) => {
+        const fromOption = document.createElement('option');
+        fromOption.value = unit;
+        fromOption.textContent = translations[currentLang][unit] || unit;
+        fromSelect.appendChild(fromOption);
+        
+        const toOption = document.createElement('option');
+        toOption.value = unit;
+        toOption.textContent = translations[currentLang][unit] || unit;
+        if (index === 1) toOption.selected = true;
+        toSelect.appendChild(toOption);
+    });
+}
+
+function convertTemperature(value, from, to) {
+    // Convert to Celsius first
+    let celsius;
+    switch (from) {
+        case 'celsius': celsius = value; break;
+        case 'fahrenheit': celsius = (value - 32) * 5/9; break;
+        case 'kelvin': celsius = value - 273.15; break;
+    }
+    
+    // Convert from Celsius to target
+    switch (to) {
+        case 'celsius': return celsius;
+        case 'fahrenheit': return celsius * 9/5 + 32;
+        case 'kelvin': return celsius + 273.15;
+    }
+}
+
+function convertUnit() {
+    const category = document.getElementById('unitCategory').value;
+    const value = parseFloat(document.getElementById('unitValue').value);
+    const fromUnit = document.getElementById('fromUnit').value;
+    const toUnit = document.getElementById('toUnit').value;
+    const resultDiv = document.getElementById('unitConverterSolution');
+    
+    if (isNaN(value)) {
+        resultDiv.innerHTML = `<div class="error">${translations[currentLang].invalidInput || 'Invalid input'}</div>`;
+        return;
+    }
+    
+    let result;
+    
+    if (category === 'temperature') {
+        result = convertTemperature(value, fromUnit, toUnit);
+    } else {
+        // Convert to base unit then to target unit
+        const toBase = value / unitConversions[category][fromUnit];
+        result = toBase * unitConversions[category][toUnit];
+    }
+    
+    const fromLabel = translations[currentLang][fromUnit] || fromUnit;
+    const toLabel = translations[currentLang][toUnit] || toUnit;
+    
+    const html = `
+        <div class="result-group">
+            <div class="result-label">${translations[currentLang].result || 'Result'}:</div>
+            <div class="result-value">${value} ${fromLabel} = <span class="highlight">${result.toFixed(6)}</span> ${toLabel}</div>
+        </div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`${value} ${fromUnit} = ${result.toFixed(6)} ${toUnit}`);
+    document.getElementById('exportUnitConverterPdf').style.display = 'inline-block';
+}
 
 // Export functions for testing
 if (typeof module !== 'undefined' && module.exports) {
@@ -2900,6 +4224,43 @@ if (typeof module !== 'undefined' && module.exports) {
         gcdMultiple,
         lcmMultiple,
         primeFactorization,
-        formatFactorization
+        formatFactorization,
+        // Modular arithmetic
+        modulo,
+        modularInverse,
+        modularPower,
+        // Combinatorics
+        factorialBig,
+        permutation,
+        combination,
+        // Fractions
+        simplifyFractionFunc,
+        fractionToMixed,
+        // Base converter
+        convertBase,
+        // Unit converter
+        convertTemperature,
+        unitConversions,
+        // Statistics
+        calculateMean,
+        calculateMedian,
+        calculateMode,
+        calculateVariance,
+        calculateStdDev,
+        // Sequences
+        generateArithmeticSequence,
+        generateGeometricSequence,
+        generateFibonacciSequence,
+        // Limits
+        evaluateLimitFunction,
+        // Taylor series
+        taylorSin,
+        taylorCos,
+        taylorExp,
+        taylorLn,
+        taylorAtan,
+        // Integration
+        trapezoidalRule,
+        simpsonsRule
     };
 }

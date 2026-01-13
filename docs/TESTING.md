@@ -67,7 +67,7 @@ Open `tests/manual/test.html` in your browser to run interactive tests that vali
 
 ```
 tests/
-|-- unit/                       # Jest unit tests (371 tests)
+|-- unit/                       # Jest unit tests (639 tests)
 |   |-- calculator.test.js      # Standard calculator operations
 |   |-- linear.test.js          # Linear equations (ax + b = 0)
 |   |-- quadratic.test.js       # Quadratic equations (ax^2 + bx + c = 0)
@@ -84,7 +84,16 @@ tests/
 |   |-- animations.test.js      # Step-by-step animations
 |   |-- gcdlcm.test.js          # GCD/LCM calculator
 |   |-- pwa.test.js             # PWA and mobile optimization
-|   |-- integration.test.js     # Integration tests
+|   |-- integration.test.js     # Application integration tests
+|   |-- modular.test.js         # Modular arithmetic
+|   |-- combinatorics.test.js   # Factorial, permutations, combinations
+|   |-- statistics.test.js      # Mean, median, mode, variance, stdDev
+|   |-- fractions.test.js       # Fraction simplification and arithmetic
+|   |-- sequences.test.js       # Arithmetic, geometric, Fibonacci
+|   |-- converters.test.js      # Base and unit converters
+|   |-- limits.test.js          # Limit calculator
+|   |-- taylor.test.js          # Taylor series
+|   |-- numerical-integration.test.js  # Trapezoidal and Simpson's rule
 |-- e2e/                        # Playwright E2E tests
 |   |-- app.spec.js             # Full application E2E tests
 |-- manual/
@@ -93,7 +102,7 @@ tests/
 
 ## Unit Test Coverage (Jest)
 
-**371 test cases** covering:
+**639 test cases** covering:
 
 ### Core Functionality
 - Basic arithmetic operations (+, -, *, /)
@@ -122,6 +131,16 @@ tests/
 - Step-by-step animation generation
 - GCD and LCM calculation (Euclidean algorithm)
 - Prime factorization
+- Modular arithmetic (modulo, inverse, exponentiation)
+- Combinatorics (factorial, permutations, combinations)
+- Statistics (mean, median, mode, variance, standard deviation)
+- Fraction operations (simplification, mixed numbers, arithmetic)
+- Sequences (arithmetic, geometric, Fibonacci with formulas)
+- Base conversion (binary, octal, decimal, hexadecimal)
+- Unit conversion (length, mass, time, temperature, area, volume)
+- Limit evaluation (function evaluation at points)
+- Taylor series (sin, cos, exp, ln, atan expansion)
+- Numerical integration (trapezoidal rule, Simpson's rule)
 - PWA and service worker support
 - Mobile device detection and optimization
 

@@ -37,6 +37,18 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Polar Equations** - Plot polar curves r(theta) with presets for cardioid, rose curves, spiral, and lemniscate
 - **LaTeX Input** - Enter equations using LaTeX syntax with real-time preview and automatic parsing
 - **GCD and LCM Calculator** - Calculate greatest common divisor and least common multiple with prime factorization
+- **Modular Arithmetic** - Calculate modulo, modular inverse, and modular exponentiation
+- **Combinatorics** - Factorial, permutations, combinations, and binomial coefficients
+- **Fractions Calculator** - Simplify, convert to mixed numbers, and perform arithmetic operations
+- **Percentage Calculator** - Calculate percentages, increases, decreases, and differences
+- **Ratio & Proportion** - Solve ratio problems and proportional relationships
+- **Base Converter** - Convert between binary, octal, decimal, and hexadecimal
+- **Unit Converter** - Convert length, mass, time, temperature, area, and volume units
+- **Statistics Calculator** - Mean, median, mode, variance, and standard deviation
+- **Sequence Generator** - Arithmetic, geometric, and Fibonacci sequences with formulas
+- **Limit Calculator** - Evaluate limits of functions at points and infinity
+- **Taylor Series** - Compute Taylor/Maclaurin series for sin, cos, exp, ln, and arctan
+- **Numerical Integration** - Trapezoidal and Simpson's rule integration
 - **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
@@ -161,10 +173,17 @@ EquaSolver/
 |   |   |-- style.css           # Styles, themes, and animations
 |   |-- js/
 |       |-- script.js           # Core application logic and solvers
-|       |-- translations.js     # Multi-language translation data
+|       |-- translations.js     # Translation loader
 |       |-- flags.js            # Base64-encoded country flags
+|       |-- i18n/               # Internationalization files
+|           |-- en.js           # English translations
+|           |-- fr.js           # French translations
+|           |-- es.js           # Spanish translations
+|           |-- de.js           # German translations
+|           |-- it.js           # Italian translations
+|           |-- ru.js           # Russian translations
 |-- tests/                      # Test suite
-|   |-- unit/                   # Jest unit tests (16 test files)
+|   |-- unit/                   # Jest unit tests (26 test files)
 |   |-- e2e/                    # Playwright E2E tests
 |   |-- manual/                 # Manual browser testing
 |-- docs/
@@ -214,7 +233,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 371 test cases:**
+**Unit Tests (Jest) - 639 test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -229,6 +248,15 @@ The test suite includes:
 - Custom theme builder
 - Step-by-step animation system
 - GCD/LCM calculator with prime factorization
+- Modular arithmetic (modulo, inverse, exponentiation)
+- Combinatorics (factorial, permutations, combinations)
+- Fractions calculator (simplification, mixed numbers)
+- Sequences (arithmetic, geometric, Fibonacci)
+- Statistics (mean, median, mode, variance, stdDev)
+- Unit and base converters
+- Limit calculator (function evaluation)
+- Taylor series (sin, cos, exp, ln, atan)
+- Numerical integration (trapezoidal, Simpson's)
 - PWA and service worker support
 - Mobile optimization and performance
 - Integration and state management
@@ -362,18 +390,18 @@ If you find this project helpful, please consider:
 ### Advanced Calculations
 - [x] Add GCD and LCM calculator
 - [x] Implement prime factorization
-- [ ] Add modular arithmetic calculator (modulo, modular inverse, modular exponentiation)
-- [ ] Implement combinatorics calculator (permutations, combinations, binomial coefficients)
-- [ ] Add base converter (binary, octal, decimal, hexadecimal)
-- [ ] Implement fraction calculator with simplification
-- [ ] Add percentage calculator (increase, decrease, difference)
-- [ ] Implement ratio and proportion solver
-- [ ] Add unit converter (length, mass, temperature, time, area, volume)
-- [ ] Implement statistics calculator (mean, median, mode, variance, standard deviation)
-- [ ] Add sequence calculator (arithmetic, geometric, Fibonacci)
-- [ ] Implement limit calculator for simple functions
-- [ ] Add Taylor series expansion calculator
-- [ ] Implement numerical integration (trapezoidal, Simpson's rule)
+- [x] Add modular arithmetic calculator (modulo, modular inverse, modular exponentiation)
+- [x] Implement combinatorics calculator (permutations, combinations, binomial coefficients)
+- [x] Add base converter (binary, octal, decimal, hexadecimal)
+- [x] Implement fraction calculator with simplification
+- [x] Add percentage calculator (increase, decrease, difference)
+- [x] Implement ratio and proportion solver
+- [x] Add unit converter (length, mass, temperature, time, area, volume)
+- [x] Implement statistics calculator (mean, median, mode, variance, standard deviation)
+- [x] Add sequence calculator (arithmetic, geometric, Fibonacci)
+- [x] Implement limit calculator for simple functions
+- [x] Add Taylor series expansion calculator
+- [x] Implement numerical integration (trapezoidal, Simpson's rule)
 
 ### User Experience
 - [ ] Implement undo/redo functionality for calculator
