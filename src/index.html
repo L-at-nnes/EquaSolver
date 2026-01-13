@@ -248,6 +248,87 @@
                     <p data-translate="historyDesc">View calculation history</p>
                     <div class="tool-glow"></div>
                 </div>
+
+                <!-- Number Tools Category -->
+                <div class="tool-card" data-tool="number-tools">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <text x="4" y="16" font-size="12" fill="currentColor">#</text>
+                            <circle cx="17" cy="7" r="3"></circle>
+                            <line x1="14" y1="14" x2="20" y2="20"></line>
+                        </svg>
+                    </div>
+                    <h3 data-translate="numberTools">Number Tools</h3>
+                    <p data-translate="numberToolsDesc">GCD, LCM, fractions and more</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="numberTools">Number Tools</p>
+                        <button class="submenu-btn" data-subtool="gcdlcm" data-translate="gcdlcm">GCD/LCM</button>
+                        <button class="submenu-btn" data-subtool="modular" data-translate="modular">Modular</button>
+                        <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
+                        <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
+                        <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
+                        <button class="submenu-btn" data-subtool="ratio" data-translate="ratio">Ratio</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <!-- Statistics Category -->
+                <div class="tool-card" data-tool="statistics-tools">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="4" y="14" width="4" height="6"></rect>
+                            <rect x="10" y="8" width="4" height="12"></rect>
+                            <rect x="16" y="4" width="4" height="16"></rect>
+                        </svg>
+                    </div>
+                    <h3 data-translate="statistics">Statistics</h3>
+                    <p data-translate="statisticsDesc">Statistical analysis tools</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="statistics">Statistics</p>
+                        <button class="submenu-btn" data-subtool="statisticsCalc" data-translate="statisticsCalc">Statistics</button>
+                        <button class="submenu-btn" data-subtool="sequences" data-translate="sequences">Sequences</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <!-- Converters Category -->
+                <div class="tool-card" data-tool="converters">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="17 1 21 5 17 9"></polyline>
+                            <path d="M3 11V9a4 4 0 0 1 4-4h14"></path>
+                            <polyline points="7 23 3 19 7 15"></polyline>
+                            <path d="M21 13v2a4 4 0 0 1-4 4H3"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="converters">Converters</h3>
+                    <p data-translate="convertersDesc">Unit and base conversions</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="converters">Converters</p>
+                        <button class="submenu-btn" data-subtool="baseConverter" data-translate="baseConverter">Base Converter</button>
+                        <button class="submenu-btn" data-subtool="unitConverter" data-translate="unitConverter">Unit Converter</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <!-- Calculus Category -->
+                <div class="tool-card" data-tool="calculus-tools">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <text x="6" y="18" font-size="16" fill="currentColor">∫</text>
+                            <path d="M14 4c4 0 6 4 6 8s-2 8-6 8"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="calculus">Calculus</h3>
+                    <p data-translate="calculusDesc">Limits, series and integration</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="calculus">Calculus</p>
+                        <button class="submenu-btn" data-subtool="limits" data-translate="limits">Limits</button>
+                        <button class="submenu-btn" data-subtool="taylor" data-translate="taylor">Taylor Series</button>
+                        <button class="submenu-btn" data-subtool="integration" data-translate="integration">Integration</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
             </div>
         </div>
 
@@ -285,6 +366,18 @@
                 <button class="tab" data-tab="polar" data-translate="polar">Polar</button>
                 <button class="tab" data-tab="latex" data-translate="latex">LaTeX</button>
                 <button class="tab" data-tab="gcdlcm" data-translate="gcdlcm">GCD/LCM</button>
+                <button class="tab" data-tab="modular" data-translate="modular">Modular</button>
+                <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
+                <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
+                <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
+                <button class="tab" data-tab="ratio" data-translate="ratio">Ratio</button>
+                <button class="tab" data-tab="baseConverter" data-translate="baseConverter">Base Converter</button>
+                <button class="tab" data-tab="unitConverter" data-translate="unitConverter">Unit Converter</button>
+                <button class="tab" data-tab="statisticsCalc" data-translate="statisticsCalc">Statistics</button>
+                <button class="tab" data-tab="sequences" data-translate="sequences">Sequences</button>
+                <button class="tab" data-tab="limits" data-translate="limits">Limits</button>
+                <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
+                <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -845,6 +938,477 @@
                 
                 <div class="solution-container" id="gcdlcmSolution"></div>
             </div>
+
+            <!-- Modular Arithmetic Calculator -->
+            <div class="calculator-panel" id="modular">
+                <div class="equation-display">
+                    <h3 data-translate="modularTitle">Modular Arithmetic Calculator</h3>
+                    <p class="equation-preview" data-translate="modularDesc">Modulo, modular inverse, modular exponentiation</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectModOperation">Select operation:</label>
+                        <select id="modularOperation" class="equation-input">
+                            <option value="modulo" data-translate="moduloOperation">Modulo (a mod n)</option>
+                            <option value="inverse" data-translate="modInverseOperation">Modular Inverse (a⁻¹ mod n)</option>
+                            <option value="power" data-translate="modPowerOperation">Modular Power (a^b mod n)</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="valueA">Value a:</label>
+                            <input type="number" id="modValueA" class="equation-input" value="7">
+                        </div>
+                        <div class="slider-group" id="modValueBGroup">
+                            <label data-translate="valueB">Value b (for power):</label>
+                            <input type="number" id="modValueB" class="equation-input" value="3">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="modulus">Modulus n:</label>
+                            <input type="number" id="modValueN" class="equation-input" value="11">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="modularHint">Enter values for modular operations</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateModular" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportModularPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="modularSolution"></div>
+            </div>
+
+            <!-- Combinatorics Calculator -->
+            <div class="calculator-panel" id="combinatorics">
+                <div class="equation-display">
+                    <h3 data-translate="combinatoricsTitle">Combinatorics Calculator</h3>
+                    <p class="equation-preview" data-translate="combinatoricsDesc">Permutations, combinations, binomial coefficients</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectCombOperation">Select operation:</label>
+                        <select id="combinatoricsOperation" class="equation-input">
+                            <option value="factorial" data-translate="factorial">Factorial n!</option>
+                            <option value="permutation" data-translate="permutation">Permutation P(n,r)</option>
+                            <option value="combination" data-translate="combination">Combination C(n,r)</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="valueN">Value n:</label>
+                            <input type="number" id="combValueN" class="equation-input" value="5" min="0">
+                        </div>
+                        <div class="slider-group" id="combValueRGroup">
+                            <label data-translate="valueR">Value r:</label>
+                            <input type="number" id="combValueR" class="equation-input" value="3" min="0">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="combinatoricsHint">Enter values for combinatorial calculations</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateCombinatorics" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportCombinatoricsPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="combinatoricsSolution"></div>
+            </div>
+
+            <!-- Fraction Calculator -->
+            <div class="calculator-panel" id="fractions">
+                <div class="equation-display">
+                    <h3 data-translate="fractionsTitle">Fraction Calculator</h3>
+                    <p class="equation-preview" data-translate="fractionsDesc">Add, subtract, multiply, divide fractions with simplification</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="fractionOperation">Operation:</label>
+                        <select id="fractionOperation" class="equation-input">
+                            <option value="add" data-translate="addFractions">Add (+)</option>
+                            <option value="subtract" data-translate="subtractFractions">Subtract (−)</option>
+                            <option value="multiply" data-translate="multiplyFractions">Multiply (×)</option>
+                            <option value="divide" data-translate="divideFractions">Divide (÷)</option>
+                            <option value="simplify" data-translate="simplifyFraction">Simplify</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="fraction1">Fraction 1:</label>
+                            <div class="fraction-input-group">
+                                <input type="number" id="frac1Num" class="equation-input fraction-input" placeholder="Num" value="1">
+                                <span class="fraction-divider">/</span>
+                                <input type="number" id="frac1Den" class="equation-input fraction-input" placeholder="Den" value="2">
+                            </div>
+                        </div>
+                        <div class="slider-group" id="fraction2Group">
+                            <label data-translate="fraction2">Fraction 2:</label>
+                            <div class="fraction-input-group">
+                                <input type="number" id="frac2Num" class="equation-input fraction-input" placeholder="Num" value="1">
+                                <span class="fraction-divider">/</span>
+                                <input type="number" id="frac2Den" class="equation-input fraction-input" placeholder="Den" value="3">
+                            </div>
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="fractionsHint">Enter fractions as numerator/denominator</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateFractions" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportFractionsPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="fractionsSolution"></div>
+            </div>
+
+            <!-- Percentage Calculator -->
+            <div class="calculator-panel" id="percentage">
+                <div class="equation-display">
+                    <h3 data-translate="percentageTitle">Percentage Calculator</h3>
+                    <p class="equation-preview" data-translate="percentageDesc">Calculate percentage increase, decrease, and difference</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectPercentOperation">Select operation:</label>
+                        <select id="percentageOperation" class="equation-input">
+                            <option value="percentOf" data-translate="percentOf">What is X% of Y?</option>
+                            <option value="percentChange" data-translate="percentChange">Percentage change from X to Y</option>
+                            <option value="percentIncrease" data-translate="percentIncrease">Increase X by Y%</option>
+                            <option value="percentDecrease" data-translate="percentDecrease">Decrease X by Y%</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="valueX">Value X:</label>
+                            <input type="number" id="percentValueX" class="equation-input" value="25">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="valueY">Value Y:</label>
+                            <input type="number" id="percentValueY" class="equation-input" value="200">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="percentageHint">Select an operation and enter values</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculatePercentage" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportPercentagePdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="percentageSolution"></div>
+            </div>
+
+            <!-- Ratio and Proportion Calculator -->
+            <div class="calculator-panel" id="ratio">
+                <div class="equation-display">
+                    <h3 data-translate="ratioTitle">Ratio and Proportion Solver</h3>
+                    <p class="equation-preview" data-translate="ratioDesc">Solve proportions, find missing values, simplify ratios</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectRatioOperation">Select operation:</label>
+                        <select id="ratioOperation" class="equation-input">
+                            <option value="simplify" data-translate="simplifyRatio">Simplify Ratio</option>
+                            <option value="proportion" data-translate="solveProportion">Solve Proportion (a:b = c:x)</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="ratioA">a:</label>
+                            <input type="number" id="ratioValueA" class="equation-input" value="12">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="ratioB">b:</label>
+                            <input type="number" id="ratioValueB" class="equation-input" value="18">
+                        </div>
+                        <div class="slider-group" id="ratioCGroup">
+                            <label data-translate="ratioC">c:</label>
+                            <input type="number" id="ratioValueC" class="equation-input" value="6">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="ratioHint">Enter values for ratio calculations</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateRatio" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportRatioPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="ratioSolution"></div>
+            </div>
+
+            <!-- Base Converter -->
+            <div class="calculator-panel" id="baseConverter">
+                <div class="equation-display">
+                    <h3 data-translate="baseConverterTitle">Number Base Converter</h3>
+                    <p class="equation-preview" data-translate="baseConverterDesc">Convert between binary, octal, decimal, hexadecimal</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="inputNumber">Input number:</label>
+                        <input type="text" id="baseInput" class="equation-input" value="255">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="fromBase">From base:</label>
+                        <select id="fromBase" class="equation-input">
+                            <option value="2" data-translate="binary">Binary (2)</option>
+                            <option value="8" data-translate="octal">Octal (8)</option>
+                            <option value="10" selected data-translate="decimal">Decimal (10)</option>
+                            <option value="16" data-translate="hexadecimal">Hexadecimal (16)</option>
+                        </select>
+                    </div>
+                    <p class="input-hint" data-translate="baseConverterHint">Enter a number and select the source base</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="convertBase" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportBaseConverterPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="baseConverterSolution"></div>
+            </div>
+
+            <!-- Unit Converter -->
+            <div class="calculator-panel" id="unitConverter">
+                <div class="equation-display">
+                    <h3 data-translate="unitConverterTitle">Unit Converter</h3>
+                    <p class="equation-preview" data-translate="unitConverterDesc">Convert between units of length, mass, temperature, time, area, volume</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectCategory">Category:</label>
+                        <select id="unitCategory" class="equation-input">
+                            <option value="length" data-translate="length">Length</option>
+                            <option value="mass" data-translate="mass">Mass</option>
+                            <option value="temperature" data-translate="temperature">Temperature</option>
+                            <option value="time" data-translate="time">Time</option>
+                            <option value="area" data-translate="area">Area</option>
+                            <option value="volume" data-translate="volume">Volume</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="inputValue">Value:</label>
+                            <input type="number" id="unitValue" class="equation-input" value="100">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="fromUnit">From:</label>
+                            <select id="fromUnit" class="equation-input">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="toUnit">To:</label>
+                            <select id="toUnit" class="equation-input">
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="unitConverterHint">Select category and units</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="convertUnit" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportUnitConverterPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="unitConverterSolution"></div>
+            </div>
+
+            <!-- Statistics Calculator -->
+            <div class="calculator-panel" id="statisticsCalc">
+                <div class="equation-display">
+                    <h3 data-translate="statisticsCalcTitle">Statistics Calculator</h3>
+                    <p class="equation-preview" data-translate="statisticsCalcDesc">Mean, median, mode, variance, standard deviation</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="enterDataSet">Enter data set:</label>
+                        <input type="text" id="statsInput" class="equation-input" placeholder="e.g., 1, 2, 3, 4, 5">
+                    </div>
+                    <p class="input-hint" data-translate="statisticsHint">Enter numbers separated by commas</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateStatistics" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportStatisticsPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="statisticsSolution"></div>
+            </div>
+
+            <!-- Sequence Calculator -->
+            <div class="calculator-panel" id="sequences">
+                <div class="equation-display">
+                    <h3 data-translate="sequencesTitle">Sequence Calculator</h3>
+                    <p class="equation-preview" data-translate="sequencesDesc">Arithmetic, geometric, and Fibonacci sequences</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectSeqType">Sequence type:</label>
+                        <select id="sequenceType" class="equation-input">
+                            <option value="arithmetic" data-translate="arithmeticSeq">Arithmetic Sequence</option>
+                            <option value="geometric" data-translate="geometricSeq">Geometric Sequence</option>
+                            <option value="fibonacci" data-translate="fibonacciSeq">Fibonacci Sequence</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group" id="seqFirstTermGroup">
+                            <label data-translate="firstTerm">First term (a₁):</label>
+                            <input type="number" id="seqFirstTerm" class="equation-input" value="1">
+                        </div>
+                        <div class="slider-group" id="seqDiffGroup">
+                            <label data-translate="commonDiff">Common difference (d):</label>
+                            <input type="number" id="seqDiff" class="equation-input" value="2">
+                        </div>
+                        <div class="slider-group" id="seqRatioGroup" style="display:none;">
+                            <label data-translate="commonRatio">Common ratio (r):</label>
+                            <input type="number" id="seqRatio" class="equation-input" value="2">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="numTerms">Number of terms (n):</label>
+                            <input type="number" id="seqNumTerms" class="equation-input" value="10" min="1">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="sequencesHint">Configure sequence parameters</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateSequence" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportSequencesPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="sequencesSolution"></div>
+            </div>
+
+            <!-- Limit Calculator -->
+            <div class="calculator-panel" id="limits">
+                <div class="equation-display">
+                    <h3 data-translate="limitsTitle">Limit Calculator</h3>
+                    <p class="equation-preview" data-translate="limitsDesc">Calculate limits of simple functions</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="enterFunction">Function f(x):</label>
+                        <input type="text" id="limitFunction" class="equation-input" placeholder="e.g., (x^2-1)/(x-1)">
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="limitPoint">x approaches:</label>
+                            <input type="text" id="limitPoint" class="equation-input" value="1" placeholder="e.g., 0, infinity">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="limitDirection">Direction:</label>
+                            <select id="limitDirection" class="equation-input">
+                                <option value="both" data-translate="bothSides">Both sides</option>
+                                <option value="left" data-translate="fromLeft">From left (x⁻)</option>
+                                <option value="right" data-translate="fromRight">From right (x⁺)</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="limitExamples">Examples: x^2, sin(x)/x, 1/x, sqrt(x)</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateLimit" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportLimitsPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="limitsSolution"></div>
+            </div>
+
+            <!-- Taylor Series Calculator -->
+            <div class="calculator-panel" id="taylor">
+                <div class="equation-display">
+                    <h3 data-translate="taylorTitle">Taylor Series Calculator</h3>
+                    <p class="equation-preview" data-translate="taylorDesc">Taylor and Maclaurin series expansions</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="selectFunction">Function:</label>
+                        <select id="taylorFunction" class="equation-input">
+                            <option value="sin" data-translate="sinFunction">sin(x)</option>
+                            <option value="cos" data-translate="cosFunction">cos(x)</option>
+                            <option value="exp" data-translate="expFunction">e^x</option>
+                            <option value="ln" data-translate="lnFunction">ln(1+x)</option>
+                            <option value="atan" data-translate="atanFunction">arctan(x)</option>
+                        </select>
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="expansionPoint">Expansion point (a):</label>
+                            <input type="number" id="taylorPoint" class="equation-input" value="0">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="numSeriesTerms">Number of terms:</label>
+                            <input type="number" id="taylorTerms" class="equation-input" value="5" min="1" max="15">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="taylorHint">Select function and number of terms</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateTaylor" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportTaylorPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="taylorSolution"></div>
+            </div>
+
+            <!-- Numerical Integration Calculator -->
+            <div class="calculator-panel" id="integration">
+                <div class="equation-display">
+                    <h3 data-translate="integrationTitle">Numerical Integration</h3>
+                    <p class="equation-preview" data-translate="integrationDesc">Trapezoidal and Simpson's rule integration</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="functionToIntegrate">Function f(x):</label>
+                        <input type="text" id="integrationFunction" class="equation-input" placeholder="e.g., x^2, sin(x)">
+                    </div>
+                    <div class="coefficient-sliders">
+                        <div class="slider-group">
+                            <label data-translate="lowerBound">Lower bound (a):</label>
+                            <input type="number" id="integrationLower" class="equation-input" value="0">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="upperBound">Upper bound (b):</label>
+                            <input type="number" id="integrationUpper" class="equation-input" value="1">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="numIntervals">Number of intervals (n):</label>
+                            <input type="number" id="integrationIntervals" class="equation-input" value="100" min="2">
+                        </div>
+                        <div class="slider-group">
+                            <label data-translate="integrationMethod">Method:</label>
+                            <select id="integrationMethod" class="equation-input">
+                                <option value="trapezoidal" data-translate="trapezoidalRule">Trapezoidal Rule</option>
+                                <option value="simpsons" data-translate="simpsonsRule">Simpson's Rule</option>
+                            </select>
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="integrationHint">Enter function and integration bounds</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateIntegration" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportIntegrationPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="integrationSolution"></div>
+            </div>
         </div>
 
         <!-- History Panel -->
@@ -861,6 +1425,13 @@
     <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="js/flags.js" defer></script>
+    <!-- Language files loaded separately for better maintainability -->
+    <script src="js/i18n/en.js" defer></script>
+    <script src="js/i18n/fr.js" defer></script>
+    <script src="js/i18n/es.js" defer></script>
+    <script src="js/i18n/de.js" defer></script>
+    <script src="js/i18n/it.js" defer></script>
+    <script src="js/i18n/ru.js" defer></script>
     <script src="js/translations.js" defer></script>
     <script src="js/script.js" defer></script>
     <script>
