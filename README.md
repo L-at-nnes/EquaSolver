@@ -26,10 +26,11 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 - **Standard Calculator** - Basic arithmetic operations with scientific functions (sin, cos, tan, sqrt, ln, log, e^x, n!, pi, e)
 - **Linear Equations** (ax + b = 0) - First-degree polynomial equation solver with animated step-by-step solutions
-- **Quadratic Equations** (ax^2 + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis and animated steps
-- **Cubic Equations** (ax^3 + bx^2 + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula
-- **Quartic Equations** (ax^4 + bx^3 + cx^2 + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method
-- **Quintic Equations** (ax^5 + bx^4 + cx^3 + dx^2 + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods
+- **Quadratic Equations** (ax^2 + bx + c = 0) - Second-degree polynomial equation solver with discriminant analysis, animated steps, and **complex root support**
+- **Cubic Equations** (ax^3 + bx^2 + cx + d = 0) - Third-degree polynomial equation solver using Cardano's formula with **complex root support**
+- **Quartic Equations** (ax^4 + bx^3 + cx^2 + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method with **complex root support**
+- **Quintic Equations** (ax^5 + bx^4 + cx^3 + dx^2 + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods with **complex root support**
+- **Complex Number Support** - All polynomial equation solvers now display both real and complex roots with proper formatting (a ± bi notation)
 - **Systems of Linear Equations** - Solve 2x2 linear systems using Cramer's rule
 - **Matrix Calculator** - Operations on 2x2 and 3x3 matrices (addition, multiplication, determinant, inverse)
 - **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
@@ -79,7 +80,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 
 1. Download or clone the repository:
    ```bash
-   git clone https://github.com/YOUR_USERNAME/EquaSolver.git
+   git clone https://github.com/l-at-nnes/EquaSolver.git
    cd EquaSolver
    ```
 
@@ -233,14 +234,15 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 639 test cases:**
+**Unit Tests (Jest) - 700+ test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
-- Quadratic equation solving (all discriminant cases)
-- Cubic equation solving
-- Quartic equation solving (Durand-Kerner numerical method)
-- Quintic equation solving (numerical root finding)
+- Quadratic equation solving (all discriminant cases, including complex roots)
+- Cubic equation solving (with complex root support)
+- Quartic equation solving (Durand-Kerner numerical method, complex roots)
+- Quintic equation solving (numerical root finding, complex roots)
+- **Complex number operations** (add, sub, mul, div, sqrt, abs, conjugate, formatting)
 - System of equations (Cramer's rule)
 - Matrix operations (addition, multiplication, determinant, inverse)
 - LaTeX equation parsing
@@ -280,24 +282,33 @@ See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
 ### Mathematical Methods
 
 #### Quadratic Equations
-Utilizes the discriminant method:
+Utilizes the discriminant method with complex number support:
 - **Δ = b² - 4ac**
 - Δ > 0: Two distinct real solutions
 - Δ = 0: One repeated real solution
-- Δ < 0: No real solutions (complex conjugates exist)
+- Δ < 0: Two complex conjugate solutions (displayed as a ± bi)
 
 #### Cubic Equations
-Implements Cardano's formula:
+Implements Cardano's formula with complex root detection:
 1. Depressed cubic transformation
 2. Discriminant calculation
 3. Solution classification based on discriminant value
+4. Returns one real and two complex conjugate roots when applicable
 
 #### Quartic and Quintic Equations
-Uses the Durand-Kerner numerical method:
+Uses the Durand-Kerner numerical method with full complex support:
 1. Initialize approximate roots using unit circle distribution
-2. Iteratively refine roots using polynomial evaluation
-3. Filter for real solutions with tolerance threshold
+2. Iteratively refine all roots (real and complex) using polynomial evaluation
+3. Separate and display real roots and complex conjugate pairs
 4. Converges to accurate roots within specified tolerance
+
+#### Complex Number Operations
+Full complex arithmetic support for equation solving:
+- **Addition/Subtraction**: (a + bi) ± (c + di) = (a ± c) + (b ± d)i
+- **Multiplication**: (a + bi)(c + di) = (ac - bd) + (ad + bc)i
+- **Division**: Complex division with proper handling
+- **Square Root**: Computes principal square root of complex numbers
+- **Formatting**: Displays results in standard a ± bi notation
 
 #### Systems of Linear Equations
 Applies Cramer's rule with determinants:
@@ -378,7 +389,7 @@ If you find this project helpful, please consider:
 > **Note:** The following items represent potential future enhancements. Contributions are welcome for any of these features.
 
 ### Planned Features
-- [ ] Add complex number support for equation solvers
+- [x] Add complex number support for equation solvers
 - [ ] Implement inequality solver (linear and quadratic inequalities)
 - [ ] Add derivative and integral calculator
 - [ ] Support for trigonometric equation solving

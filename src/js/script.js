@@ -919,12 +919,37 @@ function solveQuadraticEquation() {
     html += `<p><strong>${trans.discriminant} (Δ):</strong> ${delta.toFixed(4)}</p>`;
     
     if (delta < 0) {
-        html += `<p class="solution">${trans.noSolution}</p>`;
+        // Complex conjugate roots
+        const realPart = -b / (2 * a);
+        const imagPart = Math.sqrt(-delta) / (2 * a);
+        const z1 = { re: realPart, im: imagPart };
+        const z2 = { re: realPart, im: -imagPart };
+        
+        html += `<div class="solution">
+            <p>${trans.twoComplexSolutions || 'Two complex conjugate solutions'}</p>
+            <p>x₁ = ${formatComplex(z1)}</p>
+            <p>x₂ = ${formatComplex(z2)}</p>
+        </div>`;
+        html += `<div class="steps">
+            <h4>${trans.steps}:</h4>
+            <p>Δ = b² - 4ac = ${delta.toFixed(4)} < 0</p>
+            <p>${trans.complexRootsExplanation || 'When Δ < 0, roots are complex conjugates:'}</p>
+            <p>x = (-b ± √Δ) / (2a)</p>
+            <p>x = (${-b} ± √${delta}) / ${2 * a}</p>
+            <p>x = ${realPart.toFixed(4)} ± ${imagPart.toFixed(4)}i</p>
+        </div>`;
+        addToHistory(`${a}x² + ${b}x + ${c} = 0 → x₁ = ${formatComplex(z1)}, x₂ = ${formatComplex(z2)}`);
     } else if (delta === 0) {
         const x = -b / (2 * a);
         html += `<div class="solution">
             <p>${trans.oneSolution}</p>
             <p>x = ${x.toFixed(4)}</p>
+        </div>`;
+        html += `<div class="steps">
+            <h4>${trans.steps}:</h4>
+            <p>Δ = b² - 4ac</p>
+            <p>Δ = (${b})² - 4(${a})(${c})</p>
+            <p>Δ = ${delta.toFixed(4)}</p>
         </div>`;
         addToHistory(`${a}x² + ${b}x + ${c} = 0 → x = ${x.toFixed(4)}`);
     } else {
@@ -935,15 +960,14 @@ function solveQuadraticEquation() {
             <p>x₁ = ${x1.toFixed(4)}</p>
             <p>x₂ = ${x2.toFixed(4)}</p>
         </div>`;
+        html += `<div class="steps">
+            <h4>${trans.steps}:</h4>
+            <p>Δ = b² - 4ac</p>
+            <p>Δ = (${b})² - 4(${a})(${c})</p>
+            <p>Δ = ${delta.toFixed(4)}</p>
+        </div>`;
         addToHistory(`${a}x² + ${b}x + ${c} = 0 → x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}`);
     }
-    
-    html += `<div class="steps">
-        <h4>${trans.steps}:</h4>
-        <p>Δ = b² - 4ac</p>
-        <p>Δ = (${b})² - 4(${a})(${c})</p>
-        <p>Δ = ${delta.toFixed(4)}</p>
-    </div>`;
     
     resultDiv.innerHTML = html;
     showExportButton('quadratic');
@@ -970,50 +994,43 @@ function solveCubicEquation() {
         return;
     }
     
-    // Normalize coefficients
-    const p = (3 * a * c - b * b) / (3 * a * a);
-    const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
-    
-    const discriminant = -(4 * p * p * p + 27 * q * q);
+    // Use the new complex-aware solver
+    const roots = solveCubicComplex(a, b, c, d);
+    const { realRoots, complexRoots } = separateRoots(roots);
     
     let html = `<h3>${trans.solution}</h3>`;
-    html += `<p><strong>${trans.discriminant}:</strong> ${discriminant.toFixed(4)}</p>`;
     
-    let solutions = [];
-    
-    if (discriminant > 0) {
-        // Three real roots (trigonometric solution)
-        const m = 2 * Math.sqrt(-p / 3);
-        const theta = Math.acos((3 * q / p) * Math.sqrt(-3 / p)) / 3;
-        
-        for (let k = 0; k < 3; k++) {
-            const x = m * Math.cos(theta - (2 * Math.PI * k) / 3) - b / (3 * a);
-            solutions.push(x);
-        }
-        
+    if (realRoots.length === 3) {
         html += `<div class="solution">
             <p>${trans.threeSolutions}</p>
-            <p>x₁ = ${solutions[0].toFixed(4)}</p>
-            <p>x₂ = ${solutions[1].toFixed(4)}</p>
-            <p>x₃ = ${solutions[2].toFixed(4)}</p>
+            <p>x₁ = ${realRoots[0].toFixed(4)}</p>
+            <p>x₂ = ${realRoots[1].toFixed(4)}</p>
+            <p>x₃ = ${realRoots[2].toFixed(4)}</p>
         </div>`;
-    } else {
-        // One real root (Cardano's formula)
-        const u = Math.cbrt(-q / 2 + Math.sqrt(-discriminant / 108));
-        const v = Math.cbrt(-q / 2 - Math.sqrt(-discriminant / 108));
-        const x = u + v - b / (3 * a);
-        
-        solutions.push(x);
-        
+        addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${realRoots.map(r => r.toFixed(4)).join(', ')}`);
+    } else if (realRoots.length === 1 && complexRoots.length === 1) {
+        const z = complexRoots[0];
+        const zConj = complexConjugate(z);
         html += `<div class="solution">
-            <p>${trans.oneSolution}</p>
-            <p>x = ${x.toFixed(4)}</p>
+            <p>${trans.oneRealTwoComplex || 'One real solution and two complex conjugates'}</p>
+            <p>x₁ = ${realRoots[0].toFixed(4)} <span class="real-badge">${trans.realSolution || 'real'}</span></p>
+            <p>x₂ = ${formatComplex(z)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>
+            <p>x₃ = ${formatComplex(zConj)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>
         </div>`;
+        addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → x₁ = ${realRoots[0].toFixed(4)}, x₂ = ${formatComplex(z)}, x₃ = ${formatComplex(zConj)}`);
+    } else {
+        // Edge case: might be a repeated root situation
+        html += `<div class="solution">
+            <p>${realRoots.length} ${trans.solutionsFound || 'solution(s) found'}:</p>`;
+        realRoots.forEach((root, i) => {
+            html += `<p>x${i + 1} = ${root.toFixed(4)}</p>`;
+        });
+        html += `</div>`;
+        addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${realRoots.map(r => r.toFixed(4)).join(', ')}`);
     }
     
     resultDiv.innerHTML = html;
     showExportButton('cubic');
-    addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${solutions.map(s => s.toFixed(4)).join(', ')}`);
 }
 
 // ===================================
@@ -1038,24 +1055,34 @@ function solveQuarticEquation() {
         return;
     }
     
-    const roots = findPolynomialRoots([a, b, c, d, e]);
+    // Use the new complex-aware solver
+    const allRoots = findPolynomialRootsComplex([a, b, c, d, e]);
+    const { realRoots, complexRoots } = separateRoots(allRoots);
     
     let html = `<h3>${trans.solution}</h3>`;
     html += `<div class="solution">`;
     
-    if (roots.length === 0) {
-        html += `<p>${trans.noRealSolutions}</p>`;
-    } else {
-        html += `<p>${roots.length} ${trans.solutionsFound}:</p>`;
-        roots.forEach((root, i) => {
-            html += `<p>x${i + 1} = ${root.toFixed(4)}</p>`;
-        });
-    }
+    const totalRoots = realRoots.length + complexRoots.length * 2;
+    html += `<p>${totalRoots} ${trans.solutionsFound || 'solution(s) found'}:</p>`;
+    
+    let rootIndex = 1;
+    realRoots.forEach(root => {
+        html += `<p>x${rootIndex++} = ${root.toFixed(4)} <span class="real-badge">${trans.realSolution || 'real'}</span></p>`;
+    });
+    
+    complexRoots.forEach(z => {
+        const zConj = complexConjugate(z);
+        html += `<p>x${rootIndex++} = ${formatComplex(z)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+        html += `<p>x${rootIndex++} = ${formatComplex(zConj)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+    });
     
     html += `</div>`;
     resultDiv.innerHTML = html;
     showExportButton('quartic');
-    addToHistory(`${a}x⁴ + ${b}x³ + ${c}x² + ${d}x + ${e} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
+    
+    // Format history entry
+    const historyRoots = [...realRoots.map(r => r.toFixed(4)), ...complexRoots.flatMap(z => [formatComplex(z), formatComplex(complexConjugate(z))])];
+    addToHistory(`${a}x⁴ + ${b}x³ + ${c}x² + ${d}x + ${e} = 0 → ${historyRoots.join(', ')}`);
 }
 
 // ===================================
@@ -1081,24 +1108,34 @@ function solveQuinticEquation() {
         return;
     }
     
-    const roots = findPolynomialRoots([a, b, c, d, e, f]);
+    // Use the new complex-aware solver
+    const allRoots = findPolynomialRootsComplex([a, b, c, d, e, f]);
+    const { realRoots, complexRoots } = separateRoots(allRoots);
     
     let html = `<h3>${trans.solution}</h3>`;
     html += `<div class="solution">`;
     
-    if (roots.length === 0) {
-        html += `<p>${trans.noRealSolutions}</p>`;
-    } else {
-        html += `<p>${roots.length} ${trans.solutionsFound}:</p>`;
-        roots.forEach((root, i) => {
-            html += `<p>x${i + 1} = ${root.toFixed(4)}</p>`;
-        });
-    }
+    const totalRoots = realRoots.length + complexRoots.length * 2;
+    html += `<p>${totalRoots} ${trans.solutionsFound || 'solution(s) found'}:</p>`;
+    
+    let rootIndex = 1;
+    realRoots.forEach(root => {
+        html += `<p>x${rootIndex++} = ${root.toFixed(4)} <span class="real-badge">${trans.realSolution || 'real'}</span></p>`;
+    });
+    
+    complexRoots.forEach(z => {
+        const zConj = complexConjugate(z);
+        html += `<p>x${rootIndex++} = ${formatComplex(z)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+        html += `<p>x${rootIndex++} = ${formatComplex(zConj)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+    });
     
     html += `</div>`;
     resultDiv.innerHTML = html;
     showExportButton('quintic');
-    addToHistory(`${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0 → ${roots.map(r => r.toFixed(4)).join(', ')}`);
+    
+    // Format history entry
+    const historyRoots = [...realRoots.map(r => r.toFixed(4)), ...complexRoots.flatMap(z => [formatComplex(z), formatComplex(complexConjugate(z))])];
+    addToHistory(`${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0 → ${historyRoots.join(', ')}`);
 }
 
 // Numerical root finding using Durand-Kerner method
@@ -1199,6 +1236,245 @@ function complexDiv(a, b) {
         re: (a.re * b.re + a.im * b.im) / denom,
         im: (a.im * b.re - a.re * b.im) / denom
     };
+}
+
+// Complex square root
+function complexSqrt(z) {
+    const r = Math.sqrt(z.re * z.re + z.im * z.im);
+    const theta = Math.atan2(z.im, z.re);
+    return {
+        re: Math.sqrt(r) * Math.cos(theta / 2),
+        im: Math.sqrt(r) * Math.sin(theta / 2)
+    };
+}
+
+// Complex absolute value (modulus)
+function complexAbs(z) {
+    return Math.sqrt(z.re * z.re + z.im * z.im);
+}
+
+// Complex conjugate
+function complexConjugate(z) {
+    return { re: z.re, im: -z.im };
+}
+
+// Check if complex number is essentially real
+function isEssentiallyReal(z, tolerance = 1e-10) {
+    return Math.abs(z.im) < tolerance;
+}
+
+// Check if complex number is essentially zero
+function isEssentiallyZero(z, tolerance = 1e-10) {
+    return Math.abs(z.re) < tolerance && Math.abs(z.im) < tolerance;
+}
+
+// Format complex number for display
+function formatComplex(z, decimals = 4) {
+    const re = z.re;
+    const im = z.im;
+    const tolerance = Math.pow(10, -decimals);
+    
+    // Handle essentially zero
+    if (Math.abs(re) < tolerance && Math.abs(im) < tolerance) {
+        return '0';
+    }
+    
+    // Handle essentially real
+    if (Math.abs(im) < tolerance) {
+        return re.toFixed(decimals);
+    }
+    
+    // Handle pure imaginary
+    if (Math.abs(re) < tolerance) {
+        if (Math.abs(im - 1) < tolerance) return 'i';
+        if (Math.abs(im + 1) < tolerance) return '-i';
+        return `${im.toFixed(decimals)}i`;
+    }
+    
+    // Full complex number
+    const sign = im >= 0 ? '+' : '-';
+    const absIm = Math.abs(im);
+    if (Math.abs(absIm - 1) < tolerance) {
+        return `${re.toFixed(decimals)} ${sign} i`;
+    }
+    return `${re.toFixed(decimals)} ${sign} ${absIm.toFixed(decimals)}i`;
+}
+
+// Create complex from real number
+function complexFromReal(x) {
+    return { re: x, im: 0 };
+}
+
+// Solve quadratic equation and return complex roots
+function solveQuadraticComplex(a, b, c) {
+    if (a === 0) {
+        if (b === 0) {
+            return c === 0 ? [{ re: 0, im: 0 }] : [];
+        }
+        return [complexFromReal(-c / b)];
+    }
+    
+    const delta = b * b - 4 * a * c;
+    
+    if (delta >= 0) {
+        // Two real roots
+        const sqrtDelta = Math.sqrt(delta);
+        return [
+            complexFromReal((-b + sqrtDelta) / (2 * a)),
+            complexFromReal((-b - sqrtDelta) / (2 * a))
+        ];
+    } else {
+        // Two complex conjugate roots
+        const realPart = -b / (2 * a);
+        const imagPart = Math.sqrt(-delta) / (2 * a);
+        return [
+            { re: realPart, im: imagPart },
+            { re: realPart, im: -imagPart }
+        ];
+    }
+}
+
+// Solve cubic equation and return all roots (real and complex)
+function solveCubicComplex(a, b, c, d) {
+    if (a === 0) {
+        return solveQuadraticComplex(b, c, d);
+    }
+    
+    // Normalize: x³ + px² + qx + r = 0
+    const p = b / a;
+    const q = c / a;
+    const r = d / a;
+    
+    // Depress the cubic: t³ + pt + q = 0 where x = t - p/3
+    const p1 = q - p * p / 3;
+    const q1 = r - p * q / 3 + 2 * p * p * p / 27;
+    
+    // Cardano's discriminant
+    const discriminant = q1 * q1 / 4 + p1 * p1 * p1 / 27;
+    
+    const shift = -p / 3;
+    let roots = [];
+    
+    if (Math.abs(discriminant) < 1e-10) {
+        // Three real roots, at least two equal
+        if (Math.abs(q1) < 1e-10) {
+            roots = [complexFromReal(shift)];
+            // Triple root
+        } else {
+            const u = Math.cbrt(-q1 / 2);
+            roots = [
+                complexFromReal(2 * u + shift),
+                complexFromReal(-u + shift)
+            ];
+        }
+    } else if (discriminant > 0) {
+        // One real root, two complex conjugates
+        const sqrtD = Math.sqrt(discriminant);
+        const u = Math.cbrt(-q1 / 2 + sqrtD);
+        const v = Math.cbrt(-q1 / 2 - sqrtD);
+        
+        const realRoot = u + v + shift;
+        const realPart = -(u + v) / 2 + shift;
+        const imagPart = Math.sqrt(3) * (u - v) / 2;
+        
+        roots = [
+            complexFromReal(realRoot),
+            { re: realPart, im: imagPart },
+            { re: realPart, im: -imagPart }
+        ];
+    } else {
+        // Three distinct real roots (casus irreducibilis)
+        const m = 2 * Math.sqrt(-p1 / 3);
+        const theta = Math.acos(3 * q1 / (p1 * m)) / 3;
+        
+        roots = [
+            complexFromReal(m * Math.cos(theta) + shift),
+            complexFromReal(m * Math.cos(theta - 2 * Math.PI / 3) + shift),
+            complexFromReal(m * Math.cos(theta - 4 * Math.PI / 3) + shift)
+        ];
+    }
+    
+    return roots;
+}
+
+// Find all polynomial roots (including complex) using Durand-Kerner
+function findPolynomialRootsComplex(coeffs) {
+    const degree = coeffs.length - 1;
+    if (degree < 1) return [];
+    
+    // Use specific formulas for low-degree polynomials
+    if (degree === 1) {
+        return [complexFromReal(-coeffs[1] / coeffs[0])];
+    }
+    if (degree === 2) {
+        return solveQuadraticComplex(coeffs[0], coeffs[1], coeffs[2]);
+    }
+    if (degree === 3) {
+        return solveCubicComplex(coeffs[0], coeffs[1], coeffs[2], coeffs[3]);
+    }
+    
+    // Normalize coefficients
+    const normalized = coeffs.map(c => c / coeffs[0]);
+    
+    // Initial guesses (unit circle with slight offset to avoid symmetry issues)
+    const roots = [];
+    for (let i = 0; i < degree; i++) {
+        const angle = (2 * Math.PI * i) / degree + 0.1;
+        const r = 1 + 0.1 * i / degree;
+        roots.push({ re: r * Math.cos(angle), im: r * Math.sin(angle) });
+    }
+    
+    // Durand-Kerner iterations
+    const maxIter = 200;
+    const tolerance = 1e-12;
+    
+    for (let iter = 0; iter < maxIter; iter++) {
+        let maxChange = 0;
+        
+        for (let i = 0; i < degree; i++) {
+            const z = roots[i];
+            const pz = evalPoly(normalized, z);
+            
+            let prod = { re: 1, im: 0 };
+            for (let j = 0; j < degree; j++) {
+                if (i !== j) {
+                    const diff = complexSub(z, roots[j]);
+                    prod = complexMul(prod, diff);
+                }
+            }
+            
+            if (complexAbs(prod) > 1e-15) {
+                const delta = complexDiv(pz, prod);
+                roots[i] = complexSub(z, delta);
+                maxChange = Math.max(maxChange, complexAbs(delta));
+            }
+        }
+        
+        if (maxChange < tolerance) break;
+    }
+    
+    // Clean up roots (pair complex conjugates, round small values)
+    return roots.map(z => ({
+        re: Math.abs(z.re) < 1e-10 ? 0 : z.re,
+        im: Math.abs(z.im) < 1e-10 ? 0 : z.im
+    }));
+}
+
+// Separate real and complex roots
+function separateRoots(roots, tolerance = 1e-6) {
+    const realRoots = [];
+    const complexRoots = [];
+    
+    for (const root of roots) {
+        if (Math.abs(root.im) < tolerance) {
+            realRoots.push(root.re);
+        } else if (root.im > 0) {
+            // Only add complex roots with positive imaginary part (conjugate pairs)
+            complexRoots.push(root);
+        }
+    }
+    
+    return { realRoots: realRoots.sort((a, b) => a - b), complexRoots };
 }
 
 // ===================================
@@ -4204,8 +4480,20 @@ if (typeof module !== 'undefined' && module.exports) {
         complexDiv,
         complexScale,
         complexPow,
+        complexSqrt,
+        complexAbs,
+        complexConjugate,
+        complexFromReal,
+        formatComplex,
+        isEssentiallyReal,
+        isEssentiallyZero,
         evalPoly,
         findPolynomialRoots,
+        // Complex equation solvers
+        solveQuadraticComplex,
+        solveCubicComplex,
+        findPolynomialRootsComplex,
+        separateRoots,
         // Matrix operations
         addMatrices,
         multiplyMatrices,
