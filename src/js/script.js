@@ -181,6 +181,22 @@ function initEventListeners() {
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
     document.getElementById('calculateMatrix').addEventListener('click', calculateMatrix);
     
+    // Inequality solver buttons
+    document.getElementById('solveInequalityLinear').addEventListener('click', solveLinearInequalityUI);
+    document.getElementById('solveInequalityQuadratic').addEventListener('click', solveQuadraticInequalityUI);
+    
+    // Inequality input listeners
+    ['ineqLinearA', 'ineqLinearB', 'ineqLinearOp'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateLinearInequalityPreview);
+        if (el) el.addEventListener('change', updateLinearInequalityPreview);
+    });
+    ['ineqQuadA', 'ineqQuadB', 'ineqQuadC', 'ineqQuadOp'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) el.addEventListener('input', updateQuadraticInequalityPreview);
+        if (el) el.addEventListener('change', updateQuadraticInequalityPreview);
+    });
+    
     // PDF Export buttons
     document.getElementById('exportLinearPdf').addEventListener('click', () => exportToPDF('linear'));
     document.getElementById('exportQuadraticPdf').addEventListener('click', () => exportToPDF('quadratic'));
@@ -189,6 +205,8 @@ function initEventListeners() {
     document.getElementById('exportQuinticPdf').addEventListener('click', () => exportToPDF('quintic'));
     document.getElementById('exportSystemsPdf').addEventListener('click', () => exportToPDF('systems'));
     document.getElementById('exportMatrixPdf').addEventListener('click', () => exportToPDF('matrix'));
+    document.getElementById('exportInequalityLinearPdf').addEventListener('click', () => exportToPDF('inequalityLinear'));
+    document.getElementById('exportInequalityQuadraticPdf').addEventListener('click', () => exportToPDF('inequalityQuadratic'));
     
     // Slider updates for equations
     setupSliderListeners();
@@ -1136,6 +1154,316 @@ function solveQuinticEquation() {
     // Format history entry
     const historyRoots = [...realRoots.map(r => r.toFixed(4)), ...complexRoots.flatMap(z => [formatComplex(z), formatComplex(complexConjugate(z))])];
     addToHistory(`${a}x⁵ + ${b}x⁴ + ${c}x³ + ${d}x² + ${e}x + ${f} = 0 → ${historyRoots.join(', ')}`);
+}
+
+// ===================================
+// INEQUALITY SOLVER
+// ===================================
+
+// Solve linear inequality: ax + b <|>|<=|>= 0
+function solveLinearInequality(a, b, operator) {
+    // Returns { type: 'interval'|'all'|'none', solution: string, interval: array }
+    if (a === 0) {
+        // Constant inequality: b <|>|<=|>= 0
+        const holds = evaluateComparison(b, 0, operator);
+        if (holds) {
+            return { type: 'all', solution: 'ℝ (all real numbers)', interval: ['-∞', '+∞'] };
+        } else {
+            return { type: 'none', solution: '∅ (no solution)', interval: [] };
+        }
+    }
+    
+    const x = -b / a;
+    
+    // When dividing by negative a, inequality flips
+    let effectiveOp = operator;
+    if (a < 0) {
+        effectiveOp = flipOperator(operator);
+    }
+    
+    switch (effectiveOp) {
+        case '<':
+            return { type: 'interval', solution: `x < ${x.toFixed(4)}`, interval: ['-∞', x], notation: `]-∞, ${x.toFixed(4)}[` };
+        case '>':
+            return { type: 'interval', solution: `x > ${x.toFixed(4)}`, interval: [x, '+∞'], notation: `]${x.toFixed(4)}, +∞[` };
+        case '<=':
+            return { type: 'interval', solution: `x ≤ ${x.toFixed(4)}`, interval: ['-∞', x], notation: `]-∞, ${x.toFixed(4)}]` };
+        case '>=':
+            return { type: 'interval', solution: `x ≥ ${x.toFixed(4)}`, interval: [x, '+∞'], notation: `[${x.toFixed(4)}, +∞[` };
+        default:
+            return { type: 'none', solution: 'Invalid operator', interval: [] };
+    }
+}
+
+// Solve quadratic inequality: ax² + bx + c <|>|<=|>= 0
+function solveQuadraticInequality(a, b, c, operator) {
+    if (a === 0) {
+        // Degenerate case: linear inequality
+        return solveLinearInequality(b, c, operator);
+    }
+    
+    const delta = b * b - 4 * a * c;
+    const x_vertex = -b / (2 * a);
+    
+    // Parabola opens upward (a > 0) or downward (a < 0)
+    const opensUp = a > 0;
+    
+    if (delta < 0) {
+        // No real roots - parabola never crosses x-axis
+        // If a > 0: parabola always positive
+        // If a < 0: parabola always negative
+        const alwaysPositive = opensUp;
+        
+        if (operator === '>' || operator === '>=') {
+            return alwaysPositive 
+                ? { type: 'all', solution: 'ℝ (all real numbers)', interval: ['-∞', '+∞'], notation: ']-∞, +∞[' }
+                : { type: 'none', solution: '∅ (no solution)', interval: [], notation: '∅' };
+        } else { // < or <=
+            return alwaysPositive
+                ? { type: 'none', solution: '∅ (no solution)', interval: [], notation: '∅' }
+                : { type: 'all', solution: 'ℝ (all real numbers)', interval: ['-∞', '+∞'], notation: ']-∞, +∞[' };
+        }
+    }
+    
+    if (delta === 0) {
+        // One root (double root)
+        const x0 = -b / (2 * a);
+        
+        if (operator === '>' || operator === '<') {
+            // Strictly greater or less (excludes the root)
+            if (opensUp) {
+                // Parabola touches axis at x0, otherwise positive
+                return operator === '>'
+                    ? { type: 'interval', solution: `x ≠ ${x0.toFixed(4)}`, interval: [['-∞', x0], [x0, '+∞']], notation: `]-∞, ${x0.toFixed(4)}[ ∪ ]${x0.toFixed(4)}, +∞[` }
+                    : { type: 'none', solution: '∅ (no solution)', interval: [], notation: '∅' };
+            } else {
+                // Parabola touches axis at x0, otherwise negative
+                return operator === '<'
+                    ? { type: 'interval', solution: `x ≠ ${x0.toFixed(4)}`, interval: [['-∞', x0], [x0, '+∞']], notation: `]-∞, ${x0.toFixed(4)}[ ∪ ]${x0.toFixed(4)}, +∞[` }
+                    : { type: 'none', solution: '∅ (no solution)', interval: [], notation: '∅' };
+            }
+        } else { // >= or <=
+            if (opensUp) {
+                return operator === '>='
+                    ? { type: 'all', solution: 'ℝ (all real numbers)', interval: ['-∞', '+∞'], notation: ']-∞, +∞[' }
+                    : { type: 'point', solution: `x = ${x0.toFixed(4)}`, interval: [x0], notation: `{${x0.toFixed(4)}}` };
+            } else {
+                return operator === '<='
+                    ? { type: 'all', solution: 'ℝ (all real numbers)', interval: ['-∞', '+∞'], notation: ']-∞, +∞[' }
+                    : { type: 'point', solution: `x = ${x0.toFixed(4)}`, interval: [x0], notation: `{${x0.toFixed(4)}}` };
+            }
+        }
+    }
+    
+    // Two distinct roots
+    const sqrtDelta = Math.sqrt(delta);
+    let x1 = (-b - sqrtDelta) / (2 * a);
+    let x2 = (-b + sqrtDelta) / (2 * a);
+    
+    // Ensure x1 < x2
+    if (x1 > x2) [x1, x2] = [x2, x1];
+    
+    // For parabola opening upward: negative between roots, positive outside
+    // For parabola opening downward: positive between roots, negative outside
+    
+    if (opensUp) {
+        switch (operator) {
+            case '>':
+                return { type: 'union', solution: `x < ${x1.toFixed(4)} or x > ${x2.toFixed(4)}`, 
+                    interval: [['-∞', x1], [x2, '+∞']], notation: `]-∞, ${x1.toFixed(4)}[ ∪ ]${x2.toFixed(4)}, +∞[` };
+            case '>=':
+                return { type: 'union', solution: `x ≤ ${x1.toFixed(4)} or x ≥ ${x2.toFixed(4)}`, 
+                    interval: [['-∞', x1], [x2, '+∞']], notation: `]-∞, ${x1.toFixed(4)}] ∪ [${x2.toFixed(4)}, +∞[` };
+            case '<':
+                return { type: 'interval', solution: `${x1.toFixed(4)} < x < ${x2.toFixed(4)}`, 
+                    interval: [x1, x2], notation: `]${x1.toFixed(4)}, ${x2.toFixed(4)}[` };
+            case '<=':
+                return { type: 'interval', solution: `${x1.toFixed(4)} ≤ x ≤ ${x2.toFixed(4)}`, 
+                    interval: [x1, x2], notation: `[${x1.toFixed(4)}, ${x2.toFixed(4)}]` };
+        }
+    } else {
+        switch (operator) {
+            case '<':
+                return { type: 'union', solution: `x < ${x1.toFixed(4)} or x > ${x2.toFixed(4)}`, 
+                    interval: [['-∞', x1], [x2, '+∞']], notation: `]-∞, ${x1.toFixed(4)}[ ∪ ]${x2.toFixed(4)}, +∞[` };
+            case '<=':
+                return { type: 'union', solution: `x ≤ ${x1.toFixed(4)} or x ≥ ${x2.toFixed(4)}`, 
+                    interval: [['-∞', x1], [x2, '+∞']], notation: `]-∞, ${x1.toFixed(4)}] ∪ [${x2.toFixed(4)}, +∞[` };
+            case '>':
+                return { type: 'interval', solution: `${x1.toFixed(4)} < x < ${x2.toFixed(4)}`, 
+                    interval: [x1, x2], notation: `]${x1.toFixed(4)}, ${x2.toFixed(4)}[` };
+            case '>=':
+                return { type: 'interval', solution: `${x1.toFixed(4)} ≤ x ≤ ${x2.toFixed(4)}`, 
+                    interval: [x1, x2], notation: `[${x1.toFixed(4)}, ${x2.toFixed(4)}]` };
+        }
+    }
+    
+    return { type: 'none', solution: 'Error', interval: [] };
+}
+
+// Helper: flip inequality operator when dividing by negative number
+function flipOperator(op) {
+    switch (op) {
+        case '<': return '>';
+        case '>': return '<';
+        case '<=': return '>=';
+        case '>=': return '<=';
+        default: return op;
+    }
+}
+
+// Helper: evaluate a comparison
+function evaluateComparison(a, b, operator) {
+    switch (operator) {
+        case '<': return a < b;
+        case '>': return a > b;
+        case '<=': return a <= b;
+        case '>=': return a >= b;
+        default: return false;
+    }
+}
+
+// Format operator for display
+function formatOperator(op) {
+    switch (op) {
+        case '<': return '<';
+        case '>': return '>';
+        case '<=': return '≤';
+        case '>=': return '≥';
+        default: return op;
+    }
+}
+
+// UI function for linear inequality
+function solveLinearInequalityUI() {
+    const a = parseFloat(document.getElementById('ineqLinearA').value);
+    const b = parseFloat(document.getElementById('ineqLinearB').value);
+    const operator = document.getElementById('ineqLinearOp').value;
+    const resultDiv = document.getElementById('inequalityLinearSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    const result = solveLinearInequality(a, b, operator);
+    const opDisplay = formatOperator(operator);
+    
+    let html = `<h3>${trans.solution || 'Solution'}</h3>`;
+    html += `<div class="equation-preview">${a}x + ${b} ${opDisplay} 0</div>`;
+    
+    html += `<div class="solution">`;
+    html += `<p><strong>${trans.solutionSet || 'Solution set'}:</strong></p>`;
+    html += `<p class="inequality-result">${result.solution}</p>`;
+    if (result.notation) {
+        html += `<p><strong>${trans.intervalNotation || 'Interval notation'}:</strong> ${result.notation}</p>`;
+    }
+    html += `</div>`;
+    
+    // Steps
+    html += `<div class="steps">`;
+    html += `<h4>${trans.steps || 'Solution Steps'}:</h4>`;
+    html += `<p>${a}x + ${b} ${opDisplay} 0</p>`;
+    html += `<p>${a}x ${opDisplay} ${-b}</p>`;
+    if (a !== 0) {
+        if (a < 0) {
+            html += `<p><em>${trans.divideNegative || 'Dividing by negative number, inequality flips'}:</em></p>`;
+        }
+        html += `<p>x ${formatOperator(a < 0 ? flipOperator(operator) : operator)} ${(-b / a).toFixed(4)}</p>`;
+    }
+    html += `</div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`${a}x + ${b} ${opDisplay} 0 → ${result.solution}`);
+    showExportButton('inequalityLinear');
+}
+
+// UI function for quadratic inequality
+function solveQuadraticInequalityUI() {
+    const a = parseFloat(document.getElementById('ineqQuadA').value);
+    const b = parseFloat(document.getElementById('ineqQuadB').value);
+    const c = parseFloat(document.getElementById('ineqQuadC').value);
+    const operator = document.getElementById('ineqQuadOp').value;
+    const resultDiv = document.getElementById('inequalityQuadraticSolution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    if (a === 0) {
+        resultDiv.innerHTML = `<p class="error">${trans.notQuadratic || 'Coefficient a cannot be zero for quadratic inequality'}</p>`;
+        return;
+    }
+    
+    const result = solveQuadraticInequality(a, b, c, operator);
+    const opDisplay = formatOperator(operator);
+    const delta = b * b - 4 * a * c;
+    
+    let html = `<h3>${trans.solution || 'Solution'}</h3>`;
+    html += `<div class="equation-preview">${a}x² + ${b}x + ${c} ${opDisplay} 0</div>`;
+    
+    // Discriminant info
+    html += `<p><strong>${trans.discriminant || 'Discriminant'} (Δ):</strong> ${delta.toFixed(4)}</p>`;
+    
+    html += `<div class="solution">`;
+    html += `<p><strong>${trans.solutionSet || 'Solution set'}:</strong></p>`;
+    html += `<p class="inequality-result">${result.solution}</p>`;
+    if (result.notation) {
+        html += `<p><strong>${trans.intervalNotation || 'Interval notation'}:</strong> ${result.notation}</p>`;
+    }
+    html += `</div>`;
+    
+    // Steps
+    html += `<div class="steps">`;
+    html += `<h4>${trans.steps || 'Solution Steps'}:</h4>`;
+    html += `<p>1. ${trans.findRoots || 'Find roots of'} ${a}x² + ${b}x + ${c} = 0</p>`;
+    html += `<p>2. Δ = b² - 4ac = ${b}² - 4(${a})(${c}) = ${delta.toFixed(4)}</p>`;
+    
+    if (delta < 0) {
+        html += `<p>3. Δ < 0: ${trans.noRealRoots || 'no real roots'}</p>`;
+        html += `<p>4. ${a > 0 ? trans.parabUpAlwaysPos || 'Parabola opens upward, always positive' : trans.parabDownAlwaysNeg || 'Parabola opens downward, always negative'}</p>`;
+    } else if (delta === 0) {
+        const x0 = -b / (2 * a);
+        html += `<p>3. Δ = 0: ${trans.oneRoot || 'one root'} x = ${x0.toFixed(4)}</p>`;
+        html += `<p>4. ${trans.parabolaTouches || 'Parabola touches x-axis at'} x = ${x0.toFixed(4)}</p>`;
+    } else {
+        const sqrtDelta = Math.sqrt(delta);
+        let x1 = (-b - sqrtDelta) / (2 * a);
+        let x2 = (-b + sqrtDelta) / (2 * a);
+        if (x1 > x2) [x1, x2] = [x2, x1];
+        html += `<p>3. Δ > 0: ${trans.twoRoots || 'two roots'} x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}</p>`;
+        html += `<p>4. ${a > 0 ? trans.parabUpSign || 'Parabola opens upward: negative between roots' : trans.parabDownSign || 'Parabola opens downward: positive between roots'}</p>`;
+    }
+    html += `</div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`${a}x² + ${b}x + ${c} ${opDisplay} 0 → ${result.solution}`);
+    showExportButton('inequalityQuadratic');
+}
+
+// Update inequality preview functions
+function updateLinearInequalityPreview() {
+    const a = parseFloat(document.getElementById('ineqLinearA').value) || 0;
+    const b = parseFloat(document.getElementById('ineqLinearB').value) || 0;
+    const op = document.getElementById('ineqLinearOp').value;
+    const preview = document.getElementById('ineqLinearPreview');
+    if (preview) {
+        preview.textContent = `${a}x + ${b} ${formatOperator(op)} 0`;
+    }
+}
+
+function updateQuadraticInequalityPreview() {
+    const a = parseFloat(document.getElementById('ineqQuadA').value) || 0;
+    const b = parseFloat(document.getElementById('ineqQuadB').value) || 0;
+    const c = parseFloat(document.getElementById('ineqQuadC').value) || 0;
+    const op = document.getElementById('ineqQuadOp').value;
+    const preview = document.getElementById('ineqQuadPreview');
+    if (preview) {
+        preview.textContent = `${a}x² + ${b}x + ${c} ${formatOperator(op)} 0`;
+    }
 }
 
 // Numerical root finding using Durand-Kerner method
@@ -4494,6 +4822,12 @@ if (typeof module !== 'undefined' && module.exports) {
         solveCubicComplex,
         findPolynomialRootsComplex,
         separateRoots,
+        // Inequality solvers
+        solveLinearInequality,
+        solveQuadraticInequality,
+        flipOperator,
+        evaluateComparison,
+        formatOperator,
         // Matrix operations
         addMatrices,
         multiplyMatrices,

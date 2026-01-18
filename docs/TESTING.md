@@ -67,13 +67,14 @@ Open `tests/manual/test.html` in your browser to run interactive tests that vali
 
 ```
 tests/
-|-- unit/                       # Jest unit tests (639 tests)
+|-- unit/                       # Jest unit tests (764 tests)
 |   |-- calculator.test.js      # Standard calculator operations
 |   |-- linear.test.js          # Linear equations (ax + b = 0)
 |   |-- quadratic.test.js       # Quadratic equations (ax^2 + bx + c = 0)
 |   |-- cubic.test.js           # Cubic equations (ax^3 + bx^2 + cx + d = 0)
 |   |-- quartic.test.js         # Quartic equations
 |   |-- quintic.test.js         # Quintic equations
+|   |-- inequality.test.js      # Linear & quadratic inequalities
 |   |-- systems.test.js         # Systems of 2 linear equations
 |   |-- matrix.test.js          # Matrix operations
 |   |-- scientific.test.js      # Scientific functions
@@ -97,12 +98,12 @@ tests/
 |-- e2e/                        # Playwright E2E tests
 |   |-- app.spec.js             # Full application E2E tests
 |-- manual/
-    |-- test.html               # Browser-based manual tests
+    |-- test.html               # Browser-based manual tests (120+ tests)
 ```
 
 ## Unit Test Coverage (Jest)
 
-**639 test cases** covering:
+**764 test cases** covering:
 
 ### Core Functionality
 - Basic arithmetic operations (+, -, *, /)
@@ -115,6 +116,7 @@ tests/
 - Cubic equation solving (Cardano's formula)
 - Quartic equation solving (Durand-Kerner method)
 - Quintic equation solving (numerical methods)
+- **Inequality solving** (linear and quadratic with interval notation)
 - System of equations (Cramer's rule)
 
 ### Matrix Operations
