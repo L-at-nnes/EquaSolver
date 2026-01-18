@@ -31,6 +31,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Quartic Equations** (ax^4 + bx^3 + cx^2 + dx + e = 0) - Fourth-degree polynomial equation solver using Durand-Kerner method with **complex root support**
 - **Quintic Equations** (ax^5 + bx^4 + cx^3 + dx^2 + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods with **complex root support**
 - **Complex Number Support** - All polynomial equation solvers now display both real and complex roots with proper formatting (a ± bi notation)
+- **Inequality Solver** - Solve linear (ax + b < 0) and quadratic (ax² + bx + c < 0) inequalities with interval notation
 - **Systems of Linear Equations** - Solve 2x2 linear systems using Cramer's rule
 - **Matrix Calculator** - Operations on 2x2 and 3x3 matrices (addition, multiplication, determinant, inverse)
 - **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
@@ -234,7 +235,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 700+ test cases:**
+**Unit Tests (Jest) - 750+ test cases:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -243,6 +244,7 @@ The test suite includes:
 - Quartic equation solving (Durand-Kerner numerical method, complex roots)
 - Quintic equation solving (numerical root finding, complex roots)
 - **Complex number operations** (add, sub, mul, div, sqrt, abs, conjugate, formatting)
+- **Inequality solving** (linear and quadratic inequalities with interval notation)
 - System of equations (Cramer's rule)
 - Matrix operations (addition, multiplication, determinant, inverse)
 - LaTeX equation parsing
@@ -274,6 +276,11 @@ The test suite includes:
 - Keyboard navigation
 - Responsive design
 - Accessibility
+
+**Manual Browser Tests (120+ tests):**
+- Open `tests/manual/test.html` in browser for interactive validation
+- Tests all mathematical functions in real browser environment
+- Covers equations, inequalities, complex numbers, matrices, GCD/LCM, modular arithmetic, combinatorics, statistics, sequences, Taylor series, numerical integration, and more
 
 See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
 
@@ -310,6 +317,13 @@ Full complex arithmetic support for equation solving:
 - **Square Root**: Computes principal square root of complex numbers
 - **Formatting**: Displays results in standard a ± bi notation
 
+#### Inequality Solver
+Supports linear and quadratic inequalities:
+- **Linear Inequalities** (ax + b ⋚ 0): Direct solving with sign analysis
+- **Quadratic Inequalities** (ax² + bx + c ⋚ 0): Uses discriminant and parabola sign analysis
+- **Interval Notation**: Results displayed in standard mathematical notation (e.g., ]-∞, 2[ ∪ ]3, +∞[)
+- **Sign Flip**: Automatically handles inequality reversal when dividing by negative numbers
+
 #### Systems of Linear Equations
 Applies Cramer's rule with determinants:
 1. Calculate the main determinant
@@ -327,13 +341,13 @@ Supports 2×2 and 3×3 matrices:
 
 ## Browser Compatibility
 
-| Browser         | Minimum Version | Status |
-|----------------|------------------|--------|
-| Google Chrome  | Latest           | Fully Supported |
-| Mozilla Firefox| Latest           | Fully Supported |
-| Safari         | Latest           | Fully Supported |
-| Microsoft Edge | Latest           | Fully Supported |
-| Opera          | Latest           | Fully Supported |
+| Browser         | Minimum Version  | Status          |
+|-----------------|------------------|-----------------|
+| Google Chrome   | Latest           | Fully Supported |
+| Mozilla Firefox | Latest           | Fully Supported |
+| Safari          | Latest           | Fully Supported |
+| Microsoft Edge  | Latest           | Fully Supported |
+| Opera           | Latest           | Fully Supported |
 
 ---
 
@@ -390,7 +404,7 @@ If you find this project helpful, please consider:
 
 ### Planned Features
 - [x] Add complex number support for equation solvers
-- [ ] Implement inequality solver (linear and quadratic inequalities)
+- [x] Implement inequality solver (linear and quadratic inequalities)
 - [ ] Add derivative and integral calculator
 - [ ] Support for trigonometric equation solving
 - [ ] Add logarithmic and exponential equation solvers

@@ -198,6 +198,25 @@
                     <div class="tool-glow"></div>
                 </div>
 
+                <!-- Inequalities -->
+                <div class="tool-card" data-tool="inequalities">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M6 9l6-4 6 4"></path>
+                            <path d="M6 15l6 4 6-4"></path>
+                            <line x1="4" y1="12" x2="20" y2="12"></line>
+                        </svg>
+                    </div>
+                    <h3 data-translate="inequalities">Inequalities</h3>
+                    <p data-translate="inequalitiesDesc">Solve linear and quadratic</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="chooseType">Choose type</p>
+                        <button class="submenu-btn" data-subtool="inequalityLinear" data-translate="linearInequality">Linear</button>
+                        <button class="submenu-btn" data-subtool="inequalityQuadratic" data-translate="quadraticInequality">Quadratic</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
                 <div class="tool-card" data-tool="systems">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -602,6 +621,82 @@
                 </div>
                 
                 <div class="solution-container" id="quinticSolution"></div>
+            </div>
+
+            <!-- Linear Inequality Solver -->
+            <div class="calculator-panel" id="inequalityLinear">
+                <div class="equation-display">
+                    <h3 data-translate="linearInequalityTitle">Linear Inequality</h3>
+                    <div class="equation-preview" id="ineqLinearPreview">0x + 0 < 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x):</label>
+                        <input type="text" inputmode="decimal" id="ineqLinearA" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (constant):</label>
+                        <input type="text" inputmode="decimal" id="ineqLinearB" value="-2" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="inequality">Inequality:</label>
+                        <select id="ineqLinearOp" class="coef-input inequality-select">
+                            <option value="<">&lt; (less than)</option>
+                            <option value=">">&gt; (greater than)</option>
+                            <option value="<=">&le; (less or equal)</option>
+                            <option value=">=">&ge; (greater or equal)</option>
+                        </select>
+                    </div>
+                    <p class="input-hint" data-translate="inequalityHint">Choose the inequality type and coefficients</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="solveInequalityLinear" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportInequalityLinearPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="inequalityLinearSolution"></div>
+            </div>
+
+            <!-- Quadratic Inequality Solver -->
+            <div class="calculator-panel" id="inequalityQuadratic">
+                <div class="equation-display">
+                    <h3 data-translate="quadraticInequalityTitle">Quadratic Inequality</h3>
+                    <div class="equation-preview" id="ineqQuadPreview">1x² + 0x + 0 < 0</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x²):</label>
+                        <input type="text" inputmode="decimal" id="ineqQuadA" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (coefficient of x):</label>
+                        <input type="text" inputmode="decimal" id="ineqQuadB" value="-3" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c (constant):</label>
+                        <input type="text" inputmode="decimal" id="ineqQuadC" value="2" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="inequality">Inequality:</label>
+                        <select id="ineqQuadOp" class="coef-input inequality-select">
+                            <option value="<">&lt; (less than)</option>
+                            <option value=">">&gt; (greater than)</option>
+                            <option value="<=">&le; (less or equal)</option>
+                            <option value=">=">&ge; (greater or equal)</option>
+                        </select>
+                    </div>
+                    <p class="input-hint" data-translate="inequalityHint">Choose the inequality type and coefficients</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="solveInequalityQuadratic" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportInequalityQuadraticPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="inequalityQuadraticSolution"></div>
             </div>
 
             <!-- System of Equations Solver -->

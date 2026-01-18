@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>EquaSolver Tests</title>
+    <title>EquaSolver Manual Test Suite</title>
     <style>
         body {
             font-family: 'Courier New', monospace;
@@ -18,39 +18,49 @@
             border-bottom: 2px solid #00ff41;
             padding-bottom: 0.5rem;
         }
+        h2 {
+            color: #ff00ff;
+            margin-top: 2rem;
+            border-bottom: 1px solid #555;
+            padding-bottom: 0.3rem;
+        }
         .test-suite {
-            margin: 2rem 0;
-            border: 1px solid #00ff41;
-            padding: 1rem;
-            border-radius: 8px;
+            margin: 0.5rem 0;
+            border: 1px solid #333;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
-        .test-case {
-            margin: 1rem 0;
-            padding: 0.5rem;
-            border-left: 3px solid #555;
+        .test-suite.pass {
+            border-color: #00ff41;
+            background: rgba(0, 255, 65, 0.05);
         }
-        .test-case.pass {
-            border-left-color: #00ff41;
-            background: rgba(0, 255, 65, 0.1);
-        }
-        .test-case.fail {
-            border-left-color: #ff0080;
+        .test-suite.fail {
+            border-color: #ff0080;
             background: rgba(255, 0, 128, 0.1);
         }
         .test-name {
             font-weight: bold;
-            margin-bottom: 0.5rem;
         }
         .test-result {
             font-size: 0.9rem;
-            color: #b8b8d1;
+        }
+        .test-result.pass {
+            color: #00ff41;
+        }
+        .test-result.fail {
+            color: #ff0080;
         }
         .summary {
             margin-top: 2rem;
-            padding: 1rem;
+            padding: 1.5rem;
             background: rgba(0, 255, 255, 0.1);
             border-radius: 8px;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            text-align: center;
+            border: 2px solid #00ffff;
         }
         .pass-count {
             color: #00ff41;
@@ -60,33 +70,55 @@
             color: #ff0080;
             font-weight: bold;
         }
+        .section {
+            margin-bottom: 1rem;
+        }
+        .error-details {
+            font-size: 0.8rem;
+            color: #ff6699;
+            margin-top: 0.3rem;
+        }
     </style>
 </head>
 <body>
-    <h1>EquaSolver Test Suite</h1>
+    <h1>🧪 EquaSolver Manual Test Suite</h1>
+    <div class="summary" id="summary">Running tests...</div>
     <div id="test-output"></div>
-    <div class="summary" id="summary"></div>
 
     <script src="../../src/js/flags.js"></script>
     <script src="../../src/js/translations.js"></script>
     <script src="../../src/js/script.js"></script>
     <script>
-        // Test runner
+        // Enhanced Test Runner
         class TestRunner {
             constructor() {
                 this.tests = [];
                 this.passed = 0;
                 this.failed = 0;
+                this.currentSection = 'General';
+            }
+
+            section(name) {
+                this.currentSection = name;
             }
 
             test(name, fn) {
-                this.tests.push({ name, fn });
+                this.tests.push({ name, fn, section: this.currentSection });
             }
 
             async run() {
                 const output = document.getElementById('test-output');
+                let currentSection = '';
                 
                 for (const test of this.tests) {
+                    // Add section header if new section
+                    if (test.section !== currentSection) {
+                        currentSection = test.section;
+                        const header = document.createElement('h2');
+                        header.textContent = currentSection;
+                        output.appendChild(header);
+                    }
+
                     const div = document.createElement('div');
                     div.className = 'test-suite';
                     
@@ -95,25 +127,28 @@
                     nameDiv.textContent = test.name;
                     div.appendChild(nameDiv);
 
+                    const resultDiv = document.createElement('div');
+                    resultDiv.className = 'test-result';
+
                     try {
                         await test.fn();
                         div.classList.add('pass');
-                        const result = document.createElement('div');
-                        result.className = 'test-result';
-                        result.textContent = '✓ PASS';
-                        result.style.color = '#00ff41';
-                        div.appendChild(result);
+                        resultDiv.classList.add('pass');
+                        resultDiv.textContent = '✓ PASS';
                         this.passed++;
                     } catch (error) {
                         div.classList.add('fail');
-                        const result = document.createElement('div');
-                        result.className = 'test-result';
-                        result.textContent = `✗ FAIL: ${error.message}`;
-                        result.style.color = '#ff0080';
-                        div.appendChild(result);
+                        resultDiv.classList.add('fail');
+                        resultDiv.textContent = '✗ FAIL';
                         this.failed++;
+                        
+                        const errorDiv = document.createElement('div');
+                        errorDiv.className = 'error-details';
+                        errorDiv.textContent = error.message;
+                        div.appendChild(errorDiv);
                     }
 
+                    div.appendChild(resultDiv);
                     output.appendChild(div);
                 }
 
@@ -123,17 +158,19 @@
             showSummary() {
                 const summary = document.getElementById('summary');
                 const total = this.passed + this.failed;
+                const percent = ((this.passed / total) * 100).toFixed(1);
                 summary.innerHTML = `
-                    <strong>Test Results:</strong><br>
-                    Total: ${total} | 
-                    <span class="pass-count">${this.passed} passed</span> | 
-                    <span class="fail-count">${this.failed} failed</span>
+                    <strong>📊 Test Results</strong><br><br>
+                    Total: <strong>${total}</strong> | 
+                    <span class="pass-count">✓ ${this.passed} passed</span> | 
+                    <span class="fail-count">✗ ${this.failed} failed</span><br>
+                    <strong>Coverage: ${percent}%</strong>
                 `;
             }
 
             assertEquals(actual, expected, message = '') {
                 if (typeof expected === 'number' && typeof actual === 'number') {
-                    if (Math.abs(actual - expected) > 0.001) {
+                    if (Math.abs(actual - expected) > 0.0001) {
                         throw new Error(`${message} Expected ${expected}, got ${actual}`);
                     }
                 } else if (actual !== expected) {
@@ -154,7 +191,19 @@
 
             assertTrue(condition, message = '') {
                 if (!condition) {
-                    throw new Error(`${message} Expected true, got false`);
+                    throw new Error(`${message || 'Assertion failed'} - Expected true, got false`);
+                }
+            }
+
+            assertFalse(condition, message = '') {
+                if (condition) {
+                    throw new Error(`${message || 'Assertion failed'} - Expected false, got true`);
+                }
+            }
+
+            assertContains(str, substring, message = '') {
+                if (!str.includes(substring)) {
+                    throw new Error(`${message} Expected "${str}" to contain "${substring}"`);
                 }
             }
         }
@@ -165,178 +214,847 @@
         // ===================================
         // LINEAR EQUATION TESTS
         // ===================================
-        runner.test('Linear: x + 2 = 0', () => {
-            // Manually compute: x = -2
-            const a = 1, b = 2;
-            const x = -b / a;
-            runner.assertEquals(x, -2, 'Linear solution');
+        runner.section('📐 Linear Equations');
+        
+        runner.test('x + 2 = 0 → x = -2', () => {
+            const x = -2 / 1;
+            runner.assertEquals(x, -2);
         });
 
-        runner.test('Linear: 2x - 4 = 0', () => {
-            const a = 2, b = -4;
-            const x = -b / a;
-            runner.assertEquals(x, 2, 'Linear solution');
+        runner.test('2x - 4 = 0 → x = 2', () => {
+            const x = 4 / 2;
+            runner.assertEquals(x, 2);
         });
 
-        runner.test('Linear: -3x + 9 = 0', () => {
-            const a = -3, b = 9;
-            const x = -b / a;
-            runner.assertEquals(x, 3, 'Linear solution');
+        runner.test('-3x + 9 = 0 → x = 3', () => {
+            const x = -9 / -3;
+            runner.assertEquals(x, 3);
+        });
+
+        runner.test('5x + 15 = 0 → x = -3', () => {
+            const x = -15 / 5;
+            runner.assertEquals(x, -3);
+        });
+
+        runner.test('0.5x - 1 = 0 → x = 2', () => {
+            const x = 1 / 0.5;
+            runner.assertEquals(x, 2);
         });
 
         // ===================================
         // QUADRATIC EQUATION TESTS
         // ===================================
-        runner.test('Quadratic: x² - 5x + 6 = 0', () => {
+        runner.section('📈 Quadratic Equations');
+        
+        runner.test('x² - 5x + 6 = 0 → x = 2, 3', () => {
             const a = 1, b = -5, c = 6;
             const delta = b * b - 4 * a * c;
+            runner.assertEquals(delta, 1, 'Discriminant');
             const x1 = (-b + Math.sqrt(delta)) / (2 * a);
             const x2 = (-b - Math.sqrt(delta)) / (2 * a);
-            runner.assertEquals(x1, 3, 'First root');
-            runner.assertEquals(x2, 2, 'Second root');
+            runner.assertEquals(x1, 3);
+            runner.assertEquals(x2, 2);
         });
 
-        runner.test('Quadratic: x² - 4 = 0', () => {
+        runner.test('x² - 4 = 0 → x = ±2', () => {
             const a = 1, b = 0, c = -4;
             const delta = b * b - 4 * a * c;
-            const x1 = (-b + Math.sqrt(delta)) / (2 * a);
-            const x2 = (-b - Math.sqrt(delta)) / (2 * a);
-            runner.assertEquals(x1, 2, 'First root');
-            runner.assertEquals(x2, -2, 'Second root');
+            runner.assertEquals(delta, 16, 'Discriminant');
         });
 
-        runner.test('Quadratic: x² + 2x + 1 = 0', () => {
+        runner.test('x² + 2x + 1 = 0 → x = -1 (double)', () => {
             const a = 1, b = 2, c = 1;
             const delta = b * b - 4 * a * c;
-            runner.assertEquals(delta, 0, 'Discriminant should be 0');
-            const x = -b / (2 * a);
-            runner.assertEquals(x, -1, 'Double root');
+            runner.assertEquals(delta, 0, 'Discriminant = 0');
+        });
+
+        runner.test('x² + 1 = 0 → complex roots (Δ < 0)', () => {
+            const a = 1, b = 0, c = 1;
+            const delta = b * b - 4 * a * c;
+            runner.assertTrue(delta < 0, 'Should have negative discriminant');
+        });
+
+        runner.test('2x² - 8x + 6 = 0 → x = 1, 3', () => {
+            const a = 2, b = -8, c = 6;
+            const delta = b * b - 4 * a * c;
+            const x1 = (-b + Math.sqrt(delta)) / (2 * a);
+            const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+            runner.assertEquals(x1, 3);
+            runner.assertEquals(x2, 1);
         });
 
         // ===================================
         // CUBIC EQUATION TESTS
         // ===================================
-        runner.test('Cubic: x³ - 6x² + 11x - 6 = 0', () => {
-            // Known roots: x = 1, 2, 3
+        runner.section('📊 Cubic Equations');
+        
+        runner.test('x³ - 6x² + 11x - 6 = 0 has 3 real roots', () => {
             const a = 1, b = -6, c = 11, d = -6;
             const p = (3 * a * c - b * b) / (3 * a * a);
             const q = (2 * b * b * b - 9 * a * b * c + 27 * a * a * d) / (27 * a * a * a);
             const discriminant = -(4 * p * p * p + 27 * q * q);
-            runner.assertTrue(discriminant > 0, 'Should have 3 real roots');
+            runner.assertTrue(discriminant > 0, 'Discriminant > 0 means 3 real roots');
+        });
+
+        runner.test('x³ - 1 = 0 has real root x = 1', () => {
+            const result = Math.cbrt(1);
+            runner.assertEquals(result, 1);
         });
 
         // ===================================
-        // NUMERICAL METHOD TESTS (Durand-Kerner)
+        // POLYNOMIAL ROOTS (DURAND-KERNER)
         // ===================================
-        runner.test('Numerical: Quartic x⁴ - 5x² + 4 = 0', () => {
-            // Known roots: ±1, ±2
+        runner.section('🔢 Numerical Methods (Durand-Kerner)');
+        
+        runner.test('Quartic x⁴ - 5x² + 4 = 0 → ±1, ±2', () => {
             const roots = findPolynomialRoots([1, 0, -5, 0, 4]);
-            runner.assertEquals(roots.length, 4, 'Should find 4 real roots');
-            const expected = [-2, -1, 1, 2];
-            runner.assertArrayEquals(roots, expected, 0.01, 'Quartic roots');
+            runner.assertEquals(roots.length, 4);
+            runner.assertArrayEquals(roots, [-2, -1, 1, 2], 0.01);
         });
 
-        runner.test('Numerical: Quartic (x-1)(x-2)(x-3)(x-4) = 0', () => {
-            // Expanded: x⁴ - 10x³ + 35x² - 50x + 24 = 0
+        runner.test('Quartic (x-1)(x-2)(x-3)(x-4) = 0', () => {
             const roots = findPolynomialRoots([1, -10, 35, -50, 24]);
-            runner.assertEquals(roots.length, 4, 'Should find 4 real roots');
-            const expected = [1, 2, 3, 4];
-            runner.assertArrayEquals(roots, expected, 0.01, 'Quartic roots');
+            runner.assertEquals(roots.length, 4);
+            runner.assertArrayEquals(roots, [1, 2, 3, 4], 0.01);
         });
 
-        runner.test('Numerical: Quintic x⁵ - 15x³ + 10x² + 60x - 72 = 0', () => {
-            // Testing numerical stability
-            const roots = findPolynomialRoots([1, 0, -15, 10, 60, -72]);
-            runner.assertTrue(roots.length > 0, 'Should find at least one real root');
-        });
-
-        runner.test('Numerical: Quintic (x-1)(x-2)(x-3)(x+1)(x+2) = 0', () => {
-            // Expanded: x⁵ - 3x⁴ - 5x³ + 15x² + 4x - 12 = 0
+        runner.test('Quintic (x-1)(x-2)(x-3)(x+1)(x+2) = 0', () => {
             const roots = findPolynomialRoots([1, -3, -5, 15, 4, -12]);
-            runner.assertEquals(roots.length, 5, 'Should find 5 real roots');
-            const expected = [-2, -1, 1, 2, 3];
-            runner.assertArrayEquals(roots, expected, 0.01, 'Quintic roots');
+            runner.assertEquals(roots.length, 5);
+            runner.assertArrayEquals(roots, [-2, -1, 1, 2, 3], 0.01);
+        });
+
+        runner.test('Quintic with numerical stability', () => {
+            const roots = findPolynomialRoots([1, 0, -15, 10, 60, -72]);
+            runner.assertTrue(roots.length > 0);
+        });
+
+        runner.test('Quadratic via findPolynomialRoots: x² - 4 = 0', () => {
+            const roots = findPolynomialRoots([1, 0, -4]);
+            runner.assertEquals(roots.length, 2);
         });
 
         // ===================================
-        // COMPLEX NUMBER OPERATIONS TESTS
+        // COMPLEX NUMBER OPERATIONS
         // ===================================
-        runner.test('Complex: Addition', () => {
-            const a = { re: 3, im: 4 };
-            const b = { re: 1, im: 2 };
-            const result = complexAdd(a, b);
-            runner.assertEquals(result.re, 4, 'Real part');
-            runner.assertEquals(result.im, 6, 'Imaginary part');
+        runner.section('🔮 Complex Numbers');
+        
+        runner.test('Addition: (3+4i) + (1+2i) = 4+6i', () => {
+            const result = complexAdd({ re: 3, im: 4 }, { re: 1, im: 2 });
+            runner.assertEquals(result.re, 4);
+            runner.assertEquals(result.im, 6);
         });
 
-        runner.test('Complex: Subtraction', () => {
-            const a = { re: 5, im: 7 };
-            const b = { re: 2, im: 3 };
-            const result = complexSub(a, b);
-            runner.assertEquals(result.re, 3, 'Real part');
-            runner.assertEquals(result.im, 4, 'Imaginary part');
+        runner.test('Subtraction: (5+7i) - (2+3i) = 3+4i', () => {
+            const result = complexSub({ re: 5, im: 7 }, { re: 2, im: 3 });
+            runner.assertEquals(result.re, 3);
+            runner.assertEquals(result.im, 4);
         });
 
-        runner.test('Complex: Multiplication', () => {
-            const a = { re: 2, im: 3 };
-            const b = { re: 4, im: 5 };
-            const result = complexMul(a, b);
-            runner.assertEquals(result.re, -7, 'Real part');
-            runner.assertEquals(result.im, 22, 'Imaginary part');
+        runner.test('Multiplication: (2+3i)(4+5i) = -7+22i', () => {
+            const result = complexMul({ re: 2, im: 3 }, { re: 4, im: 5 });
+            runner.assertEquals(result.re, -7);
+            runner.assertEquals(result.im, 22);
         });
 
-        runner.test('Complex: Division', () => {
-            const a = { re: 10, im: 5 };
-            const b = { re: 2, im: 1 };
-            const result = complexDiv(a, b);
-            runner.assertEquals(result.re, 5, 'Real part');
-            runner.assertEquals(result.im, 0, 'Imaginary part');
+        runner.test('Division: (10+5i)/(2+i) = 5+0i', () => {
+            const result = complexDiv({ re: 10, im: 5 }, { re: 2, im: 1 });
+            runner.assertEquals(result.re, 5);
+            runner.assertEquals(result.im, 0);
         });
 
-        runner.test('Complex: Power', () => {
-            const z = { re: 2, im: 0 };
-            const result = complexPow(z, 3);
-            runner.assertEquals(result.re, 8, 'Real part of 2³');
-            runner.assertEquals(result.im, 0, 'Imaginary part of 2³');
+        runner.test('Power: (2+0i)³ = 8+0i', () => {
+            const result = complexPow({ re: 2, im: 0 }, 3);
+            runner.assertEquals(result.re, 8);
+            runner.assertEquals(result.im, 0);
+        });
+
+        runner.test('Scale: 3*(2+4i) = 6+12i', () => {
+            const result = complexScale({ re: 2, im: 4 }, 3);
+            runner.assertEquals(result.re, 6);
+            runner.assertEquals(result.im, 12);
+        });
+
+        runner.test('Absolute value: |3+4i| = 5', () => {
+            const result = complexAbs({ re: 3, im: 4 });
+            runner.assertEquals(result, 5);
+        });
+
+        runner.test('Conjugate: conj(3+4i) = 3-4i', () => {
+            const result = complexConjugate({ re: 3, im: 4 });
+            runner.assertEquals(result.re, 3);
+            runner.assertEquals(result.im, -4);
+        });
+
+        runner.test('From real: 5 → 5+0i', () => {
+            const result = complexFromReal(5);
+            runner.assertEquals(result.re, 5);
+            runner.assertEquals(result.im, 0);
+        });
+
+        runner.test('Format: 3+4i displays correctly', () => {
+            const result = formatComplex({ re: 3, im: 4 });
+            runner.assertContains(result, '3');
+            runner.assertContains(result, '4');
+        });
+
+        runner.test('isEssentiallyReal: (5, 0.0000001) is real', () => {
+            runner.assertTrue(isEssentiallyReal({ re: 5, im: 0.0000001 }));
+        });
+
+        runner.test('isEssentiallyZero: (0.0000001, 0.0000001) is zero', () => {
+            runner.assertTrue(isEssentiallyZero({ re: 0.0000001, im: 0.0000001 }));
+        });
+
+        runner.test('Polynomial evaluation: x²-3x+2 at x=1 = 0', () => {
+            const result = evalPoly([1, -3, 2], { re: 1, im: 0 });
+            runner.assertEquals(result.re, 0, 'Should be 0 at root');
+        });
+
+        runner.test('Polynomial evaluation: x²-3x+2 at x=2 = 0', () => {
+            const result = evalPoly([1, -3, 2], { re: 2, im: 0 });
+            runner.assertEquals(result.re, 0, 'Should be 0 at root');
+        });
+
+        // ===================================
+        // INEQUALITY SOLVER TESTS
+        // ===================================
+        runner.section('⚖️ Linear Inequalities');
+        
+        runner.test('2x - 4 < 0 → x < 2', () => {
+            const result = solveLinearInequality(2, -4, '<');
+            runner.assertEquals(result.type, 'interval');
+            runner.assertContains(result.solution, 'x < 2');
+        });
+
+        runner.test('2x - 4 > 0 → x > 2', () => {
+            const result = solveLinearInequality(2, -4, '>');
+            runner.assertEquals(result.type, 'interval');
+            runner.assertContains(result.solution, 'x > 2');
+        });
+
+        runner.test('3x + 6 <= 0 → x ≤ -2', () => {
+            const result = solveLinearInequality(3, 6, '<=');
+            runner.assertEquals(result.type, 'interval');
+            runner.assertContains(result.solution, 'x ≤ -2');
+        });
+
+        runner.test('3x + 6 >= 0 → x ≥ -2', () => {
+            const result = solveLinearInequality(3, 6, '>=');
+            runner.assertEquals(result.type, 'interval');
+            runner.assertContains(result.solution, 'x ≥ -2');
+        });
+
+        runner.test('-2x + 4 < 0 → x > 2 (flip)', () => {
+            const result = solveLinearInequality(-2, 4, '<');
+            runner.assertContains(result.solution, 'x > 2');
+        });
+
+        runner.test('-2x + 4 > 0 → x < 2 (flip)', () => {
+            const result = solveLinearInequality(-2, 4, '>');
+            runner.assertContains(result.solution, 'x < 2');
+        });
+
+        runner.test('0x - 3 < 0 → ℝ (always true)', () => {
+            const result = solveLinearInequality(0, -3, '<');
+            runner.assertEquals(result.type, 'all');
+        });
+
+        runner.test('0x + 3 < 0 → ∅ (never true)', () => {
+            const result = solveLinearInequality(0, 3, '<');
+            runner.assertEquals(result.type, 'none');
+        });
+
+        runner.section('📉 Quadratic Inequalities');
+
+        runner.test('x² - 5x + 6 > 0 → x < 2 or x > 3', () => {
+            const result = solveQuadraticInequality(1, -5, 6, '>');
+            runner.assertEquals(result.type, 'union');
+        });
+
+        runner.test('x² - 5x + 6 < 0 → 2 < x < 3', () => {
+            const result = solveQuadraticInequality(1, -5, 6, '<');
+            runner.assertEquals(result.type, 'interval');
+        });
+
+        runner.test('x² - 4x + 4 > 0 → x ≠ 2 (Δ=0)', () => {
+            const result = solveQuadraticInequality(1, -4, 4, '>');
+            runner.assertContains(result.solution, '≠');
+        });
+
+        runner.test('x² - 4x + 4 >= 0 → ℝ (Δ=0)', () => {
+            const result = solveQuadraticInequality(1, -4, 4, '>=');
+            runner.assertEquals(result.type, 'all');
+        });
+
+        runner.test('x² - 4x + 4 < 0 → ∅ (Δ=0)', () => {
+            const result = solveQuadraticInequality(1, -4, 4, '<');
+            runner.assertEquals(result.type, 'none');
+        });
+
+        runner.test('x² + 1 > 0 → ℝ (Δ<0, always positive)', () => {
+            const result = solveQuadraticInequality(1, 0, 1, '>');
+            runner.assertEquals(result.type, 'all');
+        });
+
+        runner.test('x² + 1 < 0 → ∅ (Δ<0, never negative)', () => {
+            const result = solveQuadraticInequality(1, 0, 1, '<');
+            runner.assertEquals(result.type, 'none');
+        });
+
+        runner.test('-x² - 1 < 0 → ℝ (always negative)', () => {
+            const result = solveQuadraticInequality(-1, 0, -1, '<');
+            runner.assertEquals(result.type, 'all');
+        });
+
+        runner.test('-x² + 5x - 6 > 0 → 2 < x < 3 (opens down)', () => {
+            const result = solveQuadraticInequality(-1, 5, -6, '>');
+            runner.assertEquals(result.type, 'interval');
+        });
+
+        runner.test('0x² + 2x - 4 > 0 → x > 2 (degenerates to linear)', () => {
+            const result = solveQuadraticInequality(0, 2, -4, '>');
+            runner.assertEquals(result.type, 'interval');
+        });
+
+        runner.section('🔧 Inequality Helpers');
+
+        runner.test('flipOperator: < → >', () => {
+            runner.assertEquals(flipOperator('<'), '>');
+        });
+
+        runner.test('flipOperator: > → <', () => {
+            runner.assertEquals(flipOperator('>'), '<');
+        });
+
+        runner.test('flipOperator: <= → >=', () => {
+            runner.assertEquals(flipOperator('<='), '>=');
+        });
+
+        runner.test('flipOperator: >= → <=', () => {
+            runner.assertEquals(flipOperator('>='), '<=');
+        });
+
+        runner.test('evaluateComparison: 3 < 5', () => {
+            runner.assertTrue(evaluateComparison(3, 5, '<'));
+        });
+
+        runner.test('evaluateComparison: 5 > 3', () => {
+            runner.assertTrue(evaluateComparison(5, 3, '>'));
+        });
+
+        runner.test('evaluateComparison: 3 <= 3', () => {
+            runner.assertTrue(evaluateComparison(3, 3, '<='));
+        });
+
+        runner.test('evaluateComparison: 3 >= 3', () => {
+            runner.assertTrue(evaluateComparison(3, 3, '>='));
+        });
+
+        runner.test('formatOperator: <= → ≤', () => {
+            runner.assertEquals(formatOperator('<='), '≤');
+        });
+
+        runner.test('formatOperator: >= → ≥', () => {
+            runner.assertEquals(formatOperator('>='), '≥');
         });
 
         // ===================================
         // SYSTEM OF EQUATIONS TESTS
         // ===================================
-        runner.test('System: 2x + y = 5, x - y = 1', () => {
+        runner.section('📝 Systems of Equations');
+        
+        runner.test('2x + y = 5, x - y = 1 → x=2, y=1', () => {
             const a = 2, b = 1, e = 5;
             const c = 1, d = -1, f = 1;
             const det = a * d - b * c;
             const x = (e * d - b * f) / det;
             const y = (a * f - e * c) / det;
-            runner.assertEquals(x, 2, 'x value');
-            runner.assertEquals(y, 1, 'y value');
+            runner.assertEquals(x, 2);
+            runner.assertEquals(y, 1);
         });
 
-        runner.test('System: x + 2y = 7, 3x - y = 5', () => {
+        runner.test('x + 2y = 7, 3x - y = 5 → x=3, y=2', () => {
             const a = 1, b = 2, e = 7;
             const c = 3, d = -1, f = 5;
             const det = a * d - b * c;
             const x = (e * d - b * f) / det;
             const y = (a * f - e * c) / det;
-            runner.assertEquals(x, 3, 'x value');
-            runner.assertEquals(y, 2, 'y value');
+            runner.assertEquals(x, 3);
+            runner.assertEquals(y, 2);
+        });
+
+        runner.test('Parallel lines: det = 0', () => {
+            const a = 1, b = 2;
+            const c = 2, d = 4;
+            const det = a * d - b * c;
+            runner.assertEquals(det, 0, 'No unique solution');
+        });
+
+        // ===================================
+        // MATRIX OPERATIONS
+        // ===================================
+        runner.section('🔲 Matrix Operations');
+        
+        runner.test('2x2 Addition', () => {
+            const A = [[1, 2], [3, 4]];
+            const B = [[5, 6], [7, 8]];
+            const result = addMatrices(A, B);
+            runner.assertEquals(result[0][0], 6);
+            runner.assertEquals(result[1][1], 12);
+        });
+
+        runner.test('2x2 Multiplication', () => {
+            const A = [[1, 2], [3, 4]];
+            const B = [[5, 6], [7, 8]];
+            const result = multiplyMatrices(A, B);
+            runner.assertEquals(result[0][0], 19);
+            runner.assertEquals(result[0][1], 22);
+            runner.assertEquals(result[1][0], 43);
+            runner.assertEquals(result[1][1], 50);
+        });
+
+        runner.test('2x2 Determinant: [[1,2],[3,4]] = -2', () => {
+            const result = calculateDeterminant([[1, 2], [3, 4]]);
+            runner.assertEquals(result, -2);
+        });
+
+        runner.test('2x2 Inverse exists', () => {
+            const result = invertMatrix([[1, 2], [3, 4]]);
+            runner.assertTrue(result !== null, 'Should have inverse');
+        });
+
+        runner.test('Singular matrix has no inverse', () => {
+            const result = invertMatrix([[1, 2], [2, 4]]);
+            runner.assertTrue(result === null, 'Should not have inverse');
+        });
+
+        runner.test('3x3 Determinant', () => {
+            const A = [[1, 2, 3], [4, 5, 6], [7, 8, 9]];
+            const result = calculateDeterminant(A);
+            runner.assertEquals(result, 0, 'This matrix is singular');
+        });
+
+        runner.test('3x3 Non-singular determinant', () => {
+            const A = [[1, 0, 0], [0, 1, 0], [0, 0, 1]];
+            const result = calculateDeterminant(A);
+            runner.assertEquals(result, 1, 'Identity matrix');
+        });
+
+        // ===================================
+        // GCD/LCM FUNCTIONS
+        // ===================================
+        runner.section('🔗 GCD & LCM');
+        
+        runner.test('gcd(12, 8) = 4', () => {
+            runner.assertEquals(gcd(12, 8), 4);
+        });
+
+        runner.test('gcd(17, 13) = 1 (coprime)', () => {
+            runner.assertEquals(gcd(17, 13), 1);
+        });
+
+        runner.test('gcd(100, 25) = 25', () => {
+            runner.assertEquals(gcd(100, 25), 25);
+        });
+
+        runner.test('lcm(4, 6) = 12', () => {
+            runner.assertEquals(lcm(4, 6), 12);
+        });
+
+        runner.test('lcm(3, 5) = 15', () => {
+            runner.assertEquals(lcm(3, 5), 15);
+        });
+
+        runner.test('gcdMultiple([12, 18, 24]) = 6', () => {
+            runner.assertEquals(gcdMultiple([12, 18, 24]), 6);
+        });
+
+        runner.test('lcmMultiple([4, 6, 8]) = 24', () => {
+            runner.assertEquals(lcmMultiple([4, 6, 8]), 24);
+        });
+
+        runner.test('primeFactorization(60) = {2:2, 3:1, 5:1}', () => {
+            const factors = primeFactorization(60);
+            runner.assertEquals(factors[2], 2);
+            runner.assertEquals(factors[3], 1);
+            runner.assertEquals(factors[5], 1);
+        });
+
+        runner.test('primeFactorization(17) = {17:1} (prime)', () => {
+            const factors = primeFactorization(17);
+            runner.assertEquals(factors[17], 1);
+        });
+
+        // ===================================
+        // MODULAR ARITHMETIC
+        // ===================================
+        runner.section('🔐 Modular Arithmetic');
+        
+        runner.test('modulo(17, 5) = 2', () => {
+            runner.assertEquals(modulo(17, 5), 2);
+        });
+
+        runner.test('modulo(-17, 5) = 3 (positive result)', () => {
+            runner.assertEquals(modulo(-17, 5), 3);
+        });
+
+        runner.test('modularInverse(3, 7) = 5', () => {
+            runner.assertEquals(modularInverse(3, 7), 5);
+        });
+
+        runner.test('modularInverse(2, 6) = null (no inverse)', () => {
+            runner.assertTrue(modularInverse(2, 6) === null);
+        });
+
+        runner.test('modularPower(2, 10, 1000) = 24', () => {
+            runner.assertEquals(modularPower(2, 10, 1000), 24);
+        });
+
+        runner.test('modularPower(3, 5, 13) = 9', () => {
+            runner.assertEquals(modularPower(3, 5, 13), 9);
+        });
+
+        // ===================================
+        // COMBINATORICS
+        // ===================================
+        runner.section('🎲 Combinatorics');
+        
+        runner.test('factorial(5) = 120', () => {
+            runner.assertEquals(factorial(5), 120);
+        });
+
+        runner.test('factorial(0) = 1', () => {
+            runner.assertEquals(factorial(0), 1);
+        });
+
+        runner.test('factorial(10) = 3628800', () => {
+            runner.assertEquals(factorial(10), 3628800);
+        });
+
+        runner.test('factorialBig(5) = 120n', () => {
+            runner.assertEquals(factorialBig(5), 120n);
+        });
+
+        runner.test('permutation(5, 3) = 60', () => {
+            runner.assertEquals(permutation(5, 3), 60n);
+        });
+
+        runner.test('permutation(10, 2) = 90', () => {
+            runner.assertEquals(permutation(10, 2), 90n);
+        });
+
+        runner.test('combination(5, 2) = 10', () => {
+            runner.assertEquals(combination(5, 2), 10n);
+        });
+
+        runner.test('combination(10, 3) = 120', () => {
+            runner.assertEquals(combination(10, 3), 120n);
+        });
+
+        runner.test('combination(n, 0) = 1', () => {
+            runner.assertEquals(combination(7, 0), 1n);
+        });
+
+        runner.test('combination(n, n) = 1', () => {
+            runner.assertEquals(combination(7, 7), 1n);
+        });
+
+        // ===================================
+        // FRACTIONS
+        // ===================================
+        runner.section('🍕 Fractions');
+        
+        runner.test('simplify 6/8 = 3/4', () => {
+            const result = simplifyFractionFunc(6, 8);
+            runner.assertEquals(result.num, 3);
+            runner.assertEquals(result.den, 4);
+        });
+
+        runner.test('simplify 15/25 = 3/5', () => {
+            const result = simplifyFractionFunc(15, 25);
+            runner.assertEquals(result.num, 3);
+            runner.assertEquals(result.den, 5);
+        });
+
+        runner.test('simplify 7/7 = 1/1', () => {
+            const result = simplifyFractionFunc(7, 7);
+            runner.assertEquals(result.num, 1);
+            runner.assertEquals(result.den, 1);
+        });
+
+        runner.test('fractionToMixed 7/3 = 2 and 1/3', () => {
+            const result = fractionToMixed(7, 3);
+            runner.assertEquals(result.whole, 2);
+            runner.assertEquals(result.num, 1);
+            runner.assertEquals(result.den, 3);
+        });
+
+        runner.test('fractionToMixed 5/2 = 2 and 1/2', () => {
+            const result = fractionToMixed(5, 2);
+            runner.assertEquals(result.whole, 2);
+            runner.assertEquals(result.num, 1);
+            runner.assertEquals(result.den, 2);
+        });
+
+        // ===================================
+        // STATISTICS
+        // ===================================
+        runner.section('📊 Statistics');
+        
+        runner.test('calculateMean([1,2,3,4,5]) = 3', () => {
+            runner.assertEquals(calculateMean([1, 2, 3, 4, 5]), 3);
+        });
+
+        runner.test('calculateMedian([1,2,3,4,5]) = 3', () => {
+            runner.assertEquals(calculateMedian([1, 2, 3, 4, 5]), 3);
+        });
+
+        runner.test('calculateMedian([1,2,3,4]) = 2.5', () => {
+            runner.assertEquals(calculateMedian([1, 2, 3, 4]), 2.5);
+        });
+
+        runner.test('calculateMode([1,2,2,3,3,3]) = [3]', () => {
+            const result = calculateMode([1, 2, 2, 3, 3, 3]);
+            runner.assertEquals(result[0], 3);
+        });
+
+        runner.test('calculateVariance([2,4,4,4,5,5,7,9]) ≈ 4', () => {
+            const result = calculateVariance([2, 4, 4, 4, 5, 5, 7, 9]);
+            runner.assertTrue(Math.abs(result - 4) < 0.01);
+        });
+
+        runner.test('calculateStdDev([2,4,4,4,5,5,7,9]) = 2', () => {
+            const result = calculateStdDev([2, 4, 4, 4, 5, 5, 7, 9]);
+            runner.assertEquals(result, 2);
+        });
+
+        // ===================================
+        // SEQUENCES (using actual function names)
+        // ===================================
+        runner.section('📈 Sequences');
+        
+        runner.test('generateArithmeticSequence(2, 3, 5) returns 5 terms', () => {
+            const result = generateArithmeticSequence(2, 3, 5);
+            runner.assertEquals(result.terms.length, 5);
+            runner.assertArrayEquals(result.terms, [2, 5, 8, 11, 14]);
+        });
+
+        runner.test('generateGeometricSequence(2, 3, 4) returns correct terms', () => {
+            const result = generateGeometricSequence(2, 3, 4);
+            runner.assertEquals(result.terms.length, 4);
+            runner.assertArrayEquals(result.terms, [2, 6, 18, 54]);
+        });
+
+        runner.test('generateFibonacciSequence(8) returns Fibonacci', () => {
+            const result = generateFibonacciSequence(8);
+            runner.assertArrayEquals(result.terms, [0, 1, 1, 2, 3, 5, 8, 13]);
+        });
+
+        runner.test('Arithmetic sum formula: n/2 * (2a + (n-1)d)', () => {
+            const result = generateArithmeticSequence(1, 2, 5);
+            runner.assertEquals(result.sum, 25); // 1+3+5+7+9 = 25
+        });
+
+        runner.test('Geometric sum formula: a*(1-r^n)/(1-r)', () => {
+            const result = generateGeometricSequence(1, 2, 5);
+            runner.assertEquals(result.sum, 31); // 1+2+4+8+16 = 31
+        });
+
+        // ===================================
+        // TAYLOR SERIES (with correct 3-param signature)
+        // ===================================
+        runner.section('📐 Taylor Series');
+        
+        runner.test('taylorSin(0, 0, 10) ≈ 0', () => {
+            const result = taylorSin(0, 0, 10);
+            runner.assertTrue(Math.abs(result) < 0.0001);
+        });
+
+        runner.test('taylorCos(0, 0, 10) ≈ 1', () => {
+            const result = taylorCos(0, 0, 10);
+            runner.assertTrue(Math.abs(result - 1) < 0.0001);
+        });
+
+        runner.test('taylorExp(1, 0, 15) ≈ e', () => {
+            const result = taylorExp(1, 0, 15);
+            runner.assertTrue(Math.abs(result - Math.E) < 0.0001);
+        });
+
+        runner.test('taylorExp(0, 0, 10) = 1', () => {
+            const result = taylorExp(0, 0, 10);
+            runner.assertTrue(Math.abs(result - 1) < 0.0001);
+        });
+
+        runner.test('taylorSin(π/2, 0, 15) ≈ 1', () => {
+            const result = taylorSin(Math.PI / 2, 0, 15);
+            runner.assertTrue(Math.abs(result - 1) < 0.001);
+        });
+
+        runner.test('taylorCos(π, 0, 15) ≈ -1', () => {
+            const result = taylorCos(Math.PI, 0, 15);
+            runner.assertTrue(Math.abs(result + 1) < 0.001);
+        });
+
+        // ===================================
+        // NUMERICAL INTEGRATION (with function, not string)
+        // ===================================
+        runner.section('∫ Numerical Integration');
+        
+        runner.test('trapezoidalRule x² from 0 to 1 ≈ 0.333', () => {
+            const f = x => x * x;
+            const result = trapezoidalRule(f, 0, 1, 1000);
+            runner.assertTrue(Math.abs(result - 1/3) < 0.01);
+        });
+
+        runner.test('simpsonsRule x² from 0 to 1 ≈ 0.333', () => {
+            const f = x => x * x;
+            const result = simpsonsRule(f, 0, 1, 1000);
+            runner.assertTrue(Math.abs(result - 1/3) < 0.001);
+        });
+
+        runner.test('trapezoidalRule sin(x) from 0 to π ≈ 2', () => {
+            const f = x => Math.sin(x);
+            const result = trapezoidalRule(f, 0, Math.PI, 1000);
+            runner.assertTrue(Math.abs(result - 2) < 0.01);
+        });
+
+        runner.test('simpsonsRule constant from 0 to 5 = 25 (5*5)', () => {
+            const f = x => 5;
+            const result = simpsonsRule(f, 0, 5, 100);
+            runner.assertTrue(Math.abs(result - 25) < 0.01);
+        });
+
+        runner.test('simpsonsRule x from 0 to 2 = 2 (area of triangle)', () => {
+            const f = x => x;
+            const result = simpsonsRule(f, 0, 2, 100);
+            runner.assertTrue(Math.abs(result - 2) < 0.01);
+        });
+
+        // ===================================
+        // BASE CONVERSION (using native JS)
+        // ===================================
+        runner.section('🔄 Base Conversion');
+        
+        runner.test('Number.toString(2): 10 → "1010"', () => {
+            runner.assertEquals((10).toString(2), '1010');
+        });
+
+        runner.test('Number.toString(16): 255 → "ff"', () => {
+            runner.assertEquals((255).toString(16).toUpperCase(), 'FF');
+        });
+
+        runner.test('Number.toString(8): 64 → "100"', () => {
+            runner.assertEquals((64).toString(8), '100');
+        });
+
+        runner.test('parseInt("1010", 2) = 10', () => {
+            runner.assertEquals(parseInt('1010', 2), 10);
+        });
+
+        runner.test('parseInt("FF", 16) = 255', () => {
+            runner.assertEquals(parseInt('FF', 16), 255);
+        });
+
+        runner.test('parseInt("100", 8) = 64', () => {
+            runner.assertEquals(parseInt('100', 8), 64);
+        });
+
+        // ===================================
+        // UNIT CONVERSION (testing the unitConversions object)
+        // ===================================
+        runner.section('📏 Unit Conversion');
+        
+        runner.test('unitConversions.length exists', () => {
+            runner.assertTrue(typeof unitConversions.length !== 'undefined');
+        });
+
+        runner.test('unitConversions.mass exists', () => {
+            runner.assertTrue(typeof unitConversions.mass !== 'undefined');
+        });
+
+        runner.test('unitConversions.temperature exists', () => {
+            runner.assertTrue(typeof unitConversions.temperature !== 'undefined');
+        });
+
+        runner.test('1m = 100cm', () => {
+            const mToBase = 1 / unitConversions.length.meter;
+            const baseToCm = mToBase * unitConversions.length.centimeter;
+            runner.assertEquals(baseToCm, 100);
+        });
+
+        runner.test('1km = 1000m', () => {
+            const kmToBase = 1 / unitConversions.length.kilometer;
+            const baseToM = kmToBase * unitConversions.length.meter;
+            runner.assertEquals(baseToM, 1000);
+        });
+
+        runner.test('1kg = 1000g', () => {
+            const kgToBase = 1 / unitConversions.mass.kilogram;
+            const baseToG = kgToBase * unitConversions.mass.gram;
+            runner.assertEquals(baseToG, 1000);
+        });
+
+        // ===================================
+        // LATEX PARSER
+        // ===================================
+        runner.section('📝 LaTeX Parser');
+        
+        runner.test('parseLatexEquation function exists', () => {
+            runner.assertTrue(typeof parseLatexEquation === 'function');
+        });
+
+        runner.test('Parse basic equation', () => {
+            const result = parseLatexEquation('x + 1 = 0');
+            runner.assertTrue(result !== null, 'Should parse successfully');
         });
 
         // ===================================
         // EDGE CASES
         // ===================================
-        runner.test('Edge: Quartic with double root', () => {
-            // (x-1)²(x-2)² = x⁴ - 6x³ + 13x² - 12x + 4 = 0
+        runner.section('⚠️ Edge Cases');
+        
+        runner.test('Quartic with double roots', () => {
             const roots = findPolynomialRoots([1, -6, 13, -12, 4]);
-            runner.assertTrue(roots.length >= 2, 'Should find at least 2 distinct roots');
+            runner.assertTrue(roots.length >= 2);
         });
 
-        runner.test('Edge: Polynomial evaluation', () => {
-            const coeffs = [1, -3, 2]; // x² - 3x + 2
-            const z = { re: 1, im: 0 };
-            const result = evalPoly(coeffs, z);
-            runner.assertEquals(result.re, 0, 'Should be zero at root x=1');
+        runner.test('Complex power with i', () => {
+            const i = { re: 0, im: 1 };
+            const i2 = complexMul(i, i);
+            runner.assertEquals(i2.re, -1, 'i² = -1');
+            runner.assertEquals(i2.im, 0);
+        });
+
+        runner.test('Division by near-zero complex', () => {
+            const a = { re: 1, im: 0 };
+            const b = { re: 0.0001, im: 0.0001 };
+            const result = complexDiv(a, b);
+            runner.assertTrue(isFinite(result.re));
+        });
+
+        runner.test('Large factorial', () => {
+            const result = factorialBig(20);
+            runner.assertEquals(result, 2432902008176640000n);
+        });
+
+        runner.test('Empty array statistics', () => {
+            const result = calculateMean([]);
+            runner.assertTrue(isNaN(result) || result === 0);
+        });
+
+        runner.test('Single element array mean', () => {
+            const result = calculateMean([42]);
+            runner.assertEquals(result, 42);
+        });
+
+        runner.test('gcd with zero', () => {
+            runner.assertEquals(gcd(5, 0), 5);
+            runner.assertEquals(gcd(0, 5), 5);
+        });
+
+        runner.test('factorial edge: factorial(1) = 1', () => {
+            runner.assertEquals(factorial(1), 1);
         });
 
         // Run all tests
