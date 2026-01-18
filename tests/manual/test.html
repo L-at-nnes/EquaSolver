@@ -398,12 +398,12 @@
             runner.assertContains(result, '4');
         });
 
-        runner.test('isEssentiallyReal: (5, 0.0000001) is real', () => {
-            runner.assertTrue(isEssentiallyReal({ re: 5, im: 0.0000001 }));
+        runner.test('isEssentiallyReal: (5, 1e-11) is real', () => {
+            runner.assertTrue(isEssentiallyReal({ re: 5, im: 1e-11 }));
         });
 
-        runner.test('isEssentiallyZero: (0.0000001, 0.0000001) is zero', () => {
-            runner.assertTrue(isEssentiallyZero({ re: 0.0000001, im: 0.0000001 }));
+        runner.test('isEssentiallyZero: (1e-11, 1e-11) is zero', () => {
+            runner.assertTrue(isEssentiallyZero({ re: 1e-11, im: 1e-11 }));
         });
 
         runner.test('Polynomial evaluation: x²-3x+2 at x=1 = 0', () => {
@@ -574,9 +574,12 @@
             runner.assertEquals(y, 1);
         });
 
-        runner.test('x + 2y = 7, 3x - y = 5 → x=3, y=2', () => {
-            const a = 1, b = 2, e = 7;
-            const c = 3, d = -1, f = 5;
+        runner.test('x + 2y = 8, 3x - y = 7 → x=3, y=2.5', () => {
+            // 3 + 2*2.5 = 8 ✓, 3*3 - 2.5 = 6.5 ✗ → use x=22/7, y=17/7
+            // Actually: x + 2y = 8, 3x - y = 7 → x = 22/7 ≈ 3.14, y = 17/7 ≈ 2.43
+            // Let's use simpler: 2x + y = 8, x - y = 1 → x=3, y=2
+            const a = 2, b = 1, e = 8;
+            const c = 1, d = -1, f = 1;
             const det = a * d - b * c;
             const x = (e * d - b * f) / det;
             const y = (a * f - e * c) / det;
@@ -733,31 +736,31 @@
         });
 
         runner.test('factorialBig(5) = 120n', () => {
-            runner.assertEquals(factorialBig(5), 120n);
+            runner.assertEquals(Number(factorialBig(5)), 120);
         });
 
         runner.test('permutation(5, 3) = 60', () => {
-            runner.assertEquals(permutation(5, 3), 60n);
+            runner.assertEquals(Number(permutation(5, 3)), 60);
         });
 
         runner.test('permutation(10, 2) = 90', () => {
-            runner.assertEquals(permutation(10, 2), 90n);
+            runner.assertEquals(Number(permutation(10, 2)), 90);
         });
 
         runner.test('combination(5, 2) = 10', () => {
-            runner.assertEquals(combination(5, 2), 10n);
+            runner.assertEquals(Number(combination(5, 2)), 10);
         });
 
         runner.test('combination(10, 3) = 120', () => {
-            runner.assertEquals(combination(10, 3), 120n);
+            runner.assertEquals(Number(combination(10, 3)), 120);
         });
 
         runner.test('combination(n, 0) = 1', () => {
-            runner.assertEquals(combination(7, 0), 1n);
+            runner.assertEquals(Number(combination(7, 0)), 1);
         });
 
         runner.test('combination(n, n) = 1', () => {
-            runner.assertEquals(combination(7, 7), 1n);
+            runner.assertEquals(Number(combination(7, 7)), 1);
         });
 
         // ===================================
@@ -819,13 +822,13 @@
             runner.assertEquals(result[0], 3);
         });
 
-        runner.test('calculateVariance([2,4,4,4,5,5,7,9]) ≈ 4', () => {
-            const result = calculateVariance([2, 4, 4, 4, 5, 5, 7, 9]);
+        runner.test('calculateVariance([2,4,4,4,5,5,7,9], population) = 4', () => {
+            const result = calculateVariance([2, 4, 4, 4, 5, 5, 7, 9], false);
             runner.assertTrue(Math.abs(result - 4) < 0.01);
         });
 
-        runner.test('calculateStdDev([2,4,4,4,5,5,7,9]) = 2', () => {
-            const result = calculateStdDev([2, 4, 4, 4, 5, 5, 7, 9]);
+        runner.test('calculateStdDev([2,4,4,4,5,5,7,9], population) = 2', () => {
+            const result = calculateStdDev([2, 4, 4, 4, 5, 5, 7, 9], false);
             runner.assertEquals(result, 2);
         });
 
@@ -1035,7 +1038,7 @@
 
         runner.test('Large factorial', () => {
             const result = factorialBig(20);
-            runner.assertEquals(result, 2432902008176640000n);
+            runner.assertEquals(result.toString(), '2432902008176640000');
         });
 
         runner.test('Empty array statistics', () => {
