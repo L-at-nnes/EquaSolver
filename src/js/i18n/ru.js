@@ -58,6 +58,7 @@ const ru = {
     parametricTitle: "Параметрические уравнения",
     polarTitle: "Полярные уравнения",
     latexTitle: "Ввод уравнения LaTeX",
+    polynomialDivisionTitle: "Деление многочленов столбиком",
     
     // Multi-degree
     multiDegreeTitle: "Многостепенные уравнения",
@@ -81,6 +82,9 @@ const ru = {
     systemsHint: "Используйте Tab для навигации между полями",
     system3x3Hint: "Введите коэффициенты для 3 переменных",
     matrixHint: "Введите значения матрицы",
+    polynomialDivisionHint: "Введите многочлены (напр: 2x^3 + 3x^2 - x + 5)",
+    polynomialDivisionExample: "Примеры форматов: x^2 + 3x - 5, 2x^3 - x + 1, x - 3",
+    polynomialDivision: "Деление многочленов",
     
     // Solutions
     noRealSolutions: "Нет действительных решений",
@@ -90,8 +94,15 @@ const ru = {
     clearHistory: "Очистить",
     solution: "Решение",
     steps: "Шаги решения",
-    exportPdf: "Экспорт PDF",
-    noSolution: "Нет решений",
+    exportPdf: "Экспорт PDF",    dividend: "Делимое",
+    divisor: "Делитель",
+    quotient: "Частное",
+    remainder: "Остаток",
+    divide: "Разделить",
+    exactDivision: "Точное деление (без остатка)",
+    verification: "Проверка",
+    polyParseError: "Ошибка разбора многочленов. Используйте формат: 2x^3 + 3x^2 - x + 5",
+    polyDivisionError: "Невозможно делить на нулевой многочлен",    noSolution: "Нет решений",
     infiniteSolutions: "Бесконечно много решений",
     twoSolutions: "Два решения",
     twoComplexSolutions: "Два комплексных сопряжённых решения",

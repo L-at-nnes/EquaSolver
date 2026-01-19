@@ -56,6 +56,7 @@ const fr = {
     parametricTitle: "Équations paramétriques",
     polarTitle: "Équations polaires",
     latexTitle: "Saisie d'équation LaTeX",
+    polynomialDivisionTitle: "Division euclidienne de polynômes",
     
     // Multi-degree
     multiDegreeTitle: "Équations multi-degrés",
@@ -79,6 +80,9 @@ const fr = {
     systemsHint: "Utilisez Tab pour naviguer entre les champs",
     system3x3Hint: "Entrez les coefficients pour 3 variables",
     matrixHint: "Entrez les valeurs de la matrice",
+    polynomialDivisionHint: "Entrez les polynômes (ex: 2x^3 + 3x^2 - x + 5)",
+    polynomialDivisionExample: "Formats exemples: x^2 + 3x - 5, 2x^3 - x + 1, x - 3",
+    polynomialDivision: "Division polynomiale",
     
     // Solutions
     noRealSolutions: "Pas de solutions réelles",
@@ -88,8 +92,15 @@ const fr = {
     clearHistory: "Effacer",
     solution: "Solution",
     steps: "Étapes de résolution",
-    exportPdf: "Exporter PDF",
-    noSolution: "Pas de solution",
+    exportPdf: "Exporter PDF",    dividend: "Dividende",
+    divisor: "Diviseur",
+    quotient: "Quotient",
+    remainder: "Reste",
+    divide: "Diviser",
+    exactDivision: "Division exacte (pas de reste)",
+    verification: "Vérification",
+    polyParseError: "Erreur d'analyse des polynômes. Utilisez le format: 2x^3 + 3x^2 - x + 5",
+    polyDivisionError: "Impossible de diviser par un polynôme nul",    noSolution: "Pas de solution",
     infiniteSolutions: "Infinité de solutions",
     twoSolutions: "Deux solutions",
     twoComplexSolutions: "Deux solutions complexes conjuguées",

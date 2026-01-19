@@ -76,6 +76,8 @@ tests/
 |   |-- quintic.test.js         # Quintic equations
 |   |-- inequality.test.js      # Linear & quadratic inequalities
 |   |-- systems.test.js         # Systems of 2 linear equations
+|   |-- systems3x3.test.js      # Systems of 3 linear equations (Cramer's rule)
+|   |-- polynomial-division.test.js  # Polynomial long division
 |   |-- matrix.test.js          # Matrix operations
 |   |-- scientific.test.js      # Scientific functions
 |   |-- latex.test.js           # LaTeX equation parsing
@@ -118,6 +120,8 @@ tests/
 - Quintic equation solving (numerical methods)
 - **Inequality solving** (linear and quadratic with interval notation)
 - System of equations (Cramer's rule)
+    - 3x3 systems using Cramer's rule (unique/singular detection)
+    - Polynomial long division (parsing, quotient and remainder verification)
 
 ### Matrix Operations
 - Matrix addition (2x2, 3x3)

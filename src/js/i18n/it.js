@@ -55,8 +55,7 @@ const it = {
     graphTitle: "Visualizzazione grafica",
     parametricTitle: "Equazioni parametriche",
     polarTitle: "Equazioni polari",
-    latexTitle: "Inserimento equazione LaTeX",
-    
+    latexTitle: "Inserimento equazione LaTeX",    polynomialDivisionTitle: "Divisione lunga di polinomi",    
     // Multi-degree
     multiDegreeTitle: "Equazioni multigrado",
     multiDegreeDesc: "Dal 1° al 3° grado",
@@ -77,6 +76,9 @@ const it = {
     quarticHint: "Usa Tab per navigare tra i campi",
     quinticHint: "Usa Tab per navigare tra i campi",
     systemsHint: "Usa Tab per navigare tra i campi",    system3x3Hint: "Inserisci coefficienti per 3 variabili",    matrixHint: "Inserisci valori matrice",
+    polynomialDivisionHint: "Inserisci polinomi (es: 2x^3 + 3x^2 - x + 5)",
+    polynomialDivisionExample: "Formati esempio: x^2 + 3x - 5, 2x^3 - x + 1, x - 3",
+    polynomialDivision: "Divisione polinomiale",
     
     // Solutions
     noRealSolutions: "Nessuna soluzione reale",
@@ -86,8 +88,15 @@ const it = {
     clearHistory: "Cancella",
     solution: "Soluzione",
     steps: "Passaggi di risoluzione",
-    exportPdf: "Esporta PDF",
-    noSolution: "Nessuna soluzione",
+    exportPdf: "Esporta PDF",    dividend: "Dividendo",
+    divisor: "Divisore",
+    quotient: "Quoziente",
+    remainder: "Resto",
+    divide: "Dividi",
+    exactDivision: "Divisione esatta (nessun resto)",
+    verification: "Verifica",
+    polyParseError: "Errore nell'analisi dei polinomi. Usa formato: 2x^3 + 3x^2 - x + 5",
+    polyDivisionError: "Impossibile dividere per polinomio zero",    noSolution: "Nessuna soluzione",
     infiniteSolutions: "Infinite soluzioni",
     twoSolutions: "Due soluzioni",
     twoComplexSolutions: "Due soluzioni complesse coniugate",

@@ -167,6 +167,29 @@ c*x + d*y = f
 
 ---
 
+### 3x3 Systems
+
+#### `solve3x3System()`
+
+Solves a 3×3 system of linear equations using Cramer's rule:
+
+```
+a11*x + a12*y + a13*z = b1
+a21*x + a22*y + a23*z = b2
+a31*x + a32*y + a33*z = b3
+```
+
+**DOM Dependencies:** Reads from input elements `#sys3A11`..`#sys3A13`, `#sys3A21`..`#sys3A23`, `#sys3A31`..`#sys3A33` and `#sys3B1`..`#sys3B3` (project-specific IDs may vary).
+
+**Algorithm:**
+1. Compute main determinant `D = det(A)` using cofactor expansion on the 3×3 matrix.
+2. If `|D| < tolerance` (e.g., 1e-10): report singular system (no unique solution or infinite solutions).
+3. Compute determinants `Dx`, `Dy`, `Dz` by replacing corresponding columns with the constants vector and evaluate `x = Dx/D`, `y = Dy/D`, `z = Dz/D`.
+
+**Returns:** Displays solution or an error message when singular; exported for testing as `solve3x3System`.
+
+---
+
 ## Matrix Operations
 
 ### `calculateMatrix()`
@@ -487,6 +510,51 @@ parseLatexEquation('x^2 - 5x + 6 = 0');
 
 ---
 
+## Polynomial Long Division
+
+Performs long division of polynomials represented as coefficient arrays or parseable strings.
+
+### `parsePolynomial(polyStr)`
+
+Parses a polynomial string (for example, "2x^3 + 3x^2 - x + 5") into a coefficient array ordered by descending powers.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `polyStr` | `string` | Polynomial expression to parse |
+
+**Returns:** `number[]` - Coefficients array (highest degree first)
+
+### `dividePolynomials(dividend, divisor)`
+
+Performs polynomial long division (or synthetic division when applicable).
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `dividend` | `number[]` | Coefficients of dividend (highest degree first) |
+| `divisor` | `number[]` | Coefficients of divisor (highest degree first) |
+
+**Returns:** `Object | null`
+```javascript
+{
+    quotient: number[],
+    remainder: number[]
+}
+```
+
+Returns `null` for invalid input (for example, zero divisor polynomial).
+
+### `formatPolynomial(coeffs)`
+
+Formats an array of coefficients into a human-readable polynomial string.
+
+**Verification:** The implementation verifies that `dividend = divisor * quotient + remainder` within numerical tolerance.
+
+**Note:** These functions are exported for unit testing as `parsePolynomial`, `dividePolynomials`, and `formatPolynomial`.
+
+---
+
 ## Theme Functions
 
 ### `changeTheme(theme)`
@@ -599,6 +667,10 @@ module.exports = {
     solveQuadratic,
     solveCubic,
     findPolynomialRoots,
+    solve3x3System,
+    parsePolynomial,
+    dividePolynomials,
+    formatPolynomial,
     matrixAdd,
     matrixMultiply,
     determinant,

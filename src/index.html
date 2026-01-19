@@ -350,6 +350,7 @@
                         <button class="submenu-btn" data-subtool="limits" data-translate="limits">Limits</button>
                         <button class="submenu-btn" data-subtool="taylor" data-translate="taylor">Taylor Series</button>
                         <button class="submenu-btn" data-subtool="integration" data-translate="integration">Integration</button>
+                        <button class="submenu-btn" data-subtool="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
                     </div>
                     <div class="tool-glow"></div>
                 </div>
@@ -402,6 +403,7 @@
                 <button class="tab" data-tab="limits" data-translate="limits">Limits</button>
                 <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
                 <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
+                <button class="tab" data-tab="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -1584,6 +1586,33 @@
                 </div>
                 
                 <div class="solution-container" id="integrationSolution"></div>
+            </div>
+
+            <!-- Polynomial Long Division Calculator -->
+            <div class="calculator-panel" id="polynomialDivision">
+                <div class="equation-display">
+                    <h3 data-translate="polynomialDivisionTitle">Polynomial Long Division</h3>
+                    <p class="input-hint" data-translate="polynomialDivisionHint">Enter polynomials (e.g., 2x^3 + 3x^2 - x + 5)</p>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="dividend">Dividend P(x):</label>
+                        <input type="text" id="polyDividend" class="coef-input" value="x^3 - 2x^2 + x - 2" placeholder="2x^3 + 3x^2 - x + 5">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="divisor">Divisor D(x):</label>
+                        <input type="text" id="polyDivisor" class="coef-input" value="x - 2" placeholder="x + 1">
+                    </div>
+                    <p class="input-hint" data-translate="polynomialDivisionExample">Example formats: x^2 + 3x - 5, 2x^3 - x + 1, x - 3</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="dividePolynomials" data-translate="divide">Divide</button>
+                    <button class="btn-export" id="exportPolynomialDivisionPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="polynomialDivisionSolution"></div>
             </div>
         </div>
 
