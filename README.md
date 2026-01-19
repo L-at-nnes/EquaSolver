@@ -32,7 +32,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Quintic Equations** (ax^5 + bx^4 + cx^3 + dx^2 + ex + f = 0) - Fifth-degree polynomial equation solver using numerical methods with **complex root support**
 - **Complex Number Support** - All polynomial equation solvers now display both real and complex roots with proper formatting (a ± bi notation)
 - **Inequality Solver** - Solve linear (ax + b < 0) and quadratic (ax² + bx + c < 0) inequalities with interval notation
-- **Systems of Linear Equations** - Solve 2x2 linear systems using Cramer's rule
+- **Systems of Linear Equations** - Solve 2x2 and 3x3 linear systems using Cramer's rule
 - **Matrix Calculator** - Operations on 2x2 and 3x3 matrices (addition, multiplication, determinant, inverse)
 - **Graph Visualization** - Plot and visualize linear, quadratic, and cubic equations with interactive controls
 - **Parametric Equations** - Plot parametric curves with x(t) and y(t) functions including circle, ellipse, spiral, and Lissajous presets
@@ -245,7 +245,7 @@ The test suite includes:
 - Quintic equation solving (numerical root finding, complex roots)
 - **Complex number operations** (add, sub, mul, div, sqrt, abs, conjugate, formatting)
 - **Inequality solving** (linear and quadratic inequalities with interval notation)
-- System of equations (Cramer's rule)
+- System of equations (Cramer's rule for 2x2 and 3x3)
 - Matrix operations (addition, multiplication, determinant, inverse)
 - LaTeX equation parsing
 - Parametric and polar equations
@@ -330,6 +330,10 @@ Applies Cramer's rule with determinants:
 2. Calculate determinants for each variable
 3. Determine solution type (unique, infinite, or no solution)
 
+Supports both 2x2 and 3x3 systems:
+- **2x2 Systems**: Two equations with two unknowns (x, y)
+- **3x3 Systems**: Three equations with three unknowns (x, y, z) using 3x3 determinant calculation
+
 #### Matrix Operations
 Supports 2×2 and 3×3 matrices:
 - **Addition**: Element-wise sum of corresponding entries
@@ -408,7 +412,7 @@ If you find this project helpful, please consider:
 - [ ] Add derivative and integral calculator
 - [ ] Support for trigonometric equation solving
 - [ ] Add logarithmic and exponential equation solvers
-- [ ] Implement 3x3 system of linear equations solver
+- [x] Implement 3x3 system of linear equations solver
 - [ ] Add polynomial long division calculator
 - [ ] Support for absolute value equations
 

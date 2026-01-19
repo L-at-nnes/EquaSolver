@@ -227,6 +227,11 @@
                     </div>
                     <h3 data-translate="systems">Systems</h3>
                     <p data-translate="systemsDesc">Solve systems of equations</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="chooseSystemSize">Choose system size</p>
+                        <button class="submenu-btn" data-subtool="systems" data-translate="system2x2">2x2 System</button>
+                        <button class="submenu-btn" data-subtool="system3x3" data-translate="system3x3">3x3 System</button>
+                    </div>
                     <div class="tool-glow"></div>
                 </div>
 
@@ -746,6 +751,82 @@
                 </div>
                 
                 <div class="solution-container" id="systemsSolution"></div>
+            </div>
+
+            <!-- System of 3 Equations (3x3) Solver -->
+            <div class="calculator-panel" id="system3x3">
+                <div class="equation-display">
+                    <h3 data-translate="system3x3Title">System of 3 Equations (3x3)</h3>
+                    <div class="equation-preview-small" id="system3x3Preview">
+                        <div>1x + 1y + 0z = 6</div>
+                        <div>2x + 1y + 1z = 11</div>
+                        <div>1x + 2y + 1z = 11</div>
+                    </div>
+                </div>
+                
+                <div class="equation-builder">
+                    <h4 class="equation-section-title">Equation 1: a₁x + b₁y + c₁z = d₁</h4>
+                    <div class="input-group">
+                        <label>a₁:</label>
+                        <input type="text" inputmode="decimal" id="sys3A1" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b₁:</label>
+                        <input type="text" inputmode="decimal" id="sys3B1" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c₁:</label>
+                        <input type="text" inputmode="decimal" id="sys3C1" value="0" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>d₁:</label>
+                        <input type="text" inputmode="decimal" id="sys3D1" value="6" class="coef-input">
+                    </div>
+                    
+                    <h4 class="equation-section-title">Equation 2: a₂x + b₂y + c₂z = d₂</h4>
+                    <div class="input-group">
+                        <label>a₂:</label>
+                        <input type="text" inputmode="decimal" id="sys3A2" value="2" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b₂:</label>
+                        <input type="text" inputmode="decimal" id="sys3B2" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c₂:</label>
+                        <input type="text" inputmode="decimal" id="sys3C2" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>d₂:</label>
+                        <input type="text" inputmode="decimal" id="sys3D2" value="11" class="coef-input">
+                    </div>
+                    
+                    <h4 class="equation-section-title">Equation 3: a₃x + b₃y + c₃z = d₃</h4>
+                    <div class="input-group">
+                        <label>a₃:</label>
+                        <input type="text" inputmode="decimal" id="sys3A3" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b₃:</label>
+                        <input type="text" inputmode="decimal" id="sys3B3" value="2" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c₃:</label>
+                        <input type="text" inputmode="decimal" id="sys3C3" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>d₃:</label>
+                        <input type="text" inputmode="decimal" id="sys3D3" value="11" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="system3x3Hint">Enter coefficients for 3 variables</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="solveSystem3x3" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportSystem3x3Pdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="system3x3Solution"></div>
             </div>
 
             <!-- Matrix Calculator -->

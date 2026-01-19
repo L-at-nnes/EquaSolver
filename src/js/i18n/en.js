@@ -52,6 +52,7 @@ const en = {
     quarticTitle: "Quartic Equation",
     quinticTitle: "Quintic Equation",
     systemsTitle: "System of 2 Equations",
+    system3x3Title: "System of 3 Equations (3x3)",
     matrixTitle: "Matrix Calculator",
     graphTitle: "Graph Visualization",
     parametricTitle: "Parametric Equations",
@@ -62,6 +63,9 @@ const en = {
     multiDegreeTitle: "Multi-degree Equations",
     multiDegreeDesc: "Solve linear up to cubic cases",
     multiDegreeHint: "Choose a degree",
+    chooseSystemSize: "Choose system size",
+    system2x2: "2x2 System",
+    system3x3: "3x3 System",
     degreeOne: "1st degree",
     degreeTwo: "2nd degree",
     degreeThree: "3rd degree",
@@ -75,6 +79,7 @@ const en = {
     quarticHint: "Use Tab to navigate between fields",
     quinticHint: "Use Tab to navigate between fields",
     systemsHint: "Use Tab to navigate between fields",
+    system3x3Hint: "Enter coefficients for 3 variables",
     matrixHint: "Enter matrix values",
     
     // Solutions
@@ -125,6 +130,7 @@ const en = {
     parabUpSign: "Parabola opens upward: negative between roots",
     parabDownSign: "Parabola opens downward: positive between roots",
     uniqueSolution: "Unique solution",
+    system3x3NoUniqueSolution: "No unique solution (system is singular or dependent)",
     parallelLines: "Parallel lines (no solution)",
     coincidentLines: "Coincident lines (infinite solutions)",
     

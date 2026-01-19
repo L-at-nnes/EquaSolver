@@ -206,6 +206,12 @@
                     throw new Error(`${message} Expected "${str}" to contain "${substring}"`);
                 }
             }
+
+            assertClose(actual, expected, tolerance = 0.01, message = '') {
+                if (Math.abs(actual - expected) > tolerance) {
+                    throw new Error(`${message} Expected ${expected} (±${tolerance}), got ${actual}`);
+                }
+            }
         }
 
         // Initialize test runner
@@ -592,6 +598,85 @@
             const c = 2, d = 4;
             const det = a * d - b * c;
             runner.assertEquals(det, 0, 'No unique solution');
+        });
+
+        // ===================================
+        // 3x3 SYSTEMS OF EQUATIONS
+        // ===================================
+        runner.section('📊 3x3 Systems of Equations');
+        
+        const det3x3 = (a1, b1, c1, a2, b2, c2, a3, b3, c3) => {
+            return a1 * (b2 * c3 - b3 * c2) - 
+                   b1 * (a2 * c3 - a3 * c2) + 
+                   c1 * (a2 * b3 - a3 * b2);
+        };
+        
+        runner.test('Simple 3x3: x+y=6, 2x+y+z=11, x+2y+z=11', () => {
+            const a1 = 1, b1 = 1, c1 = 0, d1 = 6;
+            const a2 = 2, b2 = 1, c2 = 1, d2 = 11;
+            const a3 = 1, b3 = 2, c3 = 1, d3 = 11;
+            
+            const det = det3x3(a1, b1, c1, a2, b2, c2, a3, b3, c3);
+            const detX = det3x3(d1, b1, c1, d2, b2, c2, d3, b3, c3);
+            const detY = det3x3(a1, d1, c1, a2, d2, c2, a3, d3, c3);
+            const detZ = det3x3(a1, b1, d1, a2, b2, d2, a3, b3, d3);
+            
+            const x = detX / det;
+            const y = detY / det;
+            const z = detZ / det;
+            
+            // Verify by substitution
+            runner.assertClose(a1 * x + b1 * y + c1 * z, d1, 0.01);
+            runner.assertClose(a2 * x + b2 * y + c2 * z, d2, 0.01);
+            runner.assertClose(a3 * x + b3 * y + c3 * z, d3, 0.01);
+        });
+
+        runner.test('3x3: 2x+y-z=1, x+3y+z=5, 3x-y+2z=3', () => {
+            const a1 = 2, b1 = 1, c1 = -1, d1 = 1;
+            const a2 = 1, b2 = 3, c2 = 1, d2 = 5;
+            const a3 = 3, b3 = -1, c3 = 2, d3 = 3;
+            
+            const det = det3x3(a1, b1, c1, a2, b2, c2, a3, b3, c3);
+            const detX = det3x3(d1, b1, c1, d2, b2, c2, d3, b3, c3);
+            const detY = det3x3(a1, d1, c1, a2, d2, c2, a3, d3, c3);
+            const detZ = det3x3(a1, b1, d1, a2, b2, d2, a3, b3, d3);
+            
+            const x = detX / det;
+            const y = detY / det;
+            const z = detZ / det;
+            
+            // Verify by substitution
+            runner.assertClose(a1 * x + b1 * y + c1 * z, d1, 0.01);
+            runner.assertClose(a2 * x + b2 * y + c2 * z, d2, 0.01);
+            runner.assertClose(a3 * x + b3 * y + c3 * z, d3, 0.01);
+        });
+
+        runner.test('3x3 Identity: x=1, y=2, z=3', () => {
+            const a1 = 1, b1 = 0, c1 = 0, d1 = 1;
+            const a2 = 0, b2 = 1, c2 = 0, d2 = 2;
+            const a3 = 0, b3 = 0, c3 = 1, d3 = 3;
+            
+            const det = det3x3(a1, b1, c1, a2, b2, c2, a3, b3, c3);
+            const detX = det3x3(d1, b1, c1, d2, b2, c2, d3, b3, c3);
+            const detY = det3x3(a1, d1, c1, a2, d2, c2, a3, d3, c3);
+            const detZ = det3x3(a1, b1, d1, a2, b2, d2, a3, b3, d3);
+            
+            const x = detX / det;
+            const y = detY / det;
+            const z = detZ / det;
+            
+            runner.assertClose(x, 1, 0.01);
+            runner.assertClose(y, 2, 0.01);
+            runner.assertClose(z, 3, 0.01);
+        });
+
+        runner.test('3x3 Singular system: det = 0', () => {
+            const a1 = 1, b1 = 1, c1 = 1;
+            const a2 = 2, b2 = 2, c2 = 2;
+            const a3 = 3, b3 = 3, c3 = 3;
+            
+            const det = det3x3(a1, b1, c1, a2, b2, c2, a3, b3, c3);
+            runner.assertClose(det, 0, 0.0001, 'Dependent equations');
         });
 
         // ===================================

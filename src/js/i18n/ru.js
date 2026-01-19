@@ -52,6 +52,7 @@ const ru = {
     quarticTitle: "Уравнение 4-й степени",
     quinticTitle: "Уравнение 5-й степени",
     systemsTitle: "Система из 2 уравнений",
+    system3x3Title: "Система из 3 уравнений (3x3)",
     matrixTitle: "Матричный калькулятор",
     graphTitle: "Визуализация графика",
     parametricTitle: "Параметрические уравнения",
@@ -62,6 +63,9 @@ const ru = {
     multiDegreeTitle: "Многостепенные уравнения",
     multiDegreeDesc: "От 1-й до 3-й степени",
     multiDegreeHint: "Выберите степень",
+    chooseSystemSize: "Выберите размер системы",
+    system2x2: "Система 2x2",
+    system3x3: "Система 3x3",
     degreeOne: "1-я степень",
     degreeTwo: "2-я степень",
     degreeThree: "3-я степень",
@@ -75,6 +79,7 @@ const ru = {
     quarticHint: "Используйте Tab для навигации между полями",
     quinticHint: "Используйте Tab для навигации между полями",
     systemsHint: "Используйте Tab для навигации между полями",
+    system3x3Hint: "Введите коэффициенты для 3 переменных",
     matrixHint: "Введите значения матрицы",
     
     // Solutions
@@ -125,6 +130,7 @@ const ru = {
     parabUpSign: "Парабола вверх: отрицательна между корнями",
     parabDownSign: "Парабола вниз: положительна между корнями",
     uniqueSolution: "Единственное решение",
+    system3x3NoUniqueSolution: "Нет уникального решения (система вырожденная или зависимая)",
     parallelLines: "Параллельные прямые (нет решений)",
     coincidentLines: "Совпадающие прямые (бесконечно много решений)",
     
