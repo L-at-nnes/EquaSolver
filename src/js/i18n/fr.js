@@ -51,8 +51,7 @@ const fr = {
     cubicTitle: "Équation du 3ème degré",
     quarticTitle: "Équation du 4e degré",
     quinticTitle: "Équation du 5e degré",
-    systemsTitle: "Système de 2 équations",
-    matrixTitle: "Calculateur de matrices",
+    systemsTitle: "Système de 2 équations",    system3x3Title: "Système de 3 Équations (3x3)",    matrixTitle: "Calculateur de matrices",
     graphTitle: "Visualisation graphique",
     parametricTitle: "Équations paramétriques",
     polarTitle: "Équations polaires",
@@ -62,6 +61,9 @@ const fr = {
     multiDegreeTitle: "Équations multi-degrés",
     multiDegreeDesc: "Accédez aux résolveurs 1er à 3e degré",
     multiDegreeHint: "Choisissez un degré",
+    chooseSystemSize: "Choisissez la taille du système",
+    system2x2: "Système 2x2",
+    system3x3: "Système 3x3",
     degreeOne: "1er degré",
     degreeTwo: "2e degré",
     degreeThree: "3e degré",
@@ -75,6 +77,7 @@ const fr = {
     quarticHint: "Utilisez Tab pour naviguer entre les champs",
     quinticHint: "Utilisez Tab pour naviguer entre les champs",
     systemsHint: "Utilisez Tab pour naviguer entre les champs",
+    system3x3Hint: "Entrez les coefficients pour 3 variables",
     matrixHint: "Entrez les valeurs de la matrice",
     
     // Solutions
@@ -125,6 +128,7 @@ const fr = {
     parabUpSign: "Parabole vers le haut : négative entre les racines",
     parabDownSign: "Parabole vers le bas : positive entre les racines",
     uniqueSolution: "Solution unique",
+    system3x3NoUniqueSolution: "Pas de solution unique (système singulier ou dépendant)",
     parallelLines: "Droites parallèles (pas de solution)",
     coincidentLines: "Droites confondues (infinité de solutions)",
     

@@ -62,6 +62,9 @@ const de = {
     multiDegreeTitle: "Mehrgradige Gleichungen",
     multiDegreeDesc: "Löse vom 1. bis 3. Grad",
     multiDegreeHint: "Wähle einen Grad",
+    chooseSystemSize: "Wähle Systemgröße",
+    system2x2: "2x2-System",
+    system3x3: "3x3-System",
     degreeOne: "1. Grad",
     degreeTwo: "2. Grad",
     degreeThree: "3. Grad",
@@ -125,6 +128,7 @@ const de = {
     parabUpSign: "Parabel nach oben: negativ zwischen Wurzeln",
     parabDownSign: "Parabel nach unten: positiv zwischen Wurzeln",
     uniqueSolution: "Eindeutige Lösung",
+    system3x3NoUniqueSolution: "Keine eindeutige Lösung (System singulär oder abhängig)",
     parallelLines: "Parallele Linien (keine Lösung)",
     coincidentLines: "Übereinstimmende Linien (unendliche Lösungen)",
     

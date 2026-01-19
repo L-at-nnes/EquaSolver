@@ -51,8 +51,7 @@ const it = {
     cubicTitle: "Equazione di 3° grado",
     quarticTitle: "Equazione di 4° grado",
     quinticTitle: "Equazione di 5° grado",
-    systemsTitle: "Sistema di 2 equazioni",
-    matrixTitle: "Calcolatore di matrici",
+    systemsTitle: "Sistema di 2 equazioni",    system3x3Title: "Sistema di 3 Equazioni (3x3)",    matrixTitle: "Calcolatore di matrici",
     graphTitle: "Visualizzazione grafica",
     parametricTitle: "Equazioni parametriche",
     polarTitle: "Equazioni polari",
@@ -62,6 +61,9 @@ const it = {
     multiDegreeTitle: "Equazioni multigrado",
     multiDegreeDesc: "Dal 1° al 3° grado",
     multiDegreeHint: "Scegli un grado",
+    chooseSystemSize: "Scegli la dimensione del sistema",
+    system2x2: "Sistema 2x2",
+    system3x3: "Sistema 3x3",
     degreeOne: "1° grado",
     degreeTwo: "2° grado",
     degreeThree: "3° grado",
@@ -74,8 +76,7 @@ const it = {
     cubicHint: "Usa Tab per navigare tra i campi",
     quarticHint: "Usa Tab per navigare tra i campi",
     quinticHint: "Usa Tab per navigare tra i campi",
-    systemsHint: "Usa Tab per navigare tra i campi",
-    matrixHint: "Inserisci valori matrice",
+    systemsHint: "Usa Tab per navigare tra i campi",    system3x3Hint: "Inserisci coefficienti per 3 variabili",    matrixHint: "Inserisci valori matrice",
     
     // Solutions
     noRealSolutions: "Nessuna soluzione reale",
@@ -125,6 +126,7 @@ const it = {
     parabUpSign: "Parabola verso l'alto: negativa tra le radici",
     parabDownSign: "Parabola verso il basso: positiva tra le radici",
     uniqueSolution: "Soluzione unica",
+    system3x3NoUniqueSolution: "Nessuna soluzione unica (sistema singolare o dipendente)",
     parallelLines: "Linee parallele (nessuna soluzione)",
     coincidentLines: "Linee coincidenti (infinite soluzioni)",
     

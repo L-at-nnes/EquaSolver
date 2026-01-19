@@ -179,6 +179,7 @@ function initEventListeners() {
     document.getElementById('solveQuartic').addEventListener('click', solveQuarticEquation);
     document.getElementById('solveQuintic').addEventListener('click', solveQuinticEquation);
     document.getElementById('solveSystems').addEventListener('click', solveSystemEquations);
+    document.getElementById('solveSystem3x3').addEventListener('click', solve3x3System);
     document.getElementById('calculateMatrix').addEventListener('click', calculateMatrix);
     
     // Inequality solver buttons
@@ -1857,6 +1858,92 @@ function solveSystemEquations() {
     resultDiv.innerHTML = html;
     showExportButton('systems');
 }
+
+// SYSTEM OF 3 EQUATIONS SOLVER (Cramer's Rule for 3x3)
+// ===================================
+function solve3x3System() {
+    // Get coefficients for the 3x3 system:
+    // a1*x + b1*y + c1*z = d1
+    // a2*x + b2*y + c2*z = d2
+    // a3*x + b3*y + c3*z = d3
+    const a1 = parseFloat(document.getElementById('sys3A1').value);
+    const b1 = parseFloat(document.getElementById('sys3B1').value);
+    const c1 = parseFloat(document.getElementById('sys3C1').value);
+    const d1 = parseFloat(document.getElementById('sys3D1').value);
+    
+    const a2 = parseFloat(document.getElementById('sys3A2').value);
+    const b2 = parseFloat(document.getElementById('sys3B2').value);
+    const c2 = parseFloat(document.getElementById('sys3C2').value);
+    const d2 = parseFloat(document.getElementById('sys3D2').value);
+    
+    const a3 = parseFloat(document.getElementById('sys3A3').value);
+    const b3 = parseFloat(document.getElementById('sys3B3').value);
+    const c3 = parseFloat(document.getElementById('sys3C3').value);
+    const d3 = parseFloat(document.getElementById('sys3D3').value);
+    
+    const resultDiv = document.getElementById('system3x3Solution');
+    const trans = translations[currentLang];
+    
+    if (isNaN(a1) || isNaN(b1) || isNaN(c1) || isNaN(d1) ||
+        isNaN(a2) || isNaN(b2) || isNaN(c2) || isNaN(d2) ||
+        isNaN(a3) || isNaN(b3) || isNaN(c3) || isNaN(d3)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+    
+    // Calculate main determinant using cofactor expansion
+    const det = a1 * (b2 * c3 - b3 * c2) - 
+                b1 * (a2 * c3 - a3 * c2) + 
+                c1 * (a2 * b3 - a3 * b2);
+    
+    let html = `<h3>${trans.solution}</h3>`;
+    html += `<p><strong>${trans.determinant}:</strong> ${det.toFixed(6)}</p>`;
+    
+    if (Math.abs(det) < 1e-10) {
+        html += `<p class="solution">${trans.system3x3NoUniqueSolution || 'No unique solution (system is singular or dependent)'}</p>`;
+    } else {
+        // Calculate determinants for each variable using Cramer's rule
+        const detX = d1 * (b2 * c3 - b3 * c2) - 
+                     b1 * (d2 * c3 - d3 * c2) + 
+                     c1 * (d2 * b3 - d3 * b2);
+        
+        const detY = a1 * (d2 * c3 - d3 * c2) - 
+                     d1 * (a2 * c3 - a3 * c2) + 
+                     c1 * (a2 * d3 - a3 * d2);
+        
+        const detZ = a1 * (b2 * d3 - b3 * d2) - 
+                     b1 * (a2 * d3 - a3 * d2) + 
+                     d1 * (a2 * b3 - a3 * b2);
+        
+        const x = detX / det;
+        const y = detY / det;
+        const z = detZ / det;
+        
+        html += `<div class="solution">
+            <p>${trans.uniqueSolution}</p>
+            <p>x = ${x.toFixed(6)}</p>
+            <p>y = ${y.toFixed(6)}</p>
+            <p>z = ${z.toFixed(6)}</p>
+        </div>`;
+        
+        html += `<div class="steps">
+            <h4>${trans.steps}:</h4>
+            <p>${a1}x + ${b1}y + ${c1}z = ${d1}</p>
+            <p>${a2}x + ${b2}y + ${c2}z = ${d2}</p>
+            <p>${a3}x + ${b3}y + ${c3}z = ${d3}</p>
+            <p>Det = ${det.toFixed(6)}</p>
+            <p>Det<sub>x</sub> = ${detX.toFixed(6)}</p>
+            <p>Det<sub>y</sub> = ${detY.toFixed(6)}</p>
+            <p>Det<sub>z</sub> = ${detZ.toFixed(6)}</p>
+        </div>`;
+        
+        addToHistory(`System 3x3 → x = ${x.toFixed(4)}, y = ${y.toFixed(4)}, z = ${z.toFixed(4)}`);
+    }
+    
+    resultDiv.innerHTML = html;
+    showExportButton('system3x3');
+}
+
 
 // ===================================
 // HISTORY MANAGEMENT
