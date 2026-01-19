@@ -58,6 +58,7 @@ const en = {
     parametricTitle: "Parametric Equations",
     polarTitle: "Polar Equations",
     latexTitle: "LaTeX Equation Input",
+    polynomialDivisionTitle: "Polynomial Long Division",
     
     // Multi-degree
     multiDegreeTitle: "Multi-degree Equations",
@@ -81,6 +82,9 @@ const en = {
     systemsHint: "Use Tab to navigate between fields",
     system3x3Hint: "Enter coefficients for 3 variables",
     matrixHint: "Enter matrix values",
+    polynomialDivisionHint: "Enter polynomials (e.g., 2x^3 + 3x^2 - x + 5)",
+    polynomialDivisionExample: "Example formats: x^2 + 3x - 5, 2x^3 - x + 1, x - 3",
+    polynomialDivision: "Polynomial Division",
     
     // Solutions
     noRealSolutions: "No real solutions",
@@ -91,6 +95,15 @@ const en = {
     solution: "Solution",
     steps: "Solution Steps",
     exportPdf: "Export PDF",
+    dividend: "Dividend",
+    divisor: "Divisor",
+    quotient: "Quotient",
+    remainder: "Remainder",
+    divide: "Divide",
+    exactDivision: "Exact division (no remainder)",
+    verification: "Verification",
+    polyParseError: "Error parsing polynomials. Use format like: 2x^3 + 3x^2 - x + 5",
+    polyDivisionError: "Cannot divide by zero polynomial",
     noSolution: "No solution",
     infiniteSolutions: "Infinite solutions",
     twoSolutions: "Two solutions",

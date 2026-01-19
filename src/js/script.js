@@ -3568,6 +3568,7 @@ document.addEventListener('DOMContentLoaded', () => {
         setupLimitCalculator();
         setupTaylorCalculator();
         setupIntegrationCalculator();
+        setupPolynomialDivision();
     }, 100);
 });
 
@@ -4669,6 +4670,263 @@ function calculateIntegration() {
 }
 
 // ===================================
+// POLYNOMIAL LONG DIVISION
+// ===================================
+function setupPolynomialDivision() {
+    const divideBtn = document.getElementById('dividePolynomials');
+    if (!divideBtn) return;
+    
+    divideBtn.addEventListener('click', performPolynomialDivision);
+}
+
+// Parse polynomial string into coefficient array (highest degree first)
+// Example: "2x^3 + 3x^2 - x + 5" -> [2, 3, -1, 5]
+function parsePolynomial(polyStr) {
+    if (!polyStr || polyStr.trim() === '') {
+        return null;
+    }
+    
+    polyStr = polyStr.toLowerCase().replace(/\s/g, '');
+    
+    // Handle simple constant
+    if (!polyStr.includes('x')) {
+        const num = parseFloat(polyStr);
+        return isNaN(num) ? null : [num];
+    }
+    
+    // Find maximum degree
+    const degreeMatches = polyStr.match(/x\^?(\d*)/g) || [];
+    let maxDegree = 0;
+    degreeMatches.forEach(match => {
+        const degMatch = match.match(/\^(\d+)/);
+        const deg = degMatch ? parseInt(degMatch[1]) : (match === 'x' ? 1 : 0);
+        maxDegree = Math.max(maxDegree, deg);
+    });
+    
+    // Initialize coefficient array
+    const coeffs = new Array(maxDegree + 1).fill(0);
+    
+    // Split into terms (handle +/- signs)
+    polyStr = polyStr.replace(/-/g, '+-');
+    const terms = polyStr.split('+').filter(t => t.length > 0);
+    
+    for (let term of terms) {
+        term = term.trim();
+        
+        // Constant term
+        if (!term.includes('x')) {
+            coeffs[maxDegree] = parseFloat(term);
+            continue;
+        }
+        
+        // Extract coefficient and degree
+        let coeff = 1;
+        let degree = 1;
+        
+        // Get coefficient part before 'x'
+        const coeffMatch = term.match(/^([+-]?\d*\.?\d*)x/);
+        if (coeffMatch) {
+            const coeffStr = coeffMatch[1];
+            if (coeffStr === '' || coeffStr === '+') coeff = 1;
+            else if (coeffStr === '-') coeff = -1;
+            else coeff = parseFloat(coeffStr);
+        }
+        
+        // Get degree
+        const degreeMatch = term.match(/x\^(\d+)/);
+        if (degreeMatch) {
+            degree = parseInt(degreeMatch[1]);
+        } else if (term.includes('x')) {
+            degree = 1;
+        }
+        
+        // Place coefficient at correct position
+        coeffs[maxDegree - degree] = coeff;
+    }
+    
+    // Remove leading zeros
+    while (coeffs.length > 1 && coeffs[0] === 0) {
+        coeffs.shift();
+    }
+    
+    return coeffs.length > 0 ? coeffs : [0];
+}
+
+// Perform polynomial long division
+// Returns {quotient: [], remainder: []}
+function dividePolynomials(dividend, divisor) {
+    if (!dividend || !divisor || dividend.length === 0 || divisor.length === 0) {
+        return null;
+    }
+    
+    // Check if divisor is zero
+    if (divisor.every(c => c === 0)) {
+        return null;
+    }
+    
+    // Make copies
+    let remainder = [...dividend];
+    const quotient = [];
+    
+    // Remove leading zeros from divisor
+    while (divisor.length > 1 && divisor[0] === 0) {
+        divisor.shift();
+    }
+    
+    // Perform division
+    while (remainder.length >= divisor.length && !remainder.every(c => Math.abs(c) < 1e-10)) {
+        // Calculate next quotient term
+        const q = remainder[0] / divisor[0];
+        quotient.push(q);
+        
+        // Subtract divisor * q from remainder
+        for (let i = 0; i < divisor.length; i++) {
+            remainder[i] -= q * divisor[i];
+        }
+        
+        // Remove leading term (should be ~0)
+        remainder.shift();
+    }
+    
+    // Handle empty quotient (dividend degree < divisor degree)
+    if (quotient.length === 0) {
+        quotient.push(0);
+    }
+    
+    // Clean up near-zero values
+    for (let i = 0; i < quotient.length; i++) {
+        if (Math.abs(quotient[i]) < 1e-10) quotient[i] = 0;
+    }
+    for (let i = 0; i < remainder.length; i++) {
+        if (Math.abs(remainder[i]) < 1e-10) remainder[i] = 0;
+    }
+    
+    // Remove leading zeros from remainder
+    while (remainder.length > 1 && Math.abs(remainder[0]) < 1e-10) {
+        remainder.shift();
+    }
+    
+    // If remainder is effectively zero, return [0]
+    if (remainder.length === 0 || remainder.every(c => Math.abs(c) < 1e-10)) {
+        remainder = [0];
+    }
+    
+    return { quotient, remainder };
+}
+
+// Format polynomial from coefficient array
+function formatPolynomial(coeffs) {
+    if (!coeffs || coeffs.length === 0) return '0';
+    
+    const degree = coeffs.length - 1;
+    const terms = [];
+    
+    for (let i = 0; i < coeffs.length; i++) {
+        const coeff = coeffs[i];
+        const deg = degree - i;
+        
+        if (Math.abs(coeff) < 1e-10) continue;
+        
+        let term = '';
+        const absCoeff = Math.abs(coeff);
+        const sign = coeff > 0 ? '+' : '-';
+        
+        // Coefficient part
+        if (deg === 0) {
+            term = absCoeff.toString();
+        } else if (Math.abs(absCoeff - 1) < 1e-10) {
+            term = '';
+        } else {
+            term = absCoeff.toString();
+        }
+        
+        // Variable part
+        if (deg === 1) {
+            term += 'x';
+        } else if (deg > 1) {
+            term += `x^${deg}`;
+        }
+        
+        terms.push(sign + ' ' + term);
+    }
+    
+    if (terms.length === 0) return '0';
+    
+    let result = terms.join(' ');
+    // Clean up leading + sign
+    if (result.startsWith('+ ')) result = result.substring(2);
+    
+    return result;
+}
+
+function performPolynomialDivision() {
+    const dividendStr = document.getElementById('polyDividend').value.trim();
+    const divisorStr = document.getElementById('polyDivisor').value.trim();
+    const resultDiv = document.getElementById('polynomialDivisionSolution');
+    const trans = translations[currentLang];
+    
+    if (!dividendStr || !divisorStr) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput || 'Please enter both dividend and divisor'}</p>`;
+        return;
+    }
+    
+    const dividend = parsePolynomial(dividendStr);
+    const divisor = parsePolynomial(divisorStr);
+    
+    if (!dividend || !divisor) {
+        resultDiv.innerHTML = `<p class="error">${trans.polyParseError || 'Error parsing polynomials. Use format like: 2x^3 + 3x^2 - x + 5'}</p>`;
+        return;
+    }
+    
+    const result = dividePolynomials(dividend, divisor);
+    
+    if (!result) {
+        resultDiv.innerHTML = `<p class="error">${trans.polyDivisionError || 'Cannot divide by zero polynomial'}</p>`;
+        return;
+    }
+    
+    const quotientStr = formatPolynomial(result.quotient);
+    const remainderStr = formatPolynomial(result.remainder);
+    const dividendFormatted = formatPolynomial(dividend);
+    const divisorFormatted = formatPolynomial(divisor);
+    
+    const isExactDivision = result.remainder.length === 1 && Math.abs(result.remainder[0]) < 1e-10;
+    
+    let html = `<h3>${trans.solution || 'Solution'}</h3>`;
+    html += `<div class="result-group">
+        <div class="result-label">${trans.dividend || 'Dividend'}:</div>
+        <div class="result-value">${dividendFormatted}</div>
+    </div>`;
+    html += `<div class="result-group">
+        <div class="result-label">${trans.divisor || 'Divisor'}:</div>
+        <div class="result-value">${divisorFormatted}</div>
+    </div>`;
+    html += `<div class="result-group">
+        <div class="result-label">${trans.quotient || 'Quotient'}:</div>
+        <div class="result-value"><span class="highlight">${quotientStr}</span></div>
+    </div>`;
+    html += `<div class="result-group">
+        <div class="result-label">${trans.remainder || 'Remainder'}:</div>
+        <div class="result-value"><span class="highlight">${remainderStr}</span></div>
+    </div>`;
+    
+    if (isExactDivision) {
+        html += `<p class="solution">${trans.exactDivision || 'Exact division (no remainder)'}</p>`;
+    }
+    
+    html += `<div class="steps"><h4>${trans.verification || 'Verification'}:</h4>`;
+    html += `<p>${dividendFormatted} = (${divisorFormatted}) × (${quotientStr})`;
+    if (!isExactDivision) {
+        html += ` + (${remainderStr})`;
+    }
+    html += `</p></div>`;
+    
+    resultDiv.innerHTML = html;
+    addToHistory(`Poly division: (${dividendStr}) ÷ (${divisorStr}) = ${quotientStr} R ${remainderStr}`);
+    showExportButton('polynomialDivision');
+}
+
+// ===================================
 // BASE CONVERTER
 // ===================================
 function setupBaseConverter() {
@@ -4970,6 +5228,11 @@ if (typeof module !== 'undefined' && module.exports) {
         taylorAtan,
         // Integration
         trapezoidalRule,
-        simpsonsRule
+        simpsonsRule,
+        // Polynomial division
+        parsePolynomial,
+        dividePolynomials,
+        formatPolynomial,
+        performPolynomialDivision
     };
 }

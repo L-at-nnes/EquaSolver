@@ -51,6 +51,7 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Limit Calculator** - Evaluate limits of functions at points and infinity
 - **Taylor Series** - Compute Taylor/Maclaurin series for sin, cos, exp, ln, and arctan
 - **Numerical Integration** - Trapezoidal and Simpson's rule integration
+- **Polynomial Long Division** - Divide polynomials with quotient and remainder calculation
 - **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
@@ -261,6 +262,7 @@ The test suite includes:
 - Limit calculator (function evaluation)
 - Taylor series (sin, cos, exp, ln, atan)
 - Numerical integration (trapezoidal, Simpson's)
+- Polynomial long division (parsing, division algorithm, formatting)
 - PWA and service worker support
 - Mobile optimization and performance
 - Integration and state management
@@ -341,6 +343,14 @@ Supports 2×2 and 3×3 matrices:
 - **Determinant**: Computed using cofactor expansion for 2×2 and 3×3 matrices
 - **Inverse**: Calculated using adjugate matrix method (returns null for singular matrices)
 
+#### Polynomial Long Division
+Performs long division of polynomials:
+1. Parse polynomial expressions (e.g., "2x^3 + 3x^2 - x + 5")
+2. Perform synthetic division algorithm with coefficient arrays
+3. Calculate quotient and remainder polynomials
+4. Verify result: Dividend = Divisor × Quotient + Remainder
+5. Support for polynomials of any degree with integer or decimal coefficients
+
 ---
 
 ## Browser Compatibility
@@ -413,7 +423,7 @@ If you find this project helpful, please consider:
 - [ ] Support for trigonometric equation solving
 - [ ] Add logarithmic and exponential equation solvers
 - [x] Implement 3x3 system of linear equations solver
-- [ ] Add polynomial long division calculator
+- [x] Add polynomial long division calculator
 - [ ] Support for absolute value equations
 
 ### Advanced Calculations
