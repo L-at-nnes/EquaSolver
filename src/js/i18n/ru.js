@@ -522,6 +522,12 @@ const ru = {
     simpsonsNote: "Примечание: метод Симпсона требует чётного числа интервалов"
 };
 
+// Export for use in browser
+if (typeof window !== 'undefined') {
+    window.ru = ru;
+}
+
+// Export for use in Node.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = ru;
 }

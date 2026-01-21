@@ -8,7 +8,7 @@ const {
     flipOperator,
     evaluateComparison,
     formatOperator
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Helper Functions', () => {
     describe('flipOperator', () => {

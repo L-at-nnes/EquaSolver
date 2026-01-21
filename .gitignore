@@ -21,9 +21,3 @@ npm-debug.log*
 # Temporary files
 .tmp/
 temp/
-
-# npm files
-/package.json
-/package-lock.json
-/playwright.config.js
-

@@ -3,7 +3,7 @@
  * Using simplified test cases
  */
 
-const { solveCubicComplex, separateRoots, complexConjugate, formatComplex } = require('../../src/js/script.js');
+const { solveCubicComplex, separateRoots, complexConjugate, formatComplex } = require('../../src/js/index.js');
 
 describe('Cubic Equations Solver', () => {
     test('should solve simple cubic: x³ - 6x² + 11x - 6 = 0 (roots: 1, 2, 3)', () => {

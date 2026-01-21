@@ -41,7 +41,7 @@ global.currentLang = 'en';
 const {
     convertTemperature,
     unitConversions
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Base Conversion Logic', () => {
     // Test the underlying conversion logic

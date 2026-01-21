@@ -2,6 +2,24 @@
 
 This document provides comprehensive documentation for all public functions in EquaSolver.
 
+## Architecture Overview
+
+EquaSolver uses a **modular architecture** with functions organized into logical categories:
+
+| Module Directory | Description |
+|------------------|-------------|
+| `src/js/math/` | Mathematical operations (complex numbers, matrices, GCD/LCM, etc.) |
+| `src/js/calculus/` | Calculus functions (limits, Taylor series, numerical integration) |
+| `src/js/solvers/` | Equation solvers (inequalities, polynomial division) |
+| `src/js/converters/` | Base and unit converters |
+| `src/js/parsers/` | LaTeX and expression parsers |
+| `src/js/graphing/` | Cartesian, parametric, and polar graphing |
+| `src/js/ui/` | UI components (calculator, themes, animations, export) |
+
+**For Jest tests:** Import from `src/js/index.js` which re-exports all module functions.
+
+**For browser:** Modules are loaded via individual `<script>` tags and expose functions globally via `window.functionName`. The main entry point is `src/js/script.js`.
+
 ## Table of Contents
 
 - [Equation Solvers](#equation-solvers)

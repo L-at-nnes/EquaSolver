@@ -41,7 +41,7 @@ global.currentLang = 'en';
 const {
     trapezoidalRule,
     simpsonsRule
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Trapezoidal Rule', () => {
     describe('Polynomial integrals', () => {

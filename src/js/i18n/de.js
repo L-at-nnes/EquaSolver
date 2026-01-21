@@ -517,6 +517,12 @@ const de = {
     simpsonsNote: "Hinweis: Die Simpson-Regel erfordert eine gerade Anzahl von Intervallen"
 };
 
+// Export for use in browser
+if (typeof window !== 'undefined') {
+    window.de = de;
+}
+
+// Export for use in Node.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = de;
 }

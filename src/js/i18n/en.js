@@ -538,7 +538,12 @@ const en = {
     simpsonsNote: "Note: Simpson's rule requires even number of intervals"
 };
 
-// Export for use in browser and Node.js
+// Export for use in browser
+if (typeof window !== 'undefined') {
+    window.en = en;
+}
+
+// Export for use in Node.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = en;
 }

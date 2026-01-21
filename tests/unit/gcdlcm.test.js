@@ -31,7 +31,7 @@ const {
     lcmMultiple,
     primeFactorization,
     formatFactorization
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('GCD (Greatest Common Divisor)', () => {
     test('should calculate GCD of two numbers', () => {

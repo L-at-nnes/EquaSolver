@@ -43,7 +43,7 @@ const {
     taylorLn,
     taylorAtan,
     factorialBig
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Taylor Series for sin(x)', () => {
     describe('Maclaurin series (a=0)', () => {
