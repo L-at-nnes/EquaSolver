@@ -513,6 +513,12 @@ const es = {
     simpsonsNote: "Nota: La regla de Simpson requiere número par de intervalos"
 };
 
+// Export for use in browser
+if (typeof window !== 'undefined') {
+    window.es = es;
+}
+
+// Export for use in Node.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = es;
 }

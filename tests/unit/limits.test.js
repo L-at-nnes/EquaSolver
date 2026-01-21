@@ -37,7 +37,7 @@ global.currentLang = 'en';
 // Import functions from script.js
 const {
     evaluateLimitFunction
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Expression Evaluation', () => {
     describe('Basic expressions', () => {

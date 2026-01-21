@@ -2,7 +2,7 @@
 
 <div align="center">
 
-![Version](https://img.shields.io/badge/version-2.0.0-blue.svg)
+![Version](https://img.shields.io/badge/version-3.0.0-blue.svg)
 ![License](https://img.shields.io/badge/license-MIT-green.svg)
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?logo=html5&logoColor=white)
 ![CSS3](https://img.shields.io/badge/CSS3-1572B6?logo=css3&logoColor=white)
@@ -175,9 +175,42 @@ EquaSolver/
 |   |-- css/
 |   |   |-- style.css           # Styles, themes, and animations
 |   |-- js/
-|       |-- script.js           # Core application logic and solvers
+|       |-- index.js            # CommonJS entry point for Jest tests
+|       |-- script.js           # Main application entry point (browser runtime)
 |       |-- translations.js     # Translation loader
 |       |-- flags.js            # Base64-encoded country flags
+|       |-- math/               # Mathematical modules
+|       |   |-- complex.js      # Complex number operations
+|       |   |-- matrix.js       # Matrix operations (add, multiply, determinant, inverse)
+|       |   |-- gcd-lcm.js      # GCD, LCM, prime factorization
+|       |   |-- modular.js      # Modular arithmetic (modulo, inverse, exponentiation)
+|       |   |-- combinatorics.js # Factorial, permutations, combinations
+|       |   |-- fractions.js    # Fraction arithmetic and simplification
+|       |   |-- statistics.js   # Mean, median, mode, variance, stdDev
+|       |   |-- sequences.js    # Arithmetic, geometric, Fibonacci sequences
+|       |-- calculus/           # Calculus modules
+|       |   |-- limits.js       # Limit evaluation
+|       |   |-- taylor.js       # Taylor series expansion
+|       |   |-- numerical-integration.js  # Trapezoidal and Simpson's rule
+|       |-- solvers/            # Equation solver modules
+|       |   |-- inequality.js   # Linear and quadratic inequality solver
+|       |   |-- polynomial-division.js  # Polynomial long division
+|       |-- converters/         # Conversion modules
+|       |   |-- base.js         # Base converter (binary, octal, decimal, hex)
+|       |   |-- units.js        # Unit converter (length, mass, temperature, etc.)
+|       |-- parsers/            # Parser modules
+|       |   |-- latex.js        # LaTeX equation parser
+|       |   |-- expression.js   # Mathematical expression evaluator
+|       |-- graphing/           # Graphing modules
+|       |   |-- cartesian.js    # Cartesian coordinate graphing
+|       |   |-- parametric.js   # Parametric equation graphing
+|       |   |-- polar.js        # Polar coordinate graphing
+|       |-- ui/                 # UI modules
+|       |   |-- calculator.js   # Calculator UI functions
+|       |   |-- history.js      # Calculation history management
+|       |   |-- themes.js       # Theme management
+|       |   |-- animations.js   # Step-by-step animation system
+|       |   |-- export.js       # PDF export functionality
 |       |-- i18n/               # Internationalization files
 |           |-- en.js           # English translations
 |           |-- fr.js           # French translations
@@ -186,16 +219,15 @@ EquaSolver/
 |           |-- it.js           # Italian translations
 |           |-- ru.js           # Russian translations
 |-- tests/                      # Test suite
-|   |-- unit/                   # Jest unit tests (26 test files)
+|   |-- unit/                   # Jest unit tests (30 test files)
 |   |-- e2e/                    # Playwright E2E tests
 |   |-- manual/                 # Manual browser testing
 |-- docs/
 |   |-- API.md                  # API documentation
 |   |-- TESTING.md              # Testing documentation
 |-- coverage/                   # Test coverage reports (generated)
-|-- .github/workflows/          # CI/CD configuration
 |-- package.json                # NPM dependencies and scripts
-|-- playwright.config.js        # Playwright E2E configuration
+|-- package-lock.json           # Locked dependency versions
 |-- CONTRIBUTING.md             # Contribution guidelines
 |-- README.md                   # Project documentation
 |-- LICENSE                     # MIT License
@@ -236,7 +268,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 750+ test cases:**
+**Unit Tests (Jest) - 802 test cases across 30 test suites:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -353,18 +385,6 @@ Performs long division of polynomials:
 
 ---
 
-## Browser Compatibility
-
-| Browser         | Minimum Version  | Status          |
-|-----------------|------------------|-----------------|
-| Google Chrome   | Latest           | Fully Supported |
-| Mozilla Firefox | Latest           | Fully Supported |
-| Safari          | Latest           | Fully Supported |
-| Microsoft Edge  | Latest           | Fully Supported |
-| Opera           | Latest           | Fully Supported |
-
----
-
 ## Contributing
 
 Contributions are welcome and appreciated! Please read our [Contributing Guidelines](CONTRIBUTING.md) before getting started.
@@ -463,6 +483,6 @@ If you find this project helpful, please consider:
 
 **Built with precision and attention to detail**
 
-© 2025 EquaSolver | [Report Issue](../../issues) | [Request Feature](../../issues)
+© 2026 EquaSolver | [Report Issue](../../issues) | [Request Feature](../../issues)
 
 </div>

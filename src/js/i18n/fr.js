@@ -534,7 +534,12 @@ const fr = {
     simpsonsNote: "Note: La méthode de Simpson nécessite un nombre pair d'intervalles"
 };
 
-// Export for use in browser and Node.js
+// Export for use in browser
+if (typeof window !== 'undefined') {
+    window.fr = fr;
+}
+
+// Export for use in Node.js
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = fr;
 }

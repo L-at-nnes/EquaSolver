@@ -67,7 +67,7 @@ Open `tests/manual/test.html` in your browser to run interactive tests that vali
 
 ```
 tests/
-|-- unit/                       # Jest unit tests (764 tests)
+|-- unit/                       # Jest unit tests (802 tests across 30 suites)
 |   |-- calculator.test.js      # Standard calculator operations
 |   |-- linear.test.js          # Linear equations (ax + b = 0)
 |   |-- quadratic.test.js       # Quadratic equations (ax^2 + bx + c = 0)

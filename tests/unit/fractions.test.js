@@ -43,7 +43,7 @@ const {
     simplifyFractionFunc,
     fractionToMixed,
     gcd
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Fraction Simplification', () => {
     describe('Basic simplification', () => {

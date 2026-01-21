@@ -7,3 +7,13 @@ const FLAGS = {
     it: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAzIDIiPjxwYXRoIGZpbGw9IiNjZTJiMzciIGQ9Ik0wIDBoM3YySDB6Ii8+PHBhdGggZmlsbD0iI2ZmZiIgZD0iTTAgMGgydjJIMHoiLz48cGF0aCBmaWxsPSIjMDA5MjQ2IiBkPSJNMCAwaDFWMkgweiIvPjwvc3ZnPg==',
     ru: 'data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCA5IDYiPjxwYXRoIGZpbGw9IiNkNTIwMWYiIGQ9Ik0wIDBoOXY2SDB6Ii8+PHBhdGggZmlsbD0iIzAwZiIgZD0iTTAgMGg5djRIMHoiLz48cGF0aCBmaWxsPSIjZmZmIiBkPSJNMCAwaDl2MkgweiIvPjwvc3ZnPg=='
 };
+
+// Browser export
+if (typeof window !== 'undefined') {
+    window.FLAGS = FLAGS;
+}
+
+// CommonJS export for Jest
+if (typeof module !== 'undefined' && module.exports) {
+    module.exports = { FLAGS };
+}

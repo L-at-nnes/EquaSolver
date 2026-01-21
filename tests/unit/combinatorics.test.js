@@ -40,7 +40,7 @@ const {
     factorialBig,
     permutation,
     combination
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Factorial', () => {
     describe('Basic factorial calculations', () => {

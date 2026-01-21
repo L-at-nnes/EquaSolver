@@ -20,7 +20,7 @@ const {
     solveCubicComplex,
     findPolynomialRootsComplex,
     separateRoots
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Complex Number Basic Operations', () => {
     describe('complexAdd', () => {

@@ -42,7 +42,7 @@ const {
     modulo,
     modularInverse,
     modularPower
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Modulo Operation', () => {
     describe('Basic modulo', () => {

@@ -1,14 +1,54 @@
-const CACHE_NAME = 'equasolver-v2.0.0';
-const STATIC_CACHE = 'equasolver-static-v2.0.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v2.0.0';
+const CACHE_NAME = 'equasolver-v3.0.0';
+const STATIC_CACHE = 'equasolver-static-v3.0.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.0.0';
 
 const STATIC_ASSETS = [
     './',
     './index.html',
     './css/style.css',
-    './js/script.js',
-    './js/translations.js',
     './js/flags.js',
+    './js/translations.js',
+    './js/script.js',
+    // i18n modules
+    './js/i18n/en.js',
+    './js/i18n/fr.js',
+    './js/i18n/es.js',
+    './js/i18n/de.js',
+    './js/i18n/it.js',
+    './js/i18n/ru.js',
+    // Math modules
+    './js/math/complex.js',
+    './js/math/matrix.js',
+    './js/math/gcd-lcm.js',
+    './js/math/modular.js',
+    './js/math/combinatorics.js',
+    './js/math/fractions.js',
+    './js/math/statistics.js',
+    './js/math/sequences.js',
+    // Calculus modules
+    './js/calculus/limits.js',
+    './js/calculus/taylor.js',
+    './js/calculus/numerical-integration.js',
+    // Solver modules
+    './js/solvers/inequality.js',
+    './js/solvers/polynomial-division.js',
+    // Converter modules
+    './js/converters/base.js',
+    './js/converters/units.js',
+    // Parser modules
+    './js/parsers/expression.js',
+    './js/parsers/latex.js',
+    // UI modules
+    './js/ui/animations.js',
+    './js/ui/themes.js',
+    './js/ui/history.js',
+    './js/ui/export.js',
+    './js/ui/calculator.js',
+    // Graphing modules
+    './js/graphing/cartesian.js',
+    './js/graphing/parametric.js',
+    './js/graphing/polar.js',
+    // Assets
     './assets/icon.svg',
     './assets/icon-192.svg',
     './manifest.json'

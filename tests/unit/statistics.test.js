@@ -43,7 +43,7 @@ const {
     calculateMode,
     calculateVariance,
     calculateStdDev
-} = require('../../src/js/script.js');
+} = require('../../src/js/index.js');
 
 describe('Mean (Average)', () => {
     describe('Basic mean calculations', () => {

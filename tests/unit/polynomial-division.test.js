@@ -12,7 +12,7 @@ describe('Polynomial Long Division', () => {
         document.body.innerHTML = '<div id="polynomialDivisionSolution"></div>';
         
         // Load the script functions
-        const script = require('../../src/js/script.js');
+        const script = require('../../src/js/index.js');
         parsePolynomial = script.parsePolynomial;
         dividePolynomials = script.dividePolynomials;
         formatPolynomial = script.formatPolynomial;

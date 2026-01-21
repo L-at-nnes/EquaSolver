@@ -2,7 +2,7 @@
  * Tests for Quadratic Equations (ax² + bx + c = 0)
  */
 
-const { solveQuadraticComplex, formatComplex, separateRoots } = require('../../src/js/script.js');
+const { solveQuadraticComplex, formatComplex, separateRoots } = require('../../src/js/index.js');
 
 describe('Quadratic Equations Solver', () => {
     test('should solve equation with two real roots: x² - 5x + 6 = 0', () => {
