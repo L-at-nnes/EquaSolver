@@ -40,6 +40,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupBaseConverter();
     setupUnitConverter();
     setupPolynomialDivision();
+    setupExponentialSolver();
+    setupLogarithmicSolver();
 });
 
 function loadFlags() {

@@ -514,7 +514,44 @@ const de = {
     estimatedError: "Geschätzter Fehler",
     methodUsed: "Verwendete Methode",
     intervalsUsed: "Verwendete Intervalle",
-    simpsonsNote: "Hinweis: Die Simpson-Regel erfordert eine gerade Anzahl von Intervallen"
+    simpsonsNote: "Hinweis: Die Simpson-Regel erfordert eine gerade Anzahl von Intervallen",
+
+    // ===================================
+    // EXPONENTIAL- UND LOGARITHMISCHE GLEICHUNGEN
+    // ===================================
+    expLog: "Exp & Log",
+    expLogDesc: "Exponential- und logarithmische Gleichungen",
+    exponential: "Exponential",
+    logarithmic: "Logarithmisch",
+    exponentialTitle: "Exponentialgleichungen",
+    logarithmicTitle: "Logarithmische Gleichungen",
+    expEquationType: "Gleichungstyp:",
+    logEquationType: "Gleichungstyp:",
+    expSimple: "a^x = b",
+    expWithCoef: "a · b^x = c",
+    expNatural: "e^x = a",
+    logSimple: "log_a(x) = b",
+    logWithArg: "log_a(bx + c) = d",
+    logNatural: "ln(x) = a",
+    logCommon: "log₁₀(x) = a",
+    expBase: "Basis (a):",
+    expResult: "Ergebnis (b):",
+    expCoefficient: "Koeffizient (a):",
+    expResultNatural: "Ergebnis (a):",
+    logBase: "Basis (a):",
+    logResult: "Ergebnis (b):",
+    logCoefX: "Koeffizient von x (b):",
+    logConstant: "Konstante (c):",
+    logResultNatural: "Ergebnis (a):",
+    logResultCommon: "Ergebnis (a):",
+    expHint: "Werte eingeben um x zu lösen",
+    logHint: "Werte eingeben um x zu lösen",
+    equation: "Gleichung",
+    errorSolving: "Fehler beim Lösen der Gleichung",
+    baseError: "Basis muss positiv und ungleich 1 sein",
+    resultError: "Ergebnis muss für Logarithmus positiv sein",
+    coefficientError: "Koeffizient darf nicht null sein",
+    domainError: "Keine Lösung in reellen Zahlen (Domänenfehler)"
 };
 
 // Export for use in browser

@@ -10,7 +10,7 @@ EquaSolver uses a **modular architecture** with functions organized into logical
 |------------------|-------------|
 | `src/js/math/` | Mathematical operations (complex numbers, matrices, GCD/LCM, etc.) |
 | `src/js/calculus/` | Calculus functions (limits, Taylor series, numerical integration) |
-| `src/js/solvers/` | Equation solvers (inequalities, polynomial division) |
+| `src/js/solvers/` | Equation solvers (inequalities, polynomial division, exponential/logarithmic) |
 | `src/js/converters/` | Base and unit converters |
 | `src/js/parsers/` | LaTeX and expression parsers |
 | `src/js/graphing/` | Cartesian, parametric, and polar graphing |
@@ -29,6 +29,8 @@ EquaSolver uses a **modular architecture** with functions organized into logical
   - [Quartic Equations](#quartic-equations)
   - [Quintic Equations](#quintic-equations)
   - [Systems of Equations](#systems-of-equations)
+  - [Exponential Equations](#exponential-equations)
+  - [Logarithmic Equations](#logarithmic-equations)
 - [Matrix Operations](#matrix-operations)
 - [GCD and LCM Functions](#gcd-and-lcm-functions)
 - [Calculator Functions](#calculator-functions)
@@ -205,6 +207,171 @@ a31*x + a32*y + a33*z = b3
 3. Compute determinants `Dx`, `Dy`, `Dz` by replacing corresponding columns with the constants vector and evaluate `x = Dx/D`, `y = Dy/D`, `z = Dz/D`.
 
 **Returns:** Displays solution or an error message when singular; exported for testing as `solve3x3System`.
+
+---
+
+### Exponential Equations
+
+Located in `src/js/solvers/exponential-log.js`
+
+#### `solveExponentialSimple(base, result)`
+
+Solves an exponential equation of the form `a^x = b`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `base` | `number` | The base 'a' (must be > 0 and ≠ 1) |
+| `result` | `number` | The result 'b' (must be > 0) |
+
+**Returns:** `Object`
+```javascript
+{
+    x: number,           // Solution value
+    equation: string,    // Display equation "a^x = b"
+    steps: string[],     // Solution steps
+    verification: number // a^x to verify
+}
+// Or { error: string } if invalid inputs
+```
+
+**Example:**
+```javascript
+solveExponentialSimple(2, 8);
+// Returns: { x: 3, equation: "2^x = 8", steps: [...], verification: 8 }
+```
+
+---
+
+#### `solveExponentialWithCoefficient(coefficient, base, result)`
+
+Solves an exponential equation of the form `a · b^x = c`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `coefficient` | `number` | The coefficient 'a' (must not be 0) |
+| `base` | `number` | The base 'b' (must be > 0 and ≠ 1) |
+| `result` | `number` | The result 'c' |
+
+**Returns:** `Object` with `x`, `equation`, `steps`, `verification` or `{ error }`.
+
+**Example:**
+```javascript
+solveExponentialWithCoefficient(2, 3, 18);
+// Returns: { x: 2, equation: "2 · 3^x = 18", steps: [...] }
+```
+
+---
+
+#### `solveNaturalExponential(result)`
+
+Solves the natural exponential equation `e^x = a`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `result` | `number` | The result 'a' (must be > 0) |
+
+**Returns:** `Object` with `x = ln(a)`, `equation`, `steps`, `verification`.
+
+**Example:**
+```javascript
+solveNaturalExponential(7.389);
+// Returns: { x: 2, equation: "e^x = 7.389", steps: [...] }
+```
+
+---
+
+### Logarithmic Equations
+
+Located in `src/js/solvers/exponential-log.js`
+
+#### `solveLogarithmicSimple(base, result)`
+
+Solves a logarithmic equation of the form `log_a(x) = b`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `base` | `number` | The logarithm base 'a' (must be > 0 and ≠ 1) |
+| `result` | `number` | The result 'b' |
+
+**Returns:** `Object`
+```javascript
+{
+    x: number,           // Solution x = a^b
+    equation: string,    // Display equation "log_a(x) = b"
+    steps: string[],     // Solution steps
+    verification: number // log_a(x) to verify
+}
+```
+
+**Example:**
+```javascript
+solveLogarithmicSimple(2, 3);
+// Returns: { x: 8, equation: "log₂(x) = 3", steps: [...] }
+```
+
+---
+
+#### `solveLogarithmicWithArgument(logBase, coefX, constant, result)`
+
+Solves a logarithmic equation of the form `log_a(bx + c) = d`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `logBase` | `number` | The logarithm base 'a' (must be > 0 and ≠ 1) |
+| `coefX` | `number` | Coefficient of x 'b' (must not be 0) |
+| `constant` | `number` | Constant term 'c' |
+| `result` | `number` | The result 'd' |
+
+**Returns:** `Object` with `x = (a^d - c) / b`, `equation`, `steps`, `verification`.
+
+**Example:**
+```javascript
+solveLogarithmicWithArgument(10, 2, -3, 2);
+// Returns: { x: 51.5, equation: "log₁₀(2x + -3) = 2", steps: [...] }
+```
+
+---
+
+#### `solveNaturalLog(result)`
+
+Solves the natural logarithm equation `ln(x) = a`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `result` | `number` | The result 'a' |
+
+**Returns:** `Object` with `x = e^a`, `equation`, `steps`, `verification`.
+
+**Example:**
+```javascript
+solveNaturalLog(2);
+// Returns: { x: 7.389056, equation: "ln(x) = 2", steps: [...] }
+```
+
+---
+
+#### `solveCommonLog(result)`
+
+Solves the common logarithm equation `log₁₀(x) = a`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `result` | `number` | The result 'a' |
+
+**Returns:** `Object` with `x = 10^a`, `equation`, `steps`, `verification`.
+
+**Example:**
+```javascript
+solveCommonLog(2);
+// Returns: { x: 100, equation: "log₁₀(x) = 2", steps: [...] }
+```
 
 ---
 
@@ -689,6 +856,15 @@ module.exports = {
     parsePolynomial,
     dividePolynomials,
     formatPolynomial,
+    // Exponential & Logarithmic Solvers
+    solveExponentialSimple,
+    solveExponentialWithCoefficient,
+    solveNaturalExponential,
+    solveLogarithmicSimple,
+    solveLogarithmicWithArgument,
+    solveNaturalLog,
+    solveCommonLog,
+    // Matrix
     matrixAdd,
     matrixMultiply,
     determinant,

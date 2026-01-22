@@ -52,6 +52,8 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Taylor Series** - Compute Taylor/Maclaurin series for sin, cos, exp, ln, and arctan
 - **Numerical Integration** - Trapezoidal and Simpson's rule integration
 - **Polynomial Long Division** - Divide polynomials with quotient and remainder calculation
+- **Exponential Equations** - Solve equations of the form a^x = b, a · b^x = c, and e^x = a with step-by-step solutions
+- **Logarithmic Equations** - Solve equations of the form log_a(x) = b, log_a(bx + c) = d, ln(x) = a, and log₁₀(x) = a
 - **PDF Export** - Export solutions and graphs to PDF format for documentation and sharing
 
 ### User Interface
@@ -195,6 +197,7 @@ EquaSolver/
 |       |-- solvers/            # Equation solver modules
 |       |   |-- inequality.js   # Linear and quadratic inequality solver
 |       |   |-- polynomial-division.js  # Polynomial long division
+|       |   |-- exponential-log.js  # Exponential and logarithmic equation solvers
 |       |-- converters/         # Conversion modules
 |       |   |-- base.js         # Base converter (binary, octal, decimal, hex)
 |       |   |-- units.js        # Unit converter (length, mass, temperature, etc.)
@@ -211,6 +214,7 @@ EquaSolver/
 |       |   |-- themes.js       # Theme management
 |       |   |-- animations.js   # Step-by-step animation system
 |       |   |-- export.js       # PDF export functionality
+|       |   |-- exponential-log.js  # Exponential/logarithmic solver UI
 |       |-- i18n/               # Internationalization files
 |           |-- en.js           # English translations
 |           |-- fr.js           # French translations
@@ -268,7 +272,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 802 test cases across 30 test suites:**
+**Unit Tests (Jest) - 866 test cases across 31 test suites:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
@@ -278,6 +282,8 @@ The test suite includes:
 - Quintic equation solving (numerical root finding, complex roots)
 - **Complex number operations** (add, sub, mul, div, sqrt, abs, conjugate, formatting)
 - **Inequality solving** (linear and quadratic inequalities with interval notation)
+- **Exponential equations** (a^x = b, a · b^x = c, e^x = a)
+- **Logarithmic equations** (log_a(x) = b, log_a(bx + c) = d, ln(x) = a, log₁₀(x) = a)
 - System of equations (Cramer's rule for 2x2 and 3x3)
 - Matrix operations (addition, multiplication, determinant, inverse)
 - LaTeX equation parsing
@@ -441,7 +447,7 @@ If you find this project helpful, please consider:
 - [x] Implement inequality solver (linear and quadratic inequalities)
 - [ ] Add derivative and integral calculator
 - [ ] Support for trigonometric equation solving
-- [ ] Add logarithmic and exponential equation solvers
+- [x] Add logarithmic and exponential equation solvers
 - [x] Implement 3x3 system of linear equations solver
 - [x] Add polynomial long division calculator
 - [ ] Support for absolute value equations

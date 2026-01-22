@@ -217,6 +217,25 @@
                     <div class="tool-glow"></div>
                 </div>
 
+                <!-- Exponential & Logarithmic -->
+                <div class="tool-card" data-tool="explog">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <text x="4" y="14" font-size="10" fill="currentColor">eˣ</text>
+                            <text x="4" y="22" font-size="8" fill="currentColor">log</text>
+                            <path d="M16 4c0 8-4 16-4 16"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="expLog">Exp & Log</h3>
+                    <p data-translate="expLogDesc">Exponential and logarithmic equations</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="chooseType">Choose type</p>
+                        <button class="submenu-btn" data-subtool="exponential" data-translate="exponential">Exponential</button>
+                        <button class="submenu-btn" data-subtool="logarithmic" data-translate="logarithmic">Logarithmic</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
                 <div class="tool-card" data-tool="systems">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -404,6 +423,8 @@
                 <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
                 <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
                 <button class="tab" data-tab="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
+                <button class="tab" data-tab="exponential" data-translate="exponential">Exponential</button>
+                <button class="tab" data-tab="logarithmic" data-translate="logarithmic">Logarithmic</button>
             </div>
 
             <!-- Standard Calculator -->
@@ -1614,6 +1635,131 @@
                 
                 <div class="solution-container" id="polynomialDivisionSolution"></div>
             </div>
+
+            <!-- Exponential Equation Solver -->
+            <div class="calculator-panel" id="exponential">
+                <div class="equation-display">
+                    <h3 data-translate="exponentialTitle">Exponential Equations</h3>
+                    <div class="equation-preview" id="exponentialPreview">a · bˣ = c</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="expEquationType">Equation Type:</label>
+                        <select id="expType" class="equation-input">
+                            <option value="simple" data-translate="expSimple">a^x = b</option>
+                            <option value="withCoef" data-translate="expWithCoef">a · b^x = c</option>
+                            <option value="natural" data-translate="expNatural">e^x = a</option>
+                        </select>
+                    </div>
+                    <div id="expSimpleInputs">
+                        <div class="input-group">
+                            <label data-translate="expBase">Base (a):</label>
+                            <input type="text" inputmode="decimal" id="expBaseA" value="2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="expResult">Result (b):</label>
+                            <input type="text" inputmode="decimal" id="expResultB" value="8" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="expWithCoefInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expCoefficient">Coefficient (a):</label>
+                            <input type="text" inputmode="decimal" id="expCoefA" value="2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="expBase">Base (b):</label>
+                            <input type="text" inputmode="decimal" id="expCoefBase" value="3" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="expResult">Result (c):</label>
+                            <input type="text" inputmode="decimal" id="expCoefResult" value="18" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="expNaturalInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expResultNatural">Result (a):</label>
+                            <input type="text" inputmode="decimal" id="expNaturalResult" value="7.389" class="coef-input">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="expHint">Enter values to solve for x</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="solveExponential" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportExponentialPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="exponentialSolution"></div>
+            </div>
+
+            <!-- Logarithmic Equation Solver -->
+            <div class="calculator-panel" id="logarithmic">
+                <div class="equation-display">
+                    <h3 data-translate="logarithmicTitle">Logarithmic Equations</h3>
+                    <div class="equation-preview" id="logarithmicPreview">log_a(x) = b</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="logEquationType">Equation Type:</label>
+                        <select id="logType" class="equation-input">
+                            <option value="simple" data-translate="logSimple">log_a(x) = b</option>
+                            <option value="withArg" data-translate="logWithArg">log_a(bx + c) = d</option>
+                            <option value="natural" data-translate="logNatural">ln(x) = a</option>
+                            <option value="common" data-translate="logCommon">log₁₀(x) = a</option>
+                        </select>
+                    </div>
+                    <div id="logSimpleInputs">
+                        <div class="input-group">
+                            <label data-translate="logBase">Base (a):</label>
+                            <input type="text" inputmode="decimal" id="logBaseA" value="2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="logResult">Result (b):</label>
+                            <input type="text" inputmode="decimal" id="logResultB" value="3" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="logWithArgInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="logBase">Base (a):</label>
+                            <input type="text" inputmode="decimal" id="logArgBase" value="10" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="logCoefX">Coefficient of x (b):</label>
+                            <input type="text" inputmode="decimal" id="logArgCoef" value="2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="logConstant">Constant (c):</label>
+                            <input type="text" inputmode="decimal" id="logArgConst" value="-3" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="logResult">Result (d):</label>
+                            <input type="text" inputmode="decimal" id="logArgResult" value="2" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="logNaturalInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="logResultNatural">Result (a):</label>
+                            <input type="text" inputmode="decimal" id="logNaturalResult" value="2" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="logCommonInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="logResultCommon">Result (a):</label>
+                            <input type="text" inputmode="decimal" id="logCommonResult" value="2" class="coef-input">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="logHint">Enter values to solve for x</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="solveLogarithmic" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportLogarithmicPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="logarithmicSolution"></div>
+            </div>
         </div>
 
         <!-- History Panel -->
@@ -1657,6 +1803,7 @@
     <!-- Solver modules -->
     <script src="js/solvers/inequality.js" defer></script>
     <script src="js/solvers/polynomial-division.js" defer></script>
+    <script src="js/solvers/exponential-log.js" defer></script>
     
     <!-- Converter modules -->
     <script src="js/converters/base.js" defer></script>
@@ -1672,6 +1819,7 @@
     <script src="js/ui/history.js" defer></script>
     <script src="js/ui/export.js" defer></script>
     <script src="js/ui/calculator.js" defer></script>
+    <script src="js/ui/exponential-log.js" defer></script>
     
     <!-- Graphing modules -->
     <script src="js/graphing/cartesian.js" defer></script>
