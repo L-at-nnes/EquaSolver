@@ -27,6 +27,7 @@ const { trapezoidalRule, simpsonsRule } = require('./calculus/numerical-integrat
 // Solver modules
 const { solveLinearInequality, solveQuadraticInequality, solveAbsoluteInequality, formatInequality, flipOperator, evaluateComparison, formatOperator } = require('./solvers/inequality.js');
 const { parsePolynomial, dividePolynomials, formatPolynomial } = require('./solvers/polynomial-division.js');
+const { solveExponentialSimple, solveExponentialWithCoefficient, solveLogarithmicSimple, solveLogarithmicWithArgument, solveNaturalLog, solveCommonLog, solveNaturalExponential } = require('./solvers/exponential-log.js');
 
 // Converter modules
 const { convertBase } = require('./converters/base.js');
@@ -131,6 +132,15 @@ module.exports = {
     parsePolynomial,
     dividePolynomials,
     formatPolynomial,
+    
+    // Exponential & Logarithmic Solvers
+    solveExponentialSimple,
+    solveExponentialWithCoefficient,
+    solveLogarithmicSimple,
+    solveLogarithmicWithArgument,
+    solveNaturalLog,
+    solveCommonLog,
+    solveNaturalExponential,
     
     // Base Conversion
     convertBase,

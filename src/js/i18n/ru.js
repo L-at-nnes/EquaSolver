@@ -519,7 +519,44 @@ const ru = {
     estimatedError: "Оценка погрешности",
     methodUsed: "Использованный метод",
     intervalsUsed: "Использованные интервалы",
-    simpsonsNote: "Примечание: метод Симпсона требует чётного числа интервалов"
+    simpsonsNote: "Примечание: метод Симпсона требует чётного числа интервалов",
+
+    // ===================================
+    // ЭКСПОНЕНЦИАЛЬНЫЕ И ЛОГАРИФМИЧЕСКИЕ УРАВНЕНИЯ
+    // ===================================
+    expLog: "Эксп и Лог",
+    expLogDesc: "Экспоненциальные и логарифмические уравнения",
+    exponential: "Экспоненциальное",
+    logarithmic: "Логарифмическое",
+    exponentialTitle: "Экспоненциальные уравнения",
+    logarithmicTitle: "Логарифмические уравнения",
+    expEquationType: "Тип уравнения:",
+    logEquationType: "Тип уравнения:",
+    expSimple: "a^x = b",
+    expWithCoef: "a · b^x = c",
+    expNatural: "e^x = a",
+    logSimple: "log_a(x) = b",
+    logWithArg: "log_a(bx + c) = d",
+    logNatural: "ln(x) = a",
+    logCommon: "log₁₀(x) = a",
+    expBase: "Основание (a):",
+    expResult: "Результат (b):",
+    expCoefficient: "Коэффициент (a):",
+    expResultNatural: "Результат (a):",
+    logBase: "Основание (a):",
+    logResult: "Результат (b):",
+    logCoefX: "Коэффициент при x (b):",
+    logConstant: "Константа (c):",
+    logResultNatural: "Результат (a):",
+    logResultCommon: "Результат (a):",
+    expHint: "Введите значения для решения x",
+    logHint: "Введите значения для решения x",
+    equation: "Уравнение",
+    errorSolving: "Ошибка при решении уравнения",
+    baseError: "Основание должно быть положительным и не равным 1",
+    resultError: "Результат должен быть положительным для логарифма",
+    coefficientError: "Коэффициент не может быть нулём",
+    domainError: "Нет решения в вещественных числах (ошибка области определения)"
 };
 
 // Export for use in browser

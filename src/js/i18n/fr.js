@@ -531,7 +531,44 @@ const fr = {
     estimatedError: "Erreur estimée",
     methodUsed: "Méthode utilisée",
     intervalsUsed: "Intervalles utilisés",
-    simpsonsNote: "Note: La méthode de Simpson nécessite un nombre pair d'intervalles"
+    simpsonsNote: "Note: La méthode de Simpson nécessite un nombre pair d'intervalles",
+
+    // ===================================
+    // ÉQUATIONS EXPONENTIELLES ET LOGARITHMIQUES
+    // ===================================
+    expLog: "Exp & Log",
+    expLogDesc: "Équations exponentielles et logarithmiques",
+    exponential: "Exponentielle",
+    logarithmic: "Logarithmique",
+    exponentialTitle: "Équations Exponentielles",
+    logarithmicTitle: "Équations Logarithmiques",
+    expEquationType: "Type d'équation:",
+    logEquationType: "Type d'équation:",
+    expSimple: "a^x = b",
+    expWithCoef: "a · b^x = c",
+    expNatural: "e^x = a",
+    logSimple: "log_a(x) = b",
+    logWithArg: "log_a(bx + c) = d",
+    logNatural: "ln(x) = a",
+    logCommon: "log₁₀(x) = a",
+    expBase: "Base (a):",
+    expResult: "Résultat (b):",
+    expCoefficient: "Coefficient (a):",
+    expResultNatural: "Résultat (a):",
+    logBase: "Base (a):",
+    logResult: "Résultat (b):",
+    logCoefX: "Coefficient de x (b):",
+    logConstant: "Constante (c):",
+    logResultNatural: "Résultat (a):",
+    logResultCommon: "Résultat (a):",
+    expHint: "Entrez les valeurs pour résoudre x",
+    logHint: "Entrez les valeurs pour résoudre x",
+    equation: "Équation",
+    errorSolving: "Erreur lors de la résolution",
+    baseError: "La base doit être positive et différente de 1",
+    resultError: "Le résultat doit être positif pour le logarithme",
+    coefficientError: "Le coefficient ne peut pas être zéro",
+    domainError: "Pas de solution dans les réels (erreur de domaine)"
 };
 
 // Export for use in browser

@@ -535,7 +535,44 @@ const en = {
     estimatedError: "Estimated error",
     methodUsed: "Method used",
     intervalsUsed: "Intervals used",
-    simpsonsNote: "Note: Simpson's rule requires even number of intervals"
+    simpsonsNote: "Note: Simpson's rule requires even number of intervals",
+
+    // ===================================
+    // EXPONENTIAL & LOGARITHMIC EQUATIONS
+    // ===================================
+    expLog: "Exp & Log",
+    expLogDesc: "Exponential and logarithmic equations",
+    exponential: "Exponential",
+    logarithmic: "Logarithmic",
+    exponentialTitle: "Exponential Equations",
+    logarithmicTitle: "Logarithmic Equations",
+    expEquationType: "Equation Type:",
+    logEquationType: "Equation Type:",
+    expSimple: "a^x = b",
+    expWithCoef: "a · b^x = c",
+    expNatural: "e^x = a",
+    logSimple: "log_a(x) = b",
+    logWithArg: "log_a(bx + c) = d",
+    logNatural: "ln(x) = a",
+    logCommon: "log₁₀(x) = a",
+    expBase: "Base (a):",
+    expResult: "Result (b):",
+    expCoefficient: "Coefficient (a):",
+    expResultNatural: "Result (a):",
+    logBase: "Base (a):",
+    logResult: "Result (b):",
+    logCoefX: "Coefficient of x (b):",
+    logConstant: "Constant (c):",
+    logResultNatural: "Result (a):",
+    logResultCommon: "Result (a):",
+    expHint: "Enter values to solve for x",
+    logHint: "Enter values to solve for x",
+    equation: "Equation",
+    errorSolving: "Error solving equation",
+    baseError: "Base must be positive and not equal to 1",
+    resultError: "Result must be positive for logarithm",
+    coefficientError: "Coefficient cannot be zero",
+    domainError: "No solution in real numbers (domain error)"
 };
 
 // Export for use in browser
