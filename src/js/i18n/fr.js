@@ -568,7 +568,40 @@ const fr = {
     baseError: "La base doit être positive et différente de 1",
     resultError: "Le résultat doit être positif pour le logarithme",
     coefficientError: "Le coefficient ne peut pas être zéro",
-    domainError: "Pas de solution dans les réels (erreur de domaine)"
+    domainError: "Pas de solution dans les réels (erreur de domaine)",
+
+    // ===================================
+    // DÉRIVÉES & INTÉGRALES
+    // ===================================
+    derivatives: "Dérivées",
+    integrals: "Intégrales",
+    derivativeTitle: "Calculateur de Dérivées",
+    integralTitle: "Calculateur d'Intégrales",
+    derivativeType: "Type de calcul :",
+    integralType: "Type d'intégrale :",
+    symbolicDerivative: "Symbolique f'(x)",
+    derivativeAtPoint: "Évaluer en un point",
+    nthDerivative: "Dérivée n-ième",
+    criticalPoints: "Points critiques",
+    indefiniteIntegral: "Indéfinie ∫f(x)dx",
+    definiteIntegral: "Définie ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Évaluer en x =",
+    derivativeOrder: "Ordre n =",
+    rangeMin: "x min =",
+    rangeMax: "x max =",
+    derivativeHint: "Entrez la fonction avec x comme variable. Supporte : x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Entrez la fonction avec x comme variable. Supporte : x^n, sin, cos, e^x, 1/x",
+    derivative: "Dérivée",
+    integral: "Intégrale",
+    symbolicAntiderivative: "Primitive",
+    noCriticalPoints: "Aucun point critique trouvé dans l'intervalle donné",
+    range: "Intervalle",
+    order: "Ordre",
+    localminimum: "minimum local",
+    localmaximum: "maximum local",
+    inflectionpoint: "point d'inflexion",
+    errorCalculating: "Erreur de calcul"
 };
 
 // Export for use in browser

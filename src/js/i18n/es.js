@@ -547,7 +547,40 @@ const es = {
     baseError: "La base debe ser positiva y diferente de 1",
     resultError: "El resultado debe ser positivo para el logaritmo",
     coefficientError: "El coeficiente no puede ser cero",
-    domainError: "Sin solución en los reales (error de dominio)"
+    domainError: "Sin solución en los reales (error de dominio)",
+
+    // ===================================
+    // DERIVADAS E INTEGRALES
+    // ===================================
+    derivatives: "Derivadas",
+    integrals: "Integrales",
+    derivativeTitle: "Calculadora de Derivadas",
+    integralTitle: "Calculadora de Integrales",
+    derivativeType: "Tipo de cálculo:",
+    integralType: "Tipo de integral:",
+    symbolicDerivative: "Simbólica f'(x)",
+    derivativeAtPoint: "Evaluar en un punto",
+    nthDerivative: "Derivada n-ésima",
+    criticalPoints: "Puntos críticos",
+    indefiniteIntegral: "Indefinida ∫f(x)dx",
+    definiteIntegral: "Definida ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Evaluar en x =",
+    derivativeOrder: "Orden n =",
+    rangeMin: "x mín =",
+    rangeMax: "x máx =",
+    derivativeHint: "Ingrese la función usando x como variable. Soporta: x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Ingrese la función usando x como variable. Soporta: x^n, sin, cos, e^x, 1/x",
+    derivative: "Derivada",
+    integral: "Integral",
+    symbolicAntiderivative: "Antiderivada",
+    noCriticalPoints: "No se encontraron puntos críticos en el rango dado",
+    range: "Rango",
+    order: "Orden",
+    localminimum: "mínimo local",
+    localmaximum: "máximo local",
+    inflectionpoint: "punto de inflexión",
+    errorCalculating: "Error al calcular"
 };
 
 // Export for use in browser

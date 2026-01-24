@@ -9,7 +9,7 @@ EquaSolver uses a **modular architecture** with functions organized into logical
 | Module Directory | Description |
 |------------------|-------------|
 | `src/js/math/` | Mathematical operations (complex numbers, matrices, GCD/LCM, etc.) |
-| `src/js/calculus/` | Calculus functions (limits, Taylor series, numerical integration) |
+| `src/js/calculus/` | Calculus functions (limits, Taylor series, numerical integration, derivatives, integrals) |
 | `src/js/solvers/` | Equation solvers (inequalities, polynomial division, exponential/logarithmic) |
 | `src/js/converters/` | Base and unit converters |
 | `src/js/parsers/` | LaTeX and expression parsers |
@@ -31,6 +31,10 @@ EquaSolver uses a **modular architecture** with functions organized into logical
   - [Systems of Equations](#systems-of-equations)
   - [Exponential Equations](#exponential-equations)
   - [Logarithmic Equations](#logarithmic-equations)
+- [Calculus Functions](#calculus-functions)
+  - [Derivatives](#derivatives)
+  - [Integrals](#integrals)
+  - [Critical Points](#critical-points)
 - [Matrix Operations](#matrix-operations)
 - [GCD and LCM Functions](#gcd-and-lcm-functions)
 - [Calculator Functions](#calculator-functions)
@@ -371,6 +375,235 @@ Solves the common logarithm equation `log₁₀(x) = a`.
 ```javascript
 solveCommonLog(2);
 // Returns: { x: 100, equation: "log₁₀(x) = 2", steps: [...] }
+```
+
+---
+
+## Calculus Functions
+
+### Derivatives
+
+#### `differentiate(expression)`
+
+Computes the symbolic derivative of a mathematical expression.
+
+**Location:** `src/js/calculus/derivatives-integrals.js`
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression with variable x |
+
+**Returns:** `Object`
+```javascript
+{
+    original: string,      // Original expression
+    derivative: string,    // Computed derivative f'(x)
+    simplified: string,    // Simplified result
+    steps: string[]        // Step-by-step explanation
+}
+```
+
+**Supported Functions:**
+- Power functions: `x^n`
+- Trigonometric: `sin(x)`, `cos(x)`, `tan(x)`
+- Exponential: `e^x`, `exp(x)`
+- Logarithmic: `ln(x)`
+- Square root: `sqrt(x)`
+
+**Example:**
+```javascript
+differentiate('x^3');
+// Returns: { derivative: "3x^2", original: "x^3", ... }
+
+differentiate('sin(x)');
+// Returns: { derivative: "cos(x)", original: "sin(x)", ... }
+```
+
+---
+
+#### `evaluateDerivativeAt(expression, point)`
+
+Evaluates the derivative of an expression at a specific point.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression |
+| `point` | `number` | Value of x to evaluate at |
+
+**Returns:** `Object`
+```javascript
+{
+    expression: string,         // Original expression
+    point: number,              // Evaluation point
+    symbolicDerivative: string, // Symbolic f'(x)
+    numericalValue: number,     // f'(point) value
+    method: string              // "Central difference"
+}
+```
+
+**Example:**
+```javascript
+evaluateDerivativeAt('x^2', 3);
+// Returns: { numericalValue: 6, ... } (since d/dx[x²] = 2x = 6 at x=3)
+```
+
+---
+
+#### `nthDerivative(expression, n)`
+
+Computes the nth derivative of an expression.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression |
+| `n` | `number` | Order of derivative (≥1) |
+
+**Returns:** `Object`
+```javascript
+{
+    original: string,     // Original expression
+    order: number,        // Derivative order
+    derivative: string,   // Result f^(n)(x)
+    steps: string[]       // Each derivative step
+}
+```
+
+**Example:**
+```javascript
+nthDerivative('x^4', 3);
+// Returns: { derivative: "24x", steps: ["f(x) = x^4", "f'(x) = 4x^3", "f''(x) = 12x^2", "f'''(x) = 24x"] }
+```
+
+---
+
+### Integrals
+
+#### `integrate(expression)`
+
+Computes the indefinite integral (antiderivative) of an expression.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression with variable x |
+
+**Returns:** `Object`
+```javascript
+{
+    original: string,       // Original expression
+    integral: string,       // Antiderivative without +C
+    simplified: string,     // Result with +C
+    steps: string[]         // Step-by-step explanation
+}
+```
+
+**Supported Integrals:**
+- Power rule: `∫x^n dx = x^(n+1)/(n+1) + C`
+- Trigonometric: `∫sin(x) = -cos(x)`, `∫cos(x) = sin(x)`
+- Exponential: `∫e^x = e^x`
+- Reciprocal: `∫1/x = ln|x|`
+
+**Example:**
+```javascript
+integrate('x^2');
+// Returns: { simplified: "x^3/3 + C", ... }
+
+integrate('sin(x)');
+// Returns: { simplified: "-cos(x) + C", ... }
+```
+
+---
+
+#### `definiteIntegral(expression, lowerBound, upperBound)`
+
+Computes the definite integral using numerical integration (Simpson's rule).
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression |
+| `lowerBound` | `number` | Lower limit of integration |
+| `upperBound` | `number` | Upper limit of integration |
+
+**Returns:** `Object`
+```javascript
+{
+    expression: string,    // Integrand
+    lowerBound: number,    // a
+    upperBound: number,    // b
+    value: number,         // ∫[a,b] f(x)dx
+    method: string,        // "Simpson's Rule"
+    intervals: number      // Number of subintervals
+}
+```
+
+**Example:**
+```javascript
+definiteIntegral('x^2', 0, 1);
+// Returns: { value: 0.3333333... } (= 1/3)
+
+definiteIntegral('sin(x)', 0, Math.PI);
+// Returns: { value: 2 }
+```
+
+---
+
+### Critical Points
+
+#### `findCriticalPoints(expression, xMin, xMax)`
+
+Finds critical points (where f'(x) = 0 or undefined) within a range.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression |
+| `xMin` | `number` | Lower bound of search range |
+| `xMax` | `number` | Upper bound of search range |
+
+**Returns:** `Array<Object>`
+```javascript
+[
+    {
+        x: number,          // x-coordinate
+        y: number,          // f(x) value
+        type: string        // "localminimum", "localmaximum", or "inflectionpoint"
+    },
+    ...
+]
+```
+
+**Example:**
+```javascript
+findCriticalPoints('x^2', -5, 5);
+// Returns: [{ x: 0, y: 0, type: "localminimum" }]
+
+findCriticalPoints('x^3 - 3*x', -3, 3);
+// Returns: [{ x: -1, y: 2, type: "localmaximum" }, { x: 1, y: -2, type: "localminimum" }]
+```
+
+---
+
+### Helper Functions
+
+#### `createFunction(expression)`
+
+Creates an evaluable JavaScript function from a string expression.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `expression` | `string` | Mathematical expression |
+
+**Returns:** `Function` - A function that takes x and returns f(x)
+
+**Example:**
+```javascript
+const f = createFunction('x^2 + 1');
+f(3);  // Returns 10
 ```
 
 ---
@@ -864,6 +1097,14 @@ module.exports = {
     solveLogarithmicWithArgument,
     solveNaturalLog,
     solveCommonLog,
+    // Derivatives & Integrals
+    differentiate,
+    integrate,
+    definiteIntegral,
+    evaluateDerivativeAt,
+    nthDerivative,
+    findCriticalPoints,
+    createFunction,
     // Matrix
     matrixAdd,
     matrixMultiply,
