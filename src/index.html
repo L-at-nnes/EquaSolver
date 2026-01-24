@@ -369,6 +369,8 @@
                         <button class="submenu-btn" data-subtool="limits" data-translate="limits">Limits</button>
                         <button class="submenu-btn" data-subtool="taylor" data-translate="taylor">Taylor Series</button>
                         <button class="submenu-btn" data-subtool="integration" data-translate="integration">Integration</button>
+                        <button class="submenu-btn" data-subtool="derivatives" data-translate="derivatives">Derivatives</button>
+                        <button class="submenu-btn" data-subtool="integrals" data-translate="integrals">Integrals</button>
                         <button class="submenu-btn" data-subtool="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
                     </div>
                     <div class="tool-glow"></div>
@@ -423,6 +425,8 @@
                 <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
                 <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
                 <button class="tab" data-tab="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
+                <button class="tab" data-tab="derivatives" data-translate="derivatives">Derivatives</button>
+                <button class="tab" data-tab="integrals" data-translate="integrals">Integrals</button>
                 <button class="tab" data-tab="exponential" data-translate="exponential">Exponential</button>
                 <button class="tab" data-tab="logarithmic" data-translate="logarithmic">Logarithmic</button>
             </div>
@@ -1636,6 +1640,120 @@
                 <div class="solution-container" id="polynomialDivisionSolution"></div>
             </div>
 
+            <!-- Derivative Calculator -->
+            <div class="calculator-panel" id="derivatives">
+                <div class="equation-display">
+                    <h3 data-translate="derivativeTitle">Derivative Calculator</h3>
+                    <div class="equation-preview" id="derivativePreview">d/dx(x² + 3x + 1)</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="derivativeType">Calculation Type:</label>
+                        <select id="derivativeType" class="equation-input">
+                            <option value="symbolic" data-translate="symbolicDerivative">Symbolic f'(x)</option>
+                            <option value="atPoint" data-translate="derivativeAtPoint">Evaluate at point</option>
+                            <option value="nth" data-translate="nthDerivative">Nth derivative</option>
+                            <option value="critical" data-translate="criticalPoints">Critical points</option>
+                        </select>
+                    </div>
+                    <div id="derivativeSymbolicInputs">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="derivExpr" value="x^2 + 3x + 1" class="coef-input" placeholder="x^2 + sin(x)">
+                        </div>
+                    </div>
+                    <div id="derivativeAtPointInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="derivExprPoint" value="x^2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="evaluateAt">Evaluate at x =</label>
+                            <input type="text" inputmode="decimal" id="derivPointX" value="2" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="derivativeNthInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="derivExprNth" value="x^4" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="derivativeOrder">Order n =</label>
+                            <input type="number" id="derivOrder" value="2" min="1" max="10" class="coef-input">
+                        </div>
+                    </div>
+                    <div id="derivativeCriticalInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="derivExprCritical" value="x^3 - 3x" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="rangeMin">x min =</label>
+                            <input type="text" inputmode="decimal" id="derivCriticalMin" value="-10" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="rangeMax">x max =</label>
+                            <input type="text" inputmode="decimal" id="derivCriticalMax" value="10" class="coef-input">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="derivativeHint">Enter function using x as variable. Supports: x^n, sin, cos, tan, e^x, ln, sqrt</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateDerivative" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportDerivativePdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="derivativeSolution"></div>
+            </div>
+
+            <!-- Integral Calculator -->
+            <div class="calculator-panel" id="integrals">
+                <div class="equation-display">
+                    <h3 data-translate="integralTitle">Integral Calculator</h3>
+                    <div class="equation-preview" id="integralPreview">∫ x² dx</div>
+                </div>
+                
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="integralType">Integral Type:</label>
+                        <select id="integralType" class="equation-input">
+                            <option value="indefinite" data-translate="indefiniteIntegral">Indefinite ∫f(x)dx</option>
+                            <option value="definite" data-translate="definiteIntegral">Definite ∫[a,b]</option>
+                        </select>
+                    </div>
+                    <div id="integralIndefiniteInputs">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="integralExpr" value="x^2" class="coef-input" placeholder="x^2 + cos(x)">
+                        </div>
+                    </div>
+                    <div id="integralDefiniteInputs" style="display:none;">
+                        <div class="input-group">
+                            <label data-translate="expression">f(x) =</label>
+                            <input type="text" id="integralExprDef" value="x^2" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="lowerBound">Lower bound a =</label>
+                            <input type="text" inputmode="decimal" id="integralLower" value="0" class="coef-input">
+                        </div>
+                        <div class="input-group">
+                            <label data-translate="upperBound">Upper bound b =</label>
+                            <input type="text" inputmode="decimal" id="integralUpper" value="1" class="coef-input">
+                        </div>
+                    </div>
+                    <p class="input-hint" data-translate="integralHint">Enter function using x as variable. Supports: x^n, sin, cos, e^x, 1/x</p>
+                </div>
+                
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateIntegral" data-translate="calculate">Calculate</button>
+                    <button class="btn-export" id="exportIntegralPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+                
+                <div class="solution-container" id="integralSolution"></div>
+            </div>
+
             <!-- Exponential Equation Solver -->
             <div class="calculator-panel" id="exponential">
                 <div class="equation-display">
@@ -1799,6 +1917,7 @@
     <script src="js/calculus/limits.js" defer></script>
     <script src="js/calculus/taylor.js" defer></script>
     <script src="js/calculus/numerical-integration.js" defer></script>
+    <script src="js/calculus/derivatives-integrals.js" defer></script>
     
     <!-- Solver modules -->
     <script src="js/solvers/inequality.js" defer></script>
@@ -1820,6 +1939,7 @@
     <script src="js/ui/export.js" defer></script>
     <script src="js/ui/calculator.js" defer></script>
     <script src="js/ui/exponential-log.js" defer></script>
+    <script src="js/ui/derivatives-integrals.js" defer></script>
     
     <!-- Graphing modules -->
     <script src="js/graphing/cartesian.js" defer></script>

@@ -550,7 +550,40 @@ const it = {
     baseError: "La base deve essere positiva e diversa da 1",
     resultError: "Il risultato deve essere positivo per il logaritmo",
     coefficientError: "Il coefficiente non può essere zero",
-    domainError: "Nessuna soluzione nei reali (errore di dominio)"
+    domainError: "Nessuna soluzione nei reali (errore di dominio)",
+
+    // ===================================
+    // DERIVATE E INTEGRALI
+    // ===================================
+    derivatives: "Derivate",
+    integrals: "Integrali",
+    derivativeTitle: "Calcolatore di Derivate",
+    integralTitle: "Calcolatore di Integrali",
+    derivativeType: "Tipo di calcolo:",
+    integralType: "Tipo di integrale:",
+    symbolicDerivative: "Simbolica f'(x)",
+    derivativeAtPoint: "Valutare in un punto",
+    nthDerivative: "Derivata n-esima",
+    criticalPoints: "Punti critici",
+    indefiniteIntegral: "Indefinito ∫f(x)dx",
+    definiteIntegral: "Definito ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Valutare in x =",
+    derivativeOrder: "Ordine n =",
+    rangeMin: "x min =",
+    rangeMax: "x max =",
+    derivativeHint: "Inserire la funzione usando x come variabile. Supporta: x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Inserire la funzione usando x come variabile. Supporta: x^n, sin, cos, e^x, 1/x",
+    derivative: "Derivata",
+    integral: "Integrale",
+    symbolicAntiderivative: "Primitiva",
+    noCriticalPoints: "Nessun punto critico trovato nell'intervallo dato",
+    range: "Intervallo",
+    order: "Ordine",
+    localminimum: "minimo locale",
+    localmaximum: "massimo locale",
+    inflectionpoint: "punto di flesso",
+    errorCalculating: "Errore nel calcolo"
 };
 
 // Export for use in browser

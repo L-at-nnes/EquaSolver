@@ -23,6 +23,11 @@ const { generateArithmeticSequence, generateGeometricSequence, generateFibonacci
 const { evaluateLimitFunction, evaluateLimit } = require('./calculus/limits.js');
 const { taylorSin, taylorCos, taylorExp, taylorLn, taylorAtan } = require('./calculus/taylor.js');
 const { trapezoidalRule, simpsonsRule } = require('./calculus/numerical-integration.js');
+const { 
+    differentiate, integrate, definiteIntegral, evaluateDerivativeAt, 
+    nthDerivative, findCriticalPoints, createFunction, parseExpression,
+    splitIntoTerms, differentiateTerm, integrateTerm, simplifyExpression
+} = require('./calculus/derivatives-integrals.js');
 
 // Solver modules
 const { solveLinearInequality, solveQuadraticInequality, solveAbsoluteInequality, formatInequality, flipOperator, evaluateComparison, formatOperator } = require('./solvers/inequality.js');
@@ -118,6 +123,20 @@ module.exports = {
     // Numerical Integration
     trapezoidalRule,
     simpsonsRule,
+    
+    // Derivatives & Integrals
+    differentiate,
+    integrate,
+    definiteIntegral,
+    evaluateDerivativeAt,
+    nthDerivative,
+    findCriticalPoints,
+    createFunction,
+    parseExpression,
+    splitIntoTerms,
+    differentiateTerm,
+    integrateTerm,
+    simplifyExpression,
     
     // Inequality Solver
     solveLinearInequality,

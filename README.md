@@ -51,6 +51,8 @@ EquaSolver is a comprehensive web-based calculator designed to solve various typ
 - **Limit Calculator** - Evaluate limits of functions at points and infinity
 - **Taylor Series** - Compute Taylor/Maclaurin series for sin, cos, exp, ln, and arctan
 - **Numerical Integration** - Trapezoidal and Simpson's rule integration
+- **Derivatives Calculator** - Symbolic differentiation, derivative at a point, nth derivative, and critical points detection
+- **Integrals Calculator** - Symbolic integration (indefinite integrals) and definite integrals with numerical evaluation
 - **Polynomial Long Division** - Divide polynomials with quotient and remainder calculation
 - **Exponential Equations** - Solve equations of the form a^x = b, a · b^x = c, and e^x = a with step-by-step solutions
 - **Logarithmic Equations** - Solve equations of the form log_a(x) = b, log_a(bx + c) = d, ln(x) = a, and log₁₀(x) = a
@@ -194,6 +196,7 @@ EquaSolver/
 |       |   |-- limits.js       # Limit evaluation
 |       |   |-- taylor.js       # Taylor series expansion
 |       |   |-- numerical-integration.js  # Trapezoidal and Simpson's rule
+|       |   |-- derivatives-integrals.js  # Derivatives and integrals calculator
 |       |-- solvers/            # Equation solver modules
 |       |   |-- inequality.js   # Linear and quadratic inequality solver
 |       |   |-- polynomial-division.js  # Polynomial long division
@@ -215,6 +218,7 @@ EquaSolver/
 |       |   |-- animations.js   # Step-by-step animation system
 |       |   |-- export.js       # PDF export functionality
 |       |   |-- exponential-log.js  # Exponential/logarithmic solver UI
+|       |   |-- derivatives-integrals.js  # Derivatives/integrals calculator UI
 |       |-- i18n/               # Internationalization files
 |           |-- en.js           # English translations
 |           |-- fr.js           # French translations
@@ -223,7 +227,7 @@ EquaSolver/
 |           |-- it.js           # Italian translations
 |           |-- ru.js           # Russian translations
 |-- tests/                      # Test suite
-|   |-- unit/                   # Jest unit tests (30 test files)
+|   |-- unit/                   # Jest unit tests (32 test files)
 |   |-- e2e/                    # Playwright E2E tests
 |   |-- manual/                 # Manual browser testing
 |-- docs/
@@ -320,7 +324,7 @@ The test suite includes:
 **Manual Browser Tests (120+ tests):**
 - Open `tests/manual/test.html` in browser for interactive validation
 - Tests all mathematical functions in real browser environment
-- Covers equations, inequalities, complex numbers, matrices, GCD/LCM, modular arithmetic, combinatorics, statistics, sequences, Taylor series, numerical integration, and more
+- Covers equations, inequalities, complex numbers, matrices, GCD/LCM, modular arithmetic, combinatorics, statistics, sequences, Taylor series, numerical integration, derivatives, integrals, and more
 
 See [docs/TESTING.md](docs/TESTING.md) for detailed testing documentation.
 
@@ -445,7 +449,7 @@ If you find this project helpful, please consider:
 ### Planned Features
 - [x] Add complex number support for equation solvers
 - [x] Implement inequality solver (linear and quadratic inequalities)
-- [ ] Add derivative and integral calculator
+- [x] Add derivative and integral calculator
 - [ ] Support for trigonometric equation solving
 - [x] Add logarithmic and exponential equation solvers
 - [x] Implement 3x3 system of linear equations solver

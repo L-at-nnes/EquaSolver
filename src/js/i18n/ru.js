@@ -556,7 +556,40 @@ const ru = {
     baseError: "Основание должно быть положительным и не равным 1",
     resultError: "Результат должен быть положительным для логарифма",
     coefficientError: "Коэффициент не может быть нулём",
-    domainError: "Нет решения в вещественных числах (ошибка области определения)"
+    domainError: "Нет решения в вещественных числах (ошибка области определения)",
+
+    // ===================================
+    // ПРОИЗВОДНЫЕ И ИНТЕГРАЛЫ
+    // ===================================
+    derivatives: "Производные",
+    integrals: "Интегралы",
+    derivativeTitle: "Калькулятор производных",
+    integralTitle: "Калькулятор интегралов",
+    derivativeType: "Тип расчёта:",
+    integralType: "Тип интеграла:",
+    symbolicDerivative: "Символьная f'(x)",
+    derivativeAtPoint: "Вычислить в точке",
+    nthDerivative: "n-я производная",
+    criticalPoints: "Критические точки",
+    indefiniteIntegral: "Неопределённый ∫f(x)dx",
+    definiteIntegral: "Определённый ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Вычислить при x =",
+    derivativeOrder: "Порядок n =",
+    rangeMin: "x мин =",
+    rangeMax: "x макс =",
+    derivativeHint: "Введите функцию с переменной x. Поддерживается: x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Введите функцию с переменной x. Поддерживается: x^n, sin, cos, e^x, 1/x",
+    derivative: "Производная",
+    integral: "Интеграл",
+    symbolicAntiderivative: "Первообразная",
+    noCriticalPoints: "Критические точки не найдены в указанном диапазоне",
+    range: "Диапазон",
+    order: "Порядок",
+    localminimum: "локальный минимум",
+    localmaximum: "локальный максимум",
+    inflectionpoint: "точка перегиба",
+    errorCalculating: "Ошибка вычисления"
 };
 
 // Export for use in browser

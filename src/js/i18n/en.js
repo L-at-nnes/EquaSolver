@@ -572,7 +572,40 @@ const en = {
     baseError: "Base must be positive and not equal to 1",
     resultError: "Result must be positive for logarithm",
     coefficientError: "Coefficient cannot be zero",
-    domainError: "No solution in real numbers (domain error)"
+    domainError: "No solution in real numbers (domain error)",
+
+    // ===================================
+    // DERIVATIVES & INTEGRALS
+    // ===================================
+    derivatives: "Derivatives",
+    integrals: "Integrals",
+    derivativeTitle: "Derivative Calculator",
+    integralTitle: "Integral Calculator",
+    derivativeType: "Calculation Type:",
+    integralType: "Integral Type:",
+    symbolicDerivative: "Symbolic f'(x)",
+    derivativeAtPoint: "Evaluate at point",
+    nthDerivative: "Nth derivative",
+    criticalPoints: "Critical points",
+    indefiniteIntegral: "Indefinite ∫f(x)dx",
+    definiteIntegral: "Definite ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Evaluate at x =",
+    derivativeOrder: "Order n =",
+    rangeMin: "x min =",
+    rangeMax: "x max =",
+    derivativeHint: "Enter function using x as variable. Supports: x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Enter function using x as variable. Supports: x^n, sin, cos, e^x, 1/x",
+    derivative: "Derivative",
+    integral: "Integral",
+    symbolicAntiderivative: "Antiderivative",
+    noCriticalPoints: "No critical points found in the given range",
+    range: "Range",
+    order: "Order",
+    localminimum: "local minimum",
+    localmaximum: "local maximum",
+    inflectionpoint: "inflection point",
+    errorCalculating: "Error calculating"
 };
 
 // Export for use in browser

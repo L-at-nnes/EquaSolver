@@ -551,7 +551,40 @@ const de = {
     baseError: "Basis muss positiv und ungleich 1 sein",
     resultError: "Ergebnis muss für Logarithmus positiv sein",
     coefficientError: "Koeffizient darf nicht null sein",
-    domainError: "Keine Lösung in reellen Zahlen (Domänenfehler)"
+    domainError: "Keine Lösung in reellen Zahlen (Domänenfehler)",
+
+    // ===================================
+    // ABLEITUNGEN & INTEGRALE
+    // ===================================
+    derivatives: "Ableitungen",
+    integrals: "Integrale",
+    derivativeTitle: "Ableitungsrechner",
+    integralTitle: "Integralrechner",
+    derivativeType: "Berechnungstyp:",
+    integralType: "Integraltyp:",
+    symbolicDerivative: "Symbolisch f'(x)",
+    derivativeAtPoint: "An Punkt auswerten",
+    nthDerivative: "N-te Ableitung",
+    criticalPoints: "Kritische Punkte",
+    indefiniteIntegral: "Unbestimmt ∫f(x)dx",
+    definiteIntegral: "Bestimmt ∫[a,b]",
+    expression: "f(x) =",
+    evaluateAt: "Auswerten bei x =",
+    derivativeOrder: "Ordnung n =",
+    rangeMin: "x min =",
+    rangeMax: "x max =",
+    derivativeHint: "Funktion mit x als Variable eingeben. Unterstützt: x^n, sin, cos, tan, e^x, ln, sqrt",
+    integralHint: "Funktion mit x als Variable eingeben. Unterstützt: x^n, sin, cos, e^x, 1/x",
+    derivative: "Ableitung",
+    integral: "Integral",
+    symbolicAntiderivative: "Stammfunktion",
+    noCriticalPoints: "Keine kritischen Punkte im angegebenen Bereich gefunden",
+    range: "Bereich",
+    order: "Ordnung",
+    localminimum: "lokales Minimum",
+    localmaximum: "lokales Maximum",
+    inflectionpoint: "Wendepunkt",
+    errorCalculating: "Fehler bei der Berechnung"
 };
 
 // Export for use in browser
