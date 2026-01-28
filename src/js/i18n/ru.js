@@ -339,6 +339,10 @@ const ru = {
     isIncreaseOf: "это увеличение на",
     isDecreaseOf: "это уменьшение на",
     selectPercentOperation: "Выберите операцию:",
+    of: "от",
+    to: "до",
+    increasedBy: "увеличено на",
+    decreasedBy: "уменьшено на",
     
     // ===================================
     // RATIO AND PROPORTION
@@ -353,6 +357,7 @@ const ru = {
     ratioB: "b:",
     ratioC: "c:",
     ratioX: "x (неизвестное):",
+    simplified: "Упрощённое",
     simplifiedRatio: "Упрощённое отношение",
     proportionResult: "Решение пропорции",
     ratioEquals: "равно",
@@ -589,7 +594,15 @@ const ru = {
     localminimum: "локальный минимум",
     localmaximum: "локальный максимум",
     inflectionpoint: "точка перегиба",
-    errorCalculating: "Ошибка вычисления"
+    errorCalculating: "Ошибка вычисления",
+    
+    // Matrix operations
+    matrixNotInvertible: "Матрица необратима (определитель = 0)",
+    determinantResult: "Определитель",
+    inverseResult: "Обратная матрица",
+    calculationError: "Ошибка вычисления",
+    selectOperation: "Выберите операцию",
+    divisionByZero: "Ошибка: Деление на ноль"
 };
 
 // Export for use in browser

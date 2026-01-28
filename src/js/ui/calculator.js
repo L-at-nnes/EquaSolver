@@ -53,9 +53,22 @@ function calculate() {
     
     switch (state.operation) {
         case '+': result = prev + current; break;
+        case '-':
         case '−': result = prev - current; break;
+        case '*':
         case '×': result = prev * current; break;
-        case '÷': result = prev / current; break;
+        case '/':
+        case '÷':
+            if (current === 0) {
+                state.display = 'Error';
+                state.operation = null;
+                state.previousValue = null;
+                state.waitingForOperand = true;
+                updateDisplay();
+                return { expression: `${prev} ÷ 0`, result: 'Error' };
+            }
+            result = prev / current;
+            break;
         default: return;
     }
     
@@ -135,9 +148,22 @@ function calculateScientific() {
     
     switch (sciState.operation) {
         case '+': result = prev + current; break;
-        case '-': result = prev - current; break;
+        case '-':
+        case '−': result = prev - current; break;
+        case '*':
         case '×': result = prev * current; break;
-        case '÷': result = prev / current; break;
+        case '/':
+        case '÷':
+            if (current === 0) {
+                sciState.display = 'Error';
+                sciState.operation = null;
+                sciState.previousValue = null;
+                sciState.waitingForOperand = true;
+                updateSciDisplay();
+                return { expression: `${prev} ÷ 0`, result: 'Error' };
+            }
+            result = prev / current;
+            break;
         case '^': result = Math.pow(prev, current); break;
         default: return;
     }

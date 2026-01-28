@@ -57,7 +57,7 @@ function parseLatexEquation(latex) {
     
     const type = ['constant', 'linear', 'quadratic', 'cubic', 'quartic', 'quintic'][maxDegree] || 'polynomial';
     
-    return { type, coefficients };
+    return { type, degree: maxDegree, coefficients };
 }
 
 // CommonJS export for Jest

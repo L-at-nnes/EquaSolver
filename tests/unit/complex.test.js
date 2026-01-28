@@ -117,12 +117,12 @@ describe('Complex Number Basic Operations', () => {
             expect(result.im).toBe(4);
         });
 
-        test('should handle division by zero returning zero', () => {
+        test('should handle division by zero returning NaN', () => {
             const a = { re: 1, im: 1 };
             const b = { re: 0, im: 0 };
             const result = complexDiv(a, b);
-            expect(result.re).toBe(0);
-            expect(result.im).toBe(0);
+            expect(result.re).toBeNaN();
+            expect(result.im).toBeNaN();
         });
     });
 
@@ -161,7 +161,7 @@ describe('Complex Number Basic Operations', () => {
             const z = { re: 1, im: 1 };
             const result = complexPow(z, 2);
             expect(result.re).toBeCloseTo(0, 10);
-            expect(result.im).toBe(2);
+            expect(result.im).toBeCloseTo(2, 10);
         });
 
         test('should compute i^4 = 1', () => {

@@ -23,6 +23,9 @@ function generateGeometricSequence(a1, r, n) {
 }
 
 function generateFibonacciSequence(n) {
+    if (n <= 0) return { terms: [], nthTerm: undefined, sum: 0, formula: 'Fₙ = Fₙ₋₁ + Fₙ₋₂' };
+    if (n === 1) return { terms: [0], nthTerm: 0, sum: 0, formula: 'Fₙ = Fₙ₋₁ + Fₙ₋₂' };
+    
     const terms = [0, 1];
     for (let i = 2; i < n; i++) {
         terms.push(terms[i - 1] + terms[i - 2]);

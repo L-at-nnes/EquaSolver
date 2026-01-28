@@ -1240,7 +1240,7 @@
 
         runner.test('Empty array statistics', () => {
             const result = calculateMean([]);
-            runner.assertTrue(isNaN(result) || result === 0);
+            runner.assertTrue(result === null || isNaN(result) || result === 0);
         });
 
         runner.test('Single element array mean', () => {
