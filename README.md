@@ -276,7 +276,7 @@ npm run test:all
 
 The test suite includes:
 
-**Unit Tests (Jest) - 866 test cases across 31 test suites:**
+**Unit Tests (Jest) - 951 test cases across 32 test suites:**
 - Standard calculator (arithmetic operations)
 - Scientific functions (trigonometry, logarithms, factorials)
 - Linear equation solving with animated steps
