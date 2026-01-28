@@ -330,6 +330,10 @@ const es = {
     isIncreaseOf: "es un aumento de",
     isDecreaseOf: "es una disminución de",
     selectPercentOperation: "Seleccionar operación:",
+    of: "de",
+    to: "a",
+    increasedBy: "aumentado en",
+    decreasedBy: "disminuido en",
     
     // ===================================
     // RATIO AND PROPORTION
@@ -344,6 +348,7 @@ const es = {
     ratioB: "b:",
     ratioC: "c:",
     ratioX: "x (incógnita):",
+    simplified: "Simplificado",
     simplifiedRatio: "Razón simplificada",
     proportionResult: "Solución de la proporción",
     ratioEquals: "es igual a",
@@ -580,7 +585,15 @@ const es = {
     localminimum: "mínimo local",
     localmaximum: "máximo local",
     inflectionpoint: "punto de inflexión",
-    errorCalculating: "Error al calcular"
+    errorCalculating: "Error al calcular",
+    
+    // Matrix operations
+    matrixNotInvertible: "La matriz no es invertible (determinante = 0)",
+    determinantResult: "Determinante",
+    inverseResult: "Inversa",
+    calculationError: "Error de cálculo",
+    selectOperation: "Seleccione una operación",
+    divisionByZero: "Error: División por cero"
 };
 
 // Export for use in browser

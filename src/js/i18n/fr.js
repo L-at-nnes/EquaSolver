@@ -156,6 +156,11 @@ const fr = {
     matrixB: "Matrice B",
     singularMatrix: "Matrice singulière (déterminant = 0, pas d'inverse)",
     invalidMatrix: "Matrices invalides pour cette opération",
+    matrixNotInvertible: "Matrice non inversible (déterminant = 0)",
+    determinantResult: "Déterminant",
+    inverseResult: "Inverse",
+    calculationError: "Erreur de calcul",
+    selectOperation: "Sélectionnez une opération",
     
     // Graph
     selectEquation: "Sélectionner l'équation",
@@ -345,6 +350,10 @@ const fr = {
     isIncreaseOf: "est une augmentation de",
     isDecreaseOf: "est une diminution de",
     selectPercentOperation: "Sélectionner l'opération:",
+    of: "de",
+    to: "à",
+    increasedBy: "augmenté de",
+    decreasedBy: "diminué de",
     
     // ===================================
     // RATIO AND PROPORTION
@@ -359,6 +368,7 @@ const fr = {
     ratioB: "b:",
     ratioC: "c:",
     ratioX: "x (inconnu):",
+    simplified: "Simplifié",
     simplifiedRatio: "Ratio simplifié",
     proportionResult: "Solution de la proportion",
     ratioEquals: "égale",

@@ -160,7 +160,13 @@ const en = {
     matrixB: "Matrix B",
     singularMatrix: "Singular matrix (determinant = 0, no inverse)",
     invalidMatrix: "Invalid matrices for this operation",
-    
+    matrixNotInvertible: "Matrix is not invertible (determinant = 0)",
+    determinantResult: "Determinant",
+    inverseResult: "Inverse",
+    calculationError: "Calculation error",
+    selectOperation: "Select an operation",
+    matrixHint: "Enter matrix values",
+
     // Graph
     selectEquation: "Select equation",
     xRange: "X Range",
@@ -349,6 +355,10 @@ const en = {
     isIncreaseOf: "is an increase of",
     isDecreaseOf: "is a decrease of",
     selectPercentOperation: "Select operation:",
+    of: "of",
+    to: "to",
+    increasedBy: "increased by",
+    decreasedBy: "decreased by",
     
     // ===================================
     // RATIO AND PROPORTION
@@ -363,6 +373,7 @@ const en = {
     ratioB: "b:",
     ratioC: "c:",
     ratioX: "x (unknown):",
+    simplified: "Simplified",
     simplifiedRatio: "Simplified ratio",
     proportionResult: "Proportion solution",
     ratioEquals: "equals",

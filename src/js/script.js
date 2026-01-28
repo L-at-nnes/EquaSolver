@@ -2,6 +2,19 @@
 // EQUASOLVER - MAIN APPLICATION
 // ===================================
 
+// Utility function to format numbers (remove trailing zeros)
+function formatNumber(num, maxDecimals = 10) {
+    if (num === null || num === undefined || isNaN(num)) return 'NaN';
+    if (!isFinite(num)) return num > 0 ? '∞' : '-∞';
+    
+    // For integers, return as-is
+    if (Number.isInteger(num)) return String(num);
+    
+    // Format with max decimals, then remove trailing zeros
+    const formatted = num.toFixed(maxDecimals);
+    return parseFloat(formatted).toString();
+}
+
 document.addEventListener('DOMContentLoaded', () => {
     document.body.className = 'theme-matrix';
     
@@ -31,6 +44,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModularCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
+    setupPercentageCalculator();
+    setupRatioCalculator();
     setupStatisticsCalculator();
     setupSequenceCalculator();
     setupLimitCalculator();
@@ -42,6 +57,8 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPolynomialDivision();
     setupExponentialSolver();
     setupLogarithmicSolver();
+    setupDerivativeCalculator();
+    setupIntegralCalculator();
 });
 
 function loadFlags() {
@@ -376,19 +393,8 @@ function handleScientificButton(e) {
     }
 }
 
-function handlePercent() {
-    const current = parseFloat(state.display);
-    state.display = String(current / 100);
-    updateDisplay();
-}
-
-function handlePower() {
-    const current = parseFloat(state.display);
-    state.display = String(current * current);
-    state.waitingForOperand = true;
-    updateDisplay();
-    addToHistory(`${current}² = ${state.display}`);
-}
+// Note: handlePercent() and handlePower() are defined in ui/calculator.js
+// They are exposed to window and use the state object from that module
 
 // ===================================
 // KEYBOARD SUPPORT
@@ -546,6 +552,20 @@ function solveCubicEquation() {
             <p>x₃ = ${formatComplex(zConj)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>
         </div>`;
         addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → x₁ = ${realRoots[0].toFixed(4)}, x₂ = ${formatComplex(z)}, x₃ = ${formatComplex(zConj)}`);
+    } else {
+        // Handle remaining cases: double roots, triple roots, or other combinations
+        html += `<div class="solution">`;
+        let rootIndex = 1;
+        realRoots.forEach(root => {
+            html += `<p>x${rootIndex++} = ${root.toFixed(4)} <span class="real-badge">${trans.realSolution || 'real'}</span></p>`;
+        });
+        complexRoots.forEach(z => {
+            const zConj = { re: z.re, im: -z.im };
+            html += `<p>x${rootIndex++} = ${formatComplex(z)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+            html += `<p>x${rootIndex++} = ${formatComplex(zConj)} <span class="complex-badge">${trans.complexSolution || 'complex'}</span></p>`;
+        });
+        html += `</div>`;
+        addToHistory(`${a}x³ + ${b}x² + ${c}x + ${d} = 0 → ${realRoots.length} real, ${complexRoots.length * 2} complex`);
     }
     
     resultDiv.innerHTML = html;
@@ -765,7 +785,7 @@ function updateLinearInequalityPreview() {
     const a = document.getElementById('ineqLinearA')?.value || '1';
     const b = document.getElementById('ineqLinearB')?.value || '0';
     const op = document.getElementById('ineqLinearOp')?.value || '<';
-    const preview = document.getElementById('linearInequalityPreview');
+    const preview = document.getElementById('ineqLinearPreview');
     if (preview) {
         preview.textContent = `${a}x + ${b} ${formatOperator(op)} 0`;
     }
@@ -776,7 +796,7 @@ function updateQuadraticInequalityPreview() {
     const b = document.getElementById('ineqQuadB')?.value || '0';
     const c = document.getElementById('ineqQuadC')?.value || '0';
     const op = document.getElementById('ineqQuadOp')?.value || '<';
-    const preview = document.getElementById('quadraticInequalityPreview');
+    const preview = document.getElementById('ineqQuadPreview');
     if (preview) {
         preview.textContent = `${a}x² + ${b}x + ${c} ${formatOperator(op)} 0`;
     }
@@ -830,7 +850,112 @@ function performPolynomialDivision() {
 }
 
 function setupPolynomialDivision() {
-    document.getElementById('performPolynomialDivision')?.addEventListener('click', performPolynomialDivision);
+    document.getElementById('dividePolynomials')?.addEventListener('click', performPolynomialDivision);
+}
+
+function setupPercentageCalculator() {
+    document.getElementById('calculatePercentage')?.addEventListener('click', () => {
+        const x = parseFloat(document.getElementById('percentValueX')?.value);
+        const y = parseFloat(document.getElementById('percentValueY')?.value);
+        const operation = document.getElementById('percentageOperation')?.value;
+        const resultDiv = document.getElementById('percentageSolution');
+        const trans = translations[window.currentLang];
+        
+        if (isNaN(x) || isNaN(y)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+        
+        let result;
+        let explanation = '';
+        
+        switch (operation) {
+            case 'percentOf':
+                // What is X% of Y?
+                result = (x / 100) * y;
+                explanation = `${formatNumber(x)}% ${trans.of || 'of'} ${formatNumber(y)}`;
+                break;
+            case 'percentChange':
+                // Percentage change from X to Y
+                if (x === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.divisionByZero || 'Cannot divide by zero'}</p>`;
+                    return;
+                }
+                result = ((y - x) / x) * 100;
+                explanation = `${trans.percentChange || 'Change from'} ${formatNumber(x)} ${trans.to || 'to'} ${formatNumber(y)}`;
+                break;
+            case 'percentIncrease':
+                // Increase X by Y%
+                result = x * (1 + y / 100);
+                explanation = `${formatNumber(x)} ${trans.increasedBy || 'increased by'} ${formatNumber(y)}%`;
+                break;
+            case 'percentDecrease':
+                // Decrease X by Y%
+                result = x * (1 - y / 100);
+                explanation = `${formatNumber(x)} ${trans.decreasedBy || 'decreased by'} ${formatNumber(y)}%`;
+                break;
+            default:
+                result = (x / 100) * y;
+                explanation = `${formatNumber(x)}% ${trans.of || 'of'} ${formatNumber(y)}`;
+        }
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<p>${explanation}</p>`;
+        html += `<div class="result-value"><span class="highlight">${formatNumber(result)}${operation === 'percentChange' ? '%' : ''}</span></div>`;
+        
+        resultDiv.innerHTML = html;
+        addToHistory(`${explanation} = ${formatNumber(result)}${operation === 'percentChange' ? '%' : ''}`);
+    });
+}
+
+function setupRatioCalculator() {
+    document.getElementById('calculateRatio')?.addEventListener('click', () => {
+        const a = parseFloat(document.getElementById('ratioValueA')?.value);
+        const b = parseFloat(document.getElementById('ratioValueB')?.value);
+        const c = parseFloat(document.getElementById('ratioValueC')?.value);
+        const operation = document.getElementById('ratioOperation')?.value;
+        const resultDiv = document.getElementById('ratioSolution');
+        const trans = translations[window.currentLang];
+        
+        if (isNaN(a) || isNaN(b)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        
+        switch (operation) {
+            case 'simplify':
+                // Simplify ratio a:b
+                const gcdVal = gcd(Math.abs(a), Math.abs(b));
+                const simplifiedA = a / gcdVal;
+                const simplifiedB = b / gcdVal;
+                html += `<p>${formatNumber(a)} : ${formatNumber(b)}</p>`;
+                html += `<div class="result-group">
+                    <div class="result-label">${trans.simplified || 'Simplified'}:</div>
+                    <div class="result-value"><span class="highlight">${formatNumber(simplifiedA)} : ${formatNumber(simplifiedB)}</span></div>
+                </div>`;
+                addToHistory(`${formatNumber(a)}:${formatNumber(b)} = ${formatNumber(simplifiedA)}:${formatNumber(simplifiedB)}`);
+                break;
+            case 'proportion':
+                // Solve a:b = c:x
+                if (isNaN(c) || a === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                const x = (b * c) / a;
+                html += `<p>${formatNumber(a)} : ${formatNumber(b)} = ${formatNumber(c)} : x</p>`;
+                html += `<div class="result-group">
+                    <div class="result-label">x =</div>
+                    <div class="result-value"><span class="highlight">${formatNumber(x)}</span></div>
+                </div>`;
+                html += `<p class="input-hint">${trans.verification || 'Verification'}: ${formatNumber(a)}/${formatNumber(b)} = ${formatNumber(c)}/${formatNumber(x)} = ${formatNumber(a/b)}</p>`;
+                addToHistory(`${formatNumber(a)}:${formatNumber(b)} = ${formatNumber(c)}:x → x = ${formatNumber(x)}`);
+                break;
+        }
+        
+        resultDiv.innerHTML = html;
+    });
 }
 
 // ===================================
@@ -954,15 +1079,168 @@ function updateSystemsPreview() {
 // These will be implemented in their respective modules
 // ===================================
 function setupMatrixCalculator() {
+    // Generate matrix grids on load
+    generateMatrixGrids();
+    
+    // Update grids when size changes
+    document.getElementById('matrixSize')?.addEventListener('change', generateMatrixGrids);
+    
+    // Show/hide matrix B based on operation
+    document.getElementById('matrixOperation')?.addEventListener('change', updateMatrixBVisibility);
+    
+    // Calculate button
     document.getElementById('calculateMatrix')?.addEventListener('click', calculateMatrix);
+    
+    // Initial visibility
+    updateMatrixBVisibility();
+}
+
+function generateMatrixGrids() {
+    const size = parseInt(document.getElementById('matrixSize')?.value) || 2;
+    const gridA = document.getElementById('matrixAGrid');
+    const gridB = document.getElementById('matrixBGrid');
+    
+    if (gridA) {
+        gridA.innerHTML = '';
+        gridA.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        for (let i = 0; i < size * size; i++) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'matrix-cell';
+            input.id = `matrixA_${Math.floor(i/size)}_${i%size}`;
+            input.value = '0';
+            input.step = 'any';
+            gridA.appendChild(input);
+        }
+    }
+    
+    if (gridB) {
+        gridB.innerHTML = '';
+        gridB.style.gridTemplateColumns = `repeat(${size}, 1fr)`;
+        for (let i = 0; i < size * size; i++) {
+            const input = document.createElement('input');
+            input.type = 'number';
+            input.className = 'matrix-cell';
+            input.id = `matrixB_${Math.floor(i/size)}_${i%size}`;
+            input.value = '0';
+            input.step = 'any';
+            gridB.appendChild(input);
+        }
+    }
+}
+
+function updateMatrixBVisibility() {
+    const operation = document.getElementById('matrixOperation')?.value;
+    const matrixBWrapper = document.getElementById('matrixBWrapper');
+    
+    if (matrixBWrapper) {
+        // Hide matrix B for determinant and inverse operations
+        matrixBWrapper.style.display = (operation === 'determinant' || operation === 'inverse') ? 'none' : 'block';
+    }
+}
+
+function getMatrixFromGrid(prefix) {
+    const size = parseInt(document.getElementById('matrixSize')?.value) || 2;
+    const matrix = [];
+    
+    for (let i = 0; i < size; i++) {
+        matrix[i] = [];
+        for (let j = 0; j < size; j++) {
+            const input = document.getElementById(`${prefix}_${i}_${j}`);
+            matrix[i][j] = parseFloat(input?.value) || 0;
+        }
+    }
+    
+    return matrix;
+}
+
+function formatMatrixHtml(matrix, label) {
+    const size = matrix.length;
+    let html = `<div class="matrix-result"><span class="matrix-label">${label} = </span><div class="matrix-display">`;
+    
+    for (let i = 0; i < size; i++) {
+        html += '<div class="matrix-row">';
+        for (let j = 0; j < size; j++) {
+            const value = typeof matrix[i][j] === 'number' ? matrix[i][j].toFixed(4).replace(/\.?0+$/, '') : matrix[i][j];
+            html += `<span class="matrix-value">${value}</span>`;
+        }
+        html += '</div>';
+    }
+    
+    html += '</div></div>';
+    return html;
 }
 
 function calculateMatrix() {
     const trans = translations[window.currentLang];
     const resultDiv = document.getElementById('matrixSolution');
-    if (resultDiv) {
-        resultDiv.innerHTML = `<p>${trans.featureComingSoon || 'Feature coming soon'}</p>`;
+    const operation = document.getElementById('matrixOperation')?.value;
+    
+    if (!resultDiv) return;
+    
+    const matrixA = getMatrixFromGrid('matrixA');
+    const matrixB = getMatrixFromGrid('matrixB');
+    
+    let html = `<h3>${trans.solution || 'Solution'}</h3>`;
+    
+    try {
+        switch (operation) {
+            case 'add': {
+                const result = addMatrices(matrixA, matrixB);
+                html += formatMatrixHtml(matrixA, 'A');
+                html += `<p class="matrix-operator">+</p>`;
+                html += formatMatrixHtml(matrixB, 'B');
+                html += `<p class="matrix-operator">=</p>`;
+                html += formatMatrixHtml(result, 'A + B');
+                addToHistory(`Matrix Addition: A + B calculated`);
+                break;
+            }
+            case 'multiply': {
+                const result = multiplyMatrices(matrixA, matrixB);
+                html += formatMatrixHtml(matrixA, 'A');
+                html += `<p class="matrix-operator">×</p>`;
+                html += formatMatrixHtml(matrixB, 'B');
+                html += `<p class="matrix-operator">=</p>`;
+                html += formatMatrixHtml(result, 'A × B');
+                addToHistory(`Matrix Multiplication: A × B calculated`);
+                break;
+            }
+            case 'determinant': {
+                const det = calculateDeterminant(matrixA);
+                html += formatMatrixHtml(matrixA, 'A');
+                html += `<div class="result-group">
+                    <div class="result-label">${trans.determinantResult || 'Determinant'}:</div>
+                    <div class="result-value"><span class="highlight">det(A) = ${det.toFixed(6).replace(/\.?0+$/, '')}</span></div>
+                </div>`;
+                addToHistory(`det(A) = ${det.toFixed(4)}`);
+                break;
+            }
+            case 'inverse': {
+                const det = calculateDeterminant(matrixA);
+                if (Math.abs(det) < 1e-10) {
+                    html += `<p class="error">${trans.matrixNotInvertible || 'Matrix is not invertible (determinant = 0)'}</p>`;
+                } else {
+                    const inv = invertMatrix(matrixA);
+                    html += formatMatrixHtml(matrixA, 'A');
+                    html += `<div class="result-group">
+                        <div class="result-label">${trans.determinantResult || 'Determinant'}:</div>
+                        <div class="result-value">det(A) = ${det.toFixed(6).replace(/\.?0+$/, '')}</div>
+                    </div>`;
+                    html += `<p class="matrix-operator">${trans.inverseResult || 'Inverse'}:</p>`;
+                    html += formatMatrixHtml(inv, 'A⁻¹');
+                    addToHistory(`Matrix Inverse calculated, det(A) = ${det.toFixed(4)}`);
+                }
+                break;
+            }
+            default:
+                html += `<p class="error">${trans.selectOperation || 'Select an operation'}</p>`;
+        }
+    } catch (error) {
+        html += `<p class="error">${trans.calculationError || 'Calculation error'}: ${error.message}</p>`;
     }
+    
+    resultDiv.innerHTML = html;
+    showExportButton('matrix');
 }
 
 function setupGcdLcmCalculator() {
@@ -1009,9 +1287,10 @@ function calculateGcdLcm() {
 
 function setupModularCalculator() {
     document.getElementById('calculateModular')?.addEventListener('click', () => {
-        const a = parseInt(document.getElementById('modA')?.value);
-        const n = parseInt(document.getElementById('modN')?.value);
-        const operation = document.getElementById('modOperation')?.value;
+        const a = parseInt(document.getElementById('modValueA')?.value);
+        const b = parseInt(document.getElementById('modValueB')?.value);
+        const n = parseInt(document.getElementById('modValueN')?.value);
+        const operation = document.getElementById('modularOperation')?.value;
         const resultDiv = document.getElementById('modularSolution');
         const trans = translations[window.currentLang];
         
@@ -1021,9 +1300,11 @@ function setupModularCalculator() {
         }
         
         let result;
+        let operationText = '';
         switch (operation) {
-            case 'mod':
+            case 'modulo':
                 result = modulo(a, n);
+                operationText = `${a} mod ${n}`;
                 break;
             case 'inverse':
                 result = modularInverse(a, n);
@@ -1031,21 +1312,29 @@ function setupModularCalculator() {
                     resultDiv.innerHTML = `<p class="error">${trans.noInverse || 'No modular inverse exists'}</p>`;
                     return;
                 }
+                operationText = `${a}⁻¹ mod ${n}`;
+                break;
+            case 'power':
+                result = modularExponentiation(a, b || 1, n);
+                operationText = `${a}^${b || 1} mod ${n}`;
                 break;
             default:
                 result = modulo(a, n);
+                operationText = `${a} mod ${n}`;
         }
         
         resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value"><span class="highlight">${result}</span></div>`;
+            <p>${operationText} = </p>
+            <div class="result-value"><span class="highlight">${formatNumber(result)}</span></div>`;
+        addToHistory(`${operationText} = ${formatNumber(result)}`);
     });
 }
 
 function setupCombinatoricsCalculator() {
     document.getElementById('calculateCombinatorics')?.addEventListener('click', () => {
-        const n = parseInt(document.getElementById('combN')?.value);
-        const r = parseInt(document.getElementById('combR')?.value);
-        const operation = document.getElementById('combOperation')?.value;
+        const n = parseInt(document.getElementById('combValueN')?.value);
+        const r = parseInt(document.getElementById('combValueR')?.value);
+        const operation = document.getElementById('combinatoricsOperation')?.value;
         const resultDiv = document.getElementById('combinatoricsSolution');
         const trans = translations[window.currentLang];
         
@@ -1055,51 +1344,119 @@ function setupCombinatoricsCalculator() {
         }
         
         let result;
+        let operationText = '';
         switch (operation) {
             case 'factorial':
                 result = factorial(n);
+                operationText = `${n}!`;
                 break;
             case 'permutation':
                 result = permutation(n, r);
+                operationText = `P(${n}, ${r})`;
                 break;
             case 'combination':
                 result = combination(n, r);
+                operationText = `C(${n}, ${r})`;
                 break;
         }
         
         resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value"><span class="highlight">${result}</span></div>`;
+            <p>${operationText} = </p>
+            <div class="result-value"><span class="highlight">${formatNumber(result)}</span></div>`;
+        addToHistory(`${operationText} = ${formatNumber(result)}`);
     });
 }
 
 function setupFractionCalculator() {
-    document.getElementById('simplifyFraction')?.addEventListener('click', () => {
-        const num = parseInt(document.getElementById('fracNum')?.value);
-        const den = parseInt(document.getElementById('fracDen')?.value);
-        const resultDiv = document.getElementById('fractionSolution');
+    document.getElementById('calculateFractions')?.addEventListener('click', () => {
+        const num1 = parseInt(document.getElementById('frac1Num')?.value);
+        const den1 = parseInt(document.getElementById('frac1Den')?.value);
+        const num2 = parseInt(document.getElementById('frac2Num')?.value);
+        const den2 = parseInt(document.getElementById('frac2Den')?.value);
+        const operation = document.getElementById('fractionOperation')?.value;
+        const resultDiv = document.getElementById('fractionsSolution');
         const trans = translations[window.currentLang];
         
-        if (isNaN(num) || isNaN(den) || den === 0) {
+        if (isNaN(num1) || isNaN(den1) || den1 === 0) {
             resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
             return;
         }
         
-        const simplified = simplifyFractionFunc(num, den);
-        const mixed = fractionToMixed(simplified.num, simplified.den);
+        let resultNum, resultDen;
+        let operationText = '';
         
-        let html = `<h3>${trans.solution}</h3>`;
-        html += `<div class="result-group">
-            <div class="result-label">${trans.simplified || 'Simplified'}:</div>
-            <div class="result-value"><span class="highlight">${simplified.num}/${simplified.den}</span></div>
-        </div>`;
-        if (mixed.whole !== 0) {
-            html += `<div class="result-group">
-                <div class="result-label">${trans.mixedNumber || 'Mixed number'}:</div>
-                <div class="result-value"><span class="highlight">${mixed.whole} ${mixed.num}/${mixed.den}</span></div>
-            </div>`;
+        switch (operation) {
+            case 'simplify':
+                const simplified = simplifyFractionFunc(num1, den1);
+                resultNum = simplified.num;
+                resultDen = simplified.den;
+                operationText = `${num1}/${den1} simplified`;
+                break;
+            case 'add':
+                if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                resultNum = num1 * den2 + num2 * den1;
+                resultDen = den1 * den2;
+                operationText = `${num1}/${den1} + ${num2}/${den2}`;
+                break;
+            case 'subtract':
+                if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                resultNum = num1 * den2 - num2 * den1;
+                resultDen = den1 * den2;
+                operationText = `${num1}/${den1} - ${num2}/${den2}`;
+                break;
+            case 'multiply':
+                if (isNaN(num2) || isNaN(den2) || den2 === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                resultNum = num1 * num2;
+                resultDen = den1 * den2;
+                operationText = `${num1}/${den1} × ${num2}/${den2}`;
+                break;
+            case 'divide':
+                if (isNaN(num2) || isNaN(den2) || den2 === 0 || num2 === 0) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                resultNum = num1 * den2;
+                resultDen = den1 * num2;
+                operationText = `${num1}/${den1} ÷ ${num2}/${den2}`;
+                break;
+            default:
+                const simplifiedDefault = simplifyFractionFunc(num1, den1);
+                resultNum = simplifiedDefault.num;
+                resultDen = simplifiedDefault.den;
         }
         
+        const simplifiedResult = simplifyFractionFunc(resultNum, resultDen);
+        const mixed = fractionToMixed(simplifiedResult.num, simplifiedResult.den);
+        const decimal = resultNum / resultDen;
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<p>${operationText}</p>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.result || 'Result'}:</div>
+            <div class="result-value"><span class="highlight">${simplifiedResult.num}/${simplifiedResult.den}</span></div>
+        </div>`;
+        if (mixed.whole !== 0 && mixed.num !== 0) {
+            html += `<div class="result-group">
+                <div class="result-label">${trans.mixedNumber || 'Mixed number'}:</div>
+                <div class="result-value"><span class="highlight">${mixed.whole} ${Math.abs(mixed.num)}/${mixed.den}</span></div>
+            </div>`;
+        }
+        html += `<div class="result-group">
+            <div class="result-label">${trans.decimal || 'Decimal'}:</div>
+            <div class="result-value"><span class="highlight">${formatNumber(decimal)}</span></div>
+        </div>`;
+        
         resultDiv.innerHTML = html;
+        addToHistory(`${operationText} = ${simplifiedResult.num}/${simplifiedResult.den}`);
     });
 }
 
@@ -1128,53 +1485,97 @@ function setupStatisticsCalculator() {
         const stdDev = calculateStdDev(numbers);
         
         let html = `<h3>${trans.solution}</h3>`;
-        html += `<div class="result-group"><div class="result-label">${trans.mean || 'Mean'}:</div><div class="result-value">${mean.toFixed(4)}</div></div>`;
-        html += `<div class="result-group"><div class="result-label">${trans.median || 'Median'}:</div><div class="result-value">${median.toFixed(4)}</div></div>`;
-        html += `<div class="result-group"><div class="result-label">${trans.mode || 'Mode'}:</div><div class="result-value">${mode.join(', ')}</div></div>`;
-        html += `<div class="result-group"><div class="result-label">${trans.variance || 'Variance'}:</div><div class="result-value">${variance.toFixed(4)}</div></div>`;
-        html += `<div class="result-group"><div class="result-label">${trans.stdDev || 'Std Dev'}:</div><div class="result-value">${stdDev.toFixed(4)}</div></div>`;
+        html += `<p>${trans.dataSet || 'Data set'}: ${numbers.join(', ')} (n = ${numbers.length})</p>`;
+        html += `<div class="result-group"><div class="result-label">${trans.mean || 'Mean'}:</div><div class="result-value"><span class="highlight">${formatNumber(mean)}</span></div></div>`;
+        html += `<div class="result-group"><div class="result-label">${trans.median || 'Median'}:</div><div class="result-value"><span class="highlight">${formatNumber(median)}</span></div></div>`;
+        html += `<div class="result-group"><div class="result-label">${trans.mode || 'Mode'}:</div><div class="result-value"><span class="highlight">${mode ? mode.join(', ') : trans.noMode || 'No mode'}</span></div></div>`;
+        html += `<div class="result-group"><div class="result-label">${trans.variance || 'Variance'}:</div><div class="result-value"><span class="highlight">${formatNumber(variance)}</span></div></div>`;
+        html += `<div class="result-group"><div class="result-label">${trans.stdDev || 'Std Dev'}:</div><div class="result-value"><span class="highlight">${formatNumber(stdDev)}</span></div></div>`;
         
         resultDiv.innerHTML = html;
+        addToHistory(`Stats: mean=${formatNumber(mean)}, median=${formatNumber(median)}`);
     });
 }
 
 function setupSequenceCalculator() {
-    document.getElementById('generateSequence')?.addEventListener('click', () => {
-        const type = document.getElementById('seqType')?.value;
-        const first = parseFloat(document.getElementById('seqFirst')?.value);
-        const ratio = parseFloat(document.getElementById('seqRatio')?.value);
-        const count = parseInt(document.getElementById('seqCount')?.value);
-        const resultDiv = document.getElementById('sequenceSolution');
+    document.getElementById('calculateSequence')?.addEventListener('click', () => {
+        const type = document.getElementById('sequenceType')?.value;
+        const first = parseFloat(document.getElementById('seqFirstTerm')?.value) || 1;
+        const diff = parseFloat(document.getElementById('seqDiff')?.value) || 2;
+        const ratio = parseFloat(document.getElementById('seqRatio')?.value) || 2;
+        const count = parseInt(document.getElementById('seqNumTerms')?.value) || 10;
+        const resultDiv = document.getElementById('sequencesSolution');
         const trans = translations[window.currentLang];
         
-        if (isNaN(first) || isNaN(count) || count <= 0) {
+        if (isNaN(count) || count <= 0 || count > 100) {
             resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
             return;
         }
         
         let sequence;
+        let seqName = '';
         switch (type) {
             case 'arithmetic':
-                sequence = generateArithmeticSequence(first, ratio || 1, count);
+                sequence = generateArithmeticSequence(first, diff, count);
+                seqName = trans.arithmeticSeq || 'Arithmetic Sequence';
                 break;
             case 'geometric':
-                sequence = generateGeometricSequence(first, ratio || 2, count);
+                sequence = generateGeometricSequence(first, ratio, count);
+                seqName = trans.geometricSeq || 'Geometric Sequence';
                 break;
             case 'fibonacci':
                 sequence = generateFibonacciSequence(count);
+                seqName = trans.fibonacciSeq || 'Fibonacci Sequence';
                 break;
+            default:
+                sequence = generateArithmeticSequence(first, diff, count);
+                seqName = trans.arithmeticSeq || 'Arithmetic Sequence';
         }
         
-        resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value">${sequence.join(', ')}</div>`;
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<p><strong>${seqName}</strong></p>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.terms || 'Terms'}:</div>
+            <div class="result-value">${sequence.terms.map(t => formatNumber(t)).join(', ')}</div>
+        </div>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.nthTerm || 'nth term'}:</div>
+            <div class="result-value"><span class="highlight">${formatNumber(sequence.nthTerm)}</span></div>
+        </div>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.sum || 'Sum'}:</div>
+            <div class="result-value"><span class="highlight">${formatNumber(sequence.sum)}</span></div>
+        </div>`;
+        if (sequence.formula) {
+            html += `<div class="result-group">
+                <div class="result-label">${trans.formula || 'Formula'}:</div>
+                <div class="result-value">${sequence.formula}</div>
+            </div>`;
+        }
+        
+        resultDiv.innerHTML = html;
+        addToHistory(`${seqName}: ${sequence.terms.slice(0, 5).map(t => formatNumber(t)).join(', ')}...`);
+    });
+    
+    // Toggle visibility of diff/ratio based on sequence type
+    document.getElementById('sequenceType')?.addEventListener('change', (e) => {
+        const type = e.target.value;
+        const diffGroup = document.getElementById('seqDiffGroup');
+        const ratioGroup = document.getElementById('seqRatioGroup');
+        const firstTermGroup = document.getElementById('seqFirstTermGroup');
+        
+        if (diffGroup) diffGroup.style.display = type === 'arithmetic' ? 'block' : 'none';
+        if (ratioGroup) ratioGroup.style.display = type === 'geometric' ? 'block' : 'none';
+        if (firstTermGroup) firstTermGroup.style.display = type === 'fibonacci' ? 'none' : 'block';
     });
 }
 
 function setupLimitCalculator() {
     document.getElementById('calculateLimit')?.addEventListener('click', () => {
-        const expr = document.getElementById('limitExpr')?.value;
-        const point = document.getElementById('limitPoint')?.value;
-        const resultDiv = document.getElementById('limitSolution');
+        const expr = document.getElementById('limitFunction')?.value || 'x^2';
+        const point = document.getElementById('limitPoint')?.value || '0';
+        const direction = document.getElementById('limitDirection')?.value || 'both';
+        const resultDiv = document.getElementById('limitsSolution');
         const trans = translations[window.currentLang];
         
         if (!expr) {
@@ -1182,47 +1583,115 @@ function setupLimitCalculator() {
             return;
         }
         
-        const result = evaluateLimitFunction(expr, parseFloat(point) || 0);
-        resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value"><span class="highlight">${result}</span></div>`;
+        // Parse the point (can be number or 'infinity'/'-infinity')
+        let pointValue;
+        if (point.toLowerCase().includes('inf')) {
+            pointValue = point.startsWith('-') ? -Infinity : Infinity;
+        } else {
+            pointValue = parseFloat(point) || 0;
+        }
+        
+        const result = evaluateLimitFunction(expr, pointValue);
+        
+        let directionText = '';
+        if (direction === 'left') directionText = '⁻';
+        else if (direction === 'right') directionText = '⁺';
+        
+        let pointText = isFinite(pointValue) ? formatNumber(pointValue) : (pointValue > 0 ? '∞' : '-∞');
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.limit || 'Limit'}:</div>
+            <div class="result-value">lim(x→${pointText}${directionText}) ${expr} = <span class="highlight">${formatNumber(result)}</span></div>
+        </div>`;
+        
+        resultDiv.innerHTML = html;
+        addToHistory(`lim(x→${pointText}) ${expr} = ${formatNumber(result)}`);
     });
 }
 
 function setupTaylorCalculator() {
     document.getElementById('calculateTaylor')?.addEventListener('click', () => {
-        const func = document.getElementById('taylorFunc')?.value;
-        const x = parseFloat(document.getElementById('taylorX')?.value);
-        const terms = parseInt(document.getElementById('taylorTerms')?.value) || 10;
+        const func = document.getElementById('taylorFunction')?.value || 'sin';
+        const point = parseFloat(document.getElementById('taylorPoint')?.value) || 0;
+        const terms = parseInt(document.getElementById('taylorTerms')?.value) || 5;
         const resultDiv = document.getElementById('taylorSolution');
         const trans = translations[window.currentLang];
         
-        if (isNaN(x)) {
+        if (isNaN(point) || isNaN(terms) || terms < 1 || terms > 20) {
             resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
             return;
         }
         
         let result;
+        let funcName = func;
+        let exactValue;
+        
         switch (func) {
-            case 'sin': result = taylorSin(x, terms); break;
-            case 'cos': result = taylorCos(x, terms); break;
-            case 'exp': result = taylorExp(x, terms); break;
-            case 'ln': result = taylorLn(x, terms); break;
-            case 'atan': result = taylorAtan(x, terms); break;
-            default: result = NaN;
+            case 'sin':
+                result = taylorSin(point, 0, terms);
+                exactValue = Math.sin(point);
+                funcName = 'sin';
+                break;
+            case 'cos':
+                result = taylorCos(point, 0, terms);
+                exactValue = Math.cos(point);
+                funcName = 'cos';
+                break;
+            case 'exp':
+                result = taylorExp(point, terms);
+                exactValue = Math.exp(point);
+                funcName = 'e^x';
+                break;
+            case 'ln':
+                if (point <= -1) {
+                    resultDiv.innerHTML = `<p class="error">${trans.domainError || 'Value must be > -1 for ln(1+x)'}</p>`;
+                    return;
+                }
+                result = taylorLn(point, terms);
+                exactValue = Math.log(1 + point);
+                funcName = 'ln(1+x)';
+                break;
+            case 'atan':
+                result = taylorAtan(point, terms);
+                exactValue = Math.atan(point);
+                funcName = 'arctan';
+                break;
+            default:
+                result = taylorSin(point, 0, terms);
+                exactValue = Math.sin(point);
         }
         
-        resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value">${func}(${x}) ≈ <span class="highlight">${result.toFixed(10)}</span></div>`;
+        const error = Math.abs(exactValue - result);
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.taylorApprox || 'Taylor approximation'}:</div>
+            <div class="result-value">${funcName}(${formatNumber(point)}) ≈ <span class="highlight">${formatNumber(result)}</span></div>
+        </div>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.exactValue || 'Exact value'}:</div>
+            <div class="result-value">${formatNumber(exactValue)}</div>
+        </div>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.error || 'Error'}:</div>
+            <div class="result-value">${formatNumber(error)}</div>
+        </div>`;
+        html += `<p class="input-hint">${trans.termsUsed || 'Terms used'}: ${terms}</p>`;
+        
+        resultDiv.innerHTML = html;
+        addToHistory(`Taylor ${funcName}(${formatNumber(point)}) ≈ ${formatNumber(result)} (${terms} terms)`);
     });
 }
 
 function setupIntegrationCalculator() {
-    document.getElementById('calculateIntegral')?.addEventListener('click', () => {
-        const expr = document.getElementById('integralExpr')?.value;
-        const a = parseFloat(document.getElementById('integralA')?.value);
-        const b = parseFloat(document.getElementById('integralB')?.value);
-        const method = document.getElementById('integralMethod')?.value || 'simpson';
-        const resultDiv = document.getElementById('integralSolution');
+    document.getElementById('calculateIntegration')?.addEventListener('click', () => {
+        const expr = document.getElementById('integrationFunction')?.value || 'x^2';
+        const a = parseFloat(document.getElementById('integrationLower')?.value);
+        const b = parseFloat(document.getElementById('integrationUpper')?.value);
+        const n = parseInt(document.getElementById('integrationIntervals')?.value) || 100;
+        const method = document.getElementById('integrationMethod')?.value || 'simpsons';
+        const resultDiv = document.getElementById('integrationSolution');
         const trans = translations[window.currentLang];
         
         if (!expr || isNaN(a) || isNaN(b)) {
@@ -1230,13 +1699,29 @@ function setupIntegrationCalculator() {
             return;
         }
         
+        if (a >= b) {
+            resultDiv.innerHTML = `<p class="error">${trans.boundsError || 'Lower bound must be less than upper bound'}</p>`;
+            return;
+        }
+        
         const f = x => evaluateExpression(expr, 'x', x);
         const result = method === 'trapezoidal' 
-            ? trapezoidalRule(f, a, b, 1000)
-            : simpsonsRule(f, a, b, 1000);
+            ? trapezoidalRule(f, a, b, n)
+            : simpsonsRule(f, a, b, n);
         
-        resultDiv.innerHTML = `<h3>${trans.solution}</h3>
-            <div class="result-value">∫ from ${a} to ${b} ≈ <span class="highlight">${result.toFixed(10)}</span></div>`;
+        const methodName = method === 'trapezoidal' 
+            ? (trans.trapezoidalRule || "Trapezoidal Rule")
+            : (trans.simpsonsRule || "Simpson's Rule");
+        
+        let html = `<h3>${trans.solution}</h3>`;
+        html += `<div class="result-group">
+            <div class="result-label">${trans.integral || 'Integral'}:</div>
+            <div class="result-value">∫<sub>${formatNumber(a)}</sub><sup>${formatNumber(b)}</sup> ${expr} dx = <span class="highlight">${formatNumber(result)}</span></div>
+        </div>`;
+        html += `<p class="input-hint">${trans.method || 'Method'}: ${methodName} (n = ${n})</p>`;
+        
+        resultDiv.innerHTML = html;
+        addToHistory(`∫[${formatNumber(a)},${formatNumber(b)}] ${expr} dx ≈ ${formatNumber(result)}`);
     });
 }
 

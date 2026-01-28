@@ -19,7 +19,7 @@ function complexMul(a, b) {
 
 function complexDiv(a, b) {
     const denom = b.re * b.re + b.im * b.im;
-    if (denom === 0) return { re: 0, im: 0 };
+    if (denom === 0) return { re: NaN, im: NaN };
     return {
         re: (a.re * b.re + a.im * b.im) / denom,
         im: (a.im * b.re - a.re * b.im) / denom
@@ -34,11 +34,18 @@ function complexPow(z, n) {
     if (n === 0) return { re: 1, im: 0 };
     if (n === 1) return z;
     
-    let result = { re: 1, im: 0 };
-    for (let i = 0; i < n; i++) {
-        result = complexMul(result, z);
-    }
-    return result;
+    // Use polar form for all exponents (including negative and fractional)
+    const r = complexAbs(z);
+    if (r === 0) return { re: 0, im: 0 };
+    
+    const theta = Math.atan2(z.im, z.re);
+    const newR = Math.pow(r, n);
+    const newTheta = n * theta;
+    
+    return {
+        re: newR * Math.cos(newTheta),
+        im: newR * Math.sin(newTheta)
+    };
 }
 
 function complexSqrt(z) {

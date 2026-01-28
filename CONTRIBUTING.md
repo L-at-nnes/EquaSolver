@@ -111,16 +111,74 @@ EquaSolver/
 │   ├── assets/                   # Static assets
 │   │   └── icons/                # PWA icons (192x192, 512x512)
 │   ├── css/
-│   │   └── style.css             # All styles, themes, animations (~2000 lines)
+│   │   └── style.css             # All styles, themes, animations (~2500 lines)
 │   └── js/
-│       ├── script.js             # Core logic: solvers, UI, calculators (~4900 lines)
-│       ├── translations.js       # i18n: 6 languages (EN, FR, ES, DE, IT, RU)
-│       └── flags.js              # Base64 country flag images
-│       └── i18n/                 # Translation modules
-│           ├── en.js, fr.js, es.js, de.js, it.js, ru.js
-│           └── index.js          # Translation exports
+│       ├── script.js             # Main app: initialization, event listeners (~1500 lines)
+│       ├── index.js              # CommonJS exports for Jest testing
+│       ├── translations.js       # i18n loader (loads individual language files)
+│       ├── flags.js              # Base64 country flag images
+│       │
+│       ├── calculus/             # Calculus modules
+│       │   ├── index.js          # Module exports
+│       │   ├── limits.js         # Limit calculator
+│       │   ├── taylor.js         # Taylor series expansions
+│       │   ├── numerical-integration.js  # Trapezoidal, Simpson's rule
+│       │   └── derivatives-integrals.js  # Symbolic differentiation/integration
+│       │
+│       ├── converters/           # Converter modules
+│       │   ├── index.js          # Module exports
+│       │   ├── base.js           # Number base converter (2-36)
+│       │   └── units.js          # Unit converter (length, mass, temp, etc.)
+│       │
+│       ├── graphing/             # Graphing modules
+│       │   ├── index.js          # Module exports
+│       │   ├── cartesian.js      # Cartesian coordinate graphing
+│       │   ├── parametric.js     # Parametric curve plotting
+│       │   └── polar.js          # Polar coordinate plotting
+│       │
+│       ├── i18n/                 # Translation modules (6 languages)
+│       │   ├── index.js          # Translation exports
+│       │   ├── en.js             # English (~600 keys)
+│       │   ├── fr.js             # French
+│       │   ├── es.js             # Spanish
+│       │   ├── de.js             # German
+│       │   ├── it.js             # Italian
+│       │   └── ru.js             # Russian
+│       │
+│       ├── math/                 # Core math modules
+│       │   ├── index.js          # Module exports
+│       │   ├── complex.js        # Complex number operations
+│       │   ├── matrix.js         # Matrix operations (2x2, 3x3)
+│       │   ├── gcd-lcm.js        # GCD/LCM, prime factorization
+│       │   ├── modular.js        # Modular arithmetic
+│       │   ├── combinatorics.js  # Factorials, permutations, combinations
+│       │   ├── fractions.js      # Fraction operations
+│       │   ├── statistics.js     # Mean, median, mode, variance, std dev
+│       │   └── sequences.js      # Arithmetic, geometric, Fibonacci
+│       │
+│       ├── parsers/              # Parser modules
+│       │   ├── index.js          # Module exports
+│       │   ├── expression.js     # Mathematical expression parser
+│       │   └── latex.js          # LaTeX equation parser
+│       │
+│       ├── solvers/              # Equation solver modules
+│       │   ├── index.js          # Module exports
+│       │   ├── inequality.js     # Linear & quadratic inequalities
+│       │   ├── polynomial-division.js  # Polynomial long division
+│       │   └── exponential-log.js      # Exponential & logarithmic equations
+│       │
+│       └── ui/                   # UI modules
+│           ├── index.js          # Module exports
+│           ├── animations.js     # Step-by-step solution animations
+│           ├── calculator.js     # Calculator UI handlers
+│           ├── themes.js         # Theme builder and management
+│           ├── history.js        # Calculation history
+│           ├── export.js         # PDF export functionality
+│           ├── exponential-log.js      # Exponential/log solver UI
+│           └── derivatives-integrals.js # Derivatives/integrals UI
+│
 ├── tests/
-│   ├── unit/                     # Jest unit tests (764 tests)
+│   ├── unit/                     # Jest unit tests (951 tests, 32 suites)
 │   │   ├── calculator.test.js    # Basic arithmetic operations
 │   │   ├── linear.test.js        # Linear equations (ax + b = 0)
 │   │   ├── quadratic.test.js     # Quadratic equations
@@ -130,7 +188,8 @@ EquaSolver/
 │   │   ├── inequality.test.js    # Linear & quadratic inequalities
 │   │   ├── complex.test.js       # Complex number operations
 │   │   ├── matrix.test.js        # Matrix operations (2x2, 3x3)
-│   │   ├── systems.test.js       # Systems of equations
+│   │   ├── systems.test.js       # Systems of equations (2x2)
+│   │   ├── systems3x3.test.js    # Systems of equations (3x3)
 │   │   ├── gcdlcm.test.js        # GCD/LCM, prime factorization
 │   │   ├── modular.test.js       # Modular arithmetic
 │   │   ├── combinatorics.test.js # Factorials, permutations, combinations
@@ -141,6 +200,9 @@ EquaSolver/
 │   │   ├── limits.test.js        # Limit calculator
 │   │   ├── taylor.test.js        # Taylor series expansions
 │   │   ├── numerical-integration.test.js  # Trapezoidal, Simpson's rule
+│   │   ├── derivatives-integrals.test.js  # Symbolic derivatives/integrals
+│   │   ├── exponential-log.test.js        # Exponential & log solvers
+│   │   ├── polynomial-division.test.js    # Polynomial division
 │   │   ├── parametric.test.js    # Parametric curve plotting
 │   │   ├── polar.test.js         # Polar coordinate plotting
 │   │   ├── latex.test.js         # LaTeX equation parsing
@@ -168,9 +230,14 @@ EquaSolver/
 
 ### Key Files to Know
 
-- **`src/js/script.js`**: Contains all equation solvers, calculators, and UI logic. When adding new features, this is typically where you'll work.
+- **`src/js/script.js`**: Main application entry point with initialization, event listeners, and equation solvers.
+- **`src/js/math/`**: Core mathematical functions (complex numbers, matrices, statistics, etc.)
+- **`src/js/calculus/`**: Calculus modules (limits, Taylor series, derivatives, integrals)
+- **`src/js/solvers/`**: Equation solvers (inequalities, polynomial division, exponential/log)
+- **`src/js/ui/`**: UI modules (animations, themes, history, export)
+- **`src/js/index.js`**: CommonJS exports for Jest testing
 - **`src/css/style.css`**: All styling including 7 themes. Uses CSS custom properties extensively.
-- **`src/js/translations.js`**: Main translation loader. Individual language files are in `src/js/i18n/`.
+- **`src/js/i18n/`**: Translation files for 6 languages (EN, FR, ES, DE, IT, RU)
 - **`tests/unit/*.test.js`**: Add tests here when implementing new mathematical functions.
 
 ## Making Changes
