@@ -4,6 +4,8 @@
 
 // factorial function is available globally from math/combinatorics.js
 
+const MAX_HISTORY = 100;
+
 // Standard calculator state
 let state = {
     display: '0',
@@ -11,6 +13,54 @@ let state = {
     previousValue: null,
     waitingForOperand: false
 };
+
+let undoStack = [];
+let redoStack = [];
+
+function cloneStandardState() {
+    return {
+        display: state.display,
+        operation: state.operation,
+        previousValue: state.previousValue,
+        waitingForOperand: state.waitingForOperand
+    };
+}
+
+function applyStandardState(snapshot) {
+    state.display = snapshot.display;
+    state.operation = snapshot.operation;
+    state.previousValue = snapshot.previousValue;
+    state.waitingForOperand = snapshot.waitingForOperand;
+    updateDisplay();
+}
+
+function pushUndoSnapshot() {
+    undoStack.push(cloneStandardState());
+    if (undoStack.length > MAX_HISTORY) {
+        undoStack.shift();
+    }
+}
+
+function recordStandardMutation() {
+    pushUndoSnapshot();
+    redoStack = [];
+}
+
+function undoCalculator() {
+    if (undoStack.length === 0) return false;
+    const previous = undoStack.pop();
+    redoStack.push(cloneStandardState());
+    applyStandardState(previous);
+    return true;
+}
+
+function redoCalculator() {
+    if (redoStack.length === 0) return false;
+    const next = redoStack.pop();
+    undoStack.push(cloneStandardState());
+    applyStandardState(next);
+    return true;
+}
 
 // Scientific calculator state
 let sciState = {
@@ -24,6 +74,7 @@ let sciState = {
 
 // Standard calculator functions
 function handleValue(value) {
+    recordStandardMutation();
     if (state.waitingForOperand) {
         state.display = value;
         state.waitingForOperand = false;
@@ -34,10 +85,16 @@ function handleValue(value) {
 }
 
 function handleOperator(op) {
+    recordStandardMutation();
     const currentValue = parseFloat(state.display);
     
     if (state.operation && !state.waitingForOperand) {
-        calculate();
+        const calcResult = calculate(false);
+        if (calcResult && typeof calcResult.result === 'number') {
+            state.previousValue = calcResult.result;
+        } else {
+            state.previousValue = parseFloat(state.display);
+        }
     } else {
         state.previousValue = currentValue;
     }
@@ -46,7 +103,8 @@ function handleOperator(op) {
     state.waitingForOperand = true;
 }
 
-function calculate() {
+function calculate(shouldRecord = true) {
+    if (shouldRecord) recordStandardMutation();
     const prev = state.previousValue;
     const current = parseFloat(state.display);
     let result;
@@ -84,12 +142,14 @@ function calculate() {
 }
 
 function handlePercent() {
+    recordStandardMutation();
     const current = parseFloat(state.display);
     state.display = String(current / 100);
     updateDisplay();
 }
 
 function handlePower() {
+    recordStandardMutation();
     const current = parseFloat(state.display);
     state.display = String(current * current);
     state.waitingForOperand = true;
@@ -98,6 +158,7 @@ function handlePower() {
 }
 
 function clearCalculator() {
+    recordStandardMutation();
     state.display = '0';
     state.operation = null;
     state.previousValue = null;
@@ -106,6 +167,7 @@ function clearCalculator() {
 }
 
 function deleteLastDigit() {
+    recordStandardMutation();
     state.display = state.display.slice(0, -1) || '0';
     updateDisplay();
 }
@@ -334,6 +396,8 @@ function resetState() {
         previousValue: null,
         waitingForOperand: false
     };
+    undoStack = [];
+    redoStack = [];
 }
 
 // CommonJS export for Jest
@@ -359,7 +423,9 @@ if (typeof module !== 'undefined' && module.exports) {
         addToSciHistory,
         getState,
         getSciState,
-        resetState
+        resetState,
+        undoCalculator,
+        redoCalculator
     };
 }
 
@@ -373,6 +439,8 @@ if (typeof window !== 'undefined') {
     window.clearCalculator = clearCalculator;
     window.deleteLastDigit = deleteLastDigit;
     window.updateDisplay = updateDisplay;
+    window.undoCalculator = undoCalculator;
+    window.redoCalculator = redoCalculator;
     window.handleSciValue = handleSciValue;
     window.handleSciOperator = handleSciOperator;
     window.calculateScientific = calculateScientific;

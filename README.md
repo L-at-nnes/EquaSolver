@@ -442,6 +442,14 @@ If you find this project helpful, please consider:
 
 ---
 
+<div align="center">
+
+**Built with precision and attention to detail**
+
+© 2026 EquaSolver | [Report Issue](../../issues) | [Request Feature](../../issues)
+
+</div>
+
 ## Roadmap & TODO
 
 > **Note:** The following items represent potential future enhancements. Contributions are welcome for any of these features.
@@ -486,13 +494,3 @@ If you find this project helpful, please consider:
 
 ### Deployment
 - [ ] Deploy application with GitHub Pages
-
----
-
-<div align="center">
-
-**Built with precision and attention to detail**
-
-© 2026 EquaSolver | [Report Issue](../../issues) | [Request Feature](../../issues)
-
-</div>
