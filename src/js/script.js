@@ -189,7 +189,7 @@ function initEventListeners() {
     document.querySelectorAll('.lang-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             window.currentLang = btn.dataset.lang;
-            changeLanguage(window.currentLang);
+            changeLanguage(window.currentLang, translations, updateTranslations);
         });
     });
     
