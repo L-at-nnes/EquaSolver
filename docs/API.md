@@ -31,6 +31,8 @@ EquaSolver uses a **modular architecture** with functions organized into logical
   - [Systems of Equations](#systems-of-equations)
   - [Exponential Equations](#exponential-equations)
   - [Logarithmic Equations](#logarithmic-equations)
+  - [Absolute Value Equations](#absolute-value-equations)
+  - [Trigonometric Equations](#trigonometric-equations)
 - [Calculus Functions](#calculus-functions)
   - [Derivatives](#derivatives)
   - [Integrals](#integrals)
@@ -375,6 +377,79 @@ Solves the common logarithm equation `log₁₀(x) = a`.
 ```javascript
 solveCommonLog(2);
 // Returns: { x: 100, equation: "log₁₀(x) = 2", steps: [...] }
+```
+
+---
+
+### Absolute Value Equations
+
+**Location:** `src/js/solvers/absolute.js`
+
+#### `solveAbsoluteEquation(a, b, c)`
+
+Solves `|ax + b| = c`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `a` | `number` | Coefficient of x |
+| `b` | `number` | Constant inside the absolute value |
+| `c` | `number` | Right-hand side value |
+
+**Returns:** `Object` with `type: 'equation'`, `error`, `special` (`'all_real'`, `'no_solution'`, or `null`), and `solutions` (array of numbers).
+
+**Example:**
+```javascript
+solveAbsoluteEquation(1, -5, 3);
+// Returns: { type: 'equation', error: null, special: null, solutions: [2, 8] }
+```
+
+---
+
+#### `solveAbsoluteInequality(a, b, op, c)`
+
+Solves `|ax + b| op c` where `op` is one of `<`, `<=`, `>`, `>=`.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `a` | `number` | Coefficient of x |
+| `b` | `number` | Constant inside the absolute value |
+| `op` | `string` | Comparison operator |
+| `c` | `number` | Right-hand side value |
+
+**Returns:** `Object` with `type: 'inequality'`, `error`, `interval` (string), and `solutionText` (string).
+
+**Example:**
+```javascript
+solveAbsoluteInequality(1, 0, '<', 5);
+// Returns: { type: 'inequality', error: null, interval: '(-5, 5)', solutionText: '-5 < x < 5' }
+```
+
+---
+
+### Trigonometric Equations
+
+**Location:** `src/js/solvers/trigonometric.js`
+
+#### `solveTrigonometricEquation(func, k, domainStart, domainEnd)`
+
+Solves `sin(x) = k`, `cos(x) = k`, or `tan(x) = k` over a given domain.
+
+**Parameters:**
+| Name | Type | Description |
+|------|------|-------------|
+| `func` | `string` | `'sin'`, `'cos'`, or `'tan'` |
+| `k` | `number` | Target value |
+| `domainStart` | `number` | Start of the search domain (default `-2π`) |
+| `domainEnd` | `number` | End of the search domain (default `2π`) |
+
+**Returns:** `Object` with `solutions` (array of numbers, in radians) and `error`.
+
+**Example:**
+```javascript
+solveTrigonometricEquation('sin', 0, -Math.PI, Math.PI);
+// Returns: { solutions: [-3.14159..., 0, 3.14159...], error: null }
 ```
 
 ---

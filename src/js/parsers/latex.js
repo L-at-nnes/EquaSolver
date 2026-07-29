@@ -14,8 +14,13 @@ function parseLatexEquation(latex) {
         throw new Error('Equation must contain = sign');
     }
     
-    equation = parts[0];
-    
+    let rhs = parts[1];
+    if (!rhs.startsWith('-') && !rhs.startsWith('+')) {
+        rhs = '+' + rhs;
+    }
+    rhs = rhs.replace(/[+-]/g, sign => (sign === '+' ? '-' : '+'));
+    equation = parts[0] + rhs;
+
     let maxDegree = 0;
     const degreeMatches = equation.match(/x\^(\d+)/g);
     if (degreeMatches) {
@@ -46,12 +51,12 @@ function parseLatexEquation(latex) {
         if (match[1] !== undefined && match[2] !== undefined) {
             const coef = match[1] === '' || match[1] === '+' ? 1 : (match[1] === '-' ? -1 : parseFloat(match[1]));
             const power = parseInt(match[2]);
-            coefficients[maxDegree - power] = coef;
+            coefficients[maxDegree - power] += coef;
         } else if (match[3] !== undefined) {
             const coef = match[3] === '' || match[3] === '+' ? 1 : (match[3] === '-' ? -1 : parseFloat(match[3]));
-            coefficients[maxDegree - 1] = coef;
+            coefficients[maxDegree - 1] += coef;
         } else if (match[4] !== undefined) {
-            coefficients[maxDegree] = parseFloat(match[4]);
+            coefficients[maxDegree] += parseFloat(match[4]);
         }
     }
     

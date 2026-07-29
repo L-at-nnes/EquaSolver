@@ -35,12 +35,12 @@ const { parsePolynomial, dividePolynomials, formatPolynomial } = require('./solv
 const { solveExponentialSimple, solveExponentialWithCoefficient, solveLogarithmicSimple, solveLogarithmicWithArgument, solveNaturalLog, solveCommonLog, solveNaturalExponential } = require('./solvers/exponential-log.js');
 
 // Converter modules
-const { convertBase } = require('./converters/base.js');
+const { convertToBase } = require('./converters/base.js');
 const { unitConversions, convertTemperature, convertUnit } = require('./converters/units.js');
 
 // Parser modules
 const { parseLatex } = require('./parsers/latex.js');
-const { evaluateExpression, safeEval, preprocessExpression, implicitMultiplication } = require('./parsers/expression.js');
+const { evaluateExpression } = require('./parsers/expression.js');
 
 // Export all functions
 module.exports = {
@@ -162,7 +162,7 @@ module.exports = {
     solveNaturalExponential,
     
     // Base Conversion
-    convertBase,
+    convertToBase,
     
     // Unit Conversion
     unitConversions,
@@ -174,9 +174,6 @@ module.exports = {
     
     // Expression Evaluation
     evaluateExpression,
-    safeEval,
-    preprocessExpression,
-    implicitMultiplication,
     
     // Equation Solvers (from complex.js)
     solveQuadraticComplex,

@@ -2,44 +2,7 @@
  * Tests for Parametric Equations
  */
 
-// Mock the evaluateExpression function
-function evaluateExpression(expr, varName, value) {
-    // First replace functions with placeholders to avoid conflicts
-    let processed = expr
-        .replace(/sqrt/g, '__SQRT__')
-        .replace(/sin/g, '__SIN__')
-        .replace(/cos/g, '__COS__')
-        .replace(/tan/g, '__TAN__')
-        .replace(/abs/g, '__ABS__')
-        .replace(/exp/g, '__EXP__')
-        .replace(/log/g, '__LOG__')
-        .replace(/pow/g, '__POW__')
-        .replace(/pi/g, '__PI__');
-    
-    // Then replace variable
-    processed = processed.replace(new RegExp(varName, 'g'), `(${value})`);
-    
-    // Then replace power operator
-    processed = processed.replace(/\^/g, '**');
-    
-    // Finally restore functions with Math prefix
-    processed = processed
-        .replace(/__SQRT__/g, 'Math.sqrt')
-        .replace(/__SIN__/g, 'Math.sin')
-        .replace(/__COS__/g, 'Math.cos')
-        .replace(/__TAN__/g, 'Math.tan')
-        .replace(/__ABS__/g, 'Math.abs')
-        .replace(/__EXP__/g, 'Math.exp')
-        .replace(/__LOG__/g, 'Math.log')
-        .replace(/__POW__/g, 'Math.pow')
-        .replace(/__PI__/g, 'Math.PI');
-    
-    try {
-        return eval(processed);
-    } catch (e) {
-        return NaN;
-    }
-}
+const { evaluateExpression } = require('../../src/js/parsers/expression.js');
 
 describe('Expression Evaluator', () => {
     describe('Basic Expressions', () => {

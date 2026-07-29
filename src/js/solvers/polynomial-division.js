@@ -31,7 +31,7 @@ function parsePolynomial(polyStr) {
         term = term.trim();
         
         if (!term.includes('x')) {
-            coeffs[maxDegree] = parseFloat(term);
+            coeffs[maxDegree] += parseFloat(term);
             continue;
         }
         
@@ -53,7 +53,7 @@ function parsePolynomial(polyStr) {
             degree = 1;
         }
         
-        coeffs[maxDegree - degree] = coeff;
+        coeffs[maxDegree - degree] += coeff;
     }
     
     while (coeffs.length > 1 && coeffs[0] === 0) {

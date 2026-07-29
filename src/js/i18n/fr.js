@@ -51,7 +51,9 @@ const fr = {
     cubicTitle: "Équation du 3ème degré",
     quarticTitle: "Équation du 4e degré",
     quinticTitle: "Équation du 5e degré",
-    systemsTitle: "Système de 2 équations",    system3x3Title: "Système de 3 Équations (3x3)",    matrixTitle: "Calculateur de matrices",
+    systemsTitle: "Système de 2 équations",
+    system3x3Title: "Système de 3 Équations (3x3)",
+    matrixTitle: "Calculateur de matrices",
     graphTitle: "Visualisation graphique",
     parametricTitle: "Équations paramétriques",
     polarTitle: "Équations polaires",
@@ -92,7 +94,8 @@ const fr = {
     clearHistory: "Effacer",
     solution: "Solution",
     steps: "Étapes de résolution",
-    exportPdf: "Exporter PDF",    dividend: "Dividende",
+    exportPdf: "Exporter PDF",
+    dividend: "Dividende",
     divisor: "Diviseur",
     quotient: "Quotient",
     remainder: "Reste",
@@ -100,7 +103,8 @@ const fr = {
     exactDivision: "Division exacte (pas de reste)",
     verification: "Vérification",
     polyParseError: "Erreur d'analyse des polynômes. Utilisez le format: 2x^3 + 3x^2 - x + 5",
-    polyDivisionError: "Impossible de diviser par un polynôme nul",    noSolution: "Pas de solution",
+    polyDivisionError: "Impossible de diviser par un polynôme nul",
+    noSolution: "Pas de solution",
     infiniteSolutions: "Infinité de solutions",
     twoSolutions: "Deux solutions",
     twoComplexSolutions: "Deux solutions complexes conjuguées",
@@ -142,7 +146,27 @@ const fr = {
     system3x3NoUniqueSolution: "Pas de solution unique (système singulier ou dépendant)",
     parallelLines: "Droites parallèles (pas de solution)",
     coincidentLines: "Droites confondues (infinité de solutions)",
-    
+
+    // Valeur absolue
+    absoluteValue: "Valeur absolue",
+    absoluteValueDesc: "Résoudre équations et inéquations avec |x|",
+    absoluteEquation: "Équation",
+    absoluteInequality: "Inéquation",
+    absoluteEquationTitle: "Équation avec valeur absolue",
+    absoluteInequalityTitle: "Inéquation avec valeur absolue",
+    absoluteHint: "Entrez les coefficients de |ax + b|",
+    allRealNumbers: "Tous les réels",
+
+    // Trigonométrie
+    trigonometric: "Trigonométrie",
+    trigonometricDesc: "Résoudre les équations sin, cos et tan",
+    trigonometricTitle: "Équation trigonométrique",
+    trigFunction: "Fonction",
+    trigConstant: "k (valeur)",
+    trigDomainStart: "Début du domaine",
+    trigDomainEnd: "Fin du domaine",
+    trigHint: "Résoudre sin(x) = k, cos(x) = k ou tan(x) = k sur le domaine donné",
+
     // Matrix
     matrixSize: "Taille de la matrice",
     matrix2x2: "Matrice 2×2",
@@ -447,7 +471,7 @@ const fr = {
     enterDataSet: "Entrez les données:",
     mean: "Moyenne",
     median: "Médiane",
-    mode: "Mode",
+    statisticalMode: "Mode",
     variance: "Variance",
     stdDeviation: "Écart-type",
     range: "Étendue",
@@ -606,12 +630,12 @@ const fr = {
     integral: "Intégrale",
     symbolicAntiderivative: "Primitive",
     noCriticalPoints: "Aucun point critique trouvé dans l'intervalle donné",
-    range: "Intervalle",
     order: "Ordre",
     localminimum: "minimum local",
     localmaximum: "maximum local",
     inflectionpoint: "point d'inflexion",
-    errorCalculating: "Erreur de calcul"
+    errorCalculating: "Erreur de calcul",
+    divisionByZero: "Erreur : Division par zéro"
 };
 
 // Export for use in browser

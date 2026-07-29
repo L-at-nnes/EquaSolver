@@ -146,7 +146,27 @@ const en = {
     system3x3NoUniqueSolution: "No unique solution (system is singular or dependent)",
     parallelLines: "Parallel lines (no solution)",
     coincidentLines: "Coincident lines (infinite solutions)",
-    
+
+    // Absolute Value
+    absoluteValue: "Absolute Value",
+    absoluteValueDesc: "Solve equations and inequalities with |x|",
+    absoluteEquation: "Equation",
+    absoluteInequality: "Inequality",
+    absoluteEquationTitle: "Absolute Value Equation",
+    absoluteInequalityTitle: "Absolute Value Inequality",
+    absoluteHint: "Enter the coefficients of |ax + b|",
+    allRealNumbers: "All real numbers",
+
+    // Trigonometric
+    trigonometric: "Trigonometric",
+    trigonometricDesc: "Solve sin, cos and tan equations",
+    trigonometricTitle: "Trigonometric Equation",
+    trigFunction: "Function",
+    trigConstant: "k (value)",
+    trigDomainStart: "Domain start",
+    trigDomainEnd: "Domain end",
+    trigHint: "Solve sin(x) = k, cos(x) = k or tan(x) = k over the given domain",
+
     // Matrix
     matrixSize: "Matrix size",
     matrix2x2: "2×2 Matrix",
@@ -165,7 +185,6 @@ const en = {
     inverseResult: "Inverse",
     calculationError: "Calculation error",
     selectOperation: "Select an operation",
-    matrixHint: "Enter matrix values",
 
     // Graph
     selectEquation: "Select equation",
@@ -452,7 +471,7 @@ const en = {
     enterDataSet: "Enter data set:",
     mean: "Mean (Average)",
     median: "Median",
-    mode: "Mode",
+    statisticalMode: "Mode",
     variance: "Variance",
     stdDeviation: "Standard Deviation",
     range: "Range",
@@ -611,12 +630,12 @@ const en = {
     integral: "Integral",
     symbolicAntiderivative: "Antiderivative",
     noCriticalPoints: "No critical points found in the given range",
-    range: "Range",
     order: "Order",
     localminimum: "local minimum",
     localmaximum: "local maximum",
     inflectionpoint: "inflection point",
-    errorCalculating: "Error calculating"
+    errorCalculating: "Error calculating",
+    divisionByZero: "Error: Division by zero"
 };
 
 // Export for use in browser

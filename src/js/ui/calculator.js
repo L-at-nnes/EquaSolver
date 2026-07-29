@@ -2,7 +2,8 @@
 // CALCULATOR (STANDARD AND SCIENTIFIC)
 // ===================================
 
-// factorial function is available globally from math/combinatorics.js
+// Note: sciFactorial (below) is local to the scientific display's n! button.
+// The general-purpose factorial() used by the Combinatorics tool lives in math/combinatorics.js.
 
 const MAX_HISTORY = 100;
 
@@ -242,11 +243,13 @@ function calculateScientific() {
     return { expression, result };
 }
 
-function handleScientificFunction(func) {
-    const current = parseFloat(sciState.display);
+function handleScientificFunction(func, target = 'sci') {
+    const st = target === 'main' ? state : sciState;
+    const updateTargetDisplay = target === 'main' ? updateDisplay : updateSciDisplay;
+    const current = parseFloat(st.display);
     let result;
     let expression = '';
-    
+
     try {
         switch (func) {
             case 'sin':
@@ -295,43 +298,43 @@ function handleScientificFunction(func) {
                 expression = `√${current}`;
                 break;
             case 'power':
-                sciState.previousValue = current;
-                sciState.operation = '^';
-                sciState.waitingForOperand = true;
+                st.previousValue = current;
+                st.operation = '^';
+                st.waitingForOperand = true;
                 return null;
             case 'factorial':
                 if (current < 0 || !Number.isInteger(current)) throw new Error('Domain error');
-                result = factorial(current);
+                result = sciFactorial(current);
                 expression = `${current}!`;
                 break;
             case 'pi':
-                sciState.display = String(Math.PI);
-                sciState.waitingForOperand = false;
-                updateSciDisplay();
+                st.display = String(Math.PI);
+                st.waitingForOperand = false;
+                updateTargetDisplay();
                 return null;
             case 'e':
-                sciState.display = String(Math.E);
-                sciState.waitingForOperand = false;
-                updateSciDisplay();
+                st.display = String(Math.E);
+                st.waitingForOperand = false;
+                updateTargetDisplay();
                 return null;
             default:
                 return null;
         }
-        
-        sciState.display = String(result);
-        sciState.waitingForOperand = true;
-        sciState.lastAnswer = result;
-        updateSciDisplay();
-        
+
+        st.display = String(result);
+        st.waitingForOperand = true;
+        if (target === 'sci') st.lastAnswer = result;
+        updateTargetDisplay();
+
         return { expression, result };
     } catch (error) {
-        sciState.display = 'Error';
-        updateSciDisplay();
+        st.display = 'Error';
+        updateTargetDisplay();
         return null;
     }
 }
 
-function factorial(n) {
+function sciFactorial(n) {
     if (n === 0 || n === 1) return 1;
     if (n > 170) throw new Error('Number too large');
     let result = 1;
@@ -415,7 +418,7 @@ if (typeof module !== 'undefined' && module.exports) {
         handleSciOperator,
         calculateScientific,
         handleScientificFunction,
-        factorial,
+        sciFactorial,
         handleAnswer,
         clearScientific,
         deleteSciLastDigit,
@@ -445,7 +448,7 @@ if (typeof window !== 'undefined') {
     window.handleSciOperator = handleSciOperator;
     window.calculateScientific = calculateScientific;
     window.handleScientificFunction = handleScientificFunction;
-    window.factorial = factorial;
+    window.sciFactorial = sciFactorial;
     window.clearScientific = clearScientific;
     window.updateSciDisplay = updateSciDisplay;
 }
