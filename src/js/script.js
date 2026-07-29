@@ -221,7 +221,14 @@ function initEventListeners() {
     // Inequality solver buttons
     document.getElementById('solveInequalityLinear')?.addEventListener('click', solveLinearInequalityUI);
     document.getElementById('solveInequalityQuadratic')?.addEventListener('click', solveQuadraticInequalityUI);
-    
+
+    // Absolute value solver buttons
+    document.getElementById('solveAbsoluteEquation')?.addEventListener('click', solveAbsoluteEquationUI);
+    document.getElementById('solveAbsoluteInequality')?.addEventListener('click', solveAbsoluteInequalityUI);
+
+    // Trigonometric solver button
+    document.getElementById('solveTrigonometric')?.addEventListener('click', solveTrigonometricUI);
+
     // Polynomial division
     document.getElementById('performPolynomialDivision')?.addEventListener('click', performPolynomialDivision);
     
@@ -263,6 +270,9 @@ function setupExportButtons() {
         'exportMatrixPdf': 'matrix',
         'exportInequalityLinearPdf': 'inequalityLinear',
         'exportInequalityQuadraticPdf': 'inequalityQuadratic',
+        'exportAbsoluteEquationPdf': 'absoluteEquation',
+        'exportAbsoluteInequalityPdf': 'absoluteInequality',
+        'exportTrigonometricPdf': 'trigonometric',
         'exportPolynomialDivisionPdf': 'polynomialDivision',
         'exportBaseConverterPdf': 'baseConverter',
         'exportUnitConverterPdf': 'unitConverter'
@@ -278,9 +288,7 @@ function setupExportButtons() {
 // ===================================
 // SCREEN NAVIGATION
 // ===================================
-function toggleSettings() {
-    document.getElementById('settingsPanel')?.classList.toggle('active');
-}
+// Note: toggleSettings() is defined in ui/themes.js
 
 function showHomeScreen() {
     document.getElementById('homeScreen')?.classList.add('active');
@@ -364,7 +372,7 @@ function handleCalculatorButton(e) {
     } else if (action === 'power') {
         handlePower();
     } else if (btn.classList.contains('scientific')) {
-        handleScientificFunction(action);
+        handleScientificFunction(action, 'main');
     }
 }
 
@@ -803,6 +811,138 @@ function updateQuadraticInequalityPreview() {
 }
 
 // ===================================
+// ABSOLUTE VALUE UI
+// ===================================
+function solveAbsoluteEquationUI() {
+    const a = parseFloat(document.getElementById('absEqA').value);
+    const b = parseFloat(document.getElementById('absEqB').value);
+    const c = parseFloat(document.getElementById('absEqC').value);
+    const resultDiv = document.getElementById('absoluteEquationSolution');
+    const trans = translations[window.currentLang];
+
+    if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+
+    const result = solveAbsoluteEquation(a, b, c);
+
+    if (result.error) {
+        resultDiv.innerHTML = `<p class="error">${result.error}</p>`;
+        return;
+    }
+
+    let html = `<h3>${trans.solution}</h3>`;
+    if (result.special === 'all_real') {
+        html += `<div class="solution"><p class="highlight">${trans.allRealNumbers}</p></div>`;
+    } else if (result.special === 'no_solution') {
+        html += `<div class="solution"><p class="highlight">${trans.noSolution}</p></div>`;
+    } else {
+        html += `<div class="solution">${result.solutions.map(s => `<p>x = <span class="highlight">${formatNumber(s)}</span></p>`).join('')}</div>`;
+    }
+
+    resultDiv.innerHTML = html;
+    addToHistory(`|${a}x + ${b}| = ${c} → ${result.solutions.map(formatNumber).join(', ') || (result.special === 'all_real' ? trans.allRealNumbers : trans.noSolution)}`);
+    showExportButton('absoluteEquation');
+}
+
+function solveAbsoluteInequalityUI() {
+    const a = parseFloat(document.getElementById('absIneqA').value);
+    const b = parseFloat(document.getElementById('absIneqB').value);
+    const op = document.getElementById('absIneqOp').value;
+    const c = parseFloat(document.getElementById('absIneqC').value);
+    const resultDiv = document.getElementById('absoluteInequalitySolution');
+    const trans = translations[window.currentLang];
+
+    if (isNaN(a) || isNaN(b) || isNaN(c)) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+
+    const result = solveAbsoluteInequality(a, b, op, c);
+
+    if (result.error) {
+        resultDiv.innerHTML = `<p class="error">${result.error}</p>`;
+        return;
+    }
+
+    const html = `<h3>${trans.solution}</h3>
+        <div class="solution">
+            <p>${trans.solutionSet}: <span class="highlight">${result.solutionText}</span></p>
+            <p>${trans.intervalNotation}: <span class="highlight">${result.interval}</span></p>
+        </div>`;
+
+    resultDiv.innerHTML = html;
+    addToHistory(`|${a}x + ${b}| ${formatOperator(op)} ${c} → ${result.solutionText}`);
+    showExportButton('absoluteInequality');
+}
+
+function updateAbsoluteEquationPreview() {
+    const a = document.getElementById('absEqA')?.value || '1';
+    const b = document.getElementById('absEqB')?.value || '0';
+    const c = document.getElementById('absEqC')?.value || '0';
+    const preview = document.getElementById('absEqPreview');
+    if (preview) {
+        preview.textContent = `|${a}x + ${b}| = ${c}`;
+    }
+}
+
+function updateAbsoluteInequalityPreview() {
+    const a = document.getElementById('absIneqA')?.value || '1';
+    const b = document.getElementById('absIneqB')?.value || '0';
+    const op = document.getElementById('absIneqOp')?.value || '<';
+    const c = document.getElementById('absIneqC')?.value || '0';
+    const preview = document.getElementById('absIneqPreview');
+    if (preview) {
+        preview.textContent = `|${a}x + ${b}| ${formatOperator(op)} ${c}`;
+    }
+}
+
+// ===================================
+// TRIGONOMETRIC UI
+// ===================================
+function solveTrigonometricUI() {
+    const func = document.getElementById('trigFunc').value;
+    const k = parseFloat(document.getElementById('trigK').value);
+    const domainStart = parseFloat(document.getElementById('trigDomainStart').value);
+    const domainEnd = parseFloat(document.getElementById('trigDomainEnd').value);
+    const resultDiv = document.getElementById('trigonometricSolution');
+    const trans = translations[window.currentLang];
+
+    if (isNaN(k) || isNaN(domainStart) || isNaN(domainEnd) || domainStart > domainEnd) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+
+    const result = solveTrigonometricEquation(func, k, domainStart, domainEnd);
+
+    if (result.error) {
+        resultDiv.innerHTML = `<p class="error">${result.error}</p>`;
+        return;
+    }
+
+    let html = `<h3>${trans.solution}</h3>`;
+    if (result.solutions.length === 0) {
+        html += `<div class="solution"><p class="highlight">${trans.noSolution}</p></div>`;
+    } else {
+        html += `<div class="solution">${result.solutions.map(s => `<p>x = <span class="highlight">${formatNumber(s)}</span></p>`).join('')}</div>`;
+    }
+
+    resultDiv.innerHTML = html;
+    addToHistory(`${func}(x) = ${k} → ${result.solutions.map(formatNumber).join(', ') || trans.noSolution}`);
+    showExportButton('trigonometric');
+}
+
+function updateTrigonometricPreview() {
+    const func = document.getElementById('trigFunc')?.value || 'sin';
+    const k = document.getElementById('trigK')?.value || '0';
+    const preview = document.getElementById('trigPreview');
+    if (preview) {
+        preview.textContent = `${func}(x) = ${k}`;
+    }
+}
+
+// ===================================
 // POLYNOMIAL DIVISION UI
 // ===================================
 function performPolynomialDivision() {
@@ -1013,6 +1153,31 @@ function setupSliderListeners() {
             el.addEventListener('change', updateQuadraticInequalityPreview);
         }
     });
+
+    // Absolute value
+    ['absEqA', 'absEqB', 'absEqC'].forEach(id => {
+        document.getElementById(id)?.addEventListener('input', updateAbsoluteEquationPreview);
+    });
+    updateAbsoluteEquationPreview();
+
+    ['absIneqA', 'absIneqB', 'absIneqOp', 'absIneqC'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateAbsoluteInequalityPreview);
+            el.addEventListener('change', updateAbsoluteInequalityPreview);
+        }
+    });
+    updateAbsoluteInequalityPreview();
+
+    // Trigonometric
+    ['trigFunc', 'trigK'].forEach(id => {
+        const el = document.getElementById(id);
+        if (el) {
+            el.addEventListener('input', updateTrigonometricPreview);
+            el.addEventListener('change', updateTrigonometricPreview);
+        }
+    });
+    updateTrigonometricPreview();
 }
 
 function updateLinearPreview() {
@@ -1488,7 +1653,7 @@ function setupStatisticsCalculator() {
         html += `<p>${trans.dataSet || 'Data set'}: ${numbers.join(', ')} (n = ${numbers.length})</p>`;
         html += `<div class="result-group"><div class="result-label">${trans.mean || 'Mean'}:</div><div class="result-value"><span class="highlight">${formatNumber(mean)}</span></div></div>`;
         html += `<div class="result-group"><div class="result-label">${trans.median || 'Median'}:</div><div class="result-value"><span class="highlight">${formatNumber(median)}</span></div></div>`;
-        html += `<div class="result-group"><div class="result-label">${trans.mode || 'Mode'}:</div><div class="result-value"><span class="highlight">${mode ? mode.join(', ') : trans.noMode || 'No mode'}</span></div></div>`;
+        html += `<div class="result-group"><div class="result-label">${trans.statisticalMode || 'Mode'}:</div><div class="result-value"><span class="highlight">${mode ? mode.join(', ') : trans.noMode || 'No mode'}</span></div></div>`;
         html += `<div class="result-group"><div class="result-label">${trans.variance || 'Variance'}:</div><div class="result-value"><span class="highlight">${formatNumber(variance)}</span></div></div>`;
         html += `<div class="result-group"><div class="result-label">${trans.stdDev || 'Std Dev'}:</div><div class="result-value"><span class="highlight">${formatNumber(stdDev)}</span></div></div>`;
         
@@ -1639,7 +1804,7 @@ function setupTaylorCalculator() {
                 funcName = 'cos';
                 break;
             case 'exp':
-                result = taylorExp(point, terms);
+                result = taylorExp(point, 0, terms);
                 exactValue = Math.exp(point);
                 funcName = 'e^x';
                 break;
@@ -1648,12 +1813,12 @@ function setupTaylorCalculator() {
                     resultDiv.innerHTML = `<p class="error">${trans.domainError || 'Value must be > -1 for ln(1+x)'}</p>`;
                     return;
                 }
-                result = taylorLn(point, terms);
+                result = taylorLn(point, 0, terms);
                 exactValue = Math.log(1 + point);
                 funcName = 'ln(1+x)';
                 break;
             case 'atan':
-                result = taylorAtan(point, terms);
+                result = taylorAtan(point, 0, terms);
                 exactValue = Math.atan(point);
                 funcName = 'arctan';
                 break;

@@ -217,6 +217,38 @@
                     <div class="tool-glow"></div>
                 </div>
 
+                <!-- Absolute Value -->
+                <div class="tool-card" data-tool="absoluteValue">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <line x1="6" y1="3" x2="6" y2="21"></line>
+                            <line x1="18" y1="3" x2="18" y2="21"></line>
+                            <path d="M9 8l3 4-3 4"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="absoluteValue">Absolute Value</h3>
+                    <p data-translate="absoluteValueDesc">Solve equations and inequalities with |x|</p>
+                    <div class="tool-submenu">
+                        <p class="submenu-title" data-translate="chooseType">Choose type</p>
+                        <button class="submenu-btn" data-subtool="absoluteEquation" data-translate="absoluteEquation">Equation</button>
+                        <button class="submenu-btn" data-subtool="absoluteInequality" data-translate="absoluteInequality">Inequality</button>
+                    </div>
+                    <div class="tool-glow"></div>
+                </div>
+
+                <!-- Trigonometric -->
+                <div class="tool-card" data-tool="trigonometric">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="9"></circle>
+                            <path d="M12 3v9l6 3"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="trigonometric">Trigonometric</h3>
+                    <p data-translate="trigonometricDesc">Solve sin, cos and tan equations</p>
+                    <div class="tool-glow"></div>
+                </div>
+
                 <!-- Exponential & Logarithmic -->
                 <div class="tool-card" data-tool="explog">
                     <div class="tool-icon">
@@ -729,6 +761,116 @@
                 </div>
                 
                 <div class="solution-container" id="inequalityQuadraticSolution"></div>
+            </div>
+
+            <!-- Absolute Value Equation Solver -->
+            <div class="calculator-panel" id="absoluteEquation">
+                <div class="equation-display">
+                    <h3 data-translate="absoluteEquationTitle">Absolute Value Equation</h3>
+                    <div class="equation-preview" id="absEqPreview">|1x + 0| = 0</div>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x):</label>
+                        <input type="text" inputmode="decimal" id="absEqA" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (constant):</label>
+                        <input type="text" inputmode="decimal" id="absEqB" value="0" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>c:</label>
+                        <input type="text" inputmode="decimal" id="absEqC" value="5" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="absoluteHint">Enter the coefficients of |ax + b|</p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="solveAbsoluteEquation" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportAbsoluteEquationPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+
+                <div class="solution-container" id="absoluteEquationSolution"></div>
+            </div>
+
+            <!-- Absolute Value Inequality Solver -->
+            <div class="calculator-panel" id="absoluteInequality">
+                <div class="equation-display">
+                    <h3 data-translate="absoluteInequalityTitle">Absolute Value Inequality</h3>
+                    <div class="equation-preview" id="absIneqPreview">|1x + 0| &lt; 0</div>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label>a (coefficient of x):</label>
+                        <input type="text" inputmode="decimal" id="absIneqA" value="1" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label>b (constant):</label>
+                        <input type="text" inputmode="decimal" id="absIneqB" value="0" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="inequality">Inequality:</label>
+                        <select id="absIneqOp" class="coef-input inequality-select">
+                            <option value="<">&lt; (less than)</option>
+                            <option value=">">&gt; (greater than)</option>
+                            <option value="<=">&le; (less or equal)</option>
+                            <option value=">=">&ge; (greater or equal)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label>c:</label>
+                        <input type="text" inputmode="decimal" id="absIneqC" value="5" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="absoluteHint">Enter the coefficients of |ax + b|</p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="solveAbsoluteInequality" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportAbsoluteInequalityPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+
+                <div class="solution-container" id="absoluteInequalitySolution"></div>
+            </div>
+
+            <!-- Trigonometric Equation Solver -->
+            <div class="calculator-panel" id="trigonometric">
+                <div class="equation-display">
+                    <h3 data-translate="trigonometricTitle">Trigonometric Equation</h3>
+                    <div class="equation-preview" id="trigPreview">sin(x) = 0</div>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label data-translate="trigFunction">Function:</label>
+                        <select id="trigFunc" class="coef-input">
+                            <option value="sin">sin(x)</option>
+                            <option value="cos">cos(x)</option>
+                            <option value="tan">tan(x)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="trigConstant">k (value):</label>
+                        <input type="text" inputmode="decimal" id="trigK" value="0" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="trigDomainStart">Domain start:</label>
+                        <input type="text" inputmode="decimal" id="trigDomainStart" value="-6.283185307" class="coef-input">
+                    </div>
+                    <div class="input-group">
+                        <label data-translate="trigDomainEnd">Domain end:</label>
+                        <input type="text" inputmode="decimal" id="trigDomainEnd" value="6.283185307" class="coef-input">
+                    </div>
+                    <p class="input-hint" data-translate="trigHint">Solve sin(x) = k, cos(x) = k or tan(x) = k over the given domain</p>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="solveTrigonometric" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportTrigonometricPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+
+                <div class="solution-container" id="trigonometricSolution"></div>
             </div>
 
             <!-- System of Equations Solver -->
@@ -1923,6 +2065,8 @@
     <script src="js/solvers/inequality.js" defer></script>
     <script src="js/solvers/polynomial-division.js" defer></script>
     <script src="js/solvers/exponential-log.js" defer></script>
+    <script src="js/solvers/absolute.js" defer></script>
+    <script src="js/solvers/trigonometric.js" defer></script>
     
     <!-- Converter modules -->
     <script src="js/converters/base.js" defer></script>

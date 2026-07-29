@@ -2,22 +2,54 @@
 // EXPRESSION EVALUATOR
 // ===================================
 
+const EXPRESSION_FUNCTIONS = {
+    sin: 'Math.sin',
+    cos: 'Math.cos',
+    tan: 'Math.tan',
+    sqrt: 'Math.sqrt',
+    abs: 'Math.abs',
+    exp: 'Math.exp',
+    log: 'Math.log',
+    pow: 'Math.pow',
+    pi: 'Math.PI'
+};
+
+// Marker char that can't realistically appear in user-typed math input,
+// used to tag function-name placeholders so they can't collide with
+// numbers/text produced by the variable substitution step below.
+const PLACEHOLDER_MARK = String.fromCharCode(1);
+
 function evaluateExpression(expr, varName, value) {
-    let processed = expr
-        .replace(new RegExp(varName, 'g'), `(${value})`)
-        .replace(/\^/g, '**')
-        .replace(/sin/g, 'Math.sin')
-        .replace(/cos/g, 'Math.cos')
-        .replace(/tan/g, 'Math.tan')
-        .replace(/sqrt/g, 'Math.sqrt')
-        .replace(/abs/g, 'Math.abs')
-        .replace(/exp/g, 'Math.exp')
-        .replace(/log/g, 'Math.log')
-        .replace(/pi/g, 'Math.PI')
-        .replace(/pow/g, 'Math.pow');
-    
+    const funcNames = Object.keys(EXPRESSION_FUNCTIONS);
+    const escapedVar = varName.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    const placeholder = i => `${PLACEHOLDER_MARK}${i}${PLACEHOLDER_MARK}`;
+
+    // Strip any pre-existing marker chars from the input, then replace known
+    // function/constant names with placeholders first so the variable
+    // substitution below can't corrupt them (e.g. "exp(x)" when varName is "x").
+    let processed = expr.split(PLACEHOLDER_MARK).join('');
+    funcNames.forEach((name, i) => {
+        processed = processed.replace(new RegExp(`\\b${name}\\b`, 'g'), placeholder(i));
+    });
+
+    processed = processed.replace(new RegExp(`\\b${escapedVar}\\b`, 'g'), `(${value})`);
+    processed = processed.replace(/\^/g, '**');
+
+    funcNames.forEach((name, i) => {
+        processed = processed.split(placeholder(i)).join(EXPRESSION_FUNCTIONS[name]);
+    });
+
+    // Reject anything outside a safe numeric/operator/Math-call character set
+    // before evaluating, so user input can never run arbitrary JavaScript.
+    const leftover = processed
+        .replace(/Math\.(sin|cos|tan|sqrt|abs|exp|log|pow|PI)/g, '')
+        .replace(/[0-9+\-*/%.,()\s]/g, '');
+    if (leftover.length > 0) {
+        return NaN;
+    }
+
     try {
-        return eval(processed);
+        return Function(`"use strict"; return (${processed});`)();
     } catch (e) {
         return NaN;
     }
@@ -34,4 +66,3 @@ if (typeof module !== 'undefined' && module.exports) {
 if (typeof window !== 'undefined') {
     window.evaluateExpression = evaluateExpression;
 }
-

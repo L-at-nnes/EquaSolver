@@ -110,8 +110,9 @@ if (typeof module !== 'undefined' && module.exports) {
 }
 
 // Expose globally for browser
+// Note: gcd() above is kept local to this file (not exported to window) since
+// math/gcd-lcm.js already owns the global window.gcd.
 if (typeof window !== 'undefined') {
-    window.gcd = gcd;
     window.simplifyFraction = simplifyFraction;
     window.simplifyFractionFunc = simplifyFractionFunc;
     window.addFractions = addFractions;

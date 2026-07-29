@@ -1,14 +1,13 @@
-const CACHE_NAME = 'equasolver-v3.0.0';
-const STATIC_CACHE = 'equasolver-static-v3.0.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v3.0.0';
+const CACHE_NAME = 'equasolver-v3.1.0';
+const STATIC_CACHE = 'equasolver-static-v3.1.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.1.0';
 
+// Keep in sync with the <script src="js/..."> tags in index.html.
 const STATIC_ASSETS = [
     './',
     './index.html',
     './css/style.css',
     './js/flags.js',
-    './js/translations.js',
-    './js/script.js',
     // i18n modules
     './js/i18n/en.js',
     './js/i18n/fr.js',
@@ -16,6 +15,7 @@ const STATIC_ASSETS = [
     './js/i18n/de.js',
     './js/i18n/it.js',
     './js/i18n/ru.js',
+    './js/translations.js',
     // Math modules
     './js/math/complex.js',
     './js/math/matrix.js',
@@ -29,9 +29,13 @@ const STATIC_ASSETS = [
     './js/calculus/limits.js',
     './js/calculus/taylor.js',
     './js/calculus/numerical-integration.js',
+    './js/calculus/derivatives-integrals.js',
     // Solver modules
     './js/solvers/inequality.js',
     './js/solvers/polynomial-division.js',
+    './js/solvers/exponential-log.js',
+    './js/solvers/absolute.js',
+    './js/solvers/trigonometric.js',
     // Converter modules
     './js/converters/base.js',
     './js/converters/units.js',
@@ -44,10 +48,14 @@ const STATIC_ASSETS = [
     './js/ui/history.js',
     './js/ui/export.js',
     './js/ui/calculator.js',
+    './js/ui/exponential-log.js',
+    './js/ui/derivatives-integrals.js',
     // Graphing modules
     './js/graphing/cartesian.js',
     './js/graphing/parametric.js',
     './js/graphing/polar.js',
+    // Main script (must load after all modules above)
+    './js/script.js',
     // Assets
     './assets/icon.svg',
     './assets/icon-192.svg',

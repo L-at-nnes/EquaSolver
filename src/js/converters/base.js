@@ -3,22 +3,28 @@
 // ===================================
 
 function convertToBase(input, fromBase) {
-    const validChars = '0123456789ABCDEF'.substring(0, fromBase);
     const upperInput = input.toUpperCase();
-    const isValid = upperInput.split('').every(char => validChars.includes(char) || char === '-');
-    
+    const isNegative = upperInput.startsWith('-');
+    const cleanInput = isNegative ? upperInput.substring(1) : upperInput;
+
+    const validChars = '0123456789ABCDEF'.substring(0, fromBase);
+    const isValid = cleanInput.length > 0 && cleanInput.split('').every(char => validChars.includes(char));
+
     if (!isValid) {
         return null;
     }
-    
-    const isNegative = upperInput.startsWith('-');
-    const cleanInput = isNegative ? upperInput.substring(1) : upperInput;
+
     const decimal = parseInt(cleanInput, fromBase);
-    
-    if (isNaN(decimal)) {
-        return null;
+
+    if (isNaN(decimal) || decimal === 0) {
+        return {
+            binary: '0',
+            octal: '0',
+            decimal: '0',
+            hexadecimal: '0'
+        };
     }
-    
+
     const sign = isNegative ? '-' : '';
     return {
         binary: sign + Math.abs(decimal).toString(2),

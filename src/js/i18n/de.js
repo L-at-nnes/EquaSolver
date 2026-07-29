@@ -52,11 +52,14 @@ const de = {
     quarticTitle: "Quartische Gleichung",
     quinticTitle: "Quintische Gleichung",
     systemsTitle: "System von 2 Gleichungen",
+    system3x3Title: "System von 3 Gleichungen (3x3)",
     matrixTitle: "Matrizenrechner",
     graphTitle: "Diagrammvisualisierung",
     parametricTitle: "Parametrische Gleichungen",
     polarTitle: "Polargleichungen",
-    latexTitle: "LaTeX-Gleichungseingabe",    polynomialDivisionTitle: "Polynomdivision",    
+    latexTitle: "LaTeX-Gleichungseingabe",
+    polynomialDivisionTitle: "Polynomdivision",
+
     // Multi-degree
     multiDegreeTitle: "Mehrgradige Gleichungen",
     multiDegreeDesc: "Löse vom 1. bis 3. Grad",
@@ -77,8 +80,12 @@ const de = {
     quarticHint: "Verwenden Sie Tab zum Navigieren",
     quinticHint: "Verwenden Sie Tab zum Navigieren",
     systemsHint: "Verwenden Sie Tab zum Navigieren",
+    system3x3Hint: "Geben Sie die Koeffizienten für 3 Variablen ein",
     matrixHint: "Matrixwerte eingeben",
-    
+    polynomialDivisionHint: "Polynome eingeben (z. B. 2x^3 + 3x^2 - x + 5)",
+    polynomialDivisionExample: "Beispielformate: x^2 + 3x - 5, 2x^3 - x + 1, x - 3",
+    polynomialDivision: "Polynomdivision",
+
     // Solutions
     noRealSolutions: "Keine reellen Lösungen",
     solutionsFound: "Lösung(en) gefunden",
@@ -139,7 +146,27 @@ const de = {
     system3x3NoUniqueSolution: "Keine eindeutige Lösung (System singulär oder abhängig)",
     parallelLines: "Parallele Linien (keine Lösung)",
     coincidentLines: "Übereinstimmende Linien (unendliche Lösungen)",
-    
+
+    // Absolutwert
+    absoluteValue: "Absolutwert",
+    absoluteValueDesc: "Gleichungen und Ungleichungen mit |x| lösen",
+    absoluteEquation: "Gleichung",
+    absoluteInequality: "Ungleichung",
+    absoluteEquationTitle: "Betragsgleichung",
+    absoluteInequalityTitle: "Betragsungleichung",
+    absoluteHint: "Geben Sie die Koeffizienten von |ax + b| ein",
+    allRealNumbers: "Alle reellen Zahlen",
+
+    // Trigonometrie
+    trigonometric: "Trigonometrie",
+    trigonometricDesc: "Sin-, Cos- und Tan-Gleichungen lösen",
+    trigonometricTitle: "Trigonometrische Gleichung",
+    trigFunction: "Funktion",
+    trigConstant: "k (Wert)",
+    trigDomainStart: "Bereichsanfang",
+    trigDomainEnd: "Bereichsende",
+    trigHint: "Löse sin(x) = k, cos(x) = k oder tan(x) = k im angegebenen Bereich",
+
     // Matrix
     matrixSize: "Matrixgröße",
     matrix2x2: "2×2 Matrix",
@@ -425,7 +452,7 @@ const de = {
     enterDataSet: "Daten eingeben:",
     mean: "Mittelwert (Durchschnitt)",
     median: "Median",
-    mode: "Modus",
+    statisticalMode: "Modus",
     variance: "Varianz",
     stdDeviation: "Standardabweichung",
     range: "Spannweite",
@@ -584,7 +611,6 @@ const de = {
     integral: "Integral",
     symbolicAntiderivative: "Stammfunktion",
     noCriticalPoints: "Keine kritischen Punkte im angegebenen Bereich gefunden",
-    range: "Bereich",
     order: "Ordnung",
     localminimum: "lokales Minimum",
     localmaximum: "lokales Maximum",
