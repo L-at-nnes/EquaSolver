@@ -244,3 +244,42 @@ describe('Parametric Curve Generation', () => {
         });
     });
 });
+
+describe('Expression Evaluator - parser robustness', () => {
+    test('handles unary minus before a power', () => {
+        expect(evaluateExpression('-x^2', 'x', 3)).toBe(-9);
+        expect(evaluateExpression('-t^2 + 1', 't', 2)).toBe(-3);
+    });
+
+    test('supports implicit multiplication', () => {
+        expect(evaluateExpression('2x', 'x', 3)).toBe(6);
+        expect(evaluateExpression('3(x+1)', 'x', 1)).toBe(6);
+        expect(evaluateExpression('2sin(t)', 't', Math.PI / 2)).toBeCloseTo(2, 10);
+        expect(evaluateExpression('2x^2', 'x', 3)).toBe(18);
+    });
+
+    test('supports exponent with negative sign and right associativity', () => {
+        expect(evaluateExpression('2^-x', 'x', 2)).toBe(0.25);
+        expect(evaluateExpression('2^3^2', 'x', 0)).toBe(512);
+    });
+
+    test('supports the constant e, ln and inverse trig functions', () => {
+        expect(evaluateExpression('e^x', 'x', 1)).toBeCloseTo(Math.E, 10);
+        expect(evaluateExpression('ln(x)', 'x', Math.E)).toBeCloseTo(1, 10);
+        expect(evaluateExpression('atan(x)', 'x', 1)).toBeCloseTo(Math.PI / 4, 10);
+    });
+
+    test('accepts values in scientific notation and infinity', () => {
+        expect(evaluateExpression('x', 'x', 1e-7)).toBe(1e-7);
+        expect(evaluateExpression('x', 'x', 1.5e21)).toBe(1.5e21);
+        expect(evaluateExpression('1/x', 'x', Infinity)).toBe(0);
+    });
+
+    test('returns NaN for malformed input and never executes code', () => {
+        expect(evaluateExpression('2 +', 'x', 1)).toBeNaN();
+        expect(evaluateExpression('(x', 'x', 1)).toBeNaN();
+        expect(evaluateExpression('alert(1)', 'x', 1)).toBeNaN();
+        expect(evaluateExpression('constructor', 'x', 1)).toBeNaN();
+        expect(evaluateExpression('x.constructor', 'x', 1)).toBeNaN();
+    });
+});
