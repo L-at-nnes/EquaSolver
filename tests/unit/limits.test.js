@@ -206,3 +206,44 @@ describe('Error Handling', () => {
         expect(isNaN(result)).toBe(true);
     });
 });
+
+describe('evaluateLimit (numerical limits)', () => {
+    const { evaluateLimit } = require('../../src/js/calculus/limits.js');
+
+    test('removable singularities', () => {
+        expect(evaluateLimit('sin(x)/x', 0).value).toBe(1);
+        expect(evaluateLimit('(x^2-1)/(x-1)', 1).value).toBe(2);
+        expect(evaluateLimit('(1-cos(x))/x^2', 0).value).toBeCloseTo(0.5, 6);
+    });
+
+    test('continuous functions give the function value', () => {
+        expect(evaluateLimit('x^2', 3).value).toBe(9);
+        expect(evaluateLimit('2*x + 1', 5).value).toBe(11);
+    });
+
+    test('one-sided limits honour the direction', () => {
+        expect(evaluateLimit('1/x', 0, 'right').value).toBe(Infinity);
+        expect(evaluateLimit('1/x', 0, 'left').value).toBe(-Infinity);
+        expect(evaluateLimit('abs(x)/x', 0, 'right').value).toBe(1);
+        expect(evaluateLimit('abs(x)/x', 0, 'left').value).toBe(-1);
+    });
+
+    test('two-sided limit does not exist when the sides disagree', () => {
+        const r = evaluateLimit('abs(x)/x', 0);
+        expect(r.exists).toBe(false);
+        expect(r.value).toBeNaN();
+        expect(evaluateLimit('1/x', 0).exists).toBe(false);
+    });
+
+    test('limits at infinity', () => {
+        expect(evaluateLimit('1/x', Infinity).value).toBe(0);
+        expect(evaluateLimit('(2*x+1)/x', Infinity).value).toBe(2);
+        expect(evaluateLimit('x^2', Infinity).value).toBe(Infinity);
+        expect(evaluateLimit('x^3', -Infinity).value).toBe(-Infinity);
+        expect(evaluateLimit('sin(x)', Infinity).exists).toBe(false);
+    });
+
+    test('invalid expressions do not exist', () => {
+        expect(evaluateLimit('foo(', 0).exists).toBe(false);
+    });
+});

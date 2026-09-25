@@ -1750,13 +1750,20 @@ function setupLimitCalculator() {
         
         // Parse the point (can be number or 'infinity'/'-infinity')
         let pointValue;
-        if (point.toLowerCase().includes('inf')) {
-            pointValue = point.startsWith('-') ? -Infinity : Infinity;
+        if (/inf|∞/i.test(point)) {
+            pointValue = /^\s*[-−]/.test(point) ? -Infinity : Infinity;
         } else {
-            pointValue = parseFloat(point) || 0;
+            pointValue = parseFloat(point);
         }
-        
-        const result = evaluateLimitFunction(expr, pointValue);
+
+        if (Number.isNaN(pointValue)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+
+        const limit = evaluateLimit(expr, pointValue, direction);
+        const result = limit.value;
+        const resultText = limit.exists ? formatNumber(result) : (trans.limitDoesNotExist || 'Does not exist');
         
         let directionText = '';
         if (direction === 'left') directionText = '⁻';
@@ -1767,11 +1774,11 @@ function setupLimitCalculator() {
         let html = `<h3>${trans.solution}</h3>`;
         html += `<div class="result-group">
             <div class="result-label">${trans.limit || 'Limit'}:</div>
-            <div class="result-value">lim(x→${pointText}${directionText}) ${expr} = <span class="highlight">${formatNumber(result)}</span></div>
+            <div class="result-value">lim(x→${pointText}${directionText}) ${expr} = <span class="highlight">${resultText}</span></div>
         </div>`;
         
         resultDiv.innerHTML = html;
-        addToHistory(`lim(x→${pointText}) ${expr} = ${formatNumber(result)}`);
+        addToHistory(`lim(x→${pointText}${directionText}) ${expr} = ${resultText}`);
     });
 }
 
