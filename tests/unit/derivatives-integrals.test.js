@@ -675,3 +675,34 @@ describe('Mathematical Properties', () => {
         });
     });
 });
+
+describe('Symbolic calculus - regressions', () => {
+    test('negative exponents are not split into separate terms', () => {
+        expect(differentiate('x^-2').simplified).toBe('-2x^-3');
+        expect(differentiate('3x^-1').simplified).toBe('-3x^-2');
+        expect(integrate('x^-2').simplified).toBe('-x^-1 + C');
+    });
+
+    test('a constant containing the letter x in a function name is still a constant', () => {
+        expect(differentiate('exp(2)').simplified).toBe('0');
+        expect(integrate('exp(2)').simplified).toMatch(/x \+ C$/);
+    });
+
+    test('integral of a constant expression is evaluated', () => {
+        expect(integrate('2 + 3').simplified).toBe('5x + C');
+    });
+
+    test('power of zero differentiates to zero', () => {
+        expect(differentiate('x^0').simplified).toBe('0');
+    });
+
+    test('integrals keep clean coefficients', () => {
+        expect(integrate('3x^2').simplified).toBe('x^3 + C');
+        expect(integrate('2x^2').simplified).toBe('2x^3/3 + C');
+        expect(integrate('x^2').simplified).toBe('x^3/3 + C');
+    });
+
+    test('derivative coefficients have no floating point noise', () => {
+        expect(differentiate('0.1x^3').simplified).toBe('0.3x^2');
+    });
+});

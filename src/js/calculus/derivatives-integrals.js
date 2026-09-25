@@ -19,6 +19,22 @@ function parseExpression(expr) {
 }
 
 /**
+ * Round away floating point noise (0.1 * 3 -> 0.3)
+ */
+function cleanNumber(n) {
+    return parseFloat(n.toPrecision(12));
+}
+
+/**
+ * True when the expression really uses the variable (not just a letter inside
+ * a function name such as the x of "exp(2)")
+ */
+function containsVariable(expr, variable) {
+    const escaped = variable.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+    return new RegExp(`(?<![A-Za-z])${escaped}(?![A-Za-z])`).test(expr);
+}
+
+/**
  * Differentiate a polynomial expression
  * Supports: constants, x^n, sin(x), cos(x), tan(x), e^x, ln(x), sqrt(x)
  * @param {string} expr - The expression to differentiate
@@ -31,7 +47,7 @@ function differentiate(expr, variable = 'x') {
     const steps = [];
     
     // Handle pure constant (no variable)
-    if (!expr.includes(variable)) {
+    if (!containsVariable(expr, variable)) {
         steps.push(`f(${variable}) = ${original}`);
         steps.push(`The derivative of a constant is 0`);
         return {
@@ -103,7 +119,10 @@ function splitIntoTerms(expr) {
         if (char === '(') depth++;
         if (char === ')') depth--;
         
-        if (depth === 0 && (char === '+' || char === '-') && i > 0) {
+        const prev = i > 0 ? expr[i - 1] : '';
+        const isSignOfOperand = prev === '^' || prev === '*' || prev === '/';
+
+        if (depth === 0 && (char === '+' || char === '-') && i > 0 && !isSignOfOperand) {
             if (current.trim()) {
                 terms.push({ sign: sign, term: current.trim() });
             }
@@ -156,9 +175,10 @@ function differentiateTerm(term, variable) {
     const powerMatch = term.match(new RegExp(`^${variable}\\^([\\d.]+|-?\\d+)$`));
     if (powerMatch) {
         const n = parseFloat(powerMatch[1]);
+        if (n === 0) return { derivative: '0', step: true, rule: 'constant rule' };
         if (n === 1) return { derivative: '1', step: true, rule: 'power rule' };
         if (n === 2) return { derivative: `2${variable}`, step: true, rule: 'power rule' };
-        const newExp = n - 1;
+        const newExp = cleanNumber(n - 1);
         return { 
             derivative: newExp === 1 ? `${n}${variable}` : `${n}${variable}^${newExp}`,
             step: true, 
@@ -171,8 +191,9 @@ function differentiateTerm(term, variable) {
     if (coeffPowerMatch) {
         const coef = parseFloat(coeffPowerMatch[1]);
         const n = parseFloat(coeffPowerMatch[2]);
-        const newCoef = coef * n;
-        const newExp = n - 1;
+        const newCoef = cleanNumber(coef * n);
+        const newExp = cleanNumber(n - 1);
+        if (newCoef === 0) return { derivative: '0', step: true, rule: 'constant rule' };
         if (newExp === 0) return { derivative: `${newCoef}`, step: true, rule: 'power rule' };
         if (newExp === 1) return { derivative: `${newCoef}${variable}`, step: true, rule: 'power rule' };
         return { 
@@ -271,16 +292,17 @@ function integrate(expr, variable = 'x') {
     const steps = [];
     
     // Handle pure constant
-    if (!expr.includes(variable)) {
-        const constant = expr;
+    if (!containsVariable(expr, variable)) {
+        const numeric = createFunction(expr)(0);
+        const constant = Number.isFinite(numeric) ? String(cleanNumber(numeric)) : `(${original})`;
         steps.push(`∫ ${original} d${variable}`);
         steps.push(`The integral of a constant c is c·${variable}`);
-        steps.push(`∫ ${original} d${variable} = ${original}${variable} + C`);
+        steps.push(`∫ ${original} d${variable} = ${constant}${variable} + C`);
         return {
             original: original,
-            integral: `${original}${variable}`,
+            integral: `${constant}${variable}`,
             steps: steps,
-            simplified: `${original}${variable} + C`
+            simplified: `${constant}${variable} + C`
         };
     }
     
@@ -329,6 +351,21 @@ function integrate(expr, variable = 'x') {
 }
 
 /**
+ * Format the antiderivative coef * variable^newExp / newExp of a power term
+ */
+function formatPowerIntegral(coef, newExp, variable) {
+    const power = newExp === 1 ? variable : `${variable}^${newExp}`;
+    const k = cleanNumber(coef / newExp);
+    if (Number.isInteger(k)) {
+        if (k === 1) return power;
+        if (k === -1) return `-${power}`;
+        return `${k}${power}`;
+    }
+    const divisor = newExp < 0 ? `(${newExp})` : `${newExp}`;
+    return `${coef === 1 ? '' : coef}${power}/${divisor}`;
+}
+
+/**
  * Integrate a single term
  * @param {string} term - Single term to integrate
  * @param {string} variable - The variable
@@ -361,11 +398,10 @@ function integrateTerm(term, variable) {
         if (n === -1) {
             return { integral: `ln|${variable}|`, step: true, rule: 'special case n=-1' };
         }
-        const newExp = n + 1;
-        return { 
-            integral: `${variable}^${newExp}/${newExp}`,
-            step: true, 
-            rule: 'power rule' 
+        return {
+            integral: formatPowerIntegral(1, cleanNumber(n + 1), variable),
+            step: true,
+            rule: 'power rule'
         };
     }
     
@@ -377,12 +413,10 @@ function integrateTerm(term, variable) {
         if (n === -1) {
             return { integral: `${coef}ln|${variable}|`, step: true, rule: 'special case n=-1' };
         }
-        const newExp = n + 1;
-        const newCoef = coef / newExp;
-        return { 
-            integral: `${newCoef}${variable}^${newExp}`,
-            step: true, 
-            rule: 'power rule' 
+        return {
+            integral: formatPowerIntegral(coef, cleanNumber(n + 1), variable),
+            step: true,
+            rule: 'power rule'
         };
     }
     
