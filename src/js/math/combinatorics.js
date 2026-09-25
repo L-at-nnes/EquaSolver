@@ -16,14 +16,25 @@ function factorial(n) {
     return factorialBig(n);
 }
 
+// Computed as products of r terms (not factorial ratios) so that values like
+// C(200, 2) stay exact instead of overflowing to Infinity / Infinity = NaN.
 function permutation(n, r) {
     if (n < 0 || r < 0 || r > n) return null;
-    return factorialBig(n) / factorialBig(n - r);
+    let result = 1;
+    for (let i = 0; i < r; i++) {
+        result *= n - i;
+    }
+    return result;
 }
 
 function combination(n, r) {
     if (n < 0 || r < 0 || r > n) return null;
-    return factorialBig(n) / (factorialBig(r) * factorialBig(n - r));
+    const k = Math.min(r, n - r);
+    let result = 1;
+    for (let i = 1; i <= k; i++) {
+        result = result * (n - k + i) / i;
+    }
+    return Math.round(result);
 }
 
 // CommonJS export for Jest

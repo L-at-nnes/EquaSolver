@@ -209,3 +209,22 @@ describe('Binomial Theorem: Sum of C(n,k) from k=0 to n equals 2^n', () => {
         }
     });
 });
+
+describe('Combinatorics - large inputs', () => {
+    test('combination does not overflow for n above 170', () => {
+        expect(combination(200, 2)).toBe(19900);
+        expect(combination(1000, 1)).toBe(1000);
+        expect(combination(200, 198)).toBe(19900);
+    });
+
+    test('permutation does not overflow for n above 170', () => {
+        expect(permutation(200, 2)).toBe(39800);
+        expect(permutation(500, 0)).toBe(1);
+    });
+
+    test('keeps exact values for moderate sizes', () => {
+        expect(combination(50, 25)).toBe(126410606437752);
+        expect(combination(10, 3)).toBe(120);
+        expect(permutation(10, 3)).toBe(720);
+    });
+});
