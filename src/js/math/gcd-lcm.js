@@ -35,15 +35,16 @@ function primeFactorization(n) {
     if (n <= 1) return {};
     
     const factors = {};
-    let divisor = 2;
     
-    while (n >= 2) {
-        if (n % divisor === 0) {
+    // Trial division only up to sqrt(n): whatever remains afterwards is prime
+    for (let divisor = 2; divisor * divisor <= n; divisor += divisor === 2 ? 1 : 2) {
+        while (n % divisor === 0) {
             factors[divisor] = (factors[divisor] || 0) + 1;
             n = n / divisor;
-        } else {
-            divisor++;
         }
+    }
+    if (n > 1) {
+        factors[n] = (factors[n] || 0) + 1;
     }
     
     return factors;

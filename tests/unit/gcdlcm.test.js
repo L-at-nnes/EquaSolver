@@ -299,3 +299,21 @@ describe('Special mathematical properties', () => {
         expect(lcm(42, 42)).toBe(42);
     });
 });
+
+describe('primeFactorization - performance and correctness', () => {
+    test('factors a large prime quickly', () => {
+        const start = Date.now();
+        expect(primeFactorization(1000000007)).toEqual({ 1000000007: 1 });
+        expect(Date.now() - start).toBeLessThan(500);
+    });
+
+    test('factors a product of a small and a large prime', () => {
+        expect(primeFactorization(3 * 1000000007)).toEqual({ 3: 1, 1000000007: 1 });
+    });
+
+    test('keeps repeated factors and ordering semantics', () => {
+        expect(primeFactorization(360)).toEqual({ 2: 3, 3: 2, 5: 1 });
+        expect(primeFactorization(97)).toEqual({ 97: 1 });
+        expect(primeFactorization(1)).toEqual({});
+    });
+});
