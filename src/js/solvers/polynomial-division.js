@@ -7,7 +7,7 @@ function parsePolynomial(polyStr) {
         return null;
     }
     
-    polyStr = polyStr.toLowerCase().replace(/\s/g, '');
+    polyStr = polyStr.toLowerCase().replace(/[\s*]/g, '');
     
     if (!polyStr.includes('x')) {
         const num = parseFloat(polyStr);
@@ -26,6 +26,12 @@ function parsePolynomial(polyStr) {
     
     polyStr = polyStr.replace(/-/g, '+-');
     const terms = polyStr.split('+').filter(t => t.length > 0);
+    
+    // Every term must be a number, x, x^n, or a coefficient followed by x / x^n
+    const validTerm = /^-?(?:(?:\d+\.?\d*|\.\d+)(?:x(?:\^\d+)?)?|x(?:\^\d+)?)$/;
+    if (terms.length === 0 || !terms.every(t => validTerm.test(t))) {
+        return null;
+    }
     
     for (let term of terms) {
         term = term.trim();
@@ -56,6 +62,10 @@ function parsePolynomial(polyStr) {
         coeffs[maxDegree - degree] += coeff;
     }
     
+    if (coeffs.some(c => Number.isNaN(c))) {
+        return null;
+    }
+    
     while (coeffs.length > 1 && coeffs[0] === 0) {
         coeffs.shift();
     }
@@ -80,16 +90,17 @@ function dividePolynomials(dividend, divisor) {
         divisor.shift();
     }
     
-    while (remainder.length >= divisor.length && !remainder.every(c => Math.abs(c) < 1e-10)) {
-        const q = remainder[0] / divisor[0];
+    // One quotient coefficient per power of x, including trailing zeros (x^3 / x = x^2)
+    const stepCount = remainder.length - divisor.length + 1;
+    for (let step = 0; step < stepCount; step++) {
+        const q = remainder[step] / divisor[0];
         quotient.push(q);
         
         for (let i = 0; i < divisor.length; i++) {
-            remainder[i] -= q * divisor[i];
+            remainder[step + i] -= q * divisor[i];
         }
-        
-        remainder.shift();
     }
+    remainder = remainder.slice(Math.max(stepCount, 0));
     
     if (quotient.length === 0) {
         quotient.push(0);

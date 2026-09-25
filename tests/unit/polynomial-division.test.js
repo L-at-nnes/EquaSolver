@@ -249,3 +249,27 @@ describe('Polynomial Long Division', () => {
         });
     });
 });
+
+describe('Polynomial division - regressions', () => {
+    const { parsePolynomial, dividePolynomials } = require('../../src/js/solvers/polynomial-division.js');
+
+    test('keeps trailing zero coefficients of the quotient', () => {
+        expect(dividePolynomials([1, 0, 0, 0], [1, 0])).toEqual({ quotient: [1, 0, 0], remainder: [0] });
+        expect(dividePolynomials([1, 0, 0, 0, 0], [1, 0, 0])).toEqual({ quotient: [1, 0, 0], remainder: [0] });
+    });
+
+    test('still returns the remainder', () => {
+        expect(dividePolynomials([1, 0, -1], [1, -1])).toEqual({ quotient: [1, 1], remainder: [0] });
+        expect(dividePolynomials([1, 0, 1], [1, 1])).toEqual({ quotient: [1, -1], remainder: [2] });
+        expect(dividePolynomials([1, 1], [1, 0, 0])).toEqual({ quotient: [0], remainder: [1, 1] });
+    });
+
+    test('accepts explicit multiplication signs', () => {
+        expect(parsePolynomial('2*x+1')).toEqual([2, 1]);
+    });
+
+    test('rejects unsupported syntax instead of returning NaN coefficients', () => {
+        expect(parsePolynomial('(x+1)')).toBeNull();
+        expect(parsePolynomial('x^2+abc')).toBeNull();
+    });
+});
