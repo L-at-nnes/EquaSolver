@@ -20,18 +20,28 @@ function modularInverse(a, n) {
     return modulo(oldS, n);
 }
 
+// Uses BigInt for the intermediate products: result * base overflows 2^53 for
+// moduli above ~9.4e7 and silently returns wrong answers with plain numbers.
 function modularPower(base, exp, mod) {
     if (mod === 1) return 0;
-    let result = 1;
-    base = modulo(base, mod);
-    while (exp > 0) {
-        if (exp % 2 === 1) {
-            result = modulo(result * base, mod);
-        }
-        exp = Math.floor(exp / 2);
-        base = modulo(base * base, mod);
+    if (exp < 0) {
+        const inverse = modularInverse(base, mod);
+        if (inverse === null) return null;
+        base = inverse;
+        exp = -exp;
     }
-    return result;
+    const m = BigInt(mod);
+    let result = 1n;
+    let b = BigInt(modulo(base, mod));
+    let e = BigInt(Math.floor(exp));
+    while (e > 0n) {
+        if (e % 2n === 1n) {
+            result = (result * b) % m;
+        }
+        e = e / 2n;
+        b = (b * b) % m;
+    }
+    return Number(result);
 }
 
 // CommonJS export for Jest

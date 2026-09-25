@@ -1480,8 +1480,16 @@ function setupModularCalculator() {
                 operationText = `${a}⁻¹ mod ${n}`;
                 break;
             case 'power':
-                result = modularExponentiation(a, b || 1, n);
-                operationText = `${a}^${b || 1} mod ${n}`;
+                if (isNaN(b)) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                result = modularPower(a, b, n);
+                if (result === null) {
+                    resultDiv.innerHTML = `<p class="error">${trans.noInverse || 'No modular inverse exists'}</p>`;
+                    return;
+                }
+                operationText = `${a}^${b} mod ${n}`;
                 break;
             default:
                 result = modulo(a, n);

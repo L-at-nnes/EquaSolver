@@ -215,3 +215,21 @@ describe('Mathematical Properties', () => {
         });
     });
 });
+
+describe('modularPower - large moduli and negative exponents', () => {
+    test('is exact when intermediate products exceed 2^53', () => {
+        expect(modularPower(123456789, 3, 999999937)).toBe(Number(123456789n ** 3n % 999999937n));
+        expect(modularPower(2, 100, 1000000007)).toBe(Number(2n ** 100n % 1000000007n));
+    });
+
+    test('handles negative exponents through the modular inverse', () => {
+        expect(modularPower(3, -1, 7)).toBe(5);
+        expect(modularPower(2, -1, 4)).toBeNull();
+    });
+
+    test('keeps existing small cases working', () => {
+        expect(modularPower(2, 10, 1000)).toBe(24);
+        expect(modularPower(5, 0, 7)).toBe(1);
+        expect(modularPower(7, 3, 1)).toBe(0);
+    });
+});
