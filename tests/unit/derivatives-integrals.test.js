@@ -535,6 +535,24 @@ describe('Helper Functions', () => {
         });
     });
 
+    describe('createFunction - input robustness', () => {
+        test('handles a leading minus before a power', () => {
+            const f = createFunction('-x^2');
+            expect(f(3)).toBe(-9);
+            expect(definiteIntegral('-x^2', 0, 1).value).toBeCloseTo(-1 / 3, 6);
+        });
+
+        test('supports implicit multiplication and ln', () => {
+            expect(createFunction('2x')(4)).toBe(8);
+            expect(createFunction('ln(x)')(Math.E)).toBeCloseTo(1, 10);
+        });
+
+        test('returns NaN instead of throwing for unknown functions', () => {
+            expect(createFunction('foo(x)')(1)).toBeNaN();
+            expect(createFunction('(x')(1)).toBeNaN();
+        });
+    });
+
     describe('parseExpression', () => {
         test('should normalize expression for evaluation', () => {
             const result = parseExpression('x^2');

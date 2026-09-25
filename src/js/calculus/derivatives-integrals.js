@@ -493,25 +493,11 @@ function definiteIntegral(expr, a, b, n = 1000) {
  * @returns {Function} JavaScript function
  */
 function createFunction(expr) {
-    let safeExpr = expr
-        .replace(/\^/g, '**')
-        .replace(/sin\(/g, 'Math.sin(')
-        .replace(/cos\(/g, 'Math.cos(')
-        .replace(/tan\(/g, 'Math.tan(')
-        .replace(/sqrt\(/g, 'Math.sqrt(')
-        .replace(/abs\(/g, 'Math.abs(')
-        .replace(/exp\(/g, 'Math.exp(')
-        .replace(/log10\(/g, 'Math.log10(')
-        .replace(/log\(/g, 'Math.log10(')
-        .replace(/ln\(/g, 'Math.log(')
-        .replace(/pi/g, 'Math.PI')
-        .replace(/(?<![a-zA-Z])e(?![a-zA-Z0-9(])/g, 'Math.E');
-    
-    try {
-        return new Function('x', `return ${safeExpr};`);
-    } catch (e) {
-        return () => NaN;
-    }
+    const compile = typeof compileExpression === 'function'
+        ? compileExpression
+        : require('../parsers/expression.js').compileExpression;
+    const compiled = compile(expr, 'x', { log: 'log10' });
+    return compiled || (() => NaN);
 }
 
 /**
