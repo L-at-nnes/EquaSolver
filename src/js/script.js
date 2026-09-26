@@ -2079,23 +2079,19 @@ function performUnitConversion() {
         return;
     }
     
-    let result;
-    if (category === 'temperature') {
-        result = convertTemperature(value, fromUnit, toUnit);
-    } else {
-        const toBase = value / unitConversions[category][fromUnit];
-        result = toBase * unitConversions[category][toUnit];
-    }
+    const result = convertUnit(value, category, fromUnit, toUnit);
+    // 10 significant digits: toFixed(6) turned small results (1 mm in miles) into 0.000001
+    const resultText = String(parseFloat(result.toPrecision(10)));
     
     const fromLabel = trans[fromUnit] || fromUnit;
     const toLabel = trans[toUnit] || toUnit;
     
     resultDiv.innerHTML = `<div class="result-group">
         <div class="result-label">${trans.result || 'Result'}:</div>
-        <div class="result-value">${value} ${fromLabel} = <span class="highlight">${result.toFixed(6)}</span> ${toLabel}</div>
+        <div class="result-value">${value} ${fromLabel} = <span class="highlight">${resultText}</span> ${toLabel}</div>
     </div>`;
     
-    addToHistory(`${value} ${fromUnit} = ${result.toFixed(6)} ${toUnit}`);
+    addToHistory(`${value} ${fromUnit} = ${resultText} ${toUnit}`);
 }
 
 // ===================================

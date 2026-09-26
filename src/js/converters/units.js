@@ -8,17 +8,17 @@ const unitConversions = {
         kilometer: 0.001,
         centimeter: 100,
         millimeter: 1000,
-        mile: 0.000621371,
-        yard: 1.09361,
-        foot: 3.28084,
-        inch: 39.3701
+        mile: 1 / 1609.344,
+        yard: 1 / 0.9144,
+        foot: 1 / 0.3048,
+        inch: 1 / 0.0254
     },
     mass: {
         kilogram: 1,
         gram: 1000,
         milligram: 1000000,
-        pound: 2.20462,
-        ounce: 35.274,
+        pound: 1 / 0.45359237,
+        ounce: 1 / 0.028349523125,
         ton: 0.001
     },
     temperature: {
@@ -38,19 +38,19 @@ const unitConversions = {
     area: {
         squareMeter: 1,
         squareKilometer: 0.000001,
-        squareFoot: 10.7639,
-        squareMile: 3.861e-7,
-        acre: 0.000247105,
+        squareFoot: 1 / 0.09290304,
+        squareMile: 1 / 2589988.110336,
+        acre: 1 / 4046.8564224,
         hectare: 0.0001
     },
     volume: {
         liter: 1,
         milliliter: 1000,
         cubicMeter: 0.001,
-        gallon: 0.264172,
-        quart: 1.05669,
-        pint: 2.11338,
-        cup: 4.22675
+        gallon: 1 / 3.785411784,
+        quart: 4 / 3.785411784,
+        pint: 8 / 3.785411784,
+        cup: 16 / 3.785411784
     }
 };
 

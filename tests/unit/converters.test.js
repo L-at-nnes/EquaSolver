@@ -270,3 +270,21 @@ describe('Unit Conversion Accuracy', () => {
         expect(backToM).toBeCloseTo(original, 5);
     });
 });
+
+describe('Unit conversion - exact definitions', () => {
+    test('imperial length units use their exact metric definitions', () => {
+        expect(convertUnit(1, 'length', 'foot', 'inch')).toBeCloseTo(12, 10);
+        expect(convertUnit(1, 'length', 'mile', 'meter')).toBeCloseTo(1609.344, 8);
+        expect(convertUnit(1, 'length', 'yard', 'foot')).toBeCloseTo(3, 10);
+        expect(convertUnit(1, 'length', 'inch', 'centimeter')).toBeCloseTo(2.54, 10);
+    });
+
+    test('mass, area and volume use exact definitions', () => {
+        expect(convertUnit(1, 'mass', 'pound', 'kilogram')).toBeCloseTo(0.45359237, 10);
+        expect(convertUnit(1, 'mass', 'pound', 'ounce')).toBeCloseTo(16, 8);
+        expect(convertUnit(1, 'area', 'acre', 'squareMeter')).toBeCloseTo(4046.8564224, 6);
+        expect(convertUnit(1, 'area', 'squareMile', 'acre')).toBeCloseTo(640, 6);
+        expect(convertUnit(1, 'volume', 'gallon', 'liter')).toBeCloseTo(3.785411784, 9);
+        expect(convertUnit(1, 'volume', 'gallon', 'cup')).toBeCloseTo(16, 8);
+    });
+});
