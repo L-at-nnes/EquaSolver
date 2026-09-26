@@ -106,3 +106,103 @@ describe('UI Calculator Core Logic', () => {
         });
     });
 });
+
+describe('Calculator - regressions', () => {
+    beforeEach(() => {
+        calculator.resetState();
+        calculator.clearScientific();
+    });
+
+    const press = (...keys) => keys.forEach(k => {
+        if (/^[0-9.]$/.test(k)) calculator.handleValue(k);
+        else if (k === '=') calculator.calculate();
+        else calculator.handleOperator(k);
+    });
+    const sciPress = (...keys) => keys.forEach(k => {
+        if (/^[0-9.]$/.test(k)) calculator.handleSciValue(k);
+        else if (k === '=') calculator.calculateScientific();
+        else calculator.handleSciOperator(k);
+    });
+
+    test('decimal point starts a number with 0. and is accepted only once', () => {
+        press('.', '5');
+        expect(calculator.getState().display).toBe('0.5');
+        press('.', '2', '.', '1');
+        expect(calculator.getState().display).toBe('0.521');
+    });
+
+    test('decimal point after an operator starts a new 0.x operand', () => {
+        press('3', '+', '.', '5', '=');
+        expect(calculator.getState().display).toBe('3.5');
+    });
+
+    test('floating point noise is removed from results', () => {
+        press('0', '.', '1', '+', '0', '.', '2', '=');
+        expect(calculator.getState().display).toBe('0.3');
+    });
+
+    test('equals without a pending operation does not pollute the undo stack', () => {
+        press('5');
+        expect(calculator.undoCalculator()).toBe(true);
+        expect(calculator.getState().display).toBe('0');
+        press('5');
+        calculator.calculate();
+        expect(calculator.undoCalculator()).toBe(true);
+        expect(calculator.getState().display).toBe('0');
+        expect(calculator.undoCalculator()).toBe(false);
+    });
+
+    test('chained operators keep the running result (standard)', () => {
+        press('2', '+', '3', '*', '4', '=');
+        expect(calculator.getState().display).toBe('20');
+    });
+
+    test('chained operators keep the running result (scientific)', () => {
+        sciPress('2', '+', '3', '*', '4', '=');
+        expect(calculator.getSciState().display).toBe('20');
+    });
+
+    test('an operator after Error is ignored instead of producing NaN', () => {
+        press('9', '/', '0', '=');
+        expect(calculator.getState().display).toBe('Error');
+        press('+', '5', '=');
+        expect(calculator.getState().display).toBe('5');
+    });
+
+    test('dividing by zero while chaining leaves a clean Error state', () => {
+        press('9', '/', '0', '+');
+        expect(calculator.getState().display).toBe('Error');
+        expect(calculator.getState().operation).toBeNull();
+    });
+
+    test('backspace never leaves a lone minus sign or edits a result', () => {
+        press('5', '-', '8', '=');
+        expect(calculator.getState().display).toBe('-3');
+        calculator.deleteLastDigit();
+        expect(calculator.getState().display).toBe('-3');
+        calculator.clearCalculator();
+        press('7');
+        calculator.deleteLastDigit();
+        expect(calculator.getState().display).toBe('0');
+    });
+
+    test('power key on the main calculator can be evaluated with equals', () => {
+        press('2');
+        calculator.handleScientificFunction('power', 'main');
+        press('5', '=');
+        expect(calculator.getState().display).toBe('32');
+    });
+
+    test('overflowing scientific results show Error', () => {
+        press('1', '0', '0', '0');
+        calculator.handleScientificFunction('exp', 'main');
+        expect(calculator.getState().display).toBe('Error');
+    });
+
+    test('trig results are rounded to remove noise', () => {
+        calculator.handleSciValue('1');
+        calculator.handleScientificFunction('pi');
+        calculator.handleScientificFunction('sin');
+        expect(calculator.getSciState().display).toBe('0');
+    });
+});

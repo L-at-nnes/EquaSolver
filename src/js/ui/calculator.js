@@ -73,43 +73,71 @@ let sciState = {
     history: []
 };
 
+// Format a computed number for the display (drops floating point noise such
+// as 0.1 + 0.2 = 0.30000000000000004). Non-finite results become 'Error'.
+function formatCalcNumber(n) {
+    if (!Number.isFinite(n)) return 'Error';
+    return String(parseFloat(n.toPrecision(12)));
+}
+
+function hasValidNumber(st) {
+    return st.display !== 'Error' && !Number.isNaN(parseFloat(st.display));
+}
+
+// Append a digit or decimal point to a calculator display
+function appendToDisplay(st, value) {
+    if (st.waitingForOperand || st.display === 'Error') {
+        st.display = value === '.' ? '0.' : value;
+        st.waitingForOperand = false;
+    } else if (value === '.') {
+        if (!st.display.includes('.')) st.display += '.';
+    } else if (st.display === '0') {
+        st.display = value;
+    } else if (st.display === '-0') {
+        st.display = '-' + value;
+    } else {
+        st.display += value;
+    }
+}
+
 // Standard calculator functions
 function handleValue(value) {
-    recordStandardMutation();
-    if (state.waitingForOperand) {
-        state.display = value;
-        state.waitingForOperand = false;
-    } else {
-        state.display = state.display === '0' ? value : state.display + value;
+    const before = cloneStandardState();
+    appendToDisplay(state, value);
+    if (state.display !== before.display || state.waitingForOperand !== before.waitingForOperand) {
+        undoStack.push(before);
+        if (undoStack.length > MAX_HISTORY) undoStack.shift();
+        redoStack = [];
     }
     updateDisplay();
 }
 
 function handleOperator(op) {
+    if (!hasValidNumber(state)) return;
     recordStandardMutation();
     const currentValue = parseFloat(state.display);
-    
+
     if (state.operation && !state.waitingForOperand) {
         const calcResult = calculate(false);
-        if (calcResult && typeof calcResult.result === 'number') {
-            state.previousValue = calcResult.result;
-        } else {
-            state.previousValue = parseFloat(state.display);
+        if (!calcResult || typeof calcResult.result !== 'number') {
+            return;
         }
+        state.previousValue = calcResult.result;
     } else {
         state.previousValue = currentValue;
     }
-    
+
     state.operation = op;
     state.waitingForOperand = true;
 }
 
 function calculate(shouldRecord = true) {
+    if (!state.operation) return;
     if (shouldRecord) recordStandardMutation();
     const prev = state.previousValue;
     const current = parseFloat(state.display);
     let result;
-    
+
     switch (state.operation) {
         case '+': result = prev + current; break;
         case '-':
@@ -128,31 +156,34 @@ function calculate(shouldRecord = true) {
             }
             result = prev / current;
             break;
+        case '^': result = Math.pow(prev, current); break;
         default: return;
     }
-    
+
     const expression = `${prev} ${state.operation} ${current}`;
-    
-    state.display = String(result);
+
+    state.display = formatCalcNumber(result);
     state.operation = null;
     state.previousValue = null;
     state.waitingForOperand = true;
     updateDisplay();
-    
+
     return { expression, result };
 }
 
 function handlePercent() {
+    if (!hasValidNumber(state)) return;
     recordStandardMutation();
     const current = parseFloat(state.display);
-    state.display = String(current / 100);
+    state.display = formatCalcNumber(current / 100);
     updateDisplay();
 }
 
 function handlePower() {
+    if (!hasValidNumber(state)) return;
     recordStandardMutation();
     const current = parseFloat(state.display);
-    state.display = String(current * current);
+    state.display = formatCalcNumber(current * current);
     state.waitingForOperand = true;
     updateDisplay();
     return { expression: `${current}²`, result: state.display };
@@ -167,9 +198,16 @@ function clearCalculator() {
     updateDisplay();
 }
 
+function backspaceDisplay(display) {
+    if (display === 'Error') return '0';
+    const next = display.slice(0, -1);
+    return next === '' || next === '-' ? '0' : next;
+}
+
 function deleteLastDigit() {
+    if (state.waitingForOperand && state.display !== 'Error') return;
     recordStandardMutation();
-    state.display = state.display.slice(0, -1) || '0';
+    state.display = backspaceDisplay(state.display);
     updateDisplay();
 }
 
@@ -182,33 +220,34 @@ function updateDisplay() {
 
 // Scientific calculator functions
 function handleSciValue(value) {
-    if (sciState.waitingForOperand) {
-        sciState.display = value;
-        sciState.waitingForOperand = false;
-    } else {
-        sciState.display = sciState.display === '0' ? value : sciState.display + value;
-    }
+    appendToDisplay(sciState, value);
     updateSciDisplay();
 }
 
 function handleSciOperator(op) {
+    if (!hasValidNumber(sciState)) return;
     const currentValue = parseFloat(sciState.display);
-    
+
     if (sciState.operation && !sciState.waitingForOperand) {
-        calculateScientific();
+        const calcResult = calculateScientific();
+        if (!calcResult || typeof calcResult.result !== 'number') {
+            return;
+        }
+        sciState.previousValue = calcResult.result;
     } else {
         sciState.previousValue = currentValue;
     }
-    
+
     sciState.operation = op;
     sciState.waitingForOperand = true;
 }
 
 function calculateScientific() {
+    if (!sciState.operation) return;
     const prev = sciState.previousValue;
     const current = parseFloat(sciState.display);
     let result;
-    
+
     switch (sciState.operation) {
         case '+': result = prev + current; break;
         case '-':
@@ -230,22 +269,23 @@ function calculateScientific() {
         case '^': result = Math.pow(prev, current); break;
         default: return;
     }
-    
+
     const expression = `${prev} ${sciState.operation} ${current}`;
-    
-    sciState.display = String(result);
+
+    sciState.display = formatCalcNumber(result);
     sciState.operation = null;
     sciState.previousValue = null;
     sciState.waitingForOperand = true;
     sciState.lastAnswer = result;
     updateSciDisplay();
-    
+
     return { expression, result };
 }
 
 function handleScientificFunction(func, target = 'sci') {
     const st = target === 'main' ? state : sciState;
     const updateTargetDisplay = target === 'main' ? updateDisplay : updateSciDisplay;
+    if (func !== 'pi' && func !== 'e' && !hasValidNumber(st)) return null;
     const current = parseFloat(st.display);
     let result;
     let expression = '';
@@ -321,7 +361,10 @@ function handleScientificFunction(func, target = 'sci') {
                 return null;
         }
 
-        st.display = String(result);
+        // sin(pi) and cos(pi/2) are 1.2e-16 / 6.1e-17 in floating point: show them as 0
+        if (['sin', 'cos', 'tan'].includes(func) && Math.abs(result) < 1e-12) result = 0;
+        if (!Number.isFinite(result)) throw new Error('Domain error');
+        st.display = formatCalcNumber(result);
         st.waitingForOperand = true;
         if (target === 'sci') st.lastAnswer = result;
         updateTargetDisplay();
@@ -359,7 +402,8 @@ function clearScientific() {
 }
 
 function deleteSciLastDigit() {
-    sciState.display = sciState.display.slice(0, -1) || '0';
+    if (sciState.waitingForOperand && sciState.display !== 'Error') return;
+    sciState.display = backspaceDisplay(sciState.display);
     updateSciDisplay();
 }
 

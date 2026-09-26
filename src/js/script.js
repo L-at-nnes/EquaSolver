@@ -390,8 +390,7 @@ function handleScientificButton(e) {
     } else if (action === 'clear') {
         clearScientific();
     } else if (action === 'delete') {
-        sciState.display = sciState.display.slice(0, -1) || '0';
-        updateSciDisplay();
+        deleteSciLastDigit();
     } else if (action === 'ans') {
         sciState.display = String(sciState.lastAnswer);
         sciState.waitingForOperand = false;
