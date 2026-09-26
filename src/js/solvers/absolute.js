@@ -64,7 +64,8 @@ function solveAbsoluteInequality(a, b, op, c) {
         };
     }
 
-    if (c < 0) {
+    if (c < 0 || (c === 0 && (op === '<' || op === '>='))) {
+        // |ax + b| is never negative, and is never strictly below 0 / always at least 0
         const isAlwaysTrue = op === '>' || op === '>=';
         return {
             type: 'inequality',

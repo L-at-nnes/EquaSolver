@@ -34,3 +34,20 @@ describe('Absolute Value Solver', () => {
         expect(result.interval).toBe('(-∞, -2] ∪ [2, +∞)');
     });
 });
+
+describe('solveAbsoluteInequality - zero right-hand side', () => {
+    test('|x| < 0 has no solution', () => {
+        const r = solveAbsoluteInequality(1, 0, '<', 0);
+        expect(r.interval).toBe('∅');
+    });
+
+    test('|x| >= 0 holds for every real number', () => {
+        const r = solveAbsoluteInequality(2, 3, '>=', 0);
+        expect(r.interval).toBe('(-∞, +∞)');
+    });
+
+    test('|x - 2| <= 0 is the single point 2', () => {
+        const r = solveAbsoluteInequality(1, -2, '<=', 0);
+        expect(r.interval).toBe('[2, 2]');
+    });
+});
