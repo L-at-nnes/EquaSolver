@@ -257,3 +257,23 @@ describe('Term Count Effects', () => {
         expect(taylorCos(0.5, 0, 1)).toBeCloseTo(1, 10);
     });
 });
+
+describe('Taylor series around a non-zero expansion point', () => {
+    test('taylorSin converges to sin(x) around a = 1', () => {
+        expect(taylorSin(1.2, 1, 6)).toBeCloseTo(Math.sin(1.2), 8);
+    });
+
+    test('taylorCos converges to cos(x) around a = 2', () => {
+        expect(taylorCos(2.3, 2, 6)).toBeCloseTo(Math.cos(2.3), 8);
+    });
+
+    test('is exact at the expansion point', () => {
+        expect(taylorSin(1, 1, 3)).toBeCloseTo(Math.sin(1), 12);
+        expect(taylorCos(2, 2, 3)).toBeCloseTo(Math.cos(2), 12);
+    });
+
+    test('keeps the Maclaurin results unchanged', () => {
+        expect(taylorSin(0.5, 0, 3)).toBeCloseTo(0.5 - 0.125 / 6 + 0.03125 / 120, 12);
+        expect(taylorCos(0.5, 0, 3)).toBeCloseTo(1 - 0.125 + 0.0625 / 24, 12);
+    });
+});

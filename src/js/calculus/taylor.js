@@ -13,20 +13,22 @@ function factorialBig(n) {
     return result;
 }
 
+// Derivatives of sin at a cycle through sin, cos, -sin, -cos (cos shifted by one step).
+// Terms go up to degree 2n-1 (sin) / 2n-2 (cos), i.e. n non-zero terms when a = 0.
 function taylorSin(x, a, n) {
+    const cycle = [Math.sin(a), Math.cos(a), -Math.sin(a), -Math.cos(a)];
     let result = 0;
-    for (let k = 0; k < n; k++) {
-        const term = Math.pow(-1, k) * Math.pow(x - a, 2*k + 1) / factorialBig(2*k + 1);
-        result += term;
+    for (let m = 0; m < 2 * n; m++) {
+        result += cycle[m % 4] * Math.pow(x - a, m) / factorialBig(m);
     }
     return result;
 }
 
 function taylorCos(x, a, n) {
+    const cycle = [Math.cos(a), -Math.sin(a), -Math.cos(a), Math.sin(a)];
     let result = 0;
-    for (let k = 0; k < n; k++) {
-        const term = Math.pow(-1, k) * Math.pow(x - a, 2*k) / factorialBig(2*k);
-        result += term;
+    for (let m = 0; m < 2 * n - 1; m++) {
+        result += cycle[m % 4] * Math.pow(x - a, m) / factorialBig(m);
     }
     return result;
 }
