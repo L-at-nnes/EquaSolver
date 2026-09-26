@@ -11,8 +11,55 @@ let customThemeColors = {
     primary: '#ff0080',
     secondary: '#00ffff',
     accent: '#ffff00',
-    bgPrimary: '#1a1a2e'
+    bgPrimary: '#0a0a0f',
+    bgSecondary: '#1a1a2e'
 };
+
+// Swap the theme-* class without touching other body classes (e.g. light-mode)
+function setThemeClass(theme) {
+    Array.from(document.body.classList)
+        .filter(cls => cls.startsWith('theme-'))
+        .forEach(cls => document.body.classList.remove(cls));
+    document.body.classList.add(`theme-${theme}`);
+}
+
+function hexToRgba(hex, alpha) {
+    const r = parseInt(hex.slice(1, 3), 16);
+    const g = parseInt(hex.slice(3, 5), 16);
+    const b = parseInt(hex.slice(5, 7), 16);
+    return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+}
+
+// Publish the custom colors as the --custom-* variables read by .theme-custom in style.css
+function applyCustomColors() {
+    const root = document.documentElement.style;
+    root.setProperty('--custom-primary', customThemeColors.primary);
+    root.setProperty('--custom-secondary', customThemeColors.secondary);
+    root.setProperty('--custom-accent', customThemeColors.accent);
+    root.setProperty('--custom-bg-primary', customThemeColors.bgPrimary);
+    root.setProperty('--custom-bg-secondary', customThemeColors.bgSecondary);
+    root.setProperty('--custom-bg-panel', customThemeColors.bgSecondary);
+    root.setProperty('--custom-shadow', hexToRgba(customThemeColors.primary, 0.5));
+}
+
+function syncColorPickers() {
+    const ids = {
+        customPrimary: 'primary',
+        customSecondary: 'secondary',
+        customAccent: 'accent',
+        customBgPrimary: 'bgPrimary',
+        customBgSecondary: 'bgSecondary'
+    };
+    Object.entries(ids).forEach(([id, key]) => {
+        const input = document.getElementById(id);
+        if (input && customThemeColors[key]) input.value = customThemeColors[key];
+    });
+}
+
+function showCustomThemeBuilder(visible) {
+    const builder = document.getElementById('customThemeBuilder');
+    if (builder) builder.style.display = visible ? 'block' : 'none';
+}
 
 function getCurrentTheme() {
     return currentTheme;
@@ -39,7 +86,9 @@ function toggleSettings() {
 
 function changeTheme(theme, updateParticlesColorFn = null) {
     currentTheme = theme;
-    document.body.className = `theme-${theme}`;
+    setThemeClass(theme);
+    if (theme === 'custom') applyCustomColors();
+    showCustomThemeBuilder(theme === 'custom');
     
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.theme === theme);
@@ -102,31 +151,42 @@ function updateTranslations(translationsArg) {
 }
 
 function saveSettings() {
-    localStorage.setItem('equasolver_settings', JSON.stringify({
-        theme: currentTheme,
-        lang: currentLang,
-        mode: currentMode,
-        customTheme: customThemeColors
-    }));
+    try {
+        localStorage.setItem('equasolver_settings', JSON.stringify({
+            theme: currentTheme,
+            lang: currentLang,
+            mode: currentMode,
+            customTheme: customThemeColors
+        }));
+    } catch (e) {
+        // Storage unavailable (private mode, quota): settings simply won't persist
+    }
 }
 
 function loadSettings() {
-    const saved = localStorage.getItem('equasolver_settings');
-    if (!saved) {
-        return { theme: 'matrix', lang: 'en', mode: 'dark' };
+    const defaults = { theme: 'matrix', lang: 'en', mode: 'dark' };
+    let settings;
+    try {
+        const saved = localStorage.getItem('equasolver_settings');
+        settings = saved ? JSON.parse(saved) : null;
+    } catch (e) {
+        settings = null;
     }
-    
-    const settings = JSON.parse(saved);
-    if (settings.customTheme) {
-        customThemeColors = settings.customTheme;
+    if (!settings || typeof settings !== 'object') {
+        return defaults;
     }
-    return settings;
+
+    if (settings.customTheme && typeof settings.customTheme === 'object') {
+        customThemeColors = Object.assign({}, customThemeColors, settings.customTheme);
+        syncColorPickers();
+    }
+    return Object.assign({}, defaults, settings);
 }
 
 // Custom theme builder
 function setupCustomThemeBuilder() {
     // Attach event listeners for custom theme color pickers
-    const colorInputs = ['customPrimary', 'customSecondary', 'customAccent', 'customBgPrimary'];
+    const colorInputs = ['customPrimary', 'customSecondary', 'customAccent', 'customBgPrimary', 'customBgSecondary'];
     colorInputs.forEach(id => {
         const input = document.getElementById(id);
         if (input) {
@@ -156,6 +216,8 @@ function updateColorPickerValues() {
     if (secondary) customThemeColors.secondary = secondary.value;
     if (accent) customThemeColors.accent = accent.value;
     if (bgPrimary) customThemeColors.bgPrimary = bgPrimary.value;
+    const bgSecondary = document.getElementById('customBgSecondary');
+    if (bgSecondary) customThemeColors.bgSecondary = bgSecondary.value;
 }
 
 function updateCustomThemePreview() {
@@ -163,23 +225,22 @@ function updateCustomThemePreview() {
     
     const preview = document.getElementById('themePreview');
     if (preview) {
-        preview.style.setProperty('--primary-color', customThemeColors.primary);
-        preview.style.setProperty('--secondary-color', customThemeColors.secondary);
-        preview.style.setProperty('--accent-color', customThemeColors.accent);
+        preview.style.setProperty('--primary', customThemeColors.primary);
+        preview.style.setProperty('--secondary', customThemeColors.secondary);
+        preview.style.setProperty('--accent', customThemeColors.accent);
         preview.style.setProperty('--bg-primary', customThemeColors.bgPrimary);
+        preview.style.setProperty('--bg-secondary', customThemeColors.bgSecondary);
     }
 }
 
 function applyCustomTheme() {
     updateColorPickerValues();
     
-    document.documentElement.style.setProperty('--primary-color', customThemeColors.primary);
-    document.documentElement.style.setProperty('--secondary-color', customThemeColors.secondary);
-    document.documentElement.style.setProperty('--accent-color', customThemeColors.accent);
-    document.documentElement.style.setProperty('--bg-primary', customThemeColors.bgPrimary);
-    
+    applyCustomColors();
+
     currentTheme = 'custom';
-    document.body.className = 'theme-custom';
+    setThemeClass('custom');
+    showCustomThemeBuilder(true);
     
     document.querySelectorAll('.theme-btn').forEach(btn => {
         btn.classList.toggle('active', btn.dataset.theme === 'custom');
@@ -228,6 +289,7 @@ if (typeof module !== 'undefined' && module.exports) {
         applyCustomTheme,
         saveCustomTheme,
         setupCustomThemeBuilder,
+        syncColorPickers,
         setCurrentLang,
         setCurrentTheme,
         setCurrentMode

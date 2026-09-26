@@ -18,7 +18,7 @@ function formatNumber(num, maxDecimals = 10) {
 document.addEventListener('DOMContentLoaded', () => {
     document.body.className = 'theme-matrix';
     
-    const savedSettings = JSON.parse(localStorage.getItem('equasolver_settings') || '{}');
+    const savedSettings = loadSettings();
     
     initParticles();
     initEventListeners();
@@ -28,7 +28,7 @@ document.addEventListener('DOMContentLoaded', () => {
     window.currentLang = savedSettings.lang || 'en';
     window.currentMode = savedSettings.mode || 'dark';
     
-    changeTheme(window.currentTheme);
+    changeTheme(window.currentTheme, updateParticlesColor);
     changeLanguage(window.currentLang);
     changeMode(window.currentMode);
     
