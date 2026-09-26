@@ -353,7 +353,7 @@ function switchTab(tab) {
 // CALCULATOR BUTTON HANDLERS
 // ===================================
 function handleCalculatorButton(e) {
-    const btn = e.target;
+    const btn = e.currentTarget;
     const action = btn.dataset.action;
     const value = btn.dataset.value || btn.textContent;
     
@@ -377,7 +377,7 @@ function handleCalculatorButton(e) {
 }
 
 function handleScientificButton(e) {
-    const btn = e.target;
+    const btn = e.currentTarget;
     const action = btn.dataset.action;
     const value = btn.dataset.value || btn.textContent;
     
@@ -407,7 +407,15 @@ function handleScientificButton(e) {
 // KEYBOARD SUPPORT
 // ===================================
 function handleKeyboard(e) {
-    if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') {
+    const tag = e.target.tagName;
+    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.ctrlKey || e.metaKey || e.altKey) {
+        return;
+    }
+    
+    // Only drive the standard calculator while it is actually on screen
+    const calculatorVisible = document.getElementById('calculatorScreen')?.classList.contains('active')
+        && document.getElementById('standard')?.classList.contains('active');
+    if (!calculatorVisible) {
         return;
     }
     
