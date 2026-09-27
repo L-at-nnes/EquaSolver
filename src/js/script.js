@@ -267,7 +267,13 @@ function setupExportButtons() {
         'exportQuarticPdf': 'quartic',
         'exportQuinticPdf': 'quintic',
         'exportSystemsPdf': 'systems',
+        'exportSystem3x3Pdf': 'system3x3',
         'exportMatrixPdf': 'matrix',
+        'exportLatexPdf': 'latex',
+        'exportExponentialPdf': 'exponential',
+        'exportLogarithmicPdf': 'logarithmic',
+        'exportDerivativePdf': 'derivative',
+        'exportIntegralPdf': 'integral',
         'exportInequalityLinearPdf': 'inequalityLinear',
         'exportInequalityQuadraticPdf': 'inequalityQuadratic',
         'exportAbsoluteEquationPdf': 'absoluteEquation',
@@ -282,7 +288,9 @@ function setupExportButtons() {
         document.getElementById(id)?.addEventListener('click', () => exportToPDF(type));
     });
     
-    document.getElementById('exportGraphPdf')?.addEventListener('click', () => exportGraphToPDF(graphState));
+    // The cartesian graph export button is wired in graphing/cartesian.js
+    document.getElementById('exportParametricPdf')?.addEventListener('click', exportParametricToPDF);
+    document.getElementById('exportPolarPdf')?.addEventListener('click', exportPolarToPDF);
 }
 
 // ===================================
