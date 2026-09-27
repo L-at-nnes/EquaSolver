@@ -1249,7 +1249,7 @@ function updateSystemsPreview() {
     
     const preview = document.getElementById('systemsPreview');
     if (preview) {
-        preview.innerHTML = `<div>${a}x + ${b}y = ${e}</div><div>${c}x + ${d}y = ${f}</div>`;
+        preview.innerHTML = `<div>${escapeHtml(a)}x + ${escapeHtml(b)}y = ${escapeHtml(e)}</div><div>${escapeHtml(c)}x + ${escapeHtml(d)}y = ${escapeHtml(f)}</div>`;
     }
 }
 
@@ -1796,7 +1796,7 @@ function setupLimitCalculator() {
         let html = `<h3>${trans.solution}</h3>`;
         html += `<div class="result-group">
             <div class="result-label">${trans.limit || 'Limit'}:</div>
-            <div class="result-value">lim(x→${pointText}${directionText}) ${expr} = <span class="highlight">${resultText}</span></div>
+            <div class="result-value">lim(x→${pointText}${directionText}) ${escapeHtml(expr)} = <span class="highlight">${resultText}</span></div>
         </div>`;
         
         resultDiv.innerHTML = html;
@@ -1910,7 +1910,7 @@ function setupIntegrationCalculator() {
         let html = `<h3>${trans.solution}</h3>`;
         html += `<div class="result-group">
             <div class="result-label">${trans.integral || 'Integral'}:</div>
-            <div class="result-value">∫<sub>${formatNumber(a)}</sub><sup>${formatNumber(b)}</sup> ${expr} dx = <span class="highlight">${formatNumber(result)}</span></div>
+            <div class="result-value">∫<sub>${formatNumber(a)}</sub><sup>${formatNumber(b)}</sup> ${escapeHtml(expr)} dx = <span class="highlight">${formatNumber(result)}</span></div>
         </div>`;
         html += `<p class="input-hint">${trans.method || 'Method'}: ${methodName} (n = ${n})</p>`;
         
@@ -1937,7 +1937,7 @@ function updateLatexPreview() {
     const preview = document.getElementById('latexRendered');
     if (!input || !preview) return;
     
-    let latex = input.value;
+    let latex = escapeHtml(input.value);
     let display = latex
         .replace(/\^(\d)/g, '<sup>$1</sup>')
         .replace(/\^{([^}]+)}/g, '<sup>$1</sup>')
@@ -1989,7 +1989,7 @@ function solveLatexEquation() {
         resultDiv.innerHTML = html;
         showExportButton('latex');
     } catch (error) {
-        resultDiv.innerHTML = `<p class="error">${error.message}</p>`;
+        resultDiv.innerHTML = `<p class="error">${escapeHtml(error.message)}</p>`;
     }
 }
 

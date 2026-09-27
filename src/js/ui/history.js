@@ -2,8 +2,18 @@
 // HISTORY MANAGEMENT
 // ===================================
 
+function readHistory() {
+    try {
+        const parsed = JSON.parse(localStorage.getItem('equasolver_history') || '[]');
+        return Array.isArray(parsed) ? parsed : [];
+    } catch (e) {
+        // Corrupted or unavailable storage: behave as an empty history
+        return [];
+    }
+}
+
 function addToHistory(entry) {
-    const history = JSON.parse(localStorage.getItem('equasolver_history') || '[]');
+    const history = readHistory();
     history.unshift({ 
         entry, 
         timestamp: new Date().toLocaleString() 
@@ -11,12 +21,16 @@ function addToHistory(entry) {
     
     if (history.length > 50) history.pop();
     
-    localStorage.setItem('equasolver_history', JSON.stringify(history));
+    try {
+        localStorage.setItem('equasolver_history', JSON.stringify(history));
+    } catch (e) {
+        // Storage full or blocked: keep working without persisting
+    }
     updateHistoryDisplay();
 }
 
 function updateHistoryDisplay() {
-    const history = JSON.parse(localStorage.getItem('equasolver_history') || '[]');
+    const history = readHistory();
     const historyList = document.getElementById('historyList');
     
     if (!historyList) return;
@@ -28,19 +42,23 @@ function updateHistoryDisplay() {
     
     historyList.innerHTML = history.map(item => `
         <div class="history-item">
-            <div class="history-entry">${item.entry}</div>
-            <div class="history-time">${item.timestamp}</div>
+            <div class="history-entry">${escapeHtml(item.entry)}</div>
+            <div class="history-time">${escapeHtml(item.timestamp)}</div>
         </div>
     `).join('');
 }
 
 function clearHistory() {
-    localStorage.removeItem('equasolver_history');
+    try {
+        localStorage.removeItem('equasolver_history');
+    } catch (e) {
+        // Storage unavailable: nothing to clear
+    }
     updateHistoryDisplay();
 }
 
 function getHistory() {
-    return JSON.parse(localStorage.getItem('equasolver_history') || '[]');
+    return readHistory();
 }
 
 // CommonJS export for Jest
