@@ -315,10 +315,44 @@ function findPolynomialRootsComplex(coeffs) {
         if (maxChange < tolerance) break;
     }
     
-    return roots.map(z => ({
+    return mergeRootClusters(roots).map(z => ({
         re: Math.abs(z.re) < 1e-10 ? 0 : z.re,
         im: Math.abs(z.im) < 1e-10 ? 0 : z.im
     }));
+}
+
+// Durand-Kerner converges slowly on multiple roots (a 4-fold root comes back as
+// four points ~1e-5 apart, a 5-fold one ~1e-2), which then look like complex
+// roots. Average each tight cluster: the centroid of a multiple root is accurate,
+// and a cluster sitting on the real axis is a real multiple root.
+function mergeRootClusters(roots, relativeRadius = 1e-2) {
+    const used = new Array(roots.length).fill(false);
+    const merged = [];
+    
+    for (let i = 0; i < roots.length; i++) {
+        if (used[i]) continue;
+        const radius = relativeRadius * Math.max(1, complexAbs(roots[i]));
+        const members = [i];
+        used[i] = true;
+        for (let j = i + 1; j < roots.length; j++) {
+            if (!used[j] && complexAbs(complexSub(roots[i], roots[j])) < radius) {
+                members.push(j);
+                used[j] = true;
+            }
+        }
+        
+        if (members.length === 1) {
+            merged.push(roots[i]);
+            continue;
+        }
+        
+        const centroid = members.reduce((sum, k) => complexAdd(sum, roots[k]), { re: 0, im: 0 });
+        centroid.re /= members.length;
+        centroid.im /= members.length;
+        if (Math.abs(centroid.im) < radius) centroid.im = 0;
+        members.forEach(() => merged.push({ re: centroid.re, im: centroid.im }));
+    }
+    return merged;
 }
 
 function separateRoots(roots, tolerance = 1e-6) {

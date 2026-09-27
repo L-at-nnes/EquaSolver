@@ -548,3 +548,27 @@ describe('Root finding - numerical robustness', () => {
         expect(findPolynomialRoots([0, 1, -6, 11, -6]).map(r => Math.round(r * 1e6) / 1e6)).toEqual([1, 2, 3]);
     });
 });
+
+describe('Multiple roots of high degree polynomials', () => {
+    const { findPolynomialRootsComplex, separateRoots } = require('../../src/js/math/complex.js');
+    const split = coeffs => separateRoots(findPolynomialRootsComplex(coeffs));
+
+    test('x^4 = 0 gives four real zero roots, not complex ones', () => {
+        const { realRoots, complexRoots } = split([1, 0, 0, 0, 0]);
+        expect(complexRoots).toHaveLength(0);
+        expect(realRoots).toHaveLength(4);
+        realRoots.forEach(r => expect(Math.abs(r)).toBeLessThan(1e-3));
+    });
+
+    test('(x-1)^3 (x+1) (x+2) keeps its multiplicities', () => {
+        const { realRoots, complexRoots } = split([1, 1, -5, -1, 8, -4]);
+        expect(complexRoots).toHaveLength(0);
+        expect(realRoots.map(r => Math.round(r * 1000) / 1000)).toEqual([-2, -2, 1, 1, 1]);
+    });
+
+    test('genuine complex pairs are preserved', () => {
+        const { realRoots, complexRoots } = split([1, 0, 0, 0, 1]);
+        expect(realRoots).toHaveLength(0);
+        expect(complexRoots).toHaveLength(2);
+    });
+});
