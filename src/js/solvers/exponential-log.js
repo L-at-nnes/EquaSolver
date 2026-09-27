@@ -11,6 +11,9 @@
  */
 function solveExponentialSimple(base, result) {
     // Validation
+    if (![base, result].every(Number.isFinite)) {
+        return { error: 'Invalid numeric input' };
+    }
     if (base <= 0) {
         return { error: 'Base must be positive' };
     }
@@ -46,6 +49,9 @@ function solveExponentialSimple(base, result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveExponentialWithCoefficient(coefficient, base, result) {
+    if (![coefficient, base, result].every(Number.isFinite)) {
+        return { error: 'Invalid numeric input' };
+    }
     if (coefficient === 0) {
         return { error: 'Coefficient cannot be zero' };
     }
@@ -85,6 +91,9 @@ function solveExponentialWithCoefficient(coefficient, base, result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveLogarithmicSimple(base, result) {
+    if (![base, result].every(Number.isFinite)) {
+        return { error: 'Invalid numeric input' };
+    }
     if (base <= 0) {
         return { error: 'Base must be positive' };
     }
@@ -120,6 +129,9 @@ function solveLogarithmicSimple(base, result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveLogarithmicWithArgument(logBase, coefX, constant, result) {
+    if (![logBase, coefX, constant, result].every(Number.isFinite)) {
+        return { error: 'Invalid numeric input' };
+    }
     if (logBase <= 0) {
         return { error: 'Base must be positive' };
     }
@@ -168,6 +180,9 @@ function solveLogarithmicWithArgument(logBase, coefX, constant, result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveNaturalLog(result) {
+    if (!Number.isFinite(result)) {
+        return { error: 'Invalid numeric input' };
+    }
     const x = Math.exp(result);
     
     return {
@@ -189,6 +204,9 @@ function solveNaturalLog(result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveCommonLog(result) {
+    if (!Number.isFinite(result)) {
+        return { error: 'Invalid numeric input' };
+    }
     const x = Math.pow(10, result);
     
     return {
@@ -210,6 +228,9 @@ function solveCommonLog(result) {
  * @returns {Object} Solution with x value, equation, and steps
  */
 function solveNaturalExponential(result) {
+    if (!Number.isFinite(result)) {
+        return { error: 'Invalid numeric input' };
+    }
     if (result <= 0) {
         return { error: 'Result must be positive' };
     }

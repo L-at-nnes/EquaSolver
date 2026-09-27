@@ -568,8 +568,11 @@ function evaluateDerivativeAt(expr, x0, variable = 'x') {
  * @returns {Object} Result with nth derivative
  */
 function nthDerivative(expr, n, variable = 'x') {
-    if (n < 1) {
-        return { error: 'Order must be at least 1' };
+    if (!Number.isInteger(n) || n < 1) {
+        return { error: 'Order must be a whole number of at least 1' };
+    }
+    if (n > 20) {
+        return { error: 'Order must be at most 20' };
     }
     
     let current = expr;

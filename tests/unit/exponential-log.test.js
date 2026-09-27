@@ -378,3 +378,15 @@ describe('Mathematical Properties', () => {
         expect(result1.x).toBeCloseTo(result2.x, 6);
     });
 });
+
+describe('Exponential / logarithmic solvers - invalid numeric input', () => {
+    test('NaN inputs are rejected instead of producing NaN solutions', () => {
+        expect(solveExponentialSimple(NaN, 8).error).toBeDefined();
+        expect(solveExponentialWithCoefficient(2, 3, NaN).error).toBeDefined();
+        expect(solveLogarithmicSimple(2, NaN).error).toBeDefined();
+        expect(solveLogarithmicWithArgument(10, NaN, 1, 2).error).toBeDefined();
+        expect(solveNaturalLog(NaN).error).toBeDefined();
+        expect(solveCommonLog(Infinity).error).toBeDefined();
+        expect(solveNaturalExponential(NaN).error).toBeDefined();
+    });
+});

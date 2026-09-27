@@ -60,16 +60,16 @@ function solveExponentialEquation() {
     let result;
     try {
         if (type === 'simple') {
-            const base = parseFloat(document.getElementById('expBaseA')?.value) || 2;
-            const resultVal = parseFloat(document.getElementById('expResultB')?.value) || 8;
+            const base = readNumberInput('expBaseA', 2);
+            const resultVal = readNumberInput('expResultB', 8);
             result = solveExponentialSimple(base, resultVal);
         } else if (type === 'withCoef') {
-            const coef = parseFloat(document.getElementById('expCoefA')?.value) || 2;
-            const base = parseFloat(document.getElementById('expCoefBase')?.value) || 3;
-            const resultVal = parseFloat(document.getElementById('expCoefResult')?.value) || 18;
+            const coef = readNumberInput('expCoefA', 2);
+            const base = readNumberInput('expCoefBase', 3);
+            const resultVal = readNumberInput('expCoefResult', 18);
             result = solveExponentialWithCoefficient(coef, base, resultVal);
         } else {
-            const resultVal = parseFloat(document.getElementById('expNaturalResult')?.value) || 7.389;
+            const resultVal = readNumberInput('expNaturalResult', 7.389);
             result = solveNaturalExponential(resultVal);
         }
         
@@ -133,7 +133,7 @@ function updateLogarithmicPreview() {
         const b = document.getElementById('logArgCoef')?.value || '2';
         const c = document.getElementById('logArgConst')?.value || '-3';
         const d = document.getElementById('logArgResult')?.value || '2';
-        const sign = parseFloat(c) >= 0 ? '+' : '';
+        const sign = parseDecimal(c) >= 0 ? '+' : '';
         preview.textContent = `log${subscriptNum(a)}(${b}x ${sign} ${c}) = ${d}`;
     } else if (type === 'natural') {
         const a = document.getElementById('logNaturalResult')?.value || '2';
@@ -165,20 +165,20 @@ function solveLogarithmicEquation() {
     let result;
     try {
         if (type === 'simple') {
-            const base = parseFloat(document.getElementById('logBaseA')?.value) || 2;
-            const resultVal = parseFloat(document.getElementById('logResultB')?.value) || 3;
+            const base = readNumberInput('logBaseA', 2);
+            const resultVal = readNumberInput('logResultB', 3);
             result = solveLogarithmicSimple(base, resultVal);
         } else if (type === 'withArg') {
-            const base = parseFloat(document.getElementById('logArgBase')?.value) || 10;
-            const coef = parseFloat(document.getElementById('logArgCoef')?.value) || 2;
-            const constant = parseFloat(document.getElementById('logArgConst')?.value) || -3;
-            const resultVal = parseFloat(document.getElementById('logArgResult')?.value) || 2;
+            const base = readNumberInput('logArgBase', 10);
+            const coef = readNumberInput('logArgCoef', 2);
+            const constant = readNumberInput('logArgConst', -3);
+            const resultVal = readNumberInput('logArgResult', 2);
             result = solveLogarithmicWithArgument(base, coef, constant, resultVal);
         } else if (type === 'natural') {
-            const resultVal = parseFloat(document.getElementById('logNaturalResult')?.value) || 2;
+            const resultVal = readNumberInput('logNaturalResult', 2);
             result = solveNaturalLog(resultVal);
         } else {
-            const resultVal = parseFloat(document.getElementById('logCommonResult')?.value) || 2;
+            const resultVal = readNumberInput('logCommonResult', 2);
             result = solveCommonLog(resultVal);
         }
         

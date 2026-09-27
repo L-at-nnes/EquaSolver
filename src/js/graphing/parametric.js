@@ -42,8 +42,8 @@ function plotParametricGraph() {
     
     const xExpr = document.getElementById('parametricX').value;
     const yExpr = document.getElementById('parametricY').value;
-    const tMin = parseFloat(document.getElementById('tMin').value);
-    const tMax = parseFloat(document.getElementById('tMax').value);
+    const tMin = parseDecimal(document.getElementById('tMin').value);
+    const tMax = parseDecimal(document.getElementById('tMax').value);
     
     // Clear canvas
     ctx.fillStyle = '#000000';

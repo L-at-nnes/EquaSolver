@@ -70,35 +70,39 @@ function calculateDerivative() {
             solutionDiv.innerHTML = `
                 <div class="solution-success">
                     <h4>${translations[window.currentLang]?.derivative || 'Derivative'}</h4>
-                    <p><strong>f(x) =</strong> ${result.original}</p>
-                    <p><strong>f'(x) =</strong> ${result.simplified}</p>
+                    <p><strong>f(x) =</strong> ${escapeHtml(result.original)}</p>
+                    <p><strong>f'(x) =</strong> ${escapeHtml(result.simplified)}</p>
                     <div class="steps">
                         <h5>${translations[window.currentLang]?.steps || 'Steps'}:</h5>
-                        ${result.steps.map(s => `<p>${s}</p>`).join('')}
+                        ${result.steps.map(s => `<p>${escapeHtml(s)}</p>`).join('')}
                     </div>
                 </div>
             `;
         } else if (type === 'atPoint') {
             const expr = document.getElementById('derivExprPoint')?.value || 'x^2';
-            const x0 = parseFloat(document.getElementById('derivPointX')?.value) || 2;
+            const x0 = readNumberInput('derivPointX', 2);
+            if (Number.isNaN(x0)) {
+                showInvalidInput(solutionDiv);
+                return;
+            }
             result = evaluateDerivativeAt(expr, x0);
             
             solutionDiv.innerHTML = `
                 <div class="solution-success">
                     <h4>${translations[window.currentLang]?.derivativeAtPoint || 'Derivative at Point'}</h4>
-                    <p><strong>f(x) =</strong> ${result.expression}</p>
-                    <p><strong>f'(x) =</strong> ${result.symbolicDerivative}</p>
-                    <p><strong>f'(${x0}) =</strong> ${result.numericalValue.toFixed(6)}</p>
+                    <p><strong>f(x) =</strong> ${escapeHtml(result.expression)}</p>
+                    <p><strong>f'(x) =</strong> ${escapeHtml(result.symbolicDerivative)}</p>
+                    <p><strong>f'(${x0}) =</strong> ${formatNumber(result.numericalValue, 6)}</p>
                     <p class="method-info">${translations[window.currentLang]?.methodUsed || 'Method'}: ${result.method}</p>
                 </div>
             `;
         } else if (type === 'nth') {
             const expr = document.getElementById('derivExprNth')?.value || 'x^4';
-            const n = parseInt(document.getElementById('derivOrder')?.value) || 2;
+            const n = readNumberInput('derivOrder', 2);
             result = nthDerivative(expr, n);
-            
+
             if (result.error) {
-                solutionDiv.innerHTML = `<div class="solution-error">${result.error}</div>`;
+                solutionDiv.innerHTML = `<div class="solution-error">${escapeHtml(result.error)}</div>`;
                 return;
             }
             
@@ -107,14 +111,18 @@ function calculateDerivative() {
                     <h4>${translations[window.currentLang]?.nthDerivative || 'Nth Derivative'}</h4>
                     <p><strong>${translations[window.currentLang]?.order || 'Order'}:</strong> ${n}</p>
                     <div class="steps">
-                        ${result.steps.map(s => `<p>${s}</p>`).join('')}
+                        ${result.steps.map(s => `<p>${escapeHtml(s)}</p>`).join('')}
                     </div>
                 </div>
             `;
         } else {
             const expr = document.getElementById('derivExprCritical')?.value || 'x^3 - 3x';
-            const xMin = parseFloat(document.getElementById('derivCriticalMin')?.value) || -10;
-            const xMax = parseFloat(document.getElementById('derivCriticalMax')?.value) || 10;
+            const xMin = readNumberInput('derivCriticalMin', -10);
+            const xMax = readNumberInput('derivCriticalMax', 10);
+            if (Number.isNaN(xMin) || Number.isNaN(xMax) || xMin >= xMax) {
+                showInvalidInput(solutionDiv);
+                return;
+            }
             result = findCriticalPoints(expr, xMin, xMax);
             
             let pointsHtml = '';
@@ -129,7 +137,7 @@ function calculateDerivative() {
             solutionDiv.innerHTML = `
                 <div class="solution-success">
                     <h4>${translations[window.currentLang]?.criticalPoints || 'Critical Points'}</h4>
-                    <p><strong>f(x) =</strong> ${expr}</p>
+                    <p><strong>f(x) =</strong> ${escapeHtml(expr)}</p>
                     <p><strong>${translations[window.currentLang]?.range || 'Range'}:</strong> [${xMin}, ${xMax}]</p>
                     <div class="critical-points">
                         ${pointsHtml}
@@ -140,8 +148,13 @@ function calculateDerivative() {
         
         document.getElementById('exportDerivativePdf').style.display = 'inline-block';
     } catch (e) {
-        solutionDiv.innerHTML = `<div class="solution-error">${translations[window.currentLang]?.errorCalculating || 'Error calculating'}: ${e.message}</div>`;
+        solutionDiv.innerHTML = `<div class="solution-error">${translations[window.currentLang]?.errorCalculating || 'Error calculating'}: ${escapeHtml(e.message)}</div>`;
     }
+}
+
+function showInvalidInput(solutionDiv) {
+    const message = translations[window.currentLang]?.invalidInput || 'Invalid input';
+    solutionDiv.innerHTML = `<div class="solution-error">${message}</div>`;
 }
 
 /**
@@ -204,18 +217,22 @@ function calculateIntegral() {
             solutionDiv.innerHTML = `
                 <div class="solution-success">
                     <h4>${translations[window.currentLang]?.indefiniteIntegral || 'Indefinite Integral'}</h4>
-                    <p><strong>∫ ${result.original} dx =</strong></p>
-                    <p class="result-large">${result.simplified}</p>
+                    <p><strong>∫ ${escapeHtml(result.original)} dx =</strong></p>
+                    <p class="result-large">${escapeHtml(result.simplified)}</p>
                     <div class="steps">
                         <h5>${translations[window.currentLang]?.steps || 'Steps'}:</h5>
-                        ${result.steps.map(s => `<p>${s}</p>`).join('')}
+                        ${result.steps.map(s => `<p>${escapeHtml(s)}</p>`).join('')}
                     </div>
                 </div>
             `;
         } else {
             const expr = document.getElementById('integralExprDef')?.value || 'x^2';
-            const a = parseFloat(document.getElementById('integralLower')?.value) || 0;
-            const b = parseFloat(document.getElementById('integralUpper')?.value) || 1;
+            const a = readNumberInput('integralLower', 0);
+            const b = readNumberInput('integralUpper', 1);
+            if (Number.isNaN(a) || Number.isNaN(b)) {
+                showInvalidInput(solutionDiv);
+                return;
+            }
             
             // Get both symbolic and numerical results
             const symbolicResult = integrate(expr);
@@ -224,12 +241,12 @@ function calculateIntegral() {
             solutionDiv.innerHTML = `
                 <div class="solution-success">
                     <h4>${translations[window.currentLang]?.definiteIntegral || 'Definite Integral'}</h4>
-                    <p><strong>∫[${a}, ${b}] ${expr} dx =</strong></p>
-                    <p class="result-large">${numericalResult.value.toFixed(6)}</p>
+                    <p><strong>∫[${a}, ${b}] ${escapeHtml(expr)} dx =</strong></p>
+                    <p class="result-large">${formatNumber(numericalResult.value, 6)}</p>
                     <div class="steps">
                         <h5>${translations[window.currentLang]?.symbolicAntiderivative || 'Antiderivative'}:</h5>
-                        <p>F(x) = ${symbolicResult.simplified}</p>
-                        <p>F(${b}) - F(${a}) ≈ ${numericalResult.value.toFixed(6)}</p>
+                        <p>F(x) = ${escapeHtml(symbolicResult.simplified)}</p>
+                        <p>F(${b}) - F(${a}) ≈ ${formatNumber(numericalResult.value, 6)}</p>
                         <p class="method-info">${translations[window.currentLang]?.methodUsed || 'Method'}: ${numericalResult.method}</p>
                         <p class="method-info">${translations[window.currentLang]?.intervalsUsed || 'Intervals'}: ${numericalResult.intervals}</p>
                     </div>

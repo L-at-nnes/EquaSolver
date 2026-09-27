@@ -43,6 +43,7 @@ const STATIC_ASSETS = [
     './js/parsers/expression.js',
     './js/parsers/latex.js',
     // UI modules
+    './js/ui/inputs.js',
     './js/ui/animations.js',
     './js/ui/themes.js',
     './js/ui/history.js',

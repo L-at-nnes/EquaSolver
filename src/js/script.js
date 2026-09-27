@@ -441,8 +441,8 @@ function handleKeyboard(e) {
 // EQUATION SOLVERS
 // ===================================
 function solveLinearEquation() {
-    const a = parseFloat(document.getElementById('linearA').value);
-    const b = parseFloat(document.getElementById('linearB').value);
+    const a = parseDecimal(document.getElementById('linearA').value);
+    const b = parseDecimal(document.getElementById('linearB').value);
     const resultDiv = document.getElementById('linearSolution');
     const trans = translations[window.currentLang];
     
@@ -482,9 +482,9 @@ function solveLinearEquation() {
 }
 
 function solveQuadraticEquation() {
-    const a = parseFloat(document.getElementById('quadA').value);
-    const b = parseFloat(document.getElementById('quadB').value);
-    const c = parseFloat(document.getElementById('quadC').value);
+    const a = parseDecimal(document.getElementById('quadA').value);
+    const b = parseDecimal(document.getElementById('quadB').value);
+    const c = parseDecimal(document.getElementById('quadC').value);
     const resultDiv = document.getElementById('quadraticSolution');
     const trans = translations[window.currentLang];
     
@@ -532,10 +532,10 @@ function solveQuadraticEquation() {
 }
 
 function solveCubicEquation() {
-    const a = parseFloat(document.getElementById('cubicA').value);
-    const b = parseFloat(document.getElementById('cubicB').value);
-    const c = parseFloat(document.getElementById('cubicC').value);
-    const d = parseFloat(document.getElementById('cubicD').value);
+    const a = parseDecimal(document.getElementById('cubicA').value);
+    const b = parseDecimal(document.getElementById('cubicB').value);
+    const c = parseDecimal(document.getElementById('cubicC').value);
+    const d = parseDecimal(document.getElementById('cubicD').value);
     const resultDiv = document.getElementById('cubicSolution');
     const trans = translations[window.currentLang];
     
@@ -588,11 +588,11 @@ function solveCubicEquation() {
 }
 
 function solveQuarticEquation() {
-    const a = parseFloat(document.getElementById('quartA').value);
-    const b = parseFloat(document.getElementById('quartB').value);
-    const c = parseFloat(document.getElementById('quartC').value);
-    const d = parseFloat(document.getElementById('quartD').value);
-    const e = parseFloat(document.getElementById('quartE').value);
+    const a = parseDecimal(document.getElementById('quartA').value);
+    const b = parseDecimal(document.getElementById('quartB').value);
+    const c = parseDecimal(document.getElementById('quartC').value);
+    const d = parseDecimal(document.getElementById('quartD').value);
+    const e = parseDecimal(document.getElementById('quartE').value);
     const resultDiv = document.getElementById('quarticSolution');
     const trans = translations[window.currentLang];
     
@@ -623,12 +623,12 @@ function solveQuarticEquation() {
 }
 
 function solveQuinticEquation() {
-    const a = parseFloat(document.getElementById('quintA').value);
-    const b = parseFloat(document.getElementById('quintB').value);
-    const c = parseFloat(document.getElementById('quintC').value);
-    const d = parseFloat(document.getElementById('quintD').value);
-    const e = parseFloat(document.getElementById('quintE').value);
-    const f = parseFloat(document.getElementById('quintF').value);
+    const a = parseDecimal(document.getElementById('quintA').value);
+    const b = parseDecimal(document.getElementById('quintB').value);
+    const c = parseDecimal(document.getElementById('quintC').value);
+    const d = parseDecimal(document.getElementById('quintD').value);
+    const e = parseDecimal(document.getElementById('quintE').value);
+    const f = parseDecimal(document.getElementById('quintF').value);
     const resultDiv = document.getElementById('quinticSolution');
     const trans = translations[window.currentLang];
     
@@ -662,12 +662,12 @@ function solveQuinticEquation() {
 // SYSTEM OF EQUATIONS SOLVERS
 // ===================================
 function solveSystemEquations() {
-    const a = parseFloat(document.getElementById('sysA').value);
-    const b = parseFloat(document.getElementById('sysB').value);
-    const e = parseFloat(document.getElementById('sysE').value);
-    const c = parseFloat(document.getElementById('sysC').value);
-    const d = parseFloat(document.getElementById('sysD').value);
-    const f = parseFloat(document.getElementById('sysF').value);
+    const a = parseDecimal(document.getElementById('sysA').value);
+    const b = parseDecimal(document.getElementById('sysB').value);
+    const e = parseDecimal(document.getElementById('sysE').value);
+    const c = parseDecimal(document.getElementById('sysC').value);
+    const d = parseDecimal(document.getElementById('sysD').value);
+    const f = parseDecimal(document.getElementById('sysF').value);
     const resultDiv = document.getElementById('systemsSolution');
     const trans = translations[window.currentLang];
     
@@ -698,7 +698,7 @@ function solveSystemEquations() {
 }
 
 function solve3x3System() {
-    const getValue = id => parseFloat(document.getElementById(id)?.value);
+    const getValue = id => parseDecimal(document.getElementById(id)?.value);
     
     const a1 = getValue('sys3A1'), b1 = getValue('sys3B1'), c1 = getValue('sys3C1'), d1 = getValue('sys3D1');
     const a2 = getValue('sys3A2'), b2 = getValue('sys3B2'), c2 = getValue('sys3C2'), d2 = getValue('sys3D2');
@@ -746,8 +746,8 @@ function solve3x3System() {
 // INEQUALITY SOLVER UI
 // ===================================
 function solveLinearInequalityUI() {
-    const a = parseFloat(document.getElementById('ineqLinearA').value);
-    const b = parseFloat(document.getElementById('ineqLinearB').value);
+    const a = parseDecimal(document.getElementById('ineqLinearA').value);
+    const b = parseDecimal(document.getElementById('ineqLinearB').value);
     const op = document.getElementById('ineqLinearOp').value;
     const resultDiv = document.getElementById('inequalityLinearSolution');
     const trans = translations[window.currentLang];
@@ -771,9 +771,9 @@ function solveLinearInequalityUI() {
 }
 
 function solveQuadraticInequalityUI() {
-    const a = parseFloat(document.getElementById('ineqQuadA').value);
-    const b = parseFloat(document.getElementById('ineqQuadB').value);
-    const c = parseFloat(document.getElementById('ineqQuadC').value);
+    const a = parseDecimal(document.getElementById('ineqQuadA').value);
+    const b = parseDecimal(document.getElementById('ineqQuadB').value);
+    const c = parseDecimal(document.getElementById('ineqQuadC').value);
     const op = document.getElementById('ineqQuadOp').value;
     const resultDiv = document.getElementById('inequalityQuadraticSolution');
     const trans = translations[window.currentLang];
@@ -821,9 +821,9 @@ function updateQuadraticInequalityPreview() {
 // ABSOLUTE VALUE UI
 // ===================================
 function solveAbsoluteEquationUI() {
-    const a = parseFloat(document.getElementById('absEqA').value);
-    const b = parseFloat(document.getElementById('absEqB').value);
-    const c = parseFloat(document.getElementById('absEqC').value);
+    const a = parseDecimal(document.getElementById('absEqA').value);
+    const b = parseDecimal(document.getElementById('absEqB').value);
+    const c = parseDecimal(document.getElementById('absEqC').value);
     const resultDiv = document.getElementById('absoluteEquationSolution');
     const trans = translations[window.currentLang];
 
@@ -854,10 +854,10 @@ function solveAbsoluteEquationUI() {
 }
 
 function solveAbsoluteInequalityUI() {
-    const a = parseFloat(document.getElementById('absIneqA').value);
-    const b = parseFloat(document.getElementById('absIneqB').value);
+    const a = parseDecimal(document.getElementById('absIneqA').value);
+    const b = parseDecimal(document.getElementById('absIneqB').value);
     const op = document.getElementById('absIneqOp').value;
-    const c = parseFloat(document.getElementById('absIneqC').value);
+    const c = parseDecimal(document.getElementById('absIneqC').value);
     const resultDiv = document.getElementById('absoluteInequalitySolution');
     const trans = translations[window.currentLang];
 
@@ -910,9 +910,9 @@ function updateAbsoluteInequalityPreview() {
 // ===================================
 function solveTrigonometricUI() {
     const func = document.getElementById('trigFunc').value;
-    const k = parseFloat(document.getElementById('trigK').value);
-    const domainStart = parseFloat(document.getElementById('trigDomainStart').value);
-    const domainEnd = parseFloat(document.getElementById('trigDomainEnd').value);
+    const k = parseDecimal(document.getElementById('trigK').value);
+    const domainStart = parseDecimal(document.getElementById('trigDomainStart').value);
+    const domainEnd = parseDecimal(document.getElementById('trigDomainEnd').value);
     const resultDiv = document.getElementById('trigonometricSolution');
     const trans = translations[window.currentLang];
 
@@ -1002,8 +1002,8 @@ function setupPolynomialDivision() {
 
 function setupPercentageCalculator() {
     document.getElementById('calculatePercentage')?.addEventListener('click', () => {
-        const x = parseFloat(document.getElementById('percentValueX')?.value);
-        const y = parseFloat(document.getElementById('percentValueY')?.value);
+        const x = parseDecimal(document.getElementById('percentValueX')?.value);
+        const y = parseDecimal(document.getElementById('percentValueY')?.value);
         const operation = document.getElementById('percentageOperation')?.value;
         const resultDiv = document.getElementById('percentageSolution');
         const trans = translations[window.currentLang];
@@ -1057,9 +1057,9 @@ function setupPercentageCalculator() {
 
 function setupRatioCalculator() {
     document.getElementById('calculateRatio')?.addEventListener('click', () => {
-        const a = parseFloat(document.getElementById('ratioValueA')?.value);
-        const b = parseFloat(document.getElementById('ratioValueB')?.value);
-        const c = parseFloat(document.getElementById('ratioValueC')?.value);
+        const a = parseDecimal(document.getElementById('ratioValueA')?.value);
+        const b = parseDecimal(document.getElementById('ratioValueB')?.value);
+        const c = parseDecimal(document.getElementById('ratioValueC')?.value);
         const operation = document.getElementById('ratioOperation')?.value;
         const resultDiv = document.getElementById('ratioSolution');
         const trans = translations[window.currentLang];
@@ -1319,7 +1319,7 @@ function getMatrixFromGrid(prefix) {
         matrix[i] = [];
         for (let j = 0; j < size; j++) {
             const input = document.getElementById(`${prefix}_${i}_${j}`);
-            matrix[i][j] = parseFloat(input?.value) || 0;
+            matrix[i][j] = parseDecimal(input?.value) || 0;
         }
     }
     
@@ -1680,14 +1680,14 @@ function setupStatisticsCalculator() {
 function setupSequenceCalculator() {
     document.getElementById('calculateSequence')?.addEventListener('click', () => {
         const type = document.getElementById('sequenceType')?.value;
-        const first = parseFloat(document.getElementById('seqFirstTerm')?.value) || 1;
-        const diff = parseFloat(document.getElementById('seqDiff')?.value) || 2;
-        const ratio = parseFloat(document.getElementById('seqRatio')?.value) || 2;
-        const count = parseInt(document.getElementById('seqNumTerms')?.value) || 10;
+        const first = readNumberInput('seqFirstTerm', 1);
+        const diff = readNumberInput('seqDiff', 2);
+        const ratio = readNumberInput('seqRatio', 2);
+        const count = readNumberInput('seqNumTerms', 10);
         const resultDiv = document.getElementById('sequencesSolution');
         const trans = translations[window.currentLang];
         
-        if (isNaN(count) || count <= 0 || count > 100) {
+        if (!Number.isInteger(count) || count <= 0 || count > 100 || [first, diff, ratio].some(Number.isNaN)) {
             resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
             return;
         }
@@ -1800,7 +1800,7 @@ function setupLimitCalculator() {
 function setupTaylorCalculator() {
     document.getElementById('calculateTaylor')?.addEventListener('click', () => {
         const func = document.getElementById('taylorFunction')?.value || 'sin';
-        const point = parseFloat(document.getElementById('taylorPoint')?.value) || 0;
+        const point = readNumberInput('taylorPoint', 0);
         const terms = parseInt(document.getElementById('taylorTerms')?.value) || 5;
         const resultDiv = document.getElementById('taylorSolution');
         const trans = translations[window.currentLang];
@@ -1874,8 +1874,8 @@ function setupTaylorCalculator() {
 function setupIntegrationCalculator() {
     document.getElementById('calculateIntegration')?.addEventListener('click', () => {
         const expr = document.getElementById('integrationFunction')?.value || 'x^2';
-        const a = parseFloat(document.getElementById('integrationLower')?.value);
-        const b = parseFloat(document.getElementById('integrationUpper')?.value);
+        const a = parseDecimal(document.getElementById('integrationLower')?.value);
+        const b = parseDecimal(document.getElementById('integrationUpper')?.value);
         const n = parseInt(document.getElementById('integrationIntervals')?.value) || 100;
         const method = document.getElementById('integrationMethod')?.value || 'simpsons';
         const resultDiv = document.getElementById('integrationSolution');
@@ -2075,7 +2075,7 @@ function updateUnitOptions() {
 
 function performUnitConversion() {
     const category = document.getElementById('unitCategory')?.value;
-    const value = parseFloat(document.getElementById('unitValue')?.value);
+    const value = parseDecimal(document.getElementById('unitValue')?.value);
     const fromUnit = document.getElementById('fromUnit')?.value;
     const toUnit = document.getElementById('toUnit')?.value;
     const resultDiv = document.getElementById('unitConverterSolution');

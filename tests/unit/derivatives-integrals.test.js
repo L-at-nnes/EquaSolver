@@ -706,3 +706,16 @@ describe('Symbolic calculus - regressions', () => {
         expect(differentiate('0.1x^3').simplified).toBe('0.3x^2');
     });
 });
+
+describe('nthDerivative - order validation', () => {
+    test('rejects non-integer, zero and excessive orders', () => {
+        expect(nthDerivative('x^4', 0).error).toBeDefined();
+        expect(nthDerivative('x^4', 1.5).error).toBeDefined();
+        expect(nthDerivative('x^4', NaN).error).toBeDefined();
+        expect(nthDerivative('x^4', 1000000).error).toBeDefined();
+    });
+
+    test('still differentiates valid orders', () => {
+        expect(nthDerivative('x^4', 2).derivative).toBe('12x^2');
+    });
+});

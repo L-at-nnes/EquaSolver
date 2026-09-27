@@ -140,20 +140,20 @@ function updateGraphInputs() {
 }
 
 function updateGraphRange() {
-    graphState.xMin = parseFloat(document.getElementById('xMin')?.value || -10);
-    graphState.xMax = parseFloat(document.getElementById('xMax')?.value || 10);
-    graphState.yMin = parseFloat(document.getElementById('yMin')?.value || -10);
-    graphState.yMax = parseFloat(document.getElementById('yMax')?.value || 10);
+    graphState.xMin = parseDecimal(document.getElementById('xMin')?.value || -10);
+    graphState.xMax = parseDecimal(document.getElementById('xMax')?.value || 10);
+    graphState.yMin = parseDecimal(document.getElementById('yMin')?.value || -10);
+    graphState.yMax = parseDecimal(document.getElementById('yMax')?.value || 10);
 }
 
 function plotGraph() {
     updateGraphRange();
     
     // Get coefficients
-    const a = parseFloat(document.getElementById('graphA')?.value || 0);
-    const b = parseFloat(document.getElementById('graphB')?.value || 0);
-    const c = parseFloat(document.getElementById('graphC')?.value || 0);
-    const d = parseFloat(document.getElementById('graphD')?.value || 0);
+    const a = parseDecimal(document.getElementById('graphA')?.value || 0);
+    const b = parseDecimal(document.getElementById('graphB')?.value || 0);
+    const c = parseDecimal(document.getElementById('graphC')?.value || 0);
+    const d = parseDecimal(document.getElementById('graphD')?.value || 0);
     
     graphState.coefficients = { a, b, c, d };
     

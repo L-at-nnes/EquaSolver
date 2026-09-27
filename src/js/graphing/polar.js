@@ -63,8 +63,8 @@ function plotPolarGraph() {
     const height = canvas.height;
     
     const rExpr = document.getElementById('polarR').value;
-    const thetaMin = parseFloat(document.getElementById('thetaMin').value);
-    const thetaMax = parseFloat(document.getElementById('thetaMax').value);
+    const thetaMin = parseDecimal(document.getElementById('thetaMin').value);
+    const thetaMax = parseDecimal(document.getElementById('thetaMax').value);
     
     // Clear canvas
     ctx.fillStyle = '#000000';
