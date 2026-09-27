@@ -524,8 +524,8 @@ function solveQuadraticEquation() {
         </div>`;
         addToHistory(`${a}x² + ${b}x + ${c} = 0 → x = ${x.toFixed(4)}`);
     } else {
-        const x1 = (-b + Math.sqrt(delta)) / (2 * a);
-        const x2 = (-b - Math.sqrt(delta)) / (2 * a);
+        // solveQuadraticComplex avoids cancellation when b is much larger than 4ac
+        const [{ re: x1 }, { re: x2 }] = solveQuadraticComplex(a, b, c);
         html += `<div class="solution">
             <p>${trans.twoSolutions}</p>
             <p>x₁ = ${x1.toFixed(4)}</p>

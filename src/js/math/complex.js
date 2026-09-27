@@ -126,10 +126,17 @@ function solveQuadraticComplex(a, b, c) {
     
     if (delta >= 0) {
         const sqrtDelta = Math.sqrt(delta);
-        return [
-            complexFromReal((-b + sqrtDelta) / (2 * a)),
-            complexFromReal((-b - sqrtDelta) / (2 * a))
-        ];
+        // Avoid subtracting two nearly equal numbers (b >> 4ac): compute the
+        // larger-magnitude root directly and derive the other one from c / (a * root)
+        const q = -(b + (b < 0 ? -sqrtDelta : sqrtDelta)) / 2;
+        if (q === 0) {
+            return [complexFromReal(0), complexFromReal(0)];
+        }
+        const big = q / a;
+        const small = c / q;
+        const plusRoot = b < 0 ? big : small;
+        const minusRoot = b < 0 ? small : big;
+        return [complexFromReal(plusRoot), complexFromReal(minusRoot)];
     } else {
         const realPart = -b / (2 * a);
         const imagPart = Math.sqrt(-delta) / (2 * a);
@@ -157,8 +164,13 @@ function solveCubicComplex(a, b, c, d) {
     const shift = -p / 3;
     let roots = [];
     
-    if (Math.abs(discriminant) < 1e-10) {
-        if (Math.abs(q1) < 1e-10) {
+    // Tolerances relative to the size of the roots, so that tiny but genuine
+    // roots (x^3 = 1e-12) are not mistaken for a triple root at 0
+    const rootScale = Math.max(Math.abs(p), Math.sqrt(Math.abs(q)), Math.cbrt(Math.abs(r)));
+    const scale3 = rootScale * rootScale * rootScale;
+    
+    if (rootScale === 0 || Math.abs(discriminant) <= 1e-10 * scale3 * scale3) {
+        if (rootScale === 0 || Math.abs(q1) <= 1e-10 * scale3) {
             roots = [complexFromReal(shift)];
         } else {
             const u = Math.cbrt(-q1 / 2);
@@ -195,7 +207,15 @@ function solveCubicComplex(a, b, c, d) {
     return roots;
 }
 
+// Drop leading zero coefficients (0x^3 + x^2 - 1 is really a quadratic)
+function trimLeadingZeros(coeffs) {
+    let start = 0;
+    while (start < coeffs.length - 1 && coeffs[start] === 0) start++;
+    return coeffs.slice(start);
+}
+
 function findPolynomialRoots(coeffs) {
+    coeffs = trimLeadingZeros(coeffs);
     const degree = coeffs.length - 1;
     if (degree < 1) return [];
     
@@ -225,6 +245,8 @@ function findPolynomialRoots(coeffs) {
                 }
             }
             
+            if (complexAbs(prod) < 1e-15) continue;
+            
             const delta = complexDiv(pz, prod);
             roots[i] = complexSub(z, delta);
             
@@ -242,6 +264,7 @@ function findPolynomialRoots(coeffs) {
 }
 
 function findPolynomialRootsComplex(coeffs) {
+    coeffs = trimLeadingZeros(coeffs);
     const degree = coeffs.length - 1;
     if (degree < 1) return [];
     

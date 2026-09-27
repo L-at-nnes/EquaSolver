@@ -500,3 +500,51 @@ expect.extend({
         };
     }
 });
+
+describe('Root finding - numerical robustness', () => {
+    const { solveQuadraticComplex, solveCubicComplex, findPolynomialRootsComplex, findPolynomialRoots } =
+        require('../../src/js/math/complex.js');
+
+    test('quadratic keeps full precision for the small root when b is huge', () => {
+        const [r1, r2] = solveQuadraticComplex(1, 1e8, 1);
+        expect(r1.re).toBeCloseTo(-1e-8, 15);
+        expect(r2.re).toBeCloseTo(-1e8, 0);
+        expect(r1.re * r2.re).toBeCloseTo(1, 10);
+    });
+
+    test('quadratic keeps the (-b + sqrt) / (-b - sqrt) order', () => {
+        const [r1, r2] = solveQuadraticComplex(1, -5, 6);
+        expect(r1.re).toBeCloseTo(3, 12);
+        expect(r2.re).toBeCloseTo(2, 12);
+        const [s1, s2] = solveQuadraticComplex(1, 5, 6);
+        expect(s1.re).toBeCloseTo(-2, 12);
+        expect(s2.re).toBeCloseTo(-3, 12);
+    });
+
+    test('quadratic with a zero root', () => {
+        const roots = solveQuadraticComplex(1, 0, 0);
+        expect(roots.map(r => r.re)).toEqual([0, 0]);
+        const roots2 = solveQuadraticComplex(2, -4, 0).map(r => r.re).sort((x, y) => x - y);
+        expect(roots2[0]).toBeCloseTo(0, 12);
+        expect(roots2[1]).toBeCloseTo(2, 12);
+    });
+
+    test('cubic does not mistake a tiny genuine root for a triple root at 0', () => {
+        const roots = solveCubicComplex(1, 0, 0, -1e-12);
+        const real = roots.filter(r => Math.abs(r.im) < 1e-12).map(r => r.re);
+        expect(real.some(r => Math.abs(r - 1e-4) < 1e-10)).toBe(true);
+    });
+
+    test('cubic is scale invariant', () => {
+        const big = solveCubicComplex(1, -6, 11, -6).map(r => r.re).sort((x, y) => x - y);
+        const small = solveCubicComplex(1e-6, -6e-6, 11e-6, -6e-6).map(r => r.re).sort((x, y) => x - y);
+        small.forEach((r, i) => expect(r).toBeCloseTo(big[i], 8));
+    });
+
+    test('leading zero coefficients are ignored', () => {
+        const roots = findPolynomialRootsComplex([0, 1, -3, 2, 0]);
+        expect(roots.every(r => Number.isFinite(r.re) && Number.isFinite(r.im))).toBe(true);
+        expect(roots.map(r => r.re).sort((a, b) => a - b).map(r => Math.round(r * 1e6) / 1e6 + 0)).toEqual([0, 1, 2]);
+        expect(findPolynomialRoots([0, 1, -6, 11, -6]).map(r => Math.round(r * 1e6) / 1e6)).toEqual([1, 2, 3]);
+    });
+});
