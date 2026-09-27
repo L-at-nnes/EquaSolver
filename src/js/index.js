@@ -11,11 +11,11 @@ const {
     findPolynomialRootsComplex, complexScale, complexPow, complexSqrt, complexAbs,
     isEssentiallyReal, isEssentiallyZero
 } = require('./math/complex.js');
-const { addMatrices, multiplyMatrices, calculateDeterminant, invertMatrix, solveSystem3x3 } = require('./math/matrix.js');
+const { addMatrices, multiplyMatrices, calculateDeterminant, invertMatrix } = require('./math/matrix.js');
 const { gcd, lcm, gcdMultiple, lcmMultiple, primeFactorization, formatFactorization } = require('./math/gcd-lcm.js');
 const { modulo, modularInverse, modularPower } = require('./math/modular.js');
 const { factorial, factorialBig, permutation, combination } = require('./math/combinatorics.js');
-const { simplifyFraction, simplifyFractionFunc, addFractions, multiplyFractions, divideFractions, fractionToDecimal, decimalToFraction, fractionToMixed } = require('./math/fractions.js');
+const { simplifyFraction, simplifyFractionFunc, addFractions, subtractFractions, multiplyFractions, divideFractions, fractionToDecimal, decimalToFraction, fractionToMixed, simplifyRatio } = require('./math/fractions.js');
 const { calculateMean, calculateMedian, calculateMode, calculateVariance, calculateStdDev } = require('./math/statistics.js');
 const { generateArithmeticSequence, generateGeometricSequence, generateFibonacciSequence } = require('./math/sequences.js');
 
@@ -30,7 +30,9 @@ const {
 } = require('./calculus/derivatives-integrals.js');
 
 // Solver modules
-const { solveLinearInequality, solveQuadraticInequality, solveAbsoluteInequality, formatInequality, flipOperator, evaluateComparison, formatOperator } = require('./solvers/inequality.js');
+const { solveLinearInequality, solveQuadraticInequality, flipOperator, evaluateComparison, formatOperator } = require('./solvers/inequality.js');
+const { solveAbsoluteEquation, solveAbsoluteInequality } = require('./solvers/absolute.js');
+const { solveTrigonometricEquation } = require('./solvers/trigonometric.js');
 const { parsePolynomial, dividePolynomials, formatPolynomial } = require('./solvers/polynomial-division.js');
 const { solveExponentialSimple, solveExponentialWithCoefficient, solveLogarithmicSimple, solveLogarithmicWithArgument, solveNaturalLog, solveCommonLog, solveNaturalExponential } = require('./solvers/exponential-log.js');
 
@@ -39,8 +41,8 @@ const { convertToBase } = require('./converters/base.js');
 const { unitConversions, convertTemperature, convertUnit } = require('./converters/units.js');
 
 // Parser modules
-const { parseLatex } = require('./parsers/latex.js');
-const { evaluateExpression } = require('./parsers/expression.js');
+const { parseLatexEquation } = require('./parsers/latex.js');
+const { evaluateExpression, compileExpression } = require('./parsers/expression.js');
 
 // Export all functions
 module.exports = {
@@ -66,7 +68,6 @@ module.exports = {
     multiplyMatrices,
     calculateDeterminant,
     invertMatrix,
-    solveSystem3x3,
     
     // GCD/LCM
     gcd,
@@ -91,11 +92,13 @@ module.exports = {
     simplifyFraction,
     simplifyFractionFunc,
     addFractions,
+    subtractFractions,
     multiplyFractions,
     divideFractions,
     fractionToDecimal,
     decimalToFraction,
     fractionToMixed,
+    simplifyRatio,
     
     // Statistics
     calculateMean,
@@ -141,8 +144,9 @@ module.exports = {
     // Inequality Solver
     solveLinearInequality,
     solveQuadraticInequality,
+    solveAbsoluteEquation,
     solveAbsoluteInequality,
-    formatInequality,
+    solveTrigonometricEquation,
     flipOperator,
     evaluateComparison,
     formatOperator,
@@ -170,10 +174,11 @@ module.exports = {
     convertUnit,
     
     // LaTeX Parser
-    parseLatex,
+    parseLatexEquation,
     
     // Expression Evaluation
     evaluateExpression,
+    compileExpression,
     
     // Equation Solvers (from complex.js)
     solveQuadraticComplex,
