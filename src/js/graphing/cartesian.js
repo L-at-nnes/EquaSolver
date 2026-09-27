@@ -79,6 +79,7 @@ function updateGraphInputs() {
     
     const type = typeSelect.value;
     graphState.equationType = type;
+    graphState.coefficients = {};
     
     const inputsContainer = document.getElementById('graphInputs');
     if (!inputsContainer) return;
@@ -139,24 +140,69 @@ function updateGraphInputs() {
     inputsContainer.innerHTML = html;
 }
 
+// Pick a "nice" tick spacing (1, 2 or 5 times a power of ten) giving roughly `target` ticks
+function niceTickStep(range, target = 10) {
+    if (!(range > 0) || !Number.isFinite(range)) return 1;
+    const rough = range / target;
+    const magnitude = Math.pow(10, Math.floor(Math.log10(rough)));
+    const normalized = rough / magnitude;
+    const nice = normalized < 1.5 ? 1 : normalized < 3.5 ? 2 : normalized < 7.5 ? 5 : 10;
+    return nice * magnitude;
+}
+
+function formatTick(value, step) {
+    const decimals = Math.max(0, -Math.floor(Math.log10(step)));
+    return parseFloat(value.toFixed(Math.min(decimals, 10))).toString();
+}
+
+// Read the range inputs. Invalid or inverted ranges (which used to freeze the
+// page in an endless drawing loop) are rejected and the inputs restored.
 function updateGraphRange() {
-    graphState.xMin = parseDecimal(document.getElementById('xMin')?.value || -10);
-    graphState.xMax = parseDecimal(document.getElementById('xMax')?.value || 10);
-    graphState.yMin = parseDecimal(document.getElementById('yMin')?.value || -10);
-    graphState.yMax = parseDecimal(document.getElementById('yMax')?.value || 10);
+    const read = (id, fallback) => {
+        const raw = document.getElementById(id)?.value;
+        return raw === undefined || String(raw).trim() === '' ? fallback : parseDecimal(raw);
+    };
+    const xMin = read('xMin', -10);
+    const xMax = read('xMax', 10);
+    const yMin = read('yMin', -10);
+    const yMax = read('yMax', 10);
+    const valid = [xMin, xMax, yMin, yMax].every(Number.isFinite) && xMin < xMax && yMin < yMax;
+
+    if (valid) {
+        graphState.xMin = xMin;
+        graphState.xMax = xMax;
+        graphState.yMin = yMin;
+        graphState.yMax = yMax;
+    } else {
+        ['xMin', 'xMax', 'yMin', 'yMax'].forEach(id => {
+            const input = document.getElementById(id);
+            if (input) input.value = parseFloat(graphState[id].toFixed(6));
+        });
+    }
+    return valid;
 }
 
 function plotGraph() {
     updateGraphRange();
-    
-    // Get coefficients
-    const a = parseDecimal(document.getElementById('graphA')?.value || 0);
-    const b = parseDecimal(document.getElementById('graphB')?.value || 0);
-    const c = parseDecimal(document.getElementById('graphC')?.value || 0);
-    const d = parseDecimal(document.getElementById('graphD')?.value || 0);
-    
+
+    // Get coefficients (a blank field counts as 0)
+    const read = id => {
+        const raw = document.getElementById(id)?.value;
+        return raw === undefined || String(raw).trim() === '' ? 0 : parseDecimal(raw);
+    };
+    const a = read('graphA');
+    const b = read('graphB');
+    const c = read('graphC');
+    const d = read('graphD');
+
+    if ([a, b, c, d].some(Number.isNaN)) {
+        const message = (typeof translations !== 'undefined' && translations[window.currentLang]?.invalidInput) || 'Invalid input';
+        alert(message);
+        return;
+    }
+
     graphState.coefficients = { a, b, c, d };
-    
+
     drawGraph();
     showExportButton('graph');
 }
@@ -167,11 +213,13 @@ function drawGraph() {
     
     const width = canvas.width;
     const height = canvas.height;
-    
+
     // Clear canvas
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
-    
+
+    if (!(xMax > xMin) || !(yMax > yMin)) return;
+
     // Draw grid if enabled
     const showGridCheckbox = document.getElementById('showGrid');
     if (showGridCheckbox?.checked) {
@@ -192,24 +240,24 @@ function drawGraph() {
 
 function drawGrid(ctx, width, height) {
     const { xMin, xMax, yMin, yMax } = graphState;
-    
+
     ctx.strokeStyle = '#1a1a1a';
     ctx.lineWidth = 1;
-    
-    // Vertical lines
-    const xStep = (xMax - xMin) / 20;
-    for (let x = xMin; x <= xMax; x += xStep) {
-        const px = mapX(x, width);
+
+    // Vertical lines on multiples of the tick step, so they line up with the axis labels
+    const xStep = niceTickStep(xMax - xMin);
+    for (let k = Math.ceil(xMin / xStep); k * xStep <= xMax; k++) {
+        const px = mapX(k * xStep, width);
         ctx.beginPath();
         ctx.moveTo(px, 0);
         ctx.lineTo(px, height);
         ctx.stroke();
     }
-    
+
     // Horizontal lines
-    const yStep = (yMax - yMin) / 20;
-    for (let y = yMin; y <= yMax; y += yStep) {
-        const py = mapY(y, height);
+    const yStep = niceTickStep(yMax - yMin);
+    for (let k = Math.ceil(yMin / yStep); k * yStep <= yMax; k++) {
+        const py = mapY(k * yStep, height);
         ctx.beginPath();
         ctx.moveTo(0, py);
         ctx.lineTo(width, py);
@@ -235,11 +283,13 @@ function drawAxes(ctx, width, height) {
         ctx.fillStyle = '#00ff88';
         ctx.font = '12px Orbitron';
         ctx.textAlign = 'center';
-        const xStep = Math.ceil((xMax - xMin) / 10);
-        for (let x = Math.ceil(xMin / xStep) * xStep; x <= xMax; x += xStep) {
-            if (x !== 0) {
-                const px = mapX(x, width);
-                ctx.fillText(x.toString(), px, y0 + 20);
+        const xStep = niceTickStep(xMax - xMin);
+        // Keep labels on screen when the x axis sits at the very bottom edge
+        const labelY = y0 + 20 > height ? y0 - 8 : y0 + 20;
+        for (let k = Math.ceil(xMin / xStep); k * xStep <= xMax; k++) {
+            if (k !== 0) {
+                const px = mapX(k * xStep, width);
+                ctx.fillText(formatTick(k * xStep, xStep), px, labelY);
             }
         }
     }
@@ -256,11 +306,11 @@ function drawAxes(ctx, width, height) {
         ctx.fillStyle = '#00ff88';
         ctx.font = '12px Orbitron';
         ctx.textAlign = 'right';
-        const yStep = Math.ceil((yMax - yMin) / 10);
-        for (let y = Math.ceil(yMin / yStep) * yStep; y <= yMax; y += yStep) {
-            if (y !== 0) {
-                const py = mapY(y, height);
-                ctx.fillText(y.toString(), x0 - 10, py + 4);
+        const yStep = niceTickStep(yMax - yMin);
+        for (let k = Math.ceil(yMin / yStep); k * yStep <= yMax; k++) {
+            if (k !== 0) {
+                const py = mapY(k * yStep, height);
+                ctx.fillText(formatTick(k * yStep, yStep), x0 - 10, py + 4);
             }
         }
     }
@@ -269,17 +319,17 @@ function drawAxes(ctx, width, height) {
 function drawEquation(ctx, width, height) {
     const { equationType, coefficients, xMin, xMax } = graphState;
     const { a, b, c, d } = coefficients;
-    
+
     ctx.strokeStyle = '#ff0080';
     ctx.lineWidth = 3;
     ctx.beginPath();
-    
-    let firstPoint = true;
-    const step = (xMax - xMin) / width;
-    
-    for (let x = xMin; x <= xMax; x += step) {
+
+    let penDown = false;
+
+    for (let i = 0; i <= width; i++) {
+        const x = xMin + (xMax - xMin) * i / width;
         let y;
-        
+
         switch(equationType) {
             case 'linear':
                 y = a * x + b;
@@ -291,18 +341,23 @@ function drawEquation(ctx, width, height) {
                 y = a * x * x * x + b * x * x + c * x + d;
                 break;
         }
-        
+
+        if (!Number.isFinite(y)) {
+            penDown = false;
+            continue;
+        }
+
         const px = mapX(x, width);
         const py = mapY(y, height);
-        
-        if (firstPoint) {
+
+        if (!penDown) {
             ctx.moveTo(px, py);
-            firstPoint = false;
+            penDown = true;
         } else {
             ctx.lineTo(px, py);
         }
     }
-    
+
     ctx.stroke();
 }
 
@@ -340,6 +395,9 @@ function zoomGraph(factor) {
     const xRange = (xMax - xMin) * factor;
     const yRange = (yMax - yMin) * factor;
     
+    // Stay within a range where floating point coordinates remain meaningful
+    if (xRange < 1e-9 || yRange < 1e-9 || xRange > 1e12 || yRange > 1e12) return;
+    
     graphState.xMin = xCenter - xRange / 2;
     graphState.xMax = xCenter + xRange / 2;
     graphState.yMin = yCenter - yRange / 2;
@@ -349,7 +407,7 @@ function zoomGraph(factor) {
     const values = [graphState.xMin, graphState.xMax, graphState.yMin, graphState.yMax];
     inputs.forEach((id, i) => {
         const input = document.getElementById(id);
-        if (input) input.value = values[i].toFixed(2);
+        if (input) input.value = parseFloat(values[i].toPrecision(6));
     });
     
     drawGraph();
@@ -370,7 +428,9 @@ if (typeof module !== 'undefined' && module.exports) {
         mapX,
         mapY,
         resetGraphView,
-        zoomGraph
+        zoomGraph,
+        niceTickStep,
+        formatTick
     };
 }
 
