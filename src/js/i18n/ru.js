@@ -623,7 +623,22 @@ const ru = {
     inverseResult: "Обратная матрица",
     calculationError: "Ошибка вычисления",
     selectOperation: "Выберите операцию",
-    divisionByZero: "Ошибка: Деление на ноль"
+    divisionByZero: "Ошибка: Деление на ноль",
+    noUniqueSolution: "Нет единственного решения (определитель = 0)",
+    inequalitySolution: "Решение",
+    enterAtLeastTwoNumbers: "Введите не менее 2 чисел",
+    noInverse: "Обратного элемента по модулю не существует",
+    dataSet: "Набор данных",
+    stdDev: "Станд. откл.",
+    terms: "Члены",
+    formula: "Формула",
+    limit: "Предел",
+    limitDoesNotExist: "Не существует",
+    taylorApprox: "Приближение Тейлора",
+    exactValue: "Точное значение",
+    termsUsed: "Использовано членов",
+    boundsError: "Нижняя граница должна быть меньше верхней",
+    method: "Метод"
 };
 
 // Export for use in browser

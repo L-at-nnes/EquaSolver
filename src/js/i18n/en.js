@@ -635,7 +635,22 @@ const en = {
     localmaximum: "local maximum",
     inflectionpoint: "inflection point",
     errorCalculating: "Error calculating",
-    divisionByZero: "Error: Division by zero"
+    divisionByZero: "Error: Division by zero",
+    noUniqueSolution: "No unique solution (determinant = 0)",
+    inequalitySolution: "Solution",
+    enterAtLeastTwoNumbers: "Enter at least 2 numbers",
+    noInverse: "No modular inverse exists",
+    dataSet: "Data set",
+    stdDev: "Std Dev",
+    terms: "Terms",
+    formula: "Formula",
+    limit: "Limit",
+    limitDoesNotExist: "Does not exist",
+    taylorApprox: "Taylor approximation",
+    exactValue: "Exact value",
+    termsUsed: "Terms used",
+    boundsError: "Lower bound must be less than upper bound",
+    method: "Method"
 };
 
 // Export for use in browser

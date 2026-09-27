@@ -623,7 +623,22 @@ const de = {
     inverseResult: "Inverse",
     calculationError: "Berechnungsfehler",
     selectOperation: "Wählen Sie eine Operation",
-    divisionByZero: "Fehler: Division durch Null"
+    divisionByZero: "Fehler: Division durch Null",
+    noUniqueSolution: "Keine eindeutige Lösung (Determinante = 0)",
+    inequalitySolution: "Lösung",
+    enterAtLeastTwoNumbers: "Mindestens 2 Zahlen eingeben",
+    noInverse: "Es existiert kein modulares Inverses",
+    dataSet: "Datensatz",
+    stdDev: "Standardabw.",
+    terms: "Glieder",
+    formula: "Formel",
+    limit: "Grenzwert",
+    limitDoesNotExist: "Existiert nicht",
+    taylorApprox: "Taylor-Näherung",
+    exactValue: "Exakter Wert",
+    termsUsed: "Verwendete Glieder",
+    boundsError: "Die untere Grenze muss kleiner als die obere sein",
+    method: "Methode"
 };
 
 // Export for use in browser

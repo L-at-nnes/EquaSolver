@@ -623,7 +623,22 @@ const es = {
     inverseResult: "Inversa",
     calculationError: "Error de cálculo",
     selectOperation: "Seleccione una operación",
-    divisionByZero: "Error: División por cero"
+    divisionByZero: "Error: División por cero",
+    noUniqueSolution: "No hay solución única (determinante = 0)",
+    inequalitySolution: "Solución",
+    enterAtLeastTwoNumbers: "Introduce al menos 2 números",
+    noInverse: "No existe el inverso modular",
+    dataSet: "Conjunto de datos",
+    stdDev: "Desv. estándar",
+    terms: "Términos",
+    formula: "Fórmula",
+    limit: "Límite",
+    limitDoesNotExist: "No existe",
+    taylorApprox: "Aproximación de Taylor",
+    exactValue: "Valor exacto",
+    termsUsed: "Términos usados",
+    boundsError: "El límite inferior debe ser menor que el superior",
+    method: "Método"
 };
 
 // Export for use in browser
