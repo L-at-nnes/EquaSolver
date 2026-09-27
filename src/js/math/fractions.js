@@ -93,6 +93,28 @@ function fractionToMixed(num, den) {
     return { whole: sign * whole, num: remainder, den: Math.abs(den) };
 }
 
+/**
+ * Simplify the ratio a : b, including decimal values (2.5 : 5 -> 1 : 2).
+ * Returns null when both terms are zero (no ratio to simplify).
+ */
+function simplifyRatio(a, b) {
+    if (!Number.isFinite(a) || !Number.isFinite(b) || (a === 0 && b === 0)) return null;
+    
+    // Scale decimals up to integers (at most 6 decimal places are considered)
+    const decimals = value => {
+        const text = String(Math.abs(value));
+        if (text.includes('e')) return 6;
+        const dot = text.indexOf('.');
+        return dot === -1 ? 0 : Math.min(text.length - dot - 1, 6);
+    };
+    const factor = Math.pow(10, Math.max(decimals(a), decimals(b)));
+    const scaledA = Math.round(a * factor);
+    const scaledB = Math.round(b * factor);
+    const divisor = gcd(scaledA, scaledB);
+    
+    return { a: scaledA / divisor, b: scaledB / divisor };
+}
+
 // CommonJS export for Jest
 if (typeof module !== 'undefined' && module.exports) {
     module.exports = {
@@ -105,7 +127,8 @@ if (typeof module !== 'undefined' && module.exports) {
         divideFractions,
         fractionToDecimal,
         decimalToFraction,
-        fractionToMixed
+        fractionToMixed,
+        simplifyRatio
     };
 }
 
@@ -122,4 +145,5 @@ if (typeof window !== 'undefined') {
     window.fractionToDecimal = fractionToDecimal;
     window.decimalToFraction = decimalToFraction;
     window.fractionToMixed = fractionToMixed;
+    window.simplifyRatio = simplifyRatio;
 }

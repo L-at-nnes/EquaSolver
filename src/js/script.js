@@ -1081,9 +1081,13 @@ function setupRatioCalculator() {
         switch (operation) {
             case 'simplify':
                 // Simplify ratio a:b
-                const gcdVal = gcd(Math.abs(a), Math.abs(b));
-                const simplifiedA = a / gcdVal;
-                const simplifiedB = b / gcdVal;
+                const simplified = simplifyRatio(a, b);
+                if (!simplified) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                const simplifiedA = simplified.a;
+                const simplifiedB = simplified.b;
                 html += `<p>${formatNumber(a)} : ${formatNumber(b)}</p>`;
                 html += `<div class="result-group">
                     <div class="result-label">${trans.simplified || 'Simplified'}:</div>
@@ -1956,14 +1960,27 @@ function solveLatexEquation() {
     
     try {
         const parsed = parseLatexEquation(latex);
-        const { degree, coefficients } = parsed;
+        
+        // Terms that cancel out (x^2 - x^2 + 3x = 6) leave leading zero coefficients:
+        // drop them so the real degree is used and we never divide by zero.
+        const coefficients = parsed.coefficients.slice();
+        while (coefficients.length > 1 && Math.abs(coefficients[0]) < 1e-12) {
+            coefficients.shift();
+        }
+        const degree = coefficients.length - 1;
         
         let html = `<h3>${trans.solution}</h3>`;
         html += `<p>Detected: Degree ${degree} polynomial</p>`;
         
         let solutions = [];
         
-        if (degree === 1) {
+        if (degree === 0) {
+            const identity = Math.abs(coefficients[0]) < 1e-12;
+            html += `<p class="solution">${identity ? trans.infiniteSolutions : trans.noSolution}</p>`;
+            resultDiv.innerHTML = html;
+            showExportButton('latex');
+            return;
+        } else if (degree === 1) {
             solutions = [-coefficients[1] / coefficients[0]];
         } else if (degree === 2) {
             const [a, b, c] = coefficients;
@@ -1973,7 +1990,7 @@ function solveLatexEquation() {
                 if (delta === 0) solutions = [solutions[0]];
             }
         } else {
-            solutions = findPolynomialRoots(coefficients);
+            solutions = separateRoots(findPolynomialRootsComplex(coefficients)).realRoots;
         }
         
         if (solutions.length === 0) {

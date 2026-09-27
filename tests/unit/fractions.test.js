@@ -216,3 +216,25 @@ describe('Fraction Arithmetic Properties', () => {
         expect(r1.den).toBe(r2.den);
     });
 });
+
+describe('simplifyRatio', () => {
+    const { simplifyRatio } = require('../../src/js/math/fractions.js');
+
+    test('simplifies integer ratios', () => {
+        expect(simplifyRatio(12, 18)).toEqual({ a: 2, b: 3 });
+        expect(simplifyRatio(-4, 6)).toEqual({ a: -2, b: 3 });
+    });
+
+    test('simplifies decimal ratios', () => {
+        expect(simplifyRatio(2.5, 5)).toEqual({ a: 1, b: 2 });
+        expect(simplifyRatio(0.3, 0.9)).toEqual({ a: 1, b: 3 });
+    });
+
+    test('handles a zero term', () => {
+        expect(simplifyRatio(0, 5)).toEqual({ a: 0, b: 1 });
+    });
+
+    test('has no ratio to simplify when both terms are zero', () => {
+        expect(simplifyRatio(0, 0)).toBeNull();
+    });
+});
