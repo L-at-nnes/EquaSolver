@@ -2,7 +2,7 @@
 // POLAR GRAPHING MODULE
 // ===================================
 
-// evaluateExpression is available globally from parsers/expression.js
+// compileExpression is available globally from parsers/expression.js
 // showExportButton is available globally from ui/export.js
 
 function setupPolarGraph() {
@@ -62,7 +62,8 @@ function plotPolarGraph() {
     const width = canvas.width;
     const height = canvas.height;
     
-    const rExpr = document.getElementById('polarR').value;
+    // Accept the greek letter as well as the word "theta"
+    const rExpr = document.getElementById('polarR').value.replace(/θ/g, 'theta');
     const thetaMin = parseDecimal(document.getElementById('thetaMin').value);
     const thetaMax = parseDecimal(document.getElementById('thetaMax').value);
     
@@ -70,22 +71,32 @@ function plotPolarGraph() {
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, width, height);
     
-    // Calculate points and convert to Cartesian
+    if (!Number.isFinite(thetaMin) || !Number.isFinite(thetaMax) || thetaMin >= thetaMax) return;
+    
+    const fr = compileExpression(rExpr, 'theta');
+    if (!fr) return;
+    
+    // Calculate points and convert to Cartesian (null marks a gap where r is undefined)
     const points = [];
     const steps = 1000;
     let maxR = 0;
     
     for (let i = 0; i <= steps; i++) {
         const theta = thetaMin + (thetaMax - thetaMin) * i / steps;
-        const r = evaluateExpression(rExpr, 'theta', theta);
+        const r = fr(theta);
         
-        if (!isNaN(r) && isFinite(r)) {
+        if (Number.isFinite(r)) {
             const x = r * Math.cos(theta);
             const y = r * Math.sin(theta);
             points.push({ x, y, r: Math.abs(r) });
             if (Math.abs(r) > maxR) maxR = Math.abs(r);
+        } else {
+            points.push(null);
         }
     }
+    
+    // r = 0 everywhere would give an infinite scale
+    if (maxR === 0) maxR = 1;
     
     // Add margin
     maxR *= 1.2;
@@ -133,14 +144,19 @@ function plotPolarGraph() {
     ctx.lineWidth = 3;
     ctx.beginPath();
     
-    let firstPoint = true;
+    let penDown = false;
     points.forEach(point => {
+        if (!point) {
+            penDown = false;
+            return;
+        }
+        
         const px = centerX + point.x * scale;
         const py = centerY - point.y * scale;
         
-        if (firstPoint) {
+        if (!penDown) {
             ctx.moveTo(px, py);
-            firstPoint = false;
+            penDown = true;
         } else {
             ctx.lineTo(px, py);
         }
