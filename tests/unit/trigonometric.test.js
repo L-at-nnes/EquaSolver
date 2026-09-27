@@ -41,3 +41,17 @@ describe('Trigonometric Equation Solver', () => {
         expect(result.solutions.length).toBe(0);
     });
 });
+
+describe('solveTrigonometricEquation - domain size', () => {
+    test('rejects domains spanning more than 1000 periods', () => {
+        const r = solveTrigonometricEquation('sin', 0.5, -1e9, 1e9);
+        expect(r.solutions).toEqual([]);
+        expect(r.error).toMatch(/too large/i);
+    });
+
+    test('still solves large but reasonable domains', () => {
+        const r = solveTrigonometricEquation('sin', 0.5, 0, 200 * Math.PI);
+        expect(r.error).toBeNull();
+        expect(r.solutions.length).toBe(200);
+    });
+});

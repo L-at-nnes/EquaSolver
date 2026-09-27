@@ -13,6 +13,8 @@ function normalizeAndSortUnique(values, epsilon = 1e-8) {
     return unique;
 }
 
+const MAX_TRIG_PERIODS = 1000;
+
 /**
  * Solve trigonometric equations of form sin(x)=k, cos(x)=k, tan(x)=k on [domainStart, domainEnd]
  */
@@ -23,6 +25,11 @@ function solveTrigonometricEquation(func, k, domainStart = -2 * Math.PI, domainE
 
     if (!Number.isFinite(k) || !Number.isFinite(domainStart) || !Number.isFinite(domainEnd) || domainStart > domainEnd) {
         return { solutions: [], error: 'Invalid input or domain' };
+    }
+
+    // Each period yields up to two solutions: refuse domains that would freeze the page
+    if ((domainEnd - domainStart) / period > MAX_TRIG_PERIODS) {
+        return { solutions: [], error: `Domain too large (at most ${MAX_TRIG_PERIODS} periods)` };
     }
 
     if (func === 'sin') {
