@@ -216,7 +216,7 @@ function initEventListeners() {
     document.getElementById('solveQuintic')?.addEventListener('click', solveQuinticEquation);
     document.getElementById('solveSystems')?.addEventListener('click', solveSystemEquations);
     document.getElementById('solveSystem3x3')?.addEventListener('click', solve3x3System);
-    document.getElementById('calculateMatrix')?.addEventListener('click', calculateMatrix);
+    // (calculateMatrix is wired in setupMatrixCalculator)
     
     // Inequality solver buttons
     document.getElementById('solveInequalityLinear')?.addEventListener('click', solveLinearInequalityUI);
@@ -229,8 +229,7 @@ function initEventListeners() {
     // Trigonometric solver button
     document.getElementById('solveTrigonometric')?.addEventListener('click', solveTrigonometricUI);
 
-    // Polynomial division
-    document.getElementById('performPolynomialDivision')?.addEventListener('click', performPolynomialDivision);
+    // (polynomial division is wired in setupPolynomialDivision)
     
     // PDF Export buttons
     setupExportButtons();
