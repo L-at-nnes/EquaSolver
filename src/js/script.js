@@ -1435,7 +1435,11 @@ function calculateGcdLcm() {
     const resultDiv = document.getElementById('gcdlcmSolution');
     const trans = translations[window.currentLang];
     
-    if (!input || !resultDiv) return;
+    if (!resultDiv) return;
+    if (!input) {
+        resultDiv.innerHTML = `<p class="error">${trans.enterAtLeastTwoNumbers}</p>`;
+        return;
+    }
     
     const numbers = input.split(/[,\s]+/).map(Number).filter(n => !isNaN(n) && n !== 0);
     
@@ -2020,7 +2024,11 @@ function convertBase() {
     const resultDiv = document.getElementById('baseConverterSolution');
     const trans = translations[window.currentLang];
     
-    if (!input || !resultDiv) return;
+    if (!resultDiv) return;
+    if (!input || input === '-') {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidBaseNumber || 'Invalid number'}</p>`;
+        return;
+    }
     
     const validChars = '0123456789ABCDEF'.substring(0, fromBase);
     const isNegative = input.startsWith('-');
