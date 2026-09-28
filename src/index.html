@@ -13,15 +13,8 @@
     <link rel="apple-touch-icon" href="assets/icon-192.svg">
     <link rel="manifest" href="manifest.json">
     <link rel="stylesheet" href="css/style.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link rel="preload" href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
-    <noscript><link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet"></noscript>
 </head>
-<body class="theme-matrix">
-    <!-- Particles Background -->
-    <div id="particles-js"></div>
-    
+<body class="theme-matrix light-mode">
     <!-- Settings Button -->
     <button class="settings-btn" id="settingsBtn" title="Settings">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -38,13 +31,13 @@
             <div class="setting-group">
                 <label data-translate="mode">Mode</label>
                 <div class="mode-toggle">
-                    <button class="mode-btn active" data-mode="dark">
+                    <button class="mode-btn" data-mode="dark">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
                         </svg>
                         <span data-translate="darkMode">Dark</span>
                     </button>
-                    <button class="mode-btn" data-mode="light">
+                    <button class="mode-btn active" data-mode="light">
                         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                             <circle cx="12" cy="12" r="5"></circle>
                             <line x1="12" y1="1" x2="12" y2="3"></line>
@@ -64,22 +57,22 @@
             <div class="setting-group">
                 <label data-translate="theme">Theme</label>
                 <div class="theme-selector">
-                    <button class="theme-btn" data-theme="cyberpunk" title="Cyberpunk">
+                    <button class="theme-btn" data-theme="cyberpunk" title="Indigo">
                         <div class="theme-preview cyberpunk-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="neon" title="Neon">
+                    <button class="theme-btn" data-theme="neon" title="Green">
                         <div class="theme-preview neon-preview"></div>
                     </button>
-                    <button class="theme-btn active" data-theme="matrix" title="Matrix">
+                    <button class="theme-btn active" data-theme="matrix" title="Graphite">
                         <div class="theme-preview matrix-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="sunset" title="Sunset">
+                    <button class="theme-btn" data-theme="sunset" title="Amber">
                         <div class="theme-preview sunset-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="ocean" title="Ocean">
+                    <button class="theme-btn" data-theme="ocean" title="Blue">
                         <div class="theme-preview ocean-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="galaxy" title="Galaxy">
+                    <button class="theme-btn" data-theme="galaxy" title="Violet">
                         <div class="theme-preview galaxy-preview"></div>
                     </button>
                     <button class="theme-btn" data-theme="custom" title="Custom">
@@ -156,7 +149,6 @@
         <div id="homeScreen" class="home-screen active">
             <header class="home-header">
                 <h1 class="logo">
-                    <span class="logo-icon">∑</span>
                     EquaSolver
                 </h1>
                 <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
@@ -174,7 +166,6 @@
                     </div>
                     <h3 data-translate="standard">Standard</h3>
                     <p data-translate="standardDesc">Basic calculator operations</p>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <div class="tool-card" data-tool="multi-degree">
@@ -195,7 +186,6 @@
                         <button class="submenu-btn" data-subtool="quartic" data-translate="degreeFour">4th degree</button>
                         <button class="submenu-btn" data-subtool="quintic" data-translate="degreeFive">5th degree</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Inequalities -->
@@ -214,7 +204,6 @@
                         <button class="submenu-btn" data-subtool="inequalityLinear" data-translate="linearInequality">Linear</button>
                         <button class="submenu-btn" data-subtool="inequalityQuadratic" data-translate="quadraticInequality">Quadratic</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Absolute Value -->
@@ -233,7 +222,6 @@
                         <button class="submenu-btn" data-subtool="absoluteEquation" data-translate="absoluteEquation">Equation</button>
                         <button class="submenu-btn" data-subtool="absoluteInequality" data-translate="absoluteInequality">Inequality</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Trigonometric -->
@@ -246,7 +234,6 @@
                     </div>
                     <h3 data-translate="trigonometric">Trigonometric</h3>
                     <p data-translate="trigonometricDesc">Solve sin, cos and tan equations</p>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Exponential & Logarithmic -->
@@ -265,7 +252,6 @@
                         <button class="submenu-btn" data-subtool="exponential" data-translate="exponential">Exponential</button>
                         <button class="submenu-btn" data-subtool="logarithmic" data-translate="logarithmic">Logarithmic</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <div class="tool-card" data-tool="systems">
@@ -283,7 +269,6 @@
                         <button class="submenu-btn" data-subtool="systems" data-translate="system2x2">2x2 System</button>
                         <button class="submenu-btn" data-subtool="system3x3" data-translate="system3x3">3x3 System</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <div class="tool-card" data-tool="matrix">
@@ -297,7 +282,6 @@
                     </div>
                     <h3 data-translate="matrix">Matrices</h3>
                     <p data-translate="matrixDesc">Operations on matrices</p>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <div class="tool-card" data-tool="graph">
@@ -309,7 +293,6 @@
                     </div>
                     <h3 data-translate="graph">Graph</h3>
                     <p data-translate="graphDesc">Visualize equations</p>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <div class="tool-card" data-tool="history">
@@ -321,7 +304,6 @@
                     </div>
                     <h3 data-translate="historyTitle">History</h3>
                     <p data-translate="historyDesc">View calculation history</p>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Number Tools Category -->
@@ -344,7 +326,6 @@
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
                         <button class="submenu-btn" data-subtool="ratio" data-translate="ratio">Ratio</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Statistics Category -->
@@ -363,7 +344,6 @@
                         <button class="submenu-btn" data-subtool="statisticsCalc" data-translate="statisticsCalc">Statistics</button>
                         <button class="submenu-btn" data-subtool="sequences" data-translate="sequences">Sequences</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Converters Category -->
@@ -383,7 +363,6 @@
                         <button class="submenu-btn" data-subtool="baseConverter" data-translate="baseConverter">Base Converter</button>
                         <button class="submenu-btn" data-subtool="unitConverter" data-translate="unitConverter">Unit Converter</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
 
                 <!-- Calculus Category -->
@@ -405,7 +384,6 @@
                         <button class="submenu-btn" data-subtool="integrals" data-translate="integrals">Integrals</button>
                         <button class="submenu-btn" data-subtool="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
                     </div>
-                    <div class="tool-glow"></div>
                 </div>
             </div>
         </div>
@@ -422,7 +400,6 @@
 
             <header>
                 <h1 class="logo">
-                    <span class="logo-icon">∑</span>
                     EquaSolver
                 </h1>
                 <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
@@ -2033,7 +2010,6 @@
         </div>
     </div>
 
-    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js" defer></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" defer></script>
     <script src="js/flags.js" defer></script>
     <!-- Language files loaded separately for better maintainability -->

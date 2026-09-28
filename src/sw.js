@@ -64,9 +64,7 @@ const STATIC_ASSETS = [
 ];
 
 const EXTERNAL_ASSETS = [
-    'https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js',
-    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js',
-    'https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Roboto:wght@300;400;500;700&display=swap'
+    'https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js'
 ];
 
 self.addEventListener('install', event => {

@@ -25,11 +25,11 @@ test.describe('Application Loading', () => {
         await expect(toolCards).toHaveCount(7); // Adjust based on actual count
     });
 
-    test('should have particles background', async ({ page }) => {
+    test('should start in light mode without decorative background', async ({ page }) => {
         await page.goto('http://localhost:3000/src/index.html');
-        
-        const particles = page.locator('#particles-js');
-        await expect(particles).toBeVisible();
+
+        await expect(page.locator('body')).toHaveClass(/light-mode/);
+        await expect(page.locator('#particles-js')).toHaveCount(0);
     });
 });
 

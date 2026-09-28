@@ -20,15 +20,14 @@ document.addEventListener('DOMContentLoaded', () => {
     
     const savedSettings = loadSettings();
     
-    initParticles();
     initEventListeners();
     loadFlags();
     
     window.currentTheme = savedSettings.theme || 'matrix';
     window.currentLang = savedSettings.lang || 'en';
-    window.currentMode = savedSettings.mode || 'dark';
+    window.currentMode = savedSettings.mode || 'light';
     
-    changeTheme(window.currentTheme, updateParticlesColor);
+    changeTheme(window.currentTheme);
     changeLanguage(window.currentLang);
     changeMode(window.currentMode);
     
@@ -70,96 +69,6 @@ function loadFlags() {
     });
 }
 
-function isMobileDevice() {
-    return window.innerWidth <= 768 || 
-           /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
-}
-
-function getParticleConfig() {
-    const isMobile = isMobileDevice();
-    return {
-        particles: {
-            number: { 
-                value: isMobile ? 30 : 80, 
-                density: { enable: true, value_area: isMobile ? 600 : 800 } 
-            },
-            color: { value: '#ff0080' },
-            shape: { type: 'circle' },
-            opacity: { value: 0.5, random: true },
-            size: { value: isMobile ? 2 : 3, random: true },
-            line_linked: {
-                enable: !isMobile,
-                distance: 150,
-                color: '#00ffff',
-                opacity: 0.4,
-                width: 1
-            },
-            move: {
-                enable: true,
-                speed: isMobile ? 1 : 2,
-                direction: 'none',
-                random: true,
-                straight: false,
-                out_mode: 'bounce',
-                bounce: true
-            }
-        },
-        interactivity: {
-            detect_on: 'canvas',
-            events: {
-                onhover: { enable: !isMobile, mode: 'repulse' },
-                onclick: { enable: !isMobile, mode: 'push' },
-                resize: true
-            }
-        },
-        retina_detect: !isMobile
-    };
-}
-
-function initParticles() {
-    if (typeof particlesJS === 'undefined') return;
-    particlesJS('particles-js', getParticleConfig());
-}
-
-function debounce(func, wait) {
-    let timeout;
-    return function executedFunction(...args) {
-        const later = () => {
-            clearTimeout(timeout);
-            func(...args);
-        };
-        clearTimeout(timeout);
-        timeout = setTimeout(later, wait);
-    };
-}
-
-window.addEventListener('resize', debounce(() => {
-    if (typeof pJSDom !== 'undefined' && pJSDom[0]) {
-        const config = getParticleConfig();
-        pJSDom[0].pJS.particles.number.value = config.particles.number.value;
-        pJSDom[0].pJS.particles.line_linked.enable = config.particles.line_linked.enable;
-        pJSDom[0].pJS.interactivity.events.onhover.enable = config.interactivity.events.onhover.enable;
-        pJSDom[0].pJS.fn.particlesRefresh();
-    }
-}, 250));
-
-function updateParticlesColor() {
-    const themeColors = {
-        cyberpunk: { particle: '#ff0080', line: '#00ffff' },
-        neon: { particle: '#00ff9f', line: '#ff006e' },
-        matrix: { particle: '#00ff41', line: '#008f11' },
-        sunset: { particle: '#ff6b35', line: '#ffd23f' },
-        ocean: { particle: '#00b4d8', line: '#90e0ef' },
-        galaxy: { particle: '#b537f2', line: '#f72585' }
-    };
-    
-    if (typeof pJSDom !== 'undefined' && pJSDom[0] && themeColors[window.currentTheme]) {
-        pJSDom[0].pJS.particles.color.value = themeColors[window.currentTheme].particle;
-        pJSDom[0].pJS.particles.line_linked.color = themeColors[window.currentTheme].line;
-        pJSDom[0].pJS.fn.particlesRefresh();
-    }
-}
-
 // ===================================
 // EVENT LISTENERS SETUP
 // ===================================
@@ -173,7 +82,6 @@ function initEventListeners() {
         btn.addEventListener('click', () => {
             window.currentTheme = btn.dataset.theme;
             changeTheme(window.currentTheme);
-            updateParticlesColor();
         });
     });
     

@@ -67,11 +67,11 @@ describe('Themes', () => {
 
     test('loadSettings survives corrupted storage', () => {
         localStorage.setItem('equasolver_settings', '{not json');
-        expect(themes.loadSettings()).toEqual({ theme: 'matrix', lang: 'en', mode: 'dark' });
+        expect(themes.loadSettings()).toEqual({ theme: 'matrix', lang: 'en', mode: 'light' });
     });
 
     test('loadSettings fills missing fields with defaults', () => {
         localStorage.setItem('equasolver_settings', JSON.stringify({ lang: 'fr' }));
-        expect(themes.loadSettings()).toEqual({ theme: 'matrix', lang: 'fr', mode: 'dark' });
+        expect(themes.loadSettings()).toEqual({ theme: 'matrix', lang: 'fr', mode: 'light' });
     });
 });

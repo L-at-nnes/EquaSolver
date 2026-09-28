@@ -4,7 +4,7 @@
 
 let currentTheme = 'matrix';
 let currentLang = 'en';
-let currentMode = 'dark';
+let currentMode = 'light';
 
 // Custom theme colors
 let customThemeColors = {
@@ -164,7 +164,7 @@ function saveSettings() {
 }
 
 function loadSettings() {
-    const defaults = { theme: 'matrix', lang: 'en', mode: 'dark' };
+    const defaults = { theme: 'matrix', lang: 'en', mode: 'light' };
     let settings;
     try {
         const saved = localStorage.getItem('equasolver_settings');
