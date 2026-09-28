@@ -924,10 +924,12 @@ Safely evaluates a mathematical expression with variable substitution.
 **Returns:** `number` - Evaluated result
 
 **Supported Functions:**
-- Trigonometric: `sin`, `cos`, `tan`
-- Other: `sqrt`, `abs`, `exp`, `log`, `pow`
+- Trigonometric: `sin`, `cos`, `tan`, `asin`, `acos`, `atan`, `sinh`, `cosh`, `tanh`
+- Other: `sqrt`, `cbrt`, `abs`, `exp`, `ln`, `log` (natural log here, base 10 in limits/calculus), `log10`, `log2`, `floor`, `ceil`, `round`, `sign`, `pow`, `min`, `max`, `atan2`
 - Constants: `pi`, `e`
-- Operators: `+`, `-`, `*`, `/`, `^`
+- Operators: `+`, `-`, `*`, `/`, `%`, `^` (unary minus and implicit multiplication such as `2x`, `3(x+1)` are supported)
+
+Invalid input returns `NaN`; no JavaScript is ever executed. `compileExpression(expr, varName, options)` returns the parsed function (or `null`) for repeated evaluation.
 
 **Example:**
 ```javascript
@@ -936,6 +938,18 @@ evaluateExpression('sin(t) * 2', 't', Math.PI / 2);
 
 evaluateExpression('sqrt(x^2 + 1)', 'x', 0);
 // Returns: 1
+```
+
+### `evaluateLimit(expr, point, direction)`
+
+Numerically estimates a limit. `point` may be `±Infinity`; `direction` is `'both'`, `'left'` or `'right'`.
+
+**Returns:** `{ value, exists, left, right }` - `value` is `±Infinity` when the function diverges and `NaN` (with `exists: false`) when the limit does not exist.
+
+```javascript
+evaluateLimit('sin(x)/x', 0).value;        // 1
+evaluateLimit('1/x', 0, 'right').value;    // Infinity
+evaluateLimit('abs(x)/x', 0).exists;       // false
 ```
 
 ---
