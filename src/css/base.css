@@ -1,0 +1,236 @@
+/* ===================================
+   BASE: tokens, reset, typography, shared controls
+   =================================== */
+
+:root {
+    /* Type */
+    --font-sans: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    --font-mono: ui-monospace, "SF Mono", "Cascadia Mono", "Segoe UI Mono", Consolas, monospace;
+    --text-xs: 0.8125rem;
+    --text-sm: 0.875rem;
+    --text-base: 1rem;
+    --text-md: 1.125rem;
+    --text-lg: 1.25rem;
+    --text-xl: 1.5rem;
+
+    /* Space (4px base) */
+    --space-1: 0.25rem;
+    --space-2: 0.5rem;
+    --space-3: 0.75rem;
+    --space-4: 1rem;
+    --space-5: 1.5rem;
+    --space-6: 2rem;
+    --space-7: 3rem;
+
+    --radius: 8px;
+    --radius-sm: 6px;
+    --control-height: 2.5rem;
+    --ease: cubic-bezier(0.25, 1, 0.5, 1);
+    --duration: 160ms;
+
+    /* Dark neutrals (default). body.light-mode swaps them. */
+    --bg: oklch(19% 0.012 255);
+    --surface: oklch(23% 0.014 255);
+    --surface-2: oklch(27% 0.016 255);
+    --border: oklch(34% 0.016 255);
+    --text: oklch(94% 0.008 255);
+    --text-muted: oklch(73% 0.015 255);
+    --danger: oklch(72% 0.15 25);
+    --success: oklch(76% 0.13 150);
+}
+
+body.light-mode {
+    --bg: oklch(97.5% 0.005 255);
+    --surface: oklch(99.5% 0.003 255);
+    --surface-2: oklch(95.5% 0.006 255);
+    --border: oklch(88% 0.01 255);
+    --text: oklch(24% 0.02 255);
+    --text-muted: oklch(47% 0.02 255);
+    --danger: oklch(50% 0.18 25);
+    --success: oklch(45% 0.12 150);
+}
+
+/* Accent: one hue per theme, two lightness values (light / dark surfaces) */
+body { --accent: var(--accent-d); --accent-ink: oklch(20% 0.02 255); }
+body.light-mode { --accent: var(--accent-l); --accent-ink: oklch(98% 0.005 255); }
+
+.theme-cyberpunk { --accent-l: oklch(48% 0.19 275); --accent-d: oklch(74% 0.13 275); }
+.theme-neon      { --accent-l: oklch(46% 0.12 155); --accent-d: oklch(76% 0.13 155); }
+.theme-matrix    { --accent-l: oklch(30% 0.025 255); --accent-d: oklch(88% 0.012 255); }
+.theme-sunset    { --accent-l: oklch(50% 0.14 55);  --accent-d: oklch(77% 0.13 65); }
+.theme-ocean     { --accent-l: oklch(48% 0.12 240); --accent-d: oklch(75% 0.11 235); }
+.theme-galaxy    { --accent-l: oklch(46% 0.17 305); --accent-d: oklch(75% 0.13 305); }
+
+/* User-defined theme: colors arrive as --custom-* from themes.js */
+body.theme-custom,
+body.theme-custom.light-mode {
+    --accent: var(--custom-primary, oklch(48% 0.19 275));
+    --accent-ink: oklch(98% 0.005 255);
+    --bg: var(--custom-bg-primary, oklch(19% 0.012 255));
+    --surface: var(--custom-bg-secondary, oklch(23% 0.014 255));
+    --surface-2: var(--custom-bg-panel, oklch(27% 0.016 255));
+}
+
+*,
+*::before,
+*::after {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    line-height: 1.5;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    overflow-x: hidden;
+}
+
+button,
+input,
+select,
+textarea {
+    font: inherit;
+    color: inherit;
+}
+
+button {
+    cursor: pointer;
+}
+
+:focus-visible {
+    outline: 2px solid var(--accent);
+    outline-offset: 2px;
+}
+
+/* Layout */
+.container {
+    max-width: 1080px;
+    margin: 0 auto;
+    padding: var(--space-6) var(--space-5);
+}
+
+/* Wordmark */
+header {
+    margin-bottom: var(--space-5);
+}
+
+.logo {
+    font-size: var(--text-xl);
+    font-weight: 650;
+    letter-spacing: -0.01em;
+    line-height: 1.2;
+}
+
+.subtitle {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    margin-top: var(--space-1);
+}
+
+.welcome-text {
+    color: var(--text-muted);
+    font-size: var(--text-base);
+    margin-top: var(--space-4);
+}
+
+/* Shared buttons */
+.back-btn,
+.btn-export,
+.clear-history,
+.example-btn,
+.shortcut-btn,
+.preset-btn,
+.graph-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--control-height);
+    padding: 0 var(--space-4);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    font-size: var(--text-sm);
+    transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.back-btn:hover,
+.btn-export:hover,
+.clear-history:hover,
+.example-btn:hover,
+.shortcut-btn:hover,
+.preset-btn:hover,
+.graph-btn:hover {
+    background: var(--surface-2);
+    border-color: var(--text-muted);
+}
+
+.back-btn {
+    margin-bottom: var(--space-4);
+}
+
+.btn-solve,
+.btn-apply-theme,
+.btn-save-theme,
+.close-settings {
+    min-height: var(--control-height);
+    padding: 0 var(--space-5);
+    background: var(--accent);
+    color: var(--accent-ink);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-base);
+    font-weight: 600;
+    transition: filter var(--duration) var(--ease);
+}
+
+.btn-solve:hover,
+.btn-apply-theme:hover,
+.btn-save-theme:hover,
+.close-settings:hover {
+    filter: brightness(1.08);
+}
+
+.btn-solve:active,
+.btn-apply-theme:active,
+.btn-save-theme:active,
+.close-settings:active {
+    filter: brightness(0.94);
+}
+
+button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}
+
+/* Scrollbars stay native; only keep them from clashing on dark surfaces */
+:root {
+    color-scheme: dark;
+}
+
+body.light-mode {
+    color-scheme: light;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.01ms !important;
+        animation-delay: 0ms !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+@media (max-width: 640px) {
+    .container {
+        padding: var(--space-4);
+    }
+}
