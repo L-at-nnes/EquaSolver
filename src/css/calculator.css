@@ -1,0 +1,211 @@
+/* ===================================
+   CALCULATOR: shell, tabs, keypad, history
+   =================================== */
+
+.calculator-wrapper {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    padding: var(--space-5);
+}
+
+/* Tabs: one scrollable row instead of a wall of wrapped buttons */
+.tabs {
+    display: flex;
+    gap: var(--space-1);
+    margin: 0 calc(var(--space-5) * -1) var(--space-5);
+    padding: 0 var(--space-5);
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: thin;
+}
+
+.tab {
+    flex: none;
+    padding: var(--space-3) var(--space-3);
+    background: none;
+    border: none;
+    border-bottom: 2px solid transparent;
+    margin-bottom: -1px;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    white-space: nowrap;
+    transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.tab:hover {
+    color: var(--text);
+}
+
+.tab.active {
+    color: var(--accent);
+    border-bottom-color: var(--accent);
+}
+
+.calculator-panel {
+    display: none;
+}
+
+.calculator-panel.active {
+    display: block;
+}
+
+/* Standard calculator */
+#standard {
+    max-width: 380px;
+    margin: 0 auto;
+}
+
+.display-container {
+    margin-bottom: var(--space-4);
+    padding: var(--space-4);
+    background: var(--surface-2);
+    border-radius: var(--radius);
+}
+
+.display-history {
+    min-height: 1.25rem;
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+    text-align: right;
+}
+
+.display {
+    width: 100%;
+    background: none;
+    border: none;
+    outline: none;
+    color: var(--text);
+    font-family: var(--font-mono);
+    font-size: 2rem;
+    font-variant-numeric: tabular-nums;
+    text-align: right;
+}
+
+.buttons-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: var(--space-2);
+}
+
+.btn {
+    min-height: 3.25rem;
+    padding: 0 var(--space-3);
+    border: 1px solid transparent;
+    border-radius: var(--radius-sm);
+    font-size: var(--text-md);
+    font-variant-numeric: tabular-nums;
+    transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease);
+}
+
+.btn:active {
+    transform: scale(0.97);
+}
+
+.btn.number {
+    background: var(--surface-2);
+    color: var(--text);
+}
+
+.btn.number:hover {
+    border-color: var(--text-muted);
+}
+
+.btn.operator,
+.btn.function {
+    background: color-mix(in oklch, var(--accent) 12%, var(--surface));
+    color: var(--accent);
+}
+
+.btn.operator:hover,
+.btn.function:hover {
+    border-color: var(--accent);
+}
+
+.btn.equals {
+    background: var(--accent);
+    color: var(--accent-ink);
+    font-weight: 600;
+}
+
+.btn.equals:hover {
+    filter: brightness(1.08);
+}
+
+.scientific-functions {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: var(--space-2);
+    margin-top: var(--space-4);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--border);
+}
+
+.btn.scientific {
+    min-height: 2.5rem;
+    background: var(--surface);
+    border-color: var(--border);
+    color: var(--text);
+    font-size: var(--text-sm);
+}
+
+.btn.scientific:hover {
+    border-color: var(--accent);
+    color: var(--accent);
+}
+
+/* History */
+.history-panel {
+    display: none;
+    margin-top: var(--space-5);
+}
+
+.history-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: var(--space-3);
+}
+
+.history-header h3 {
+    font-size: var(--text-md);
+    font-weight: 600;
+}
+
+.history-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    max-height: 60vh;
+    overflow-y: auto;
+}
+
+.history-item {
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+}
+
+.history-entry {
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    overflow-wrap: anywhere;
+}
+
+.history-time {
+    margin-top: var(--space-1);
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+}
+
+@media (max-width: 640px) {
+    .calculator-wrapper {
+        padding: var(--space-4);
+    }
+
+    .tabs {
+        margin: 0 calc(var(--space-4) * -1) var(--space-4);
+        padding: 0 var(--space-4);
+    }
+}
