@@ -1,0 +1,325 @@
+/* ===================================
+   FORMS: equation panels, inputs, matrices, graphs
+   =================================== */
+
+.equation-display {
+    margin-bottom: var(--space-5);
+}
+
+.equation-display h3 {
+    margin-bottom: var(--space-3);
+    font-size: var(--text-lg);
+    font-weight: 600;
+    line-height: 1.3;
+}
+
+.equation-preview,
+.equation-preview-small {
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-md);
+    overflow-wrap: anywhere;
+}
+
+/* Some panels use the preview slot for a plain description */
+p.equation-preview {
+    font-family: var(--font-sans);
+    font-size: var(--text-base);
+    color: var(--text-muted);
+}
+
+.equation-preview-small div + div {
+    margin-top: var(--space-1);
+}
+
+.equation-builder {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-4);
+    align-items: flex-end;
+    margin-bottom: var(--space-5);
+}
+
+.equation-builder > * {
+    flex: 1 1 100%;
+}
+
+.equation-builder > .input-group,
+.equation-builder > .slider-group {
+    flex: 1 1 9rem;
+    max-width: 16rem;
+}
+
+.equation-section-title {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.input-group,
+.slider-group,
+.control-group,
+.graph-input-group {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+}
+
+.input-group label,
+.slider-group label,
+.control-group label,
+.graph-input-group label,
+.range-group label,
+.latex-shortcuts label,
+.latex-examples label,
+.polar-presets label {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+.input-hint {
+    color: var(--text-muted);
+    font-size: var(--text-sm);
+}
+
+/* Text-like controls share one look */
+.coef-input,
+.equation-input,
+.equation-text-input,
+.graph-input,
+.range-input,
+.matrix-select,
+.inequality-select,
+.matrix-cell,
+.latex-input {
+    width: 100%;
+    min-height: var(--control-height);
+    padding: var(--space-2) var(--space-3);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-sm);
+    color: var(--text);
+    transition: border-color var(--duration) var(--ease);
+}
+
+.coef-input,
+.equation-input,
+.equation-text-input,
+.graph-input,
+.range-input,
+.matrix-cell,
+.latex-input {
+    font-family: var(--font-mono);
+    font-variant-numeric: tabular-nums;
+}
+
+.coef-input:hover,
+.equation-input:hover,
+.equation-text-input:hover,
+.graph-input:hover,
+.range-input:hover,
+.matrix-select:hover,
+.inequality-select:hover,
+.matrix-cell:hover,
+.latex-input:hover {
+    border-color: var(--text-muted);
+}
+
+.coef-input:focus,
+.equation-input:focus,
+.equation-text-input:focus,
+.graph-input:focus,
+.range-input:focus,
+.matrix-select:focus,
+.inequality-select:focus,
+.matrix-cell:focus,
+.latex-input:focus {
+    outline: 2px solid var(--accent);
+    outline-offset: -1px;
+    border-color: var(--accent);
+}
+
+.coef-input::placeholder,
+.equation-input::placeholder,
+.equation-text-input::placeholder,
+.latex-input::placeholder {
+    color: var(--text-muted);
+    opacity: 0.7;
+}
+
+.latex-input {
+    min-height: 5rem;
+    resize: vertical;
+}
+
+/* Number steppers add noise on numeric fields */
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}
+
+input[type="number"] {
+    appearance: textfield;
+    -moz-appearance: textfield;
+}
+
+.coefficient-sliders,
+.matrix-controls,
+.graph-controls,
+.graph-range-controls,
+.range-inputs,
+.graph-options,
+.fraction-input-group,
+.shortcut-buttons,
+.example-list,
+.preset-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    align-items: flex-end;
+}
+
+.range-inputs {
+    align-items: center;
+}
+
+.range-inputs span,
+.fraction-divider {
+    color: var(--text-muted);
+}
+
+.range-input {
+    width: 6rem;
+}
+
+.fraction-input {
+    width: 5.5rem;
+}
+
+.matrix-select,
+.inequality-select {
+    width: auto;
+    min-width: 8rem;
+}
+
+.latex-shortcuts,
+.latex-examples,
+.polar-presets {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+}
+
+.shortcut-btn,
+.example-btn,
+.preset-btn {
+    min-height: 2rem;
+    padding: 0 var(--space-3);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+}
+
+.example-btn,
+.preset-btn {
+    font-family: var(--font-sans);
+}
+
+.checkbox-label {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-2);
+    color: var(--text);
+    font-size: var(--text-sm);
+    cursor: pointer;
+}
+
+.checkbox-label input[type="checkbox"],
+.animation-toggle input[type="checkbox"] {
+    width: 1.125rem;
+    height: 1.125rem;
+    accent-color: var(--accent);
+}
+
+input[type="range"],
+.coef-slider {
+    width: 100%;
+    accent-color: var(--accent);
+}
+
+/* Actions row */
+.button-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-3);
+    margin-bottom: var(--space-5);
+}
+
+.latex-preview-container {
+    padding: var(--space-3) var(--space-4);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    min-height: 3rem;
+}
+
+.latex-rendered {
+    font-family: var(--font-mono);
+    font-size: var(--text-md);
+}
+
+/* Matrices */
+.matrix-input-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-5);
+}
+
+.matrix-wrapper h4 {
+    margin-bottom: var(--space-2);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--text-muted);
+}
+
+.matrix-grid {
+    display: grid;
+    gap: var(--space-2);
+    grid-auto-columns: 5rem;
+}
+
+.matrix-cell {
+    width: 5rem;
+    text-align: center;
+}
+
+/* Graphs */
+.graph-container {
+    margin-top: var(--space-4);
+    background: var(--surface-2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    overflow: hidden;
+}
+
+.graph-container canvas,
+#graphCanvas {
+    display: block;
+    width: 100%;
+    height: auto;
+}
+
+@media (max-width: 640px) {
+    .equation-builder > .input-group,
+    .equation-builder > .slider-group {
+        max-width: none;
+    }
+
+    .matrix-cell,
+    .matrix-grid {
+        grid-auto-columns: 4rem;
+    }
+
+    .matrix-cell {
+        width: 4rem;
+    }
+}
