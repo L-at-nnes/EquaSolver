@@ -2,6 +2,8 @@
    SETTINGS: panel, themes, language, custom colors
    =================================== */
 
+@layer components {
+
 .settings-btn {
     position: fixed;
     right: var(--space-5);
@@ -103,12 +105,12 @@
     border-radius: 4px;
 }
 
-.cyberpunk-preview { background: oklch(48% 0.19 275); }
-.neon-preview      { background: oklch(46% 0.12 155); }
-.matrix-preview    { background: oklch(30% 0.025 255); }
-.sunset-preview    { background: oklch(60% 0.14 55); }
-.ocean-preview     { background: oklch(48% 0.12 240); }
-.galaxy-preview    { background: oklch(46% 0.17 305); }
+.cyberpunk-preview { background: oklch(30% 0.03 265); }
+.neon-preview      { background: oklch(47% 0.14 160); }
+.matrix-preview    { background: oklch(50% 0.2 262); }
+.sunset-preview    { background: oklch(54% 0.18 38); }
+.ocean-preview     { background: oklch(49% 0.11 205); }
+.galaxy-preview    { background: oklch(46% 0.19 305); }
 .custom-preview    { background: var(--custom-primary, var(--surface-2)); border: 1px dashed var(--text-muted); }
 
 .language-selector {
@@ -214,4 +216,5 @@
     .settings-panel.active {
         transition: none;
     }
+}
 }
