@@ -20,6 +20,7 @@
     <link rel="stylesheet" href="css/settings.css">
 </head>
 <body class="theme-matrix light-mode">
+    <div class="scroll-progress" aria-hidden="true"></div>
     <!-- Settings Button -->
     <button class="settings-btn" id="settingsBtn" title="Settings">
         <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -62,19 +63,19 @@
             <div class="setting-group">
                 <label data-translate="theme">Theme</label>
                 <div class="theme-selector">
-                    <button class="theme-btn" data-theme="cyberpunk" title="Indigo">
+                    <button class="theme-btn" data-theme="cyberpunk" title="Graphite">
                         <div class="theme-preview cyberpunk-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="neon" title="Green">
+                    <button class="theme-btn" data-theme="neon" title="Emerald">
                         <div class="theme-preview neon-preview"></div>
                     </button>
-                    <button class="theme-btn active" data-theme="matrix" title="Graphite">
+                    <button class="theme-btn active" data-theme="matrix" title="Cobalt">
                         <div class="theme-preview matrix-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="sunset" title="Amber">
+                    <button class="theme-btn" data-theme="sunset" title="Vermilion">
                         <div class="theme-preview sunset-preview"></div>
                     </button>
-                    <button class="theme-btn" data-theme="ocean" title="Blue">
+                    <button class="theme-btn" data-theme="ocean" title="Teal">
                         <div class="theme-preview ocean-preview"></div>
                     </button>
                     <button class="theme-btn" data-theme="galaxy" title="Violet">
@@ -153,11 +154,20 @@
         <!-- Home Screen -->
         <div id="homeScreen" class="home-screen active">
             <header class="home-header">
-                <h1 class="logo">
-                    EquaSolver
-                </h1>
-                <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
-                <p class="welcome-text" data-translate="welcome">Choose your tool to get started</p>
+                <div class="hero-copy">
+                    <h1 class="logo">Equa<em>Solver</em></h1>
+                    <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
+                    <p class="welcome-text" data-translate="welcome">Choose your tool to get started</p>
+                </div>
+                <svg class="hero-plot" viewBox="0 0 400 260" role="img" aria-label="x² - 5x + 6 = 0" focusable="false">
+                    <line class="axis" x1="10" y1="90" x2="390" y2="90"></line>
+                    <line class="axis" x1="210" y1="8" x2="210" y2="252"></line>
+                    <path class="curve" pathLength="1" d="M40 20 C210 380 210 380 380 20"></path>
+                    <circle class="root" cx="77" cy="90" r="6"></circle>
+                    <circle class="root" cx="343" cy="90" r="6"></circle>
+                    <text class="tick" x="77" y="72" text-anchor="middle">x₁</text>
+                    <text class="tick" x="343" y="72" text-anchor="middle">x₂</text>
+                </svg>
             </header>
 
             <div class="tools-grid">
@@ -404,10 +414,7 @@
             </button>
 
             <header>
-                <h1 class="logo">
-                    EquaSolver
-                </h1>
-                <p class="subtitle" data-translate="subtitle">Advanced Equation Calculator</p>
+                <h1 class="logo">Equa<em>Solver</em></h1>
             </header>
 
         <div class="calculator-wrapper">
@@ -2059,6 +2066,7 @@
     
     <!-- UI modules -->
     <script src="js/ui/inputs.js" defer></script>
+    <script src="js/ui/motion.js" defer></script>
     <script src="js/ui/animations.js" defer></script>
     <script src="js/ui/themes.js" defer></script>
     <script src="js/ui/history.js" defer></script>
