@@ -30,7 +30,7 @@ function hexToRgba(hex, alpha) {
     return `rgba(${r}, ${g}, ${b}, ${alpha})`;
 }
 
-// Publish the custom colors as the --custom-* variables read by .theme-custom in style.css
+// Publish the custom colors as the --custom-* variables read by body.theme-custom in css/base.css
 function applyCustomColors() {
     const root = document.documentElement.style;
     root.setProperty('--custom-primary', customThemeColors.primary);

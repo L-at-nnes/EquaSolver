@@ -1,12 +1,17 @@
-const CACHE_NAME = 'equasolver-v3.2.0';
-const STATIC_CACHE = 'equasolver-static-v3.2.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v3.2.0';
+const CACHE_NAME = 'equasolver-v3.3.0';
+const STATIC_CACHE = 'equasolver-static-v3.3.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.3.0';
 
 // Keep in sync with the <script src="js/..."> tags in index.html.
 const STATIC_ASSETS = [
     './',
     './index.html',
-    './css/style.css',
+    './css/base.css',
+    './css/home.css',
+    './css/calculator.css',
+    './css/forms.css',
+    './css/results.css',
+    './css/settings.css',
     './js/flags.js',
     // i18n modules
     './js/i18n/en.js',

@@ -111,7 +111,8 @@ EquaSolver/
 │   ├── assets/                   # Static assets
 │   │   └── icons/                # PWA icons (192x192, 512x512)
 │   ├── css/
-│   │   └── style.css             # All styles, themes, animations (~2500 lines)
+│   │   ├── base.css              # Tokens, themes, shared controls
+│   │   ├── home.css, calculator.css, forms.css, results.css, settings.css
 │   └── js/
 │       ├── script.js             # Main app: initialization, event listeners (~1500 lines)
 │       ├── index.js              # CommonJS exports for Jest testing
@@ -236,7 +237,7 @@ EquaSolver/
 - **`src/js/solvers/`**: Equation solvers (inequalities, polynomial division, exponential/log)
 - **`src/js/ui/`**: UI modules (animations, themes, history, export)
 - **`src/js/index.js`**: CommonJS exports for Jest testing
-- **`src/css/style.css`**: All styling including 7 themes. Uses CSS custom properties extensively.
+- **`src/css/*.css`**: Styling split by area. Themes and tokens live in `base.css` (one hue per theme, light and dark neutrals).
 - **`src/js/i18n/`**: Translation files for 6 languages (EN, FR, ES, DE, IT, RU)
 - **`tests/unit/*.test.js`**: Add tests here when implementing new mathematical functions.
 
@@ -662,7 +663,7 @@ function calculateNewEquation() {
 ```
 
 3. **Add HTML section** in `src/index.html`
-4. **Add CSS styling** in `src/css/style.css`
+4. **Add CSS styling** in the matching file under `src/css/`
 5. **Add translations** in `src/js/i18n/*.js`
 6. **Write unit tests** in `tests/unit/newfeature.test.js`
 7. **Add manual tests** in `tests/manual/test.html`
@@ -670,7 +671,7 @@ function calculateNewEquation() {
 
 ### Adding New Themes
 
-1. **Add CSS variables** in `src/css/style.css`:
+1. **Add CSS variables** in `src/css/base.css`:
 ```css
 [data-theme="newtheme"] {
     --primary: #hexcode;

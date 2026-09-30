@@ -177,7 +177,12 @@ EquaSolver/
 |   |-- assets/
 |   |   |-- icon.svg            # Application icon
 |   |-- css/
-|   |   |-- style.css           # Styles, themes, and animations
+|   |   |-- base.css            # Design tokens, themes, shared controls
+|   |   |-- home.css            # Tool picker
+|   |   |-- calculator.css      # Tabs, keypad, history
+|   |   |-- forms.css           # Inputs, matrices, graphs
+|   |   |-- results.css         # Solutions and steps
+|   |   |-- settings.css        # Settings panel
 |   |-- js/
 |       |-- index.js            # CommonJS entry point for Jest tests
 |       |-- script.js           # Main application entry point (browser runtime)

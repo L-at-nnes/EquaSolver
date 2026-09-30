@@ -194,7 +194,12 @@ describe('Cache Strategy', () => {
     const STATIC_ASSETS = [
         './',
         './index.html',
-        './css/style.css',
+        './css/base.css',
+        './css/home.css',
+        './css/calculator.css',
+        './css/forms.css',
+        './css/results.css',
+        './css/settings.css',
         './js/script.js',
         './js/translations.js',
         './js/flags.js',
@@ -207,7 +212,7 @@ describe('Cache Strategy', () => {
     });
 
     test('should include CSS in static assets', () => {
-        expect(STATIC_ASSETS).toContain('./css/style.css');
+        expect(STATIC_ASSETS).toContain('./css/base.css');
     });
 
     test('should include main script in static assets', () => {
