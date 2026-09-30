@@ -2,6 +2,8 @@
    RESULTS: solutions, steps, matrices
    =================================== */
 
+@layer components {
+
 .solution-container:not(:empty) {
     padding-top: var(--space-5);
     border-top: 1px solid var(--border);
@@ -11,8 +13,9 @@
 .solution-container h4,
 .solution-success h4 {
     margin-bottom: var(--space-3);
-    font-size: var(--text-md);
-    font-weight: 600;
+    font-family: var(--font-display);
+    font-size: var(--text-lg);
+    font-weight: 500;
 }
 
 .solution-container h5 {
@@ -33,14 +36,33 @@
     font-variant-numeric: tabular-nums;
 }
 
-.solution p {
-    margin-bottom: var(--space-1);
+.solution {
+    margin-top: var(--space-3);
+    padding: var(--space-4) var(--space-5);
+    background: var(--surface-2);
+    border-radius: var(--radius);
 }
 
-/* Highlight = the answer. Weight and accent colour, no background shout. */
+.solution p {
+    margin-bottom: var(--space-1);
+    font-size: var(--text-lg);
+}
+
+/* The first line is a caption ("Two solutions"), the rest are the values */
+.solution p:first-child:not(:only-child) {
+    margin-bottom: var(--space-2);
+    color: var(--text-muted);
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+}
+
+/* Highlight = the answer: weight plus a marker sweep that draws under it */
 .highlight {
-    color: var(--accent);
+    color: var(--text);
     font-weight: 600;
+    background:
+        linear-gradient(transparent 62%, oklch(from var(--signal) l c h / 0.35) 62% 92%, transparent 92%)
+        0 0 / 100% 100% no-repeat;
 }
 
 .error,
@@ -232,4 +254,37 @@
 .sci-history-item {
     font-family: var(--font-mono);
     font-size: var(--text-sm);
+}
+}
+
+@layer motion {
+    /* Results settle in one after another instead of appearing all at once */
+    .solution-container > * {
+        animation: settle 420ms var(--ease-expo) both;
+        animation-delay: calc(var(--i, 0) * 70ms);
+    }
+
+    .solution-container > :nth-child(1) { --i: 0; }
+    .solution-container > :nth-child(2) { --i: 1; }
+    .solution-container > :nth-child(3) { --i: 2; }
+    .solution-container > :nth-child(4) { --i: 3; }
+    .solution-container > :nth-child(5) { --i: 4; }
+    .solution-container > :nth-child(n + 6) { --i: 5; }
+
+    .highlight {
+        animation: marker 700ms var(--ease-expo) 250ms both;
+    }
+
+    @keyframes settle {
+        from {
+            opacity: 0;
+            translate: 0 10px;
+        }
+    }
+
+    @keyframes marker {
+        from {
+            background-size: 0% 100%;
+        }
+    }
 }

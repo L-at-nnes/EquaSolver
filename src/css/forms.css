@@ -2,15 +2,19 @@
    FORMS: equation panels, inputs, matrices, graphs
    =================================== */
 
+@layer components {
+
 .equation-display {
     margin-bottom: var(--space-5);
 }
 
 .equation-display h3 {
     margin-bottom: var(--space-3);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    line-height: 1.3;
+    font-family: var(--font-display);
+    font-size: var(--text-xl);
+    font-weight: 500;
+    letter-spacing: -0.02em;
+    line-height: 1.15;
 }
 
 .equation-preview,
@@ -19,7 +23,7 @@
     background: var(--surface-2);
     border-radius: var(--radius-sm);
     font-family: var(--font-mono);
-    font-size: var(--text-md);
+    font-size: var(--text-lg);
     overflow-wrap: anywhere;
 }
 
@@ -322,4 +326,5 @@ input[type="range"],
     .matrix-cell {
         width: 4rem;
     }
+}
 }
