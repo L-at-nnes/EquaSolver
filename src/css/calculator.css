@@ -2,212 +2,298 @@
    CALCULATOR: shell, tabs, keypad, history
    =================================== */
 
-.calculator-wrapper {
-    background: var(--surface);
-    border: 1px solid var(--border);
-    border-radius: var(--radius);
-    padding: var(--space-5);
-}
-
-/* Tabs: one scrollable row instead of a wall of wrapped buttons */
-.tabs {
-    display: flex;
-    gap: var(--space-1);
-    margin: 0 calc(var(--space-5) * -1) var(--space-5);
-    padding: 0 var(--space-5);
-    border-bottom: 1px solid var(--border);
-    overflow-x: auto;
-    overflow-y: hidden;
-    scrollbar-width: thin;
-    scrollbar-color: var(--border) transparent;
-}
-
-.tab {
-    flex: none;
-    padding: var(--space-3) var(--space-3);
-    background: none;
-    border: none;
-    border-bottom: 2px solid transparent;
-    margin-bottom: -1px;
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    font-weight: 500;
-    white-space: nowrap;
-    transition: color var(--duration) var(--ease), border-color var(--duration) var(--ease);
-}
-
-.tab:hover {
-    color: var(--text);
-}
-
-.tab.active {
-    color: var(--accent);
-    border-bottom-color: var(--accent);
-}
-
-.calculator-panel {
-    display: none;
-}
-
-.calculator-panel.active {
-    display: block;
-}
-
-/* Standard calculator */
-#standard {
-    max-width: 380px;
-    margin: 0 auto;
-}
-
-.display-container {
-    margin-bottom: var(--space-4);
-    padding: var(--space-4);
-    background: var(--surface-2);
-    border-radius: var(--radius);
-}
-
-.display-history {
-    min-height: 1.25rem;
-    color: var(--text-muted);
-    font-size: var(--text-sm);
-    text-align: right;
-}
-
-.display {
-    width: 100%;
-    background: none;
-    border: none;
-    outline: none;
-    color: var(--text);
-    font-family: var(--font-mono);
-    font-size: 2rem;
-    font-variant-numeric: tabular-nums;
-    text-align: right;
-}
-
-.buttons-grid {
-    display: grid;
-    grid-template-columns: repeat(4, 1fr);
-    gap: var(--space-2);
-}
-
-.btn {
-    min-height: 3.25rem;
-    padding: 0 var(--space-3);
-    border: 1px solid transparent;
-    border-radius: var(--radius-sm);
-    font-size: var(--text-md);
-    font-variant-numeric: tabular-nums;
-    transition: background-color var(--duration) var(--ease), border-color var(--duration) var(--ease);
-}
-
-.btn:active {
-    transform: scale(0.97);
-}
-
-.btn.number {
-    background: var(--surface-2);
-    color: var(--text);
-}
-
-.btn.number:hover {
-    border-color: var(--text-muted);
-}
-
-.btn.operator,
-.btn.function {
-    background: color-mix(in oklch, var(--accent) 12%, var(--surface));
-    color: var(--accent);
-}
-
-.btn.operator:hover,
-.btn.function:hover {
-    border-color: var(--accent);
-}
-
-.btn.equals {
-    background: var(--accent);
-    color: var(--accent-ink);
-    font-weight: 600;
-}
-
-.btn.equals:hover {
-    filter: brightness(1.08);
-}
-
-.scientific-functions {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: var(--space-2);
-    margin-top: var(--space-4);
-    padding-top: var(--space-4);
-    border-top: 1px solid var(--border);
-}
-
-.btn.scientific {
-    min-height: 2.5rem;
-    background: var(--surface);
-    border-color: var(--border);
-    color: var(--text);
-    font-size: var(--text-sm);
-}
-
-.btn.scientific:hover {
-    border-color: var(--accent);
-    color: var(--accent);
-}
-
-/* History */
-.history-panel {
-    display: none;
-    margin-top: var(--space-5);
-}
-
-.history-header {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    margin-bottom: var(--space-3);
-}
-
-.history-header h3 {
-    font-size: var(--text-md);
-    font-weight: 600;
-}
-
-.history-list {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2);
-    max-height: 60vh;
-    overflow-y: auto;
-}
-
-.history-item {
-    padding: var(--space-3) var(--space-4);
-    background: var(--surface-2);
-    border-radius: var(--radius-sm);
-}
-
-.history-entry {
-    font-family: var(--font-mono);
-    font-size: var(--text-sm);
-    overflow-wrap: anywhere;
-}
-
-.history-time {
-    margin-top: var(--space-1);
-    color: var(--text-muted);
-    font-size: var(--text-xs);
-}
-
-@media (max-width: 640px) {
-    .calculator-wrapper {
-        padding: var(--space-4);
+@layer components {
+    .calculator-screen > header {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
     }
 
+    .calculator-wrapper {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        padding: 0 var(--space-5) var(--space-5);
+        overflow: clip;
+    }
+
+    /* Tabs: one scrollable row, pinned while the panel scrolls underneath */
     .tabs {
-        margin: 0 calc(var(--space-4) * -1) var(--space-4);
+        position: sticky;
+        top: 0;
+        z-index: 5;
+        display: flex;
+        gap: var(--space-1);
+        margin: 0 calc(var(--space-5) * -1) var(--space-5);
         padding: 0 var(--space-4);
+        background: var(--surface);
+        border-bottom: 1px solid var(--border);
+        overflow-x: auto;
+        overflow-y: hidden;
+        scrollbar-width: none;
+    }
+
+    .tab {
+        position: relative;
+        flex: none;
+        padding: var(--space-4) var(--space-3);
+        background: none;
+        border: none;
+        color: var(--text-muted);
+        font-size: var(--text-sm);
+        font-weight: 500;
+        white-space: nowrap;
+        transition: color var(--duration) var(--ease);
+
+        &:hover {
+            color: var(--text);
+        }
+
+        &.active {
+            color: var(--text);
+            font-weight: 600;
+
+            /* The ink bar is one shared element: view transitions slide it between tabs */
+            &::after {
+                content: "";
+                position: absolute;
+                inset: auto var(--space-3) -1px;
+                height: 3px;
+                background: var(--accent);
+                border-radius: 3px 3px 0 0;
+                view-transition-name: tab-ink;
+            }
+        }
+    }
+
+    .calculator-panel {
+        display: none;
+    }
+
+    .calculator-panel.active {
+        display: block;
+        view-transition-name: panel;
+    }
+
+    /* Standard calculator */
+    #standard {
+        max-width: 25rem;
+        margin: 0 auto;
+    }
+
+    .display-container {
+        container-type: inline-size;
+        margin-bottom: var(--space-4);
+        padding: var(--space-4) var(--space-4) var(--space-3);
+        background: var(--surface-2);
+        border-radius: var(--radius);
+    }
+
+    .display-history {
+        min-height: 1.25rem;
+        color: var(--text-muted);
+        font-size: var(--text-sm);
+        text-align: right;
+    }
+
+    /* Digits scale with the display's own width, not the viewport */
+    .display {
+        width: 100%;
+        background: none;
+        border: none;
+        outline: none;
+        color: var(--text);
+        font-family: var(--font-mono);
+        font-size: clamp(1.75rem, 11cqi, 3rem);
+        font-variant-numeric: tabular-nums;
+        text-align: right;
+    }
+
+    .buttons-grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: var(--space-2);
+    }
+
+    /* Keys: a physical edge underneath that the key sinks into on press */
+    .btn {
+        --edge: oklch(from var(--surface-2) calc(l - 0.07) c h);
+        min-height: 3.5rem;
+        padding: 0 var(--space-3);
+        border: 0;
+        border-radius: 10px;
+        box-shadow: 0 3px 0 var(--edge);
+        font-size: var(--text-md);
+        font-variant-numeric: tabular-nums;
+        transition: translate 90ms var(--ease), box-shadow 90ms var(--ease), background-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+        &:active {
+            translate: 0 3px;
+            box-shadow: 0 0 0 var(--edge);
+        }
+    }
+
+    .btn.number {
+        background: var(--surface-2);
+        color: var(--text);
+
+        &:hover {
+            background: oklch(from var(--surface-2) calc(l - 0.025) c h);
+        }
+    }
+
+    .btn.operator,
+    .btn.function {
+        --edge: oklch(from var(--accent) l c h / 0.28);
+        background: var(--accent-soft);
+        color: var(--accent);
+
+        &:hover {
+            background: var(--accent-line);
+        }
+    }
+
+    /* Equals: filled, and a conic ring sweeps around it on hover or keyboard focus */
+    .btn.equals {
+        --edge: oklch(from var(--accent) calc(l - 0.12) c h);
+        border: 2px solid transparent;
+        background:
+            linear-gradient(var(--accent), var(--accent)) padding-box,
+            conic-gradient(from var(--ring-angle), var(--signal), var(--accent), var(--signal)) border-box;
+        color: var(--accent-ink);
+        font-weight: 600;
+
+        &:hover,
+        &:focus-visible {
+            animation: ring 2.4s linear infinite;
+        }
+    }
+
+    @keyframes ring {
+        to { --ring-angle: 360deg; }
+    }
+
+    .scientific-functions {
+        display: grid;
+        grid-template-columns: repeat(5, 1fr);
+        gap: var(--space-2);
+        margin-top: var(--space-5);
+        padding-top: var(--space-5);
+        border-top: 1px dashed var(--border);
+    }
+
+    .btn.scientific {
+        --edge: var(--border);
+        min-height: 2.5rem;
+        background: var(--surface);
+        border: 1px solid var(--border);
+        color: var(--text);
+        font-size: var(--text-sm);
+
+        &:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+        }
+    }
+
+    /* History */
+    .history-panel {
+        display: none;
+        margin-top: var(--space-5);
+    }
+
+    .history-header {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: var(--space-3);
+
+        & h3 {
+            font-family: var(--font-display);
+            font-size: var(--text-lg);
+            font-weight: 500;
+        }
+    }
+
+    .history-list {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        max-height: 60vh;
+        overflow-y: auto;
+    }
+
+    .history-item {
+        padding: var(--space-3) var(--space-4);
+        background: var(--surface-2);
+        border-radius: var(--radius-sm);
+    }
+
+    .history-entry {
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        overflow-wrap: anywhere;
+    }
+
+    .history-time {
+        margin-top: var(--space-1);
+        color: var(--text-muted);
+        font-size: var(--text-xs);
+    }
+
+    @media (max-width: 640px) {
+        .calculator-wrapper {
+            padding-inline: var(--space-4);
+        }
+
+        .tabs {
+            margin-inline: calc(var(--space-4) * -1);
+        }
+    }
+}
+
+/* View transitions: screens cross-fade with a small rise, panels slide, the ink bar glides */
+@layer motion {
+    ::view-transition-old(root) {
+        animation: 140ms var(--ease) both vt-out;
+    }
+
+    ::view-transition-new(root) {
+        animation: 320ms var(--ease-expo) both vt-in;
+    }
+
+    ::view-transition-group(tab-ink) {
+        animation-duration: 340ms;
+        animation-timing-function: var(--ease-expo);
+    }
+
+    ::view-transition-old(panel) {
+        animation: 120ms var(--ease) both vt-out;
+    }
+
+    ::view-transition-new(panel) {
+        animation: 300ms var(--ease-expo) both vt-in;
+    }
+
+    @keyframes vt-out {
+        to {
+            opacity: 0;
+        }
+    }
+
+    @keyframes vt-in {
+        from {
+            opacity: 0;
+            translate: 0 14px;
+        }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+        ::view-transition-group(*),
+        ::view-transition-old(*),
+        ::view-transition-new(*) {
+            animation: none !important;
+        }
     }
 }
