@@ -164,6 +164,9 @@ function initEventListeners() {
     
     // Keyboard support
     document.addEventListener('keydown', handleKeyboard);
+
+    // Cursor-following spotlight on tool tiles
+    trackPointerSpotlight();
 }
 
 function setupExportButtons() {
@@ -206,30 +209,36 @@ function setupExportButtons() {
 // Note: toggleSettings() is defined in ui/themes.js
 
 function showHomeScreen() {
-    document.getElementById('homeScreen')?.classList.add('active');
-    document.getElementById('calculatorScreen')?.classList.remove('active');
+    runViewTransition(() => {
+        document.getElementById('homeScreen')?.classList.add('active');
+        document.getElementById('calculatorScreen')?.classList.remove('active');
+    });
 }
 
 function showCalculatorScreen(tool) {
-    document.getElementById('homeScreen')?.classList.remove('active');
-    document.getElementById('calculatorScreen')?.classList.add('active');
-    
-    const wrapper = document.querySelector('.calculator-wrapper');
-    const historyPanel = document.querySelector('.history-panel');
-    if (wrapper) wrapper.style.display = 'block';
-    if (historyPanel) historyPanel.style.display = 'none';
-    
-    switchTab(tool);
+    runViewTransition(() => {
+        document.getElementById('homeScreen')?.classList.remove('active');
+        document.getElementById('calculatorScreen')?.classList.add('active');
+
+        const wrapper = document.querySelector('.calculator-wrapper');
+        const historyPanel = document.querySelector('.history-panel');
+        if (wrapper) wrapper.style.display = 'block';
+        if (historyPanel) historyPanel.style.display = 'none';
+
+        applyTab(tool);
+    });
 }
 
 function showHistoryScreen() {
-    document.getElementById('homeScreen')?.classList.remove('active');
-    document.getElementById('calculatorScreen')?.classList.add('active');
-    
-    const wrapper = document.querySelector('.calculator-wrapper');
-    const historyPanel = document.querySelector('.history-panel');
-    if (wrapper) wrapper.style.display = 'none';
-    if (historyPanel) historyPanel.style.display = 'block';
+    runViewTransition(() => {
+        document.getElementById('homeScreen')?.classList.remove('active');
+        document.getElementById('calculatorScreen')?.classList.add('active');
+
+        const wrapper = document.querySelector('.calculator-wrapper');
+        const historyPanel = document.querySelector('.history-panel');
+        if (wrapper) wrapper.style.display = 'none';
+        if (historyPanel) historyPanel.style.display = 'block';
+    });
 }
 
 function handleToolSelection(tool) {
@@ -254,7 +263,12 @@ function handleToolSelection(tool) {
     showCalculatorScreen(tool);
 }
 
+// Tab changes animate: the underline slides to the new tab and the panel cross-fades
 function switchTab(tab) {
+    runViewTransition(() => applyTab(tab));
+}
+
+function applyTab(tab) {
     document.querySelectorAll('.tab').forEach(t => {
         t.classList.toggle('active', t.dataset.tab === tab);
     });
