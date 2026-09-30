@@ -32,6 +32,8 @@
         overflow-x: auto;
         overflow-y: hidden;
         scrollbar-width: none;
+        /* Edge fades show there is more to scroll; they retract at either end */
+        mask-image: linear-gradient(90deg, transparent, black var(--fade-l), black calc(100% - var(--fade-r)), transparent);
     }
 
     .tab {
@@ -255,6 +257,20 @@
 
 /* View transitions: screens cross-fade with a small rise, panels slide, the ink bar glides */
 @layer motion {
+    @supports (animation-timeline: scroll()) {
+        .tabs {
+            animation: tabs-fade linear both;
+            animation-timeline: scroll(self inline);
+        }
+
+        @keyframes tabs-fade {
+            0%   { --fade-l: 0px;   --fade-r: 3rem; }
+            6%   { --fade-l: 3rem;  --fade-r: 3rem; }
+            94%  { --fade-l: 3rem;  --fade-r: 3rem; }
+            100% { --fade-l: 3rem;  --fade-r: 0px; }
+        }
+    }
+
     ::view-transition-old(root) {
         animation: 140ms var(--ease) both vt-out;
     }
