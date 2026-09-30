@@ -167,15 +167,6 @@ function initEventListeners() {
 
     // Cursor-following spotlight on tool tiles
     trackPointerSpotlight();
-
-    // Let the mouse wheel scroll the tab row sideways
-    const tabRow = document.querySelector('.tabs');
-    tabRow?.addEventListener('wheel', event => {
-        if (Math.abs(event.deltaY) > Math.abs(event.deltaX)) {
-            tabRow.scrollLeft += event.deltaY;
-            event.preventDefault();
-        }
-    }, { passive: false });
 }
 
 function setupExportButtons() {
@@ -282,9 +273,6 @@ function applyTab(tab) {
         t.classList.toggle('active', t.dataset.tab === tab);
     });
 
-    // Keep the selected tab visible in the scrolling tab row
-    document.querySelector('.tab.active')?.scrollIntoView({ inline: 'center', block: 'nearest' });
-    
     document.querySelectorAll('.calculator-panel').forEach(panel => {
         panel.classList.toggle('active', panel.id === tab);
     });

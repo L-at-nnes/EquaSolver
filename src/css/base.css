@@ -16,8 +16,6 @@
 @property --accent { syntax: "<color>"; inherits: true; initial-value: oklch(50% 0.2 262); }
 @property --signal { syntax: "<color>"; inherits: true; initial-value: oklch(58% 0.2 35); }
 @property --spot { syntax: "<color>"; inherits: false; initial-value: transparent; }
-@property --fade-l { syntax: "<length>"; inherits: false; initial-value: 0px; }
-@property --fade-r { syntax: "<length>"; inherits: false; initial-value: 0px; }
 @property --ring-angle { syntax: "<angle>"; inherits: false; initial-value: 0deg; }
 
 @layer reset {
