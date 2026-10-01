@@ -50,6 +50,7 @@ const STATIC_ASSETS = [
     // UI modules
     './js/ui/inputs.js',
     './js/ui/motion.js',
+    './js/ui/router.js',
     './js/ui/animations.js',
     './js/ui/themes.js',
     './js/ui/history.js',

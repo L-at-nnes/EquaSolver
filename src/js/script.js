@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     updateTranslations();
     updateHistoryDisplay();
+    openToolFromHash();
     
     setupGraphVisualization();
     setupParametricGraph();
@@ -162,6 +163,9 @@ function initEventListeners() {
     // Back to home button
     document.getElementById('backBtn')?.addEventListener('click', showHomeScreen);
     
+    // Deep links: #quadratic opens that tool, also on back/forward
+    window.addEventListener('hashchange', openToolFromHash);
+    
     // Keyboard support
     document.addEventListener('keydown', handleKeyboard);
 
@@ -208,7 +212,18 @@ function setupExportButtons() {
 // ===================================
 // Note: toggleSettings() is defined in ui/themes.js
 
+function openToolFromHash() {
+    const toolIds = [...document.querySelectorAll('.calculator-panel')].map(panel => panel.id);
+    const tool = parseToolHash(window.location.hash, toolIds);
+    if (tool) {
+        showCalculatorScreen(tool);
+    } else if (window.location.hash === '#history') {
+        showHistoryScreen();
+    }
+}
+
 function showHomeScreen() {
+    writeToolHash(null);
     runViewTransition(() => {
         document.getElementById('homeScreen')?.classList.add('active');
         document.getElementById('calculatorScreen')?.classList.remove('active');
@@ -227,9 +242,11 @@ function showCalculatorScreen(tool) {
 
         applyTab(tool);
     });
+    writeToolHash(tool);
 }
 
 function showHistoryScreen() {
+    writeToolHash('history');
     runViewTransition(() => {
         document.getElementById('homeScreen')?.classList.remove('active');
         document.getElementById('calculatorScreen')?.classList.add('active');
@@ -266,6 +283,7 @@ function handleToolSelection(tool) {
 // Tab changes animate: the underline slides to the new tab and the panel cross-fades
 function switchTab(tab) {
     runViewTransition(() => applyTab(tab));
+    writeToolHash(tab);
 }
 
 function applyTab(tab) {

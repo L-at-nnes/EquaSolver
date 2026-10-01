@@ -43,7 +43,7 @@
 - [ ] Add intersection point detection between curves
 
 ### Navigation and sharing
-- [ ] Open a tool from the URL hash (`#quadratic`, `#graph`): the PWA shortcuts already point there but nothing reads it
+- [x] Open a tool from the URL hash (`#quadratic`, `#graph`): the PWA shortcuts already point there but nothing reads it
 - [ ] Search box on the home screen to filter tools by name
 - [ ] Copy-result button on every solution
 
