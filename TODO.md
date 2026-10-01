@@ -49,7 +49,7 @@
 
 ### Calculator
 - [x] Ctrl+Z / Ctrl+Y shortcuts wired to the existing undo/redo logic
-- [ ] Degrees / radians switch for the trigonometric keys
+- [x] Degrees / radians switch for the trigonometric keys
 - [ ] Memory keys (MC, MR, M+, M-)
 
 ### Solvers

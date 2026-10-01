@@ -81,6 +81,26 @@ function handleUndoRedoKey(event) {
     return true;
 }
 
+// Angle unit used by the trigonometric keys
+let angleMode = 'rad';
+
+function getAngleMode() {
+    return angleMode;
+}
+
+function setAngleMode(mode) {
+    angleMode = mode === 'deg' ? 'deg' : 'rad';
+    return angleMode;
+}
+
+function toRadians(value) {
+    return angleMode === 'deg' ? value * Math.PI / 180 : value;
+}
+
+function fromRadians(value) {
+    return angleMode === 'deg' ? value * 180 / Math.PI : value;
+}
+
 // Scientific calculator state
 let sciState = {
     display: '0',
@@ -303,6 +323,10 @@ function calculateScientific() {
 function handleScientificFunction(func, target = 'sci') {
     const st = target === 'main' ? state : sciState;
     const updateTargetDisplay = target === 'main' ? updateDisplay : updateSciDisplay;
+    if (func === 'angle') {
+        setAngleMode(angleMode === 'rad' ? 'deg' : 'rad');
+        return null;
+    }
     if (func !== 'pi' && func !== 'e' && !hasValidNumber(st)) return null;
     const current = parseFloat(st.display);
     let result;
@@ -311,29 +335,31 @@ function handleScientificFunction(func, target = 'sci') {
     try {
         switch (func) {
             case 'sin':
-                result = Math.sin(current);
+                result = Math.sin(toRadians(current));
                 expression = `sin(${current})`;
                 break;
             case 'cos':
-                result = Math.cos(current);
+                result = Math.cos(toRadians(current));
                 expression = `cos(${current})`;
                 break;
             case 'tan':
-                result = Math.tan(current);
+                // tan is undefined at 90, 270... degrees (floating point would give 1.6e16)
+                if (angleMode === 'deg' && Math.abs((current - 90) % 180) === 0) throw new Error('Domain error');
+                result = Math.tan(toRadians(current));
                 expression = `tan(${current})`;
                 break;
             case 'asin':
                 if (current < -1 || current > 1) throw new Error('Domain error');
-                result = Math.asin(current);
+                result = fromRadians(Math.asin(current));
                 expression = `asin(${current})`;
                 break;
             case 'acos':
                 if (current < -1 || current > 1) throw new Error('Domain error');
-                result = Math.acos(current);
+                result = fromRadians(Math.acos(current));
                 expression = `acos(${current})`;
                 break;
             case 'atan':
-                result = Math.atan(current);
+                result = fromRadians(Math.atan(current));
                 expression = `atan(${current})`;
                 break;
             case 'ln':
@@ -491,7 +517,9 @@ if (typeof module !== 'undefined' && module.exports) {
         resetState,
         undoCalculator,
         redoCalculator,
-        handleUndoRedoKey
+        handleUndoRedoKey,
+        getAngleMode,
+        setAngleMode
     };
 }
 
@@ -508,6 +536,8 @@ if (typeof window !== 'undefined') {
     window.undoCalculator = undoCalculator;
     window.redoCalculator = redoCalculator;
     window.handleUndoRedoKey = handleUndoRedoKey;
+    window.getAngleMode = getAngleMode;
+    window.setAngleMode = setAngleMode;
     window.handleSciValue = handleSciValue;
     window.handleSciOperator = handleSciOperator;
     window.calculateScientific = calculateScientific;

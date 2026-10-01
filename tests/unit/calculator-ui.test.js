@@ -239,3 +239,51 @@ describe('Undo / redo keyboard shortcuts', () => {
         expect(calculator.handleUndoRedoKey(key('z', { altKey: true }))).toBe(false);
     });
 });
+
+describe('Degrees / radians', () => {
+    beforeEach(() => {
+        calculator.resetState();
+        calculator.setAngleMode('rad');
+    });
+    afterAll(() => calculator.setAngleMode('rad'));
+
+    const run = (value, fn) => {
+        calculator.clearCalculator();
+        [...value].forEach(ch => calculator.handleValue(ch));
+        calculator.handleScientificFunction(fn, 'main');
+        return calculator.getState().display;
+    };
+
+    test('radians stay the default', () => {
+        expect(calculator.getAngleMode()).toBe('rad');
+        expect(run('0', 'cos')).toBe('1');
+    });
+
+    test('the angle key toggles the mode', () => {
+        calculator.handleScientificFunction('angle', 'main');
+        expect(calculator.getAngleMode()).toBe('deg');
+        calculator.handleScientificFunction('angle', 'main');
+        expect(calculator.getAngleMode()).toBe('rad');
+    });
+
+    test('trig functions take degrees', () => {
+        calculator.setAngleMode('deg');
+        expect(run('30', 'sin')).toBe('0.5');
+        expect(run('60', 'cos')).toBe('0.5');
+        expect(run('45', 'tan')).toBe('1');
+        expect(run('90', 'cos')).toBe('0');
+    });
+
+    test('inverse trig functions return degrees', () => {
+        calculator.setAngleMode('deg');
+        expect(run('1', 'asin')).toBe('90');
+        expect(run('0', 'acos')).toBe('90');
+        expect(run('1', 'atan')).toBe('45');
+    });
+
+    test('tan is an error at 90 degrees', () => {
+        calculator.setAngleMode('deg');
+        expect(run('90', 'tan')).toBe('Error');
+        expect(run('270', 'tan')).toBe('Error');
+    });
+});

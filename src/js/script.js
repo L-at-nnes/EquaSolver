@@ -321,6 +321,11 @@ function handleCalculatorButton(e) {
         handlePower();
     } else if (btn.classList.contains('scientific')) {
         handleScientificFunction(action, 'main');
+        if (action === 'angle') {
+            const degrees = getAngleMode() === 'deg';
+            btn.textContent = degrees ? 'DEG' : 'RAD';
+            btn.setAttribute('aria-pressed', String(degrees));
+        }
     }
 }
 

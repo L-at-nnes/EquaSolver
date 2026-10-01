@@ -197,6 +197,20 @@
         }
     }
 
+    .btn.angle-toggle {
+        grid-column: 1 / -1;
+        min-height: 2rem;
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        letter-spacing: 0.08em;
+
+        &[aria-pressed="true"] {
+            background: var(--accent);
+            border-color: transparent;
+            color: var(--accent-ink);
+        }
+    }
+
     /* History */
     .history-panel {
         display: none;
