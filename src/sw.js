@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
     './css/forms.css',
     './css/results.css',
     './css/settings.css',
+    './css/print.css',
     './js/flags.js',
     // i18n modules
     './js/i18n/en.js',

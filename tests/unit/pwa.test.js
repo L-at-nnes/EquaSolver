@@ -200,6 +200,7 @@ describe('Cache Strategy', () => {
         './css/forms.css',
         './css/results.css',
         './css/settings.css',
+        './css/print.css',
         './js/script.js',
         './js/translations.js',
         './js/flags.js',
@@ -306,5 +307,29 @@ describe('PWA Translations', () => {
 
     test('should have English as default', () => {
         expect(translations.en.offlineReady).toBe("App ready for offline use");
+    });
+});
+
+describe('Print stylesheet', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const css = fs.readFileSync(path.join(__dirname, '../../src/css/print.css'), 'utf8');
+    const html = fs.readFileSync(path.join(__dirname, '../../src/index.html'), 'utf8');
+    const sw = fs.readFileSync(path.join(__dirname, '../../src/sw.js'), 'utf8');
+
+    test('is linked for print only and precached', () => {
+        expect(html).toMatch(/<link rel="stylesheet" href="css\/print\.css" media="print">/);
+        expect(sw).toContain("'./css/print.css'");
+    });
+
+    test('hides navigation and interactive chrome', () => {
+        ['.tabs', '.settings-btn', '.back-btn', '.button-group'].forEach(selector => {
+            expect(css).toContain(selector);
+        });
+        expect(css).toMatch(/display:\s*none\s*!important/);
+    });
+
+    test('prints only the active panel', () => {
+        expect(css).toContain('.calculator-panel:not(.active)');
     });
 });

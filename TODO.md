@@ -63,7 +63,7 @@
 - [ ] Export the plot as PNG
 
 ### Quality
-- [ ] Print stylesheet so a solution prints without chrome
+- [x] Print stylesheet so a solution prints without chrome
 - [ ] Pin results from the history as favorites
 - [ ] Playwright smoke test that opens every tool and solves with default values
 - [ ] Keyboard navigation audit (tab order, focus trap in the settings panel)

@@ -1,0 +1,120 @@
+/* ===================================
+   PRINT: only the open tool and its solution, on plain paper
+   =================================== */
+
+@page {
+    margin: 18mm;
+}
+
+@layer motion {
+    * {
+        animation: none !important;
+        transition: none !important;
+    }
+}
+
+@layer components {
+    :root,
+    body,
+    body.light-mode,
+    body[class] {
+        color-scheme: light;
+        --bg: white;
+        --surface: white;
+        --surface-2: oklch(96% 0 0);
+        --border: oklch(75% 0 0);
+        --text: black;
+        --text-muted: oklch(35% 0 0);
+        --accent: black;
+        --accent-soft: oklch(94% 0 0);
+        --signal: oklch(40% 0 0);
+        background: white;
+        color: black;
+        font-size: 11pt;
+    }
+
+    /* Everything that is not the work itself */
+    .scroll-progress,
+    .settings-btn,
+    .settings-panel,
+    .back-btn,
+    .tabs,
+    .button-group,
+    .copy-result,
+    .history-panel,
+    .tool-search,
+    .home-screen,
+    .hero-plot,
+    .graph-btn,
+    .btn-export,
+    .shortcut-btn,
+    .latex-shortcuts,
+    .latex-examples,
+    .polar-presets,
+    .input-hint {
+        display: none !important;
+    }
+
+    .container {
+        max-width: none;
+        padding: 0;
+    }
+
+    .calculator-screen > header {
+        margin-bottom: 8mm;
+        padding-bottom: 3mm;
+        border-bottom: 1px solid black;
+    }
+
+    .calculator-wrapper {
+        border: 0;
+        padding: 0;
+        background: none;
+        overflow: visible;
+    }
+
+    /* Only the open panel prints */
+    .calculator-panel:not(.active) {
+        display: none !important;
+    }
+
+    .equation-display h3 {
+        font-size: 16pt;
+    }
+
+    .equation-preview,
+    .equation-preview-small,
+    .solution,
+    .final-result,
+    .step-item,
+    .display-container {
+        background: none;
+        border: 1px solid var(--border);
+        break-inside: avoid;
+    }
+
+    .solution-container:not(:empty) {
+        border-top: 1px solid black;
+    }
+
+    .highlight {
+        background: none;
+        text-decoration: underline;
+    }
+
+    .step-item {
+        opacity: 1 !important;
+    }
+
+    canvas {
+        max-width: 100%;
+        break-inside: avoid;
+    }
+
+    input,
+    select,
+    textarea {
+        border: 1px solid var(--border);
+        background: white;
+    }
+}
