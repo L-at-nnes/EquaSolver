@@ -638,7 +638,9 @@ const it = {
     exactValue: "Valore esatto",
     termsUsed: "Termini usati",
     boundsError: "Il limite inferiore deve essere minore del superiore",
-    method: "Metodo"
+    method: "Metodo",
+    searchTools: "Cerca strumenti",
+    noToolsFound: "Nessuno strumento corrisponde alla ricerca"
 };
 
 // Export for use in browser

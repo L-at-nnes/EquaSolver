@@ -638,7 +638,9 @@ const ru = {
     exactValue: "Точное значение",
     termsUsed: "Использовано членов",
     boundsError: "Нижняя граница должна быть меньше верхней",
-    method: "Метод"
+    method: "Метод",
+    searchTools: "Поиск инструментов",
+    noToolsFound: "Нет подходящих инструментов"
 };
 
 // Export for use in browser

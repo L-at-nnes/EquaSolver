@@ -101,6 +101,43 @@
         }
     }
 
+    /* Search */
+    .tool-search {
+        margin-bottom: var(--space-4);
+    }
+
+    .tool-search-input {
+        width: min(100%, 26rem);
+        min-height: var(--control-height);
+        padding: 0 var(--space-4) 0 2.5rem;
+        background:
+            url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round'%3E%3Ccircle cx='11' cy='11' r='7'/%3E%3Cpath d='m20 20-3.5-3.5'/%3E%3C/svg%3E")
+            0.8rem 50% / 1.1rem no-repeat,
+            var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 999px;
+        transition: border-color var(--duration) var(--ease);
+
+        &:hover {
+            border-color: var(--text-muted);
+        }
+
+        &:focus {
+            outline: 2px solid var(--accent);
+            outline-offset: -1px;
+            border-color: var(--accent);
+        }
+    }
+
+    .tool-search-empty {
+        margin-bottom: var(--space-4);
+        color: var(--text-muted);
+    }
+
+    .tool-card[hidden] {
+        display: none;
+    }
+
     /* Tool tiles */
     .tools-grid {
         display: grid;

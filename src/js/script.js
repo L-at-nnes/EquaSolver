@@ -39,6 +39,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParametricGraph();
     setupPolarGraph();
     setupCustomThemeBuilder();
+    setupToolSearch();
     setupMatrixCalculator();
     setupGcdLcmCalculator();
     setupModularCalculator();

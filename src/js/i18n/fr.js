@@ -650,7 +650,9 @@ const fr = {
     exactValue: "Valeur exacte",
     termsUsed: "Termes utilisés",
     boundsError: "La borne inférieure doit être inférieure à la borne supérieure",
-    method: "Méthode"
+    method: "Méthode",
+    searchTools: "Rechercher un outil",
+    noToolsFound: "Aucun outil ne correspond à votre recherche"
 };
 
 // Export for use in browser

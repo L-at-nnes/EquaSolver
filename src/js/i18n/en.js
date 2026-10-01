@@ -650,7 +650,9 @@ const en = {
     exactValue: "Exact value",
     termsUsed: "Terms used",
     boundsError: "Lower bound must be less than upper bound",
-    method: "Method"
+    method: "Method",
+    searchTools: "Search tools",
+    noToolsFound: "No tool matches your search"
 };
 
 // Export for use in browser

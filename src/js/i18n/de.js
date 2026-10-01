@@ -638,7 +638,9 @@ const de = {
     exactValue: "Exakter Wert",
     termsUsed: "Verwendete Glieder",
     boundsError: "Die untere Grenze muss kleiner als die obere sein",
-    method: "Methode"
+    method: "Methode",
+    searchTools: "Werkzeuge suchen",
+    noToolsFound: "Kein Werkzeug entspricht der Suche"
 };
 
 // Export for use in browser

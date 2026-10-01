@@ -170,6 +170,11 @@
                 </svg>
             </header>
 
+            <div class="tool-search">
+                <input type="search" id="toolSearch" class="tool-search-input" data-translate="searchTools" placeholder="Search tools" autocomplete="off" spellcheck="false">
+            </div>
+            <p class="tool-search-empty" id="toolSearchEmpty" data-translate="noToolsFound" hidden>No tool matches your search</p>
+
             <div class="tools-grid">
                 <div class="tool-card" data-tool="standard">
                     <div class="tool-icon">
@@ -2068,6 +2073,7 @@
     <script src="js/ui/inputs.js" defer></script>
     <script src="js/ui/motion.js" defer></script>
     <script src="js/ui/router.js" defer></script>
+    <script src="js/ui/search.js" defer></script>
     <script src="js/ui/animations.js" defer></script>
     <script src="js/ui/themes.js" defer></script>
     <script src="js/ui/history.js" defer></script>
