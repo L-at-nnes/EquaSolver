@@ -355,15 +355,24 @@ function handleScientificButton(e) {
 // KEYBOARD SUPPORT
 // ===================================
 function handleKeyboard(e) {
-    const tag = e.target.tagName;
-    if (tag === 'INPUT' || tag === 'TEXTAREA' || tag === 'SELECT' || e.ctrlKey || e.metaKey || e.altKey) {
-        return;
-    }
-    
     // Only drive the standard calculator while it is actually on screen
     const calculatorVisible = document.getElementById('calculatorScreen')?.classList.contains('active')
         && document.getElementById('standard')?.classList.contains('active');
     if (!calculatorVisible) {
+        return;
+    }
+    
+    // The read-only display may hold focus; any other field keeps its native undo
+    const tag = e.target.tagName;
+    const typingInField = (tag === 'INPUT' && e.target.id !== 'display') || tag === 'TEXTAREA' || tag === 'SELECT';
+    if (typingInField) {
+        return;
+    }
+    
+    if (handleUndoRedoKey(e)) {
+        return;
+    }
+    if (e.ctrlKey || e.metaKey || e.altKey) {
         return;
     }
     

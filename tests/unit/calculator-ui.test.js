@@ -206,3 +206,36 @@ describe('Calculator - regressions', () => {
         expect(calculator.getSciState().display).toBe('0');
     });
 });
+
+describe('Undo / redo keyboard shortcuts', () => {
+    beforeEach(() => calculator.resetState());
+
+    const key = (k, extra = {}) => ({ key: k, ctrlKey: true, preventDefault: jest.fn(), ...extra });
+
+    test('Ctrl+Z undoes and Ctrl+Y redoes', () => {
+        calculator.handleValue('7');
+        calculator.handleValue('8');
+        const undo = key('z');
+        expect(calculator.handleUndoRedoKey(undo)).toBe(true);
+        expect(undo.preventDefault).toHaveBeenCalled();
+        expect(calculator.getState().display).toBe('7');
+        expect(calculator.handleUndoRedoKey(key('y'))).toBe(true);
+        expect(calculator.getState().display).toBe('78');
+    });
+
+    test('Ctrl+Shift+Z redoes and Cmd works like Ctrl', () => {
+        calculator.handleValue('5');
+        calculator.handleUndoRedoKey({ key: 'Z', metaKey: true, preventDefault() {} });
+        expect(calculator.getState().display).toBe('0');
+        calculator.handleUndoRedoKey(key('Z', { shiftKey: true }));
+        expect(calculator.getState().display).toBe('5');
+    });
+
+    test('ignores other shortcuts and plain keys', () => {
+        const copy = key('c');
+        expect(calculator.handleUndoRedoKey(copy)).toBe(false);
+        expect(copy.preventDefault).not.toHaveBeenCalled();
+        expect(calculator.handleUndoRedoKey({ key: 'z' })).toBe(false);
+        expect(calculator.handleUndoRedoKey(key('z', { altKey: true }))).toBe(false);
+    });
+});

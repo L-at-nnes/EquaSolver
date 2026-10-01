@@ -63,6 +63,24 @@ function redoCalculator() {
     return true;
 }
 
+/**
+ * Ctrl/Cmd+Z undoes, Ctrl/Cmd+Y or Ctrl/Cmd+Shift+Z redoes.
+ * @param {{key:string, ctrlKey?:boolean, metaKey?:boolean, shiftKey?:boolean, altKey?:boolean, preventDefault?:Function}} event
+ * @returns {boolean} true when the event was an undo/redo shortcut and was handled
+ */
+function handleUndoRedoKey(event) {
+    if (!(event.ctrlKey || event.metaKey) || event.altKey) return false;
+    const key = String(event.key).toLowerCase();
+    const isUndo = key === 'z' && !event.shiftKey;
+    const isRedo = key === 'y' || (key === 'z' && event.shiftKey);
+    if (!isUndo && !isRedo) return false;
+
+    if (event.preventDefault) event.preventDefault();
+    if (isUndo) undoCalculator();
+    else redoCalculator();
+    return true;
+}
+
 // Scientific calculator state
 let sciState = {
     display: '0',
@@ -472,7 +490,8 @@ if (typeof module !== 'undefined' && module.exports) {
         getSciState,
         resetState,
         undoCalculator,
-        redoCalculator
+        redoCalculator,
+        handleUndoRedoKey
     };
 }
 
@@ -488,6 +507,7 @@ if (typeof window !== 'undefined') {
     window.updateDisplay = updateDisplay;
     window.undoCalculator = undoCalculator;
     window.redoCalculator = redoCalculator;
+    window.handleUndoRedoKey = handleUndoRedoKey;
     window.handleSciValue = handleSciValue;
     window.handleSciOperator = handleSciOperator;
     window.calculateScientific = calculateScientific;
