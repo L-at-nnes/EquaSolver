@@ -42,5 +42,28 @@
 - [ ] Support for multiple equations overlay on same graph
 - [ ] Add intersection point detection between curves
 
-### Deployment
-- [ ] Deploy application with GitHub Pages
+### Navigation and sharing
+- [ ] Open a tool from the URL hash (`#quadratic`, `#graph`): the PWA shortcuts already point there but nothing reads it
+- [ ] Search box on the home screen to filter tools by name
+- [ ] Copy-result button on every solution
+
+### Calculator
+- [ ] Ctrl+Z / Ctrl+Y shortcuts wired to the existing undo/redo logic
+- [ ] Degrees / radians switch for the trigonometric keys
+- [ ] Memory keys (MC, MR, M+, M-)
+
+### Solvers
+- [ ] Exact form for quadratic roots (fractions and square roots, e.g. (3 ± √5) / 2)
+- [ ] Gaussian elimination with steps for linear systems up to 5x5
+- [ ] Partial fraction decomposition and polynomial factoring over the rationals
+
+### Graphing
+- [ ] Function plotter: several y = f(x) curves on one canvas, drag to pan, wheel to zoom
+- [ ] Roots, extrema and intersection markers on the function plotter
+- [ ] Export the plot as PNG
+
+### Quality
+- [ ] Print stylesheet so a solution prints without chrome
+- [ ] Pin results from the history as favorites
+- [ ] Playwright smoke test that opens every tool and solves with default values
+- [ ] Keyboard navigation audit (tab order, focus trap in the settings panel)
