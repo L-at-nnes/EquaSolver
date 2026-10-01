@@ -287,3 +287,61 @@ describe('Degrees / radians', () => {
         expect(run('270', 'tan')).toBe('Error');
     });
 });
+
+describe('Memory keys', () => {
+    beforeEach(() => calculator.resetState());
+
+    const type = value => {
+        calculator.clearCalculator();
+        [...value].forEach(ch => calculator.handleValue(ch));
+    };
+
+    test('M+ and M- accumulate, MR recalls, MC clears', () => {
+        type('12');
+        calculator.handleScientificFunction('mplus', 'main');
+        type('5');
+        calculator.handleScientificFunction('mminus', 'main');
+        expect(calculator.getMemory()).toBe(7);
+        calculator.clearCalculator();
+        calculator.handleScientificFunction('mr', 'main');
+        expect(calculator.getState().display).toBe('7');
+        calculator.handleScientificFunction('mc', 'main');
+        expect(calculator.getMemory()).toBe(0);
+    });
+
+    test('recalled memory can be used in a calculation', () => {
+        type('8');
+        calculator.handleScientificFunction('mplus', 'main');
+        type('2');
+        calculator.handleOperator('*');
+        calculator.handleScientificFunction('mr', 'main');
+        calculator.calculate();
+        expect(calculator.getState().display).toBe('16');
+    });
+
+    test('memory sums without floating point noise', () => {
+        type('0.1');
+        calculator.handleScientificFunction('mplus', 'main');
+        type('0.2');
+        calculator.handleScientificFunction('mplus', 'main');
+        expect(calculator.getMemory()).toBe(0.3);
+    });
+
+    test('M+ is ignored on an error display', () => {
+        calculator.handleValue('9');
+        calculator.handleOperator('/');
+        calculator.handleValue('0');
+        calculator.calculate();
+        calculator.handleScientificFunction('mplus', 'main');
+        expect(calculator.getMemory()).toBe(0);
+    });
+
+    test('the display header shows an M while memory is in use', () => {
+        document.body.innerHTML = '<div id="history"></div>';
+        type('3');
+        calculator.handleScientificFunction('mplus', 'main');
+        expect(document.getElementById('history').textContent).toBe('M');
+        calculator.handleScientificFunction('mc', 'main');
+        expect(document.getElementById('history').textContent).toBe('');
+    });
+});

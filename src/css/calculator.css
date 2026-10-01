@@ -198,8 +198,6 @@
     }
 
     .btn.angle-toggle {
-        grid-column: 1 / -1;
-        min-height: 2rem;
         font-family: var(--font-mono);
         font-size: var(--text-xs);
         letter-spacing: 0.08em;

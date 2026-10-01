@@ -81,6 +81,19 @@ function handleUndoRedoKey(event) {
     return true;
 }
 
+// Calculator memory (MC / MR / M+ / M-)
+let memoryValue = 0;
+
+function getMemory() {
+    return memoryValue;
+}
+
+// A small "M" in the display header tells the user something is stored
+function updateMemoryIndicator() {
+    const history = typeof document !== 'undefined' ? document.getElementById('history') : null;
+    if (history) history.textContent = memoryValue !== 0 ? 'M' : '';
+}
+
 // Angle unit used by the trigonometric keys
 let angleMode = 'rad';
 
@@ -327,6 +340,25 @@ function handleScientificFunction(func, target = 'sci') {
         setAngleMode(angleMode === 'rad' ? 'deg' : 'rad');
         return null;
     }
+    if (func === 'mc') {
+        memoryValue = 0;
+        updateMemoryIndicator();
+        return null;
+    }
+    if (func === 'mr') {
+        st.display = formatCalcNumber(memoryValue);
+        st.waitingForOperand = false;
+        updateTargetDisplay();
+        return null;
+    }
+    if (func === 'mplus' || func === 'mminus') {
+        if (!hasValidNumber(st)) return null;
+        const amount = parseFloat(st.display);
+        memoryValue = parseFloat((memoryValue + (func === 'mplus' ? amount : -amount)).toPrecision(12));
+        st.waitingForOperand = true;
+        updateMemoryIndicator();
+        return null;
+    }
     if (func !== 'pi' && func !== 'e' && !hasValidNumber(st)) return null;
     const current = parseFloat(st.display);
     let result;
@@ -481,6 +513,7 @@ function getSciState() {
 }
 
 function resetState() {
+    memoryValue = 0;
     state = {
         display: '0',
         operation: null,
@@ -519,7 +552,8 @@ if (typeof module !== 'undefined' && module.exports) {
         redoCalculator,
         handleUndoRedoKey,
         getAngleMode,
-        setAngleMode
+        setAngleMode,
+        getMemory
     };
 }
 
@@ -538,6 +572,7 @@ if (typeof window !== 'undefined') {
     window.handleUndoRedoKey = handleUndoRedoKey;
     window.getAngleMode = getAngleMode;
     window.setAngleMode = setAngleMode;
+    window.getMemory = getMemory;
     window.handleSciValue = handleSciValue;
     window.handleSciOperator = handleSciOperator;
     window.calculateScientific = calculateScientific;

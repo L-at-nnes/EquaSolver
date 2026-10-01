@@ -50,7 +50,7 @@
 ### Calculator
 - [x] Ctrl+Z / Ctrl+Y shortcuts wired to the existing undo/redo logic
 - [x] Degrees / radians switch for the trigonometric keys
-- [ ] Memory keys (MC, MR, M+, M-)
+- [x] Memory keys (MC, MR, M+, M-)
 
 ### Solvers
 - [ ] Exact form for quadratic roots (fractions and square roots, e.g. (3 ± √5) / 2)
