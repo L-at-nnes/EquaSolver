@@ -640,7 +640,10 @@ const de = {
     boundsError: "Die untere Grenze muss kleiner als die obere sein",
     method: "Methode",
     searchTools: "Werkzeuge suchen",
-    noToolsFound: "Kein Werkzeug entspricht der Suche"
+    noToolsFound: "Kein Werkzeug entspricht der Suche",
+    copyResult: "Ergebnis kopieren",
+    copied: "Kopiert",
+    copyFailed: "Kopieren fehlgeschlagen"
 };
 
 // Export for use in browser

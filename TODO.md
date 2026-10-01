@@ -45,7 +45,7 @@
 ### Navigation and sharing
 - [x] Open a tool from the URL hash (`#quadratic`, `#graph`): the PWA shortcuts already point there but nothing reads it
 - [x] Search box on the home screen to filter tools by name
-- [ ] Copy-result button on every solution
+- [x] Copy-result button on every solution
 
 ### Calculator
 - [x] Ctrl+Z / Ctrl+Y shortcuts wired to the existing undo/redo logic

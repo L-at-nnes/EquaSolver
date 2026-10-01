@@ -652,7 +652,10 @@ const en = {
     boundsError: "Lower bound must be less than upper bound",
     method: "Method",
     searchTools: "Search tools",
-    noToolsFound: "No tool matches your search"
+    noToolsFound: "No tool matches your search",
+    copyResult: "Copy result",
+    copied: "Copied",
+    copyFailed: "Copy failed"
 };
 
 // Export for use in browser

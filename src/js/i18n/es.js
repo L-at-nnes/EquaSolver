@@ -640,7 +640,10 @@ const es = {
     boundsError: "El límite inferior debe ser menor que el superior",
     method: "Método",
     searchTools: "Buscar herramientas",
-    noToolsFound: "Ninguna herramienta coincide con la búsqueda"
+    noToolsFound: "Ninguna herramienta coincide con la búsqueda",
+    copyResult: "Copiar resultado",
+    copied: "Copiado",
+    copyFailed: "Error al copiar"
 };
 
 // Export for use in browser

@@ -9,6 +9,35 @@
     border-top: 1px solid var(--border);
 }
 
+.copy-result {
+    display: inline-flex;
+    align-items: center;
+    min-height: 2rem;
+    margin-top: var(--space-3);
+    padding: 0 var(--space-3);
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 999px;
+    color: var(--text-muted);
+    font-size: var(--text-xs);
+    transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease), background-color var(--duration) var(--ease);
+
+    &:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    &.done {
+        background: var(--accent-soft);
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+
+    &[hidden] {
+        display: none;
+    }
+}
+
 .solution-container h3,
 .solution-container h4,
 .solution-success h4 {

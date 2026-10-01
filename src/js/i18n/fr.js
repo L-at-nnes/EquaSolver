@@ -652,7 +652,10 @@ const fr = {
     boundsError: "La borne inférieure doit être inférieure à la borne supérieure",
     method: "Méthode",
     searchTools: "Rechercher un outil",
-    noToolsFound: "Aucun outil ne correspond à votre recherche"
+    noToolsFound: "Aucun outil ne correspond à votre recherche",
+    copyResult: "Copier le résultat",
+    copied: "Copié",
+    copyFailed: "Échec de la copie"
 };
 
 // Export for use in browser

@@ -640,7 +640,10 @@ const ru = {
     boundsError: "Нижняя граница должна быть меньше верхней",
     method: "Метод",
     searchTools: "Поиск инструментов",
-    noToolsFound: "Нет подходящих инструментов"
+    noToolsFound: "Нет подходящих инструментов",
+    copyResult: "Копировать результат",
+    copied: "Скопировано",
+    copyFailed: "Не удалось скопировать"
 };
 
 // Export for use in browser

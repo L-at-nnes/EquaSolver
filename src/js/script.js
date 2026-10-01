@@ -31,6 +31,7 @@ document.addEventListener('DOMContentLoaded', () => {
     changeLanguage(window.currentLang);
     changeMode(window.currentMode);
     
+    setupCopyButtons();
     updateTranslations();
     updateHistoryDisplay();
     openToolFromHash();
