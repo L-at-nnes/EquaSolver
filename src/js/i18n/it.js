@@ -654,7 +654,13 @@ const it = {
     showRoots: "Radici",
     showExtrema: "Estremi",
     showIntersections: "Intersezioni",
-    pointsOfInterest: "Punti notevoli"
+    pointsOfInterest: "Punti notevoli",
+    systemN: "Sistema n×n",
+    systemNTitle: "Sistema lineare (n × n)",
+    systemNHint: "Eliminazione di Gauss con pivot parziale. Ogni riga è un'equazione; l'ultima colonna è il termine noto.",
+    systemSize: "Numero di incognite",
+    gaussianSteps: "Passaggi di eliminazione",
+    systemStart: "Matrice completa"
 };
 
 // Export for use in browser

@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParametricGraph();
     setupPolarGraph();
     setupPlotter();
+    setupSystemN();
     setupCustomThemeBuilder();
     setupToolSearch();
     setupMatrixCalculator();
@@ -187,6 +188,7 @@ function setupExportButtons() {
         'exportQuinticPdf': 'quintic',
         'exportSystemsPdf': 'systems',
         'exportSystem3x3Pdf': 'system3x3',
+        'exportSystemNPdf': 'systemN',
         'exportMatrixPdf': 'matrix',
         'exportLatexPdf': 'latex',
         'exportExponentialPdf': 'exponential',

@@ -296,6 +296,24 @@ input[type="range"],
     text-align: center;
 }
 
+/* n x n systems: the last column (constants) is set apart by a dashed rule */
+.system-grid {
+    display: grid;
+    grid-template-columns: repeat(var(--columns, 4), minmax(3.5rem, 5rem));
+    gap: var(--space-2);
+    margin-top: var(--space-3);
+}
+
+.system-grid .matrix-cell {
+    width: 100%;
+    text-align: center;
+}
+
+.system-grid .constant-cell {
+    border-style: dashed;
+    background: var(--surface-2);
+}
+
 /* Graphs */
 .graph-container {
     margin-top: var(--space-4);

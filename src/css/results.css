@@ -9,6 +9,63 @@
     border-top: 1px solid var(--border);
 }
 
+.gauss-steps {
+    margin-top: var(--space-4);
+
+    & summary {
+        cursor: pointer;
+        color: var(--text-muted);
+        font-size: var(--text-sm);
+        font-weight: 600;
+
+        &:hover {
+            color: var(--accent);
+        }
+    }
+
+    & ol {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr));
+        gap: var(--space-3);
+        margin-top: var(--space-3);
+        padding: 0;
+        list-style: none;
+    }
+}
+
+.gauss-step {
+    padding: var(--space-3);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    overflow-x: auto;
+}
+
+.gauss-op {
+    display: block;
+    margin-bottom: var(--space-2);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+}
+
+.gauss-matrix {
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+
+    & td {
+        padding: 0.125rem var(--space-2);
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    & .constant-col {
+        border-left: 1px dashed var(--text-muted);
+        color: var(--accent);
+    }
+}
+
 .copy-result {
     display: inline-flex;
     align-items: center;
@@ -83,7 +140,7 @@
 }
 
 /* The first line is a caption ("Two solutions"), the rest are the values */
-.solution p:first-child:not(:only-child) {
+.solution:not(.values) p:first-child:not(:only-child) {
     margin-bottom: var(--space-2);
     color: var(--text-muted);
     font-family: var(--font-sans);

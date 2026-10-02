@@ -290,6 +290,7 @@
                         <p class="submenu-title" data-translate="chooseSystemSize">Choose system size</p>
                         <button class="submenu-btn" data-subtool="systems" data-translate="system2x2">2x2 System</button>
                         <button class="submenu-btn" data-subtool="system3x3" data-translate="system3x3">3x3 System</button>
+                        <button class="submenu-btn" data-subtool="systemN" data-translate="systemN">n×n System</button>
                     </div>
                 </div>
 
@@ -445,6 +446,7 @@
                 <button class="tab" data-tab="quartic" data-translate="quartic">Quartic</button>
                 <button class="tab" data-tab="quintic" data-translate="quintic">Quintic</button>
                 <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
+                <button class="tab" data-tab="systemN" data-translate="systemN">n×n System</button>
                 <button class="tab" data-tab="matrix" data-translate="matrix">Matrix</button>
                 <button class="tab" data-tab="graph" data-translate="graph">Graph</button>
                 <button class="tab" data-tab="plotter" data-translate="plotter">Plotter</button>
@@ -1009,6 +1011,34 @@
                 </div>
                 
                 <div class="solution-container" id="system3x3Solution"></div>
+            </div>
+
+            <!-- n x n Linear System -->
+            <div class="calculator-panel" id="systemN">
+                <div class="equation-display">
+                    <h3 data-translate="systemNTitle">Linear System (n × n)</h3>
+                    <p class="equation-preview" data-translate="systemNHint">Gaussian elimination with partial pivoting. Each row is one equation; the last column is the constant.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="control-group">
+                        <label for="systemNSize" data-translate="systemSize">Number of unknowns</label>
+                        <select id="systemNSize" class="matrix-select">
+                            <option value="2">2</option>
+                            <option value="3" selected>3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
+                        </select>
+                    </div>
+                    <div class="system-grid" id="systemNGrid"></div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="solveSystemN" data-translate="solve">Solve</button>
+                    <button class="btn-export" id="exportSystemNPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+
+                <div class="solution-container" id="systemNSolution"></div>
             </div>
 
             <!-- Matrix Calculator -->
@@ -2093,6 +2123,7 @@
     <script src="js/math/modular.js" defer></script>
     <script src="js/math/combinatorics.js" defer></script>
     <script src="js/math/fractions.js" defer></script>
+    <script src="js/math/linear-system.js" defer></script>
     <script src="js/math/exact.js" defer></script>
     <script src="js/math/statistics.js" defer></script>
     <script src="js/math/sequences.js" defer></script>
@@ -2130,6 +2161,7 @@
     <script src="js/ui/export.js" defer></script>
     <script src="js/ui/calculator.js" defer></script>
     <script src="js/ui/exponential-log.js" defer></script>
+    <script src="js/ui/system-n.js" defer></script>
     <script src="js/ui/derivatives-integrals.js" defer></script>
     
     <!-- Graphing modules -->

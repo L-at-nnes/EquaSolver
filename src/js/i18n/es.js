@@ -654,7 +654,13 @@ const es = {
     showRoots: "Raíces",
     showExtrema: "Extremos",
     showIntersections: "Intersecciones",
-    pointsOfInterest: "Puntos de interés"
+    pointsOfInterest: "Puntos de interés",
+    systemN: "Sistema n×n",
+    systemNTitle: "Sistema lineal (n × n)",
+    systemNHint: "Eliminación gaussiana con pivoteo parcial. Cada fila es una ecuación; la última columna es el término independiente.",
+    systemSize: "Número de incógnitas",
+    gaussianSteps: "Pasos de eliminación",
+    systemStart: "Matriz ampliada"
 };
 
 // Export for use in browser

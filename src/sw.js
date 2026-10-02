@@ -30,6 +30,7 @@ const STATIC_ASSETS = [
     './js/math/modular.js',
     './js/math/combinatorics.js',
     './js/math/fractions.js',
+    './js/math/linear-system.js',
     './js/math/exact.js',
     './js/math/statistics.js',
     './js/math/sequences.js',
@@ -62,6 +63,7 @@ const STATIC_ASSETS = [
     './js/ui/export.js',
     './js/ui/calculator.js',
     './js/ui/exponential-log.js',
+    './js/ui/system-n.js',
     './js/ui/derivatives-integrals.js',
     // Graphing modules
     './js/graphing/cartesian.js',

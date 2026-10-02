@@ -38,7 +38,7 @@ function installBrowserStubs() {
 
 const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
-    'solveSystem3x3', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
+    'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
     'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',

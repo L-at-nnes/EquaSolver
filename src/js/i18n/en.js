@@ -666,7 +666,13 @@ const en = {
     showRoots: "Roots",
     showExtrema: "Extrema",
     showIntersections: "Intersections",
-    pointsOfInterest: "Points of interest"
+    pointsOfInterest: "Points of interest",
+    systemN: "n×n System",
+    systemNTitle: "Linear System (n × n)",
+    systemNHint: "Gaussian elimination with partial pivoting. Each row is one equation; the last column is the constant.",
+    systemSize: "Number of unknowns",
+    gaussianSteps: "Elimination steps",
+    systemStart: "Augmented matrix"
 };
 
 // Export for use in browser

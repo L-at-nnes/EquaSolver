@@ -654,7 +654,13 @@ const ru = {
     showRoots: "Корни",
     showExtrema: "Экстремумы",
     showIntersections: "Пересечения",
-    pointsOfInterest: "Особые точки"
+    pointsOfInterest: "Особые точки",
+    systemN: "Система n×n",
+    systemNTitle: "Линейная система (n × n)",
+    systemNHint: "Метод Гаусса с выбором главного элемента. Каждая строка — уравнение; последний столбец — свободный член.",
+    systemSize: "Число неизвестных",
+    gaussianSteps: "Шаги исключения",
+    systemStart: "Расширенная матрица"
 };
 
 // Export for use in browser

@@ -54,7 +54,7 @@
 
 ### Solvers
 - [x] Exact form for quadratic roots (fractions and square roots, e.g. (3 ± √5) / 2)
-- [ ] Gaussian elimination with steps for linear systems up to 5x5
+- [x] Gaussian elimination with steps for linear systems up to 5x5
 - [ ] Partial fraction decomposition and polynomial factoring over the rationals
 
 ### Graphing

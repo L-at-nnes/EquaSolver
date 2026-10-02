@@ -654,7 +654,13 @@ const de = {
     showRoots: "Nullstellen",
     showExtrema: "Extrema",
     showIntersections: "Schnittpunkte",
-    pointsOfInterest: "Besondere Punkte"
+    pointsOfInterest: "Besondere Punkte",
+    systemN: "n×n-System",
+    systemNTitle: "Lineares System (n × n)",
+    systemNHint: "Gauß-Elimination mit Teilpivotisierung. Jede Zeile ist eine Gleichung; die letzte Spalte ist die Konstante.",
+    systemSize: "Anzahl der Unbekannten",
+    gaussianSteps: "Eliminationsschritte",
+    systemStart: "Erweiterte Matrix"
 };
 
 // Export for use in browser

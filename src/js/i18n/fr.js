@@ -666,7 +666,13 @@ const fr = {
     showRoots: "Racines",
     showExtrema: "Extremums",
     showIntersections: "Intersections",
-    pointsOfInterest: "Points remarquables"
+    pointsOfInterest: "Points remarquables",
+    systemN: "Système n×n",
+    systemNTitle: "Système linéaire (n × n)",
+    systemNHint: "Élimination de Gauss avec pivot partiel. Chaque ligne est une équation ; la dernière colonne est la constante.",
+    systemSize: "Nombre d'inconnues",
+    gaussianSteps: "Étapes d'élimination",
+    systemStart: "Matrice augmentée"
 };
 
 // Export for use in browser
