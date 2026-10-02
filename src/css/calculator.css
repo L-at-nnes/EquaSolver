@@ -237,9 +237,48 @@
     }
 
     .history-item {
+        display: flex;
+        align-items: flex-start;
+        justify-content: space-between;
+        gap: var(--space-3);
         padding: var(--space-3) var(--space-4);
         background: var(--surface-2);
+        border: 1px solid transparent;
         border-radius: var(--radius-sm);
+
+        &.pinned {
+            border-color: var(--accent-line);
+        }
+    }
+
+    .history-body {
+        min-width: 0;
+    }
+
+    .history-pin {
+        flex: none;
+        width: 2rem;
+        height: 2rem;
+        background: none;
+        border: 0;
+        border-radius: 50%;
+        color: var(--text-muted);
+        font-size: var(--text-md);
+        line-height: 1;
+        transition: color var(--duration) var(--ease), background-color var(--duration) var(--ease), scale var(--duration) var(--ease);
+
+        &:hover {
+            background: var(--accent-soft);
+            color: var(--accent);
+        }
+
+        &:active {
+            scale: 0.9;
+        }
+
+        &[aria-pressed="true"] {
+            color: var(--accent);
+        }
     }
 
     .history-entry {

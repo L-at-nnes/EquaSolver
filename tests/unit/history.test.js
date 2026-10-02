@@ -50,3 +50,61 @@ describe('History', () => {
         expect(document.getElementById('historyList').textContent).toContain('No history yet');
     });
 });
+
+describe('History favorites', () => {
+    beforeEach(() => {
+        localStorage.clear();
+        document.body.innerHTML = '<div id="historyList"></div>';
+    });
+
+    const idOf = text => history.getHistory().find(item => item.entry === text).id;
+
+    test('pinning moves an entry to the top and marks it', () => {
+        history.addToHistory('first');
+        history.addToHistory('second');
+        expect(history.togglePin(idOf('first'))).toBe(true);
+        const rendered = [...document.querySelectorAll('.history-entry')].map(el => el.textContent);
+        expect(rendered).toEqual(['first', 'second']);
+        expect(document.querySelector('.history-item.pinned .history-entry').textContent).toBe('first');
+        expect(document.querySelector('.history-pin[aria-pressed="true"]')).not.toBeNull();
+    });
+
+    test('unpinning restores the normal order', () => {
+        history.addToHistory('first');
+        history.addToHistory('second');
+        const id = idOf('first');
+        history.togglePin(id);
+        history.togglePin(id);
+        expect([...document.querySelectorAll('.history-entry')].map(el => el.textContent)).toEqual(['second', 'first']);
+    });
+
+    test('favorites survive clearing and the 50 entry limit', () => {
+        history.addToHistory('keep me');
+        history.togglePin(idOf('keep me'));
+        for (let i = 0; i < 60; i++) history.addToHistory(`entry ${i}`);
+        const stored = history.getHistory();
+        expect(stored.filter(item => !item.pinned)).toHaveLength(50);
+        expect(stored.some(item => item.entry === 'keep me')).toBe(true);
+        history.clearHistory();
+        expect(history.getHistory().map(item => item.entry)).toEqual(['keep me']);
+    });
+
+    test('the delegated click handler toggles the pin', () => {
+        history.addToHistory('clickable');
+        history.setupHistoryPinning();
+        history.setupHistoryPinning();
+        document.querySelector('.history-pin').click();
+        expect(history.getHistory()[0].pinned).toBe(true);
+        document.querySelector('.history-pin').click();
+        expect(history.getHistory()[0].pinned).toBe(false);
+    });
+
+    test('unknown ids are ignored and old entries without ids still work', () => {
+        expect(history.togglePin('nope')).toBe(false);
+        localStorage.setItem('equasolver_history', JSON.stringify([{ entry: 'old', timestamp: 'then' }]));
+        const [item] = history.getHistory();
+        expect(item.id).toBeTruthy();
+        expect(history.togglePin(item.id)).toBe(true);
+        expect(history.getHistory()[0].pinned).toBe(true);
+    });
+});

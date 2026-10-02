@@ -33,6 +33,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     setupCopyButtons();
     updateTranslations();
+    setupHistoryPinning();
     updateHistoryDisplay();
     openToolFromHash();
     

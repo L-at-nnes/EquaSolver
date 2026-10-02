@@ -32,7 +32,7 @@
 
 ### User Experience
 - [ ] Implement undo/redo functionality for calculator
-- [ ] Add favorites system to bookmark frequent calculations
+- [x] Add favorites system to bookmark frequent calculations
 - [ ] Add print-friendly view for solutions
 
 ### Visualization
@@ -64,6 +64,6 @@
 
 ### Quality
 - [x] Print stylesheet so a solution prints without chrome
-- [ ] Pin results from the history as favorites
+- [x] Pin results from the history as favorites
 - [ ] Playwright smoke test that opens every tool and solves with default values
 - [ ] Keyboard navigation audit (tab order, focus trap in the settings panel)
