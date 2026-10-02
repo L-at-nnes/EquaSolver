@@ -643,7 +643,8 @@ const es = {
     noToolsFound: "Ninguna herramienta coincide con la búsqueda",
     copyResult: "Copiar resultado",
     copied: "Copiado",
-    copyFailed: "Error al copiar"
+    copyFailed: "Error al copiar",
+    exactForm: "Forma exacta"
 };
 
 // Export for use in browser

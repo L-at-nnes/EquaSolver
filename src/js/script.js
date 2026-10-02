@@ -491,6 +491,13 @@ function solveQuadraticEquation() {
         addToHistory(`${a}x² + ${b}x + ${c} = 0 → x₁ = ${x1.toFixed(4)}, x₂ = ${x2.toFixed(4)}`);
     }
     
+    // Exact form when the roots are fractions, surds or complex numbers
+    const exact = exactQuadraticRoots(a, b, c);
+    if (exact && (exact.combined || exact.roots.some(root => root.includes('/')))) {
+        const text = exact.combined || exact.roots.join(',  ');
+        html += `<p class="exact-form"><strong>${trans.exactForm}:</strong> x = ${escapeHtml(text)}</p>`;
+    }
+
     resultDiv.innerHTML = html;
     showExportButton('quadratic');
 }

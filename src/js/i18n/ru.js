@@ -643,7 +643,8 @@ const ru = {
     noToolsFound: "Нет подходящих инструментов",
     copyResult: "Копировать результат",
     copied: "Скопировано",
-    copyFailed: "Не удалось скопировать"
+    copyFailed: "Не удалось скопировать",
+    exactForm: "Точный вид"
 };
 
 // Export for use in browser

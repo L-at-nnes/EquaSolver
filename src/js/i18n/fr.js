@@ -655,7 +655,8 @@ const fr = {
     noToolsFound: "Aucun outil ne correspond à votre recherche",
     copyResult: "Copier le résultat",
     copied: "Copié",
-    copyFailed: "Échec de la copie"
+    copyFailed: "Échec de la copie",
+    exactForm: "Forme exacte"
 };
 
 // Export for use in browser

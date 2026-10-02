@@ -29,6 +29,7 @@ const STATIC_ASSETS = [
     './js/math/modular.js',
     './js/math/combinatorics.js',
     './js/math/fractions.js',
+    './js/math/exact.js',
     './js/math/statistics.js',
     './js/math/sequences.js',
     // Calculus modules

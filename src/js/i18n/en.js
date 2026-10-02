@@ -655,7 +655,8 @@ const en = {
     noToolsFound: "No tool matches your search",
     copyResult: "Copy result",
     copied: "Copied",
-    copyFailed: "Copy failed"
+    copyFailed: "Copy failed",
+    exactForm: "Exact form"
 };
 
 // Export for use in browser
