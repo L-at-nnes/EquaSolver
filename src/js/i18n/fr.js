@@ -656,7 +656,17 @@ const fr = {
     copyResult: "Copier le résultat",
     copied: "Copié",
     copyFailed: "Échec de la copie",
-    exactForm: "Forme exacte"
+    exactForm: "Forme exacte",
+    plotter: "Traceur",
+    plotterTitle: "Traceur de fonctions",
+    plotterDesc: "Plusieurs courbes, déplacement et zoom",
+    plotterHint: "Glissez pour déplacer, molette ou pincement pour zoomer, double-clic pour réinitialiser.",
+    addFunction: "Ajouter une fonction",
+    exportPng: "Exporter en PNG",
+    showRoots: "Racines",
+    showExtrema: "Extremums",
+    showIntersections: "Intersections",
+    pointsOfInterest: "Points remarquables"
 };
 
 // Export for use in browser

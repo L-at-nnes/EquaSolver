@@ -644,7 +644,17 @@ const it = {
     copyResult: "Copia il risultato",
     copied: "Copiato",
     copyFailed: "Copia non riuscita",
-    exactForm: "Forma esatta"
+    exactForm: "Forma esatta",
+    plotter: "Plotter",
+    plotterTitle: "Plotter di funzioni",
+    plotterDesc: "Più curve, spostamento e zoom",
+    plotterHint: "Trascina per spostare, rotella o pizzico per ingrandire, doppio clic per reimpostare.",
+    addFunction: "Aggiungi funzione",
+    exportPng: "Esporta PNG",
+    showRoots: "Radici",
+    showExtrema: "Estremi",
+    showIntersections: "Intersezioni",
+    pointsOfInterest: "Punti notevoli"
 };
 
 // Export for use in browser

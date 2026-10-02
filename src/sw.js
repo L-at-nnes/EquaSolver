@@ -12,6 +12,7 @@ const STATIC_ASSETS = [
     './css/forms.css',
     './css/results.css',
     './css/settings.css',
+    './css/plotter.css',
     './css/print.css',
     './js/flags.js',
     // i18n modules
@@ -66,6 +67,7 @@ const STATIC_ASSETS = [
     './js/graphing/cartesian.js',
     './js/graphing/parametric.js',
     './js/graphing/polar.js',
+    './js/graphing/plotter.js',
     // Main script (must load after all modules above)
     './js/script.js',
     // Assets

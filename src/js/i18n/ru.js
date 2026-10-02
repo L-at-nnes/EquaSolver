@@ -644,7 +644,17 @@ const ru = {
     copyResult: "Копировать результат",
     copied: "Скопировано",
     copyFailed: "Не удалось скопировать",
-    exactForm: "Точный вид"
+    exactForm: "Точный вид",
+    plotter: "Плоттер",
+    plotterTitle: "Построитель функций",
+    plotterDesc: "Несколько кривых, перемещение и масштаб",
+    plotterHint: "Перетаскивайте для сдвига, колесо или щипок для масштаба, двойной щелчок для сброса.",
+    addFunction: "Добавить функцию",
+    exportPng: "Экспорт в PNG",
+    showRoots: "Корни",
+    showExtrema: "Экстремумы",
+    showIntersections: "Пересечения",
+    pointsOfInterest: "Особые точки"
 };
 
 // Export for use in browser

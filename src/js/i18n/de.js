@@ -644,7 +644,17 @@ const de = {
     copyResult: "Ergebnis kopieren",
     copied: "Kopiert",
     copyFailed: "Kopieren fehlgeschlagen",
-    exactForm: "Exakte Form"
+    exactForm: "Exakte Form",
+    plotter: "Plotter",
+    plotterTitle: "Funktionsplotter",
+    plotterDesc: "Mehrere Kurven, Verschieben und Zoomen",
+    plotterHint: "Ziehen zum Verschieben, Scrollen oder Pinch zum Zoomen, Doppelklick zum Zurücksetzen.",
+    addFunction: "Funktion hinzufügen",
+    exportPng: "Als PNG exportieren",
+    showRoots: "Nullstellen",
+    showExtrema: "Extrema",
+    showIntersections: "Schnittpunkte",
+    pointsOfInterest: "Besondere Punkte"
 };
 
 // Export for use in browser

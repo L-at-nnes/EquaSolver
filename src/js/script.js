@@ -40,6 +40,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupGraphVisualization();
     setupParametricGraph();
     setupPolarGraph();
+    setupPlotter();
     setupCustomThemeBuilder();
     setupToolSearch();
     setupMatrixCalculator();

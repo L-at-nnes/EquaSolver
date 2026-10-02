@@ -1,0 +1,133 @@
+/* ===================================
+   PLOTTER: function list, canvas, points of interest
+   =================================== */
+
+@layer components {
+    .plotter-functions {
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-2);
+        margin-bottom: var(--space-4);
+    }
+
+    .plotter-row {
+        --curve: var(--accent);
+        display: grid;
+        grid-template-columns: auto 1fr auto;
+        align-items: center;
+        gap: var(--space-3);
+    }
+
+    /* The label doubles as the legend: its swatch is the curve colour */
+    .plotter-label {
+        display: inline-flex;
+        align-items: center;
+        gap: var(--space-2);
+        min-width: 5.5rem;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+
+        &::before {
+            content: "";
+            width: 0.875rem;
+            height: 0.875rem;
+            background: var(--curve);
+            border-radius: 50%;
+        }
+    }
+
+    .plotter-input[aria-invalid="true"] {
+        border-color: var(--danger);
+        outline-color: var(--danger);
+    }
+
+    .plotter-remove {
+        width: 2.25rem;
+        height: 2.25rem;
+        background: none;
+        border: 1px solid var(--border);
+        border-radius: 50%;
+        color: var(--text-muted);
+        font-size: var(--text-lg);
+        line-height: 1;
+        transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+        &:hover {
+            border-color: var(--danger);
+            color: var(--danger);
+        }
+    }
+
+    .plotter-toolbar {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: var(--space-3);
+        margin-bottom: var(--space-4);
+
+        & .graph-options {
+            margin: 0;
+            margin-inline-start: auto;
+            gap: var(--space-4);
+        }
+    }
+
+    .plotter-stage canvas {
+        aspect-ratio: 900 / 520;
+        height: auto;
+        cursor: grab;
+        touch-action: none;
+
+        &.grabbing {
+            cursor: grabbing;
+        }
+    }
+
+    .plotter-readout {
+        min-height: 1.5rem;
+        margin-top: var(--space-2);
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        font-variant-numeric: tabular-nums;
+    }
+
+    .plotter-points-title {
+        margin: var(--space-4) 0 var(--space-2);
+        color: var(--text-muted);
+        font-size: var(--text-sm);
+        font-weight: 600;
+    }
+
+    .plotter-points {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(15rem, 1fr));
+        gap: var(--space-1) var(--space-4);
+        list-style: none;
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        font-variant-numeric: tabular-nums;
+
+        & li {
+            display: flex;
+            align-items: center;
+            gap: var(--space-2);
+
+            &::before {
+                content: "";
+                flex: none;
+                width: 0.5rem;
+                height: 0.5rem;
+                background: var(--dot, var(--accent));
+                border-radius: 50%;
+            }
+        }
+    }
+
+    @media (max-width: 640px) {
+        .plotter-toolbar .graph-options {
+            margin-inline-start: 0;
+        }
+    }
+}

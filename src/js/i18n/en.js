@@ -656,7 +656,17 @@ const en = {
     copyResult: "Copy result",
     copied: "Copied",
     copyFailed: "Copy failed",
-    exactForm: "Exact form"
+    exactForm: "Exact form",
+    plotter: "Plotter",
+    plotterTitle: "Function Plotter",
+    plotterDesc: "Several curves, pan and zoom",
+    plotterHint: "Drag to pan, scroll or pinch to zoom, double-click to reset.",
+    addFunction: "Add function",
+    exportPng: "Export PNG",
+    showRoots: "Roots",
+    showExtrema: "Extrema",
+    showIntersections: "Intersections",
+    pointsOfInterest: "Points of interest"
 };
 
 // Export for use in browser

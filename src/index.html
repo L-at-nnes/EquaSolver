@@ -18,6 +18,7 @@
     <link rel="stylesheet" href="css/forms.css">
     <link rel="stylesheet" href="css/results.css">
     <link rel="stylesheet" href="css/settings.css">
+    <link rel="stylesheet" href="css/plotter.css">
     <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body class="theme-matrix light-mode">
@@ -316,6 +317,17 @@
                     <p data-translate="graphDesc">Visualize equations</p>
                 </div>
 
+                <div class="tool-card" data-tool="plotter">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 18c3 0 4-12 7-12s3 12 6 12 3-8 5-8"></path>
+                            <line x1="3" y1="21" x2="21" y2="21"></line>
+                        </svg>
+                    </div>
+                    <h3 data-translate="plotter">Plotter</h3>
+                    <p data-translate="plotterDesc">Several curves, pan and zoom</p>
+                </div>
+
                 <div class="tool-card" data-tool="history">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -435,6 +447,7 @@
                 <button class="tab" data-tab="systems" data-translate="systems">Systems</button>
                 <button class="tab" data-tab="matrix" data-translate="matrix">Matrix</button>
                 <button class="tab" data-tab="graph" data-translate="graph">Graph</button>
+                <button class="tab" data-tab="plotter" data-translate="plotter">Plotter</button>
                 <button class="tab" data-tab="parametric" data-translate="parametric">Parametric</button>
                 <button class="tab" data-tab="polar" data-translate="polar">Polar</button>
                 <button class="tab" data-tab="latex" data-translate="latex">LaTeX</button>
@@ -1119,6 +1132,35 @@
                     <button class="graph-btn" id="zoomIn" data-translate="zoomIn">Zoom In</button>
                     <button class="graph-btn" id="zoomOut" data-translate="zoomOut">Zoom Out</button>
                 </div>
+            </div>
+
+            <!-- Function Plotter -->
+            <div class="calculator-panel" id="plotter">
+                <div class="equation-display">
+                    <h3 data-translate="plotterTitle">Function Plotter</h3>
+                    <p class="equation-preview" data-translate="plotterHint">Drag to pan, scroll or pinch to zoom, double-click to reset.</p>
+                </div>
+
+                <div class="plotter-functions" id="plotterList"></div>
+
+                <div class="plotter-toolbar">
+                    <button type="button" class="graph-btn" id="plotterAdd" data-translate="addFunction">Add function</button>
+                    <button type="button" class="graph-btn" id="plotterReset" data-translate="resetView">Reset view</button>
+                    <button type="button" class="graph-btn" id="plotterExport" data-translate="exportPng">Export PNG</button>
+                    <div class="graph-options">
+                        <label class="checkbox-label"><input type="checkbox" id="plotterShowRoots" checked><span data-translate="showRoots">Roots</span></label>
+                        <label class="checkbox-label"><input type="checkbox" id="plotterShowExtrema" checked><span data-translate="showExtrema">Extrema</span></label>
+                        <label class="checkbox-label"><input type="checkbox" id="plotterShowIntersections" checked><span data-translate="showIntersections">Intersections</span></label>
+                    </div>
+                </div>
+
+                <div class="graph-container plotter-stage">
+                    <canvas id="plotterCanvas" width="900" height="520" role="img" aria-label="Function plot" tabindex="0"></canvas>
+                </div>
+                <p class="plotter-readout" id="plotterReadout" aria-live="off"></p>
+
+                <h4 class="plotter-points-title" data-translate="pointsOfInterest">Points of interest</h4>
+                <ul class="plotter-points" id="plotterPoints"></ul>
             </div>
 
             <!-- Parametric Equations -->
@@ -2094,6 +2136,7 @@
     <script src="js/graphing/cartesian.js" defer></script>
     <script src="js/graphing/parametric.js" defer></script>
     <script src="js/graphing/polar.js" defer></script>
+    <script src="js/graphing/plotter.js" defer></script>
     
     <!-- Main script (must be last) -->
     <script src="js/script.js" defer></script>

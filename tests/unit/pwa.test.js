@@ -200,6 +200,7 @@ describe('Cache Strategy', () => {
         './css/forms.css',
         './css/results.css',
         './css/settings.css',
+        './css/plotter.css',
         './css/print.css',
         './js/script.js',
         './js/translations.js',

@@ -37,10 +37,10 @@
 
 ### Visualization
 - [ ] Add 3D graphing capabilities for 3-variable equations
-- [ ] Implement zoom and pan gestures on touch devices
+- [x] Implement zoom and pan gestures on touch devices
 - [ ] Add animation for graph plotting
-- [ ] Support for multiple equations overlay on same graph
-- [ ] Add intersection point detection between curves
+- [x] Support for multiple equations overlay on same graph
+- [x] Add intersection point detection between curves
 
 ### Navigation and sharing
 - [x] Open a tool from the URL hash (`#quadratic`, `#graph`): the PWA shortcuts already point there but nothing reads it
@@ -58,9 +58,9 @@
 - [ ] Partial fraction decomposition and polynomial factoring over the rationals
 
 ### Graphing
-- [ ] Function plotter: several y = f(x) curves on one canvas, drag to pan, wheel to zoom
-- [ ] Roots, extrema and intersection markers on the function plotter
-- [ ] Export the plot as PNG
+- [x] Function plotter: several y = f(x) curves on one canvas, drag to pan, wheel to zoom
+- [x] Roots, extrema and intersection markers on the function plotter
+- [x] Export the plot as PNG
 
 ### Quality
 - [x] Print stylesheet so a solution prints without chrome
