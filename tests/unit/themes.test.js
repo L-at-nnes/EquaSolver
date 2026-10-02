@@ -75,3 +75,75 @@ describe('Themes', () => {
         expect(themes.loadSettings()).toEqual({ theme: 'matrix', lang: 'fr', mode: 'light' });
     });
 });
+
+describe('Settings panel accessibility', () => {
+    beforeEach(() => {
+        document.body.className = '';
+        document.body.innerHTML = `
+            <button id="settingsBtn">gear</button>
+            <div id="settingsPanel">
+                <button id="a">a</button>
+                <button id="b">b</button>
+                <button id="closeSettings">close</button>
+            </div>`;
+        // jsdom has no layout: every element counts as rendered
+        Object.defineProperty(HTMLElement.prototype, 'offsetParent', { get() { return document.body; }, configurable: true });
+        themes.setupSettingsPanel();
+    });
+
+    afterEach(() => {
+        delete HTMLElement.prototype.offsetParent;
+    });
+
+    const key = (name, extra = {}) => {
+        const event = new KeyboardEvent('keydown', { key: name, bubbles: true, cancelable: true, ...extra });
+        document.dispatchEvent(event);
+        return event;
+    };
+
+    test('exposes state to assistive technology and moves focus in', () => {
+        const gear = document.getElementById('settingsBtn');
+        expect(document.getElementById('settingsPanel').getAttribute('aria-hidden')).toBe('true');
+        themes.toggleSettings(true);
+        expect(gear.getAttribute('aria-expanded')).toBe('true');
+        expect(document.getElementById('settingsPanel').getAttribute('aria-hidden')).toBe('false');
+        expect(document.activeElement.id).toBe('a');
+    });
+
+    test('Escape closes the panel and returns focus to the gear', () => {
+        themes.toggleSettings(true);
+        const event = key('Escape');
+        expect(event.defaultPrevented).toBe(true);
+        expect(themes.isSettingsOpen()).toBe(false);
+        expect(document.activeElement.id).toBe('settingsBtn');
+    });
+
+    test('Tab wraps from the last control to the first and back', () => {
+        themes.toggleSettings(true);
+        document.getElementById('closeSettings').focus();
+        const forward = key('Tab');
+        expect(forward.defaultPrevented).toBe(true);
+        expect(document.activeElement.id).toBe('a');
+        const backward = key('Tab', { shiftKey: true });
+        expect(backward.defaultPrevented).toBe(true);
+        expect(document.activeElement.id).toBe('closeSettings');
+    });
+
+    test('Tab in the middle of the panel is left alone', () => {
+        themes.toggleSettings(true);
+        document.getElementById('b').focus();
+        expect(key('Tab').defaultPrevented).toBe(false);
+    });
+
+    test('keys do nothing while the panel is closed', () => {
+        expect(key('Escape').defaultPrevented).toBe(false);
+        expect(key('Tab').defaultPrevented).toBe(false);
+    });
+
+    test('toggling without an argument flips the state', () => {
+        themes.toggleSettings();
+        expect(themes.isSettingsOpen()).toBe(true);
+        themes.toggleSettings();
+        expect(themes.isSettingsOpen()).toBe(false);
+    });
+});

@@ -77,11 +77,69 @@ function getCustomThemeColors() {
     return customThemeColors;
 }
 
-function toggleSettings() {
+const FOCUSABLE = 'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])';
+
+function isSettingsOpen() {
     const panel = document.getElementById('settingsPanel');
-    if (panel) {
-        panel.classList.toggle('active');
+    return Boolean(panel && panel.classList.contains('active'));
+}
+
+/**
+ * Open or close the settings panel. Opening moves focus inside, closing hands it
+ * back to the gear button, and the buttons expose the state to assistive tech.
+ * @param {boolean} [force] true to open, false to close, omitted to toggle
+ */
+function toggleSettings(force) {
+    const panel = document.getElementById('settingsPanel');
+    if (!panel) return;
+    const open = typeof force === 'boolean' ? force : !panel.classList.contains('active');
+    panel.classList.toggle('active', open);
+    panel.setAttribute('aria-hidden', String(!open));
+
+    const gear = document.getElementById('settingsBtn');
+    if (gear) gear.setAttribute('aria-expanded', String(open));
+
+    if (open) {
+        const first = panel.querySelector(FOCUSABLE);
+        if (first) first.focus();
+    } else if (gear) {
+        gear.focus();
     }
+}
+
+// Escape closes the panel; Tab stays inside it while it is open
+function handleSettingsKeydown(event) {
+    if (!isSettingsOpen()) return;
+    if (event.key === 'Escape') {
+        event.preventDefault();
+        toggleSettings(false);
+        return;
+    }
+    if (event.key !== 'Tab') return;
+
+    const panel = document.getElementById('settingsPanel');
+    const items = [...panel.querySelectorAll(FOCUSABLE)].filter(el => !el.disabled && el.offsetParent !== null);
+    if (items.length === 0) return;
+    const first = items[0];
+    const last = items[items.length - 1];
+    if (event.shiftKey && (document.activeElement === first || !panel.contains(document.activeElement))) {
+        event.preventDefault();
+        last.focus();
+    } else if (!event.shiftKey && (document.activeElement === last || !panel.contains(document.activeElement))) {
+        event.preventDefault();
+        first.focus();
+    }
+}
+
+function setupSettingsPanel() {
+    const panel = document.getElementById('settingsPanel');
+    if (panel) panel.setAttribute('aria-hidden', String(!panel.classList.contains('active')));
+    const gear = document.getElementById('settingsBtn');
+    if (gear) {
+        gear.setAttribute('aria-expanded', 'false');
+        gear.setAttribute('aria-controls', 'settingsPanel');
+    }
+    document.addEventListener('keydown', handleSettingsKeydown);
 }
 
 function changeTheme(theme, updateParticlesColorFn = null) {
@@ -278,6 +336,9 @@ if (typeof module !== 'undefined' && module.exports) {
         getCurrentMode,
         getCustomThemeColors,
         toggleSettings,
+        isSettingsOpen,
+        handleSettingsKeydown,
+        setupSettingsPanel,
         changeTheme,
         changeLanguage,
         changeMode,
@@ -307,6 +368,7 @@ if (typeof window !== 'undefined') {
     window.applyCustomTheme = applyCustomTheme;
     window.saveCustomTheme = saveCustomTheme;
     window.toggleSettings = toggleSettings;
+    window.setupSettingsPanel = setupSettingsPanel;
     window.setupCustomThemeBuilder = setupCustomThemeBuilder;
 }
 

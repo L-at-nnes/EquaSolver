@@ -79,8 +79,9 @@ function loadFlags() {
 // ===================================
 function initEventListeners() {
     // Settings panel
-    document.getElementById('settingsBtn')?.addEventListener('click', toggleSettings);
-    document.getElementById('closeSettings')?.addEventListener('click', toggleSettings);
+    document.getElementById('settingsBtn')?.addEventListener('click', () => toggleSettings());
+    document.getElementById('closeSettings')?.addEventListener('click', () => toggleSettings(false));
+    setupSettingsPanel();
     
     // Theme selection
     document.querySelectorAll('.theme-btn').forEach(btn => {
