@@ -65,5 +65,5 @@
 ### Quality
 - [x] Print stylesheet so a solution prints without chrome
 - [x] Pin results from the history as favorites
-- [ ] Playwright smoke test that opens every tool and solves with default values
+- [x] Smoke test that boots the real page and runs every tool with its default values
 - [ ] Keyboard navigation audit (tab order, focus trap in the settings panel)
