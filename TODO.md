@@ -38,7 +38,7 @@
 ### Visualization
 - [ ] Add 3D graphing capabilities for 3-variable equations
 - [x] Implement zoom and pan gestures on touch devices
-- [ ] Add animation for graph plotting
+- [x] Add animation for graph plotting (curves of the function plotter draw themselves)
 - [x] Support for multiple equations overlay on same graph
 - [x] Add intersection point detection between curves
 

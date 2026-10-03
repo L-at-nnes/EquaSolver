@@ -123,6 +123,21 @@ function findAllRoots(fn, a, b) {
     return dedupeSorted([...roots, ...touching], (b - a) * 1e-6);
 }
 
+// Fraction of each curve to draw: undefined means "all of it"
+function revealAmount(reveal) {
+    return typeof reveal === 'number' ? Math.min(1, Math.max(0, reveal)) : 1;
+}
+
+// Ease-out-quart: fast at first, settling gently
+function easeOutQuart(t) {
+    return 1 - Math.pow(1 - t, 4);
+}
+
+function prefersReducedMotion() {
+    return typeof window !== 'undefined' && typeof window.matchMedia === 'function'
+        && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+}
+
 function formatPlotNumber(value) {
     if (!Number.isFinite(value)) return '—';
     if (Math.abs(value) < 1e-9) return '0';
@@ -270,7 +285,8 @@ function drawPlot(canvas, state, options) {
         ctx.beginPath();
         let penDown = false;
         let prevPy = 0;
-        for (let px = 0; px <= cssWidth; px++) {
+        const lastPixel = Math.floor(cssWidth * revealAmount(options.reveal));
+        for (let px = 0; px <= lastPixel; px++) {
             const x = xMin + ((xMax - xMin) * px) / cssWidth;
             const y = entry.fn(x);
             if (!Number.isFinite(y)) {
@@ -290,8 +306,8 @@ function drawPlot(canvas, state, options) {
         ctx.stroke();
     });
 
-    // Points of interest
-    (options.points || []).forEach(point => {
+    // Points of interest appear once the curves have finished drawing
+    (revealAmount(options.reveal) < 1 ? [] : options.points || []).forEach(point => {
         const px = toPx(point.x);
         const py = toPy(point.y);
         if (px < -8 || px > cssWidth + 8 || py < -8 || py > cssHeight + 8) return;
@@ -406,12 +422,34 @@ function setupPlotter() {
         });
     }
 
+    // Curves draw themselves left to right (skipped for reduced motion)
+    let reveal = 1;
+    let revealFrame = 0;
+    function playReveal(duration = 700) {
+        cancelAnimationFrame(revealFrame);
+        if (prefersReducedMotion() || !canvas.clientWidth) {
+            reveal = 1;
+            schedule();
+            return;
+        }
+        const start = performance.now();
+        reveal = 0;
+        const step = now => {
+            const t = Math.min(1, (now - start) / duration);
+            reveal = easeOutQuart(t);
+            drawPlot(canvas, state, { points, reveal });
+            if (t < 1) revealFrame = requestAnimationFrame(step);
+            else schedule();
+        };
+        revealFrame = requestAnimationFrame(step);
+    }
+
     function redraw(withPoints = true) {
         if (withPoints) {
             points = computePoints();
             renderPointsList();
         }
-        drawPlot(canvas, state, { points });
+        drawPlot(canvas, state, { points, reveal });
     }
 
     function schedule(withPoints = true) {
@@ -484,7 +522,9 @@ function setupPlotter() {
 
     document.getElementById('plotterReset')?.addEventListener('click', () => {
         state.view = createPlotterState(canvas.clientWidth || 800, canvas.clientHeight || 480).view;
-        schedule();
+        points = computePoints();
+        renderPointsList();
+        playReveal(550);
     });
 
     document.getElementById('plotterExport')?.addEventListener('click', () => {
@@ -589,8 +629,18 @@ function setupPlotter() {
     }
 
     // Keep the bitmap sharp when the panel resizes, and follow theme changes
+    let shown = false;
     if (typeof ResizeObserver !== 'undefined') {
-        new ResizeObserver(() => schedule(false)).observe(canvas);
+        new ResizeObserver(() => {
+            if (!shown && canvas.clientWidth > 0) {
+                shown = true;
+                points = computePoints();
+                renderPointsList();
+                playReveal();
+                return;
+            }
+            schedule(false);
+        }).observe(canvas);
     }
     new MutationObserver(() => setTimeout(() => schedule(false), 480)).observe(document.body, { attributes: true, attributeFilter: ['class'] });
 
@@ -609,6 +659,8 @@ if (typeof module !== 'undefined' && module.exports) {
         findExtrema,
         findIntersections,
         formatPlotNumber,
+        revealAmount,
+        easeOutQuart,
         createPlotterState,
         zoomView,
         panView,

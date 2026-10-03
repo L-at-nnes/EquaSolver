@@ -4,6 +4,8 @@ const {
     findExtrema,
     findIntersections,
     formatPlotNumber,
+    revealAmount,
+    easeOutQuart,
     createPlotterState,
     zoomView,
     panView
@@ -144,5 +146,25 @@ describe('formatPlotNumber', () => {
         expect(formatPlotNumber(1e-12)).toBe('0');
         expect(formatPlotNumber(NaN)).toBe('—');
         expect(formatPlotNumber(Infinity)).toBe('—');
+    });
+});
+
+describe('curve reveal animation', () => {
+    test('revealAmount clamps and defaults to fully drawn', () => {
+        expect(revealAmount(undefined)).toBe(1);
+        expect(revealAmount(0.4)).toBe(0.4);
+        expect(revealAmount(-1)).toBe(0);
+        expect(revealAmount(7)).toBe(1);
+    });
+
+    test('easeOutQuart starts fast and ends at exactly 1', () => {
+        expect(easeOutQuart(0)).toBe(0);
+        expect(easeOutQuart(1)).toBe(1);
+        expect(easeOutQuart(0.5)).toBeGreaterThan(0.9);
+        let previous = -1;
+        for (let t = 0; t <= 1; t += 0.1) {
+            expect(easeOutQuart(t)).toBeGreaterThanOrEqual(previous);
+            previous = easeOutQuart(t);
+        }
     });
 });
