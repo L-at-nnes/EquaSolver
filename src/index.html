@@ -417,6 +417,7 @@
                         <button class="submenu-btn" data-subtool="derivatives" data-translate="derivatives">Derivatives</button>
                         <button class="submenu-btn" data-subtool="integrals" data-translate="integrals">Integrals</button>
                         <button class="submenu-btn" data-subtool="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
+                        <button class="submenu-btn" data-subtool="partialFractions" data-translate="partialFractions">Partial Fractions</button>
                     </div>
                 </div>
             </div>
@@ -467,6 +468,7 @@
                 <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
                 <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
                 <button class="tab" data-tab="polynomialDivision" data-translate="polynomialDivision">Polynomial Division</button>
+                <button class="tab" data-tab="partialFractions" data-translate="partialFractions">Partial Fractions</button>
                 <button class="tab" data-tab="derivatives" data-translate="derivatives">Derivatives</button>
                 <button class="tab" data-tab="integrals" data-translate="integrals">Integrals</button>
                 <button class="tab" data-tab="exponential" data-translate="exponential">Exponential</button>
@@ -1854,6 +1856,32 @@
                 <div class="solution-container" id="polynomialDivisionSolution"></div>
             </div>
 
+            <!-- Partial Fractions -->
+            <div class="calculator-panel" id="partialFractions">
+                <div class="equation-display">
+                    <h3 data-translate="partialFractionsTitle">Partial Fractions</h3>
+                    <p class="equation-preview" data-translate="partialFractionsHint">Split P(x) / Q(x) into simpler fractions. Integer coefficients; factors without rational roots stay whole.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label for="pfNumerator" data-translate="numerator">Numerator P(x):</label>
+                        <input type="text" id="pfNumerator" class="coef-input" value="3x + 5" placeholder="3x + 5">
+                    </div>
+                    <div class="input-group">
+                        <label for="pfDenominator" data-translate="denominatorQ">Denominator Q(x):</label>
+                        <input type="text" id="pfDenominator" class="coef-input" value="x^2 - x - 6" placeholder="x^2 - x - 6">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="decomposePartialFractions" data-translate="decompose">Decompose</button>
+                    <button class="btn-export" id="exportPartialFractionsPdf" data-translate="exportPdf" style="display:none">Export PDF</button>
+                </div>
+
+                <div class="solution-container" id="partialFractionsSolution"></div>
+            </div>
+
             <!-- Derivative Calculator -->
             <div class="calculator-panel" id="derivatives">
                 <div class="equation-display">
@@ -2138,6 +2166,7 @@
     <script src="js/solvers/inequality.js" defer></script>
     <script src="js/solvers/polynomial-division.js" defer></script>
     <script src="js/solvers/factor.js" defer></script>
+    <script src="js/solvers/partial-fractions.js" defer></script>
     <script src="js/solvers/exponential-log.js" defer></script>
     <script src="js/solvers/absolute.js" defer></script>
     <script src="js/solvers/trigonometric.js" defer></script>

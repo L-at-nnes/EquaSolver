@@ -201,6 +201,7 @@ function setupExportButtons() {
         'exportAbsoluteInequalityPdf': 'absoluteInequality',
         'exportTrigonometricPdf': 'trigonometric',
         'exportPolynomialDivisionPdf': 'polynomialDivision',
+        'exportPartialFractionsPdf': 'partialFractions',
         'exportBaseConverterPdf': 'baseConverter',
         'exportUnitConverterPdf': 'unitConverter'
     };
@@ -985,6 +986,49 @@ function performPolynomialDivision() {
 
 function setupPolynomialDivision() {
     document.getElementById('dividePolynomials')?.addEventListener('click', performPolynomialDivision);
+    document.getElementById('decomposePartialFractions')?.addEventListener('click', performPartialFractions);
+}
+
+function performPartialFractions() {
+    const numeratorStr = document.getElementById('pfNumerator')?.value.trim();
+    const denominatorStr = document.getElementById('pfDenominator')?.value.trim();
+    const resultDiv = document.getElementById('partialFractionsSolution');
+    const trans = translations[window.currentLang];
+
+    if (!numeratorStr || !denominatorStr) {
+        resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+        return;
+    }
+
+    const numerator = parsePolynomial(numeratorStr);
+    const denominator = parsePolynomial(denominatorStr);
+    if (!numerator || !denominator) {
+        resultDiv.innerHTML = `<p class="error">${trans.polyParseError || 'Error parsing polynomials'}</p>`;
+        return;
+    }
+
+    const result = numerator.every(c => c === 0) ? { text: '0' } : partialFractions(numerator, denominator);
+    if (!result) {
+        resultDiv.innerHTML = `<p class="error">${trans.partialFractionsError || 'Needs integer coefficients and a denominator of degree 1 or more'}</p>`;
+        return;
+    }
+
+    const denominatorFactors = factorPolynomial(denominator.every(Number.isInteger) ? denominator : []);
+    let html = `<h3>${trans.solution || 'Solution'}</h3>`;
+    html += `<div class="result-group">
+        <div class="result-label">${trans.decomposition || 'Decomposition'}:</div>
+        <div class="result-value"><span class="highlight">${escapeHtml(result.text)}</span></div>
+    </div>`;
+    if (denominatorFactors && (denominatorFactors.factors.length > 1 || denominatorFactors.factors[0].multiplicity > 1)) {
+        html += `<div class="result-group">
+            <div class="result-label">${trans.factoredForm || 'Factored form'}:</div>
+            <div class="result-value">${escapeHtml(formatFactoredPolynomial(denominatorFactors))}</div>
+        </div>`;
+    }
+
+    resultDiv.innerHTML = html;
+    addToHistory(`(${numeratorStr}) / (${denominatorStr}) = ${result.text}`);
+    showExportButton('partialFractions');
 }
 
 function setupPercentageCalculator() {

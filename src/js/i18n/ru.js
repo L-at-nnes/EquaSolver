@@ -661,7 +661,15 @@ const ru = {
     systemSize: "Число неизвестных",
     gaussianSteps: "Шаги исключения",
     systemStart: "Расширенная матрица",
-    factoredForm: "Разложение на множители"
+    factoredForm: "Разложение на множители",
+    partialFractions: "Простейшие дроби",
+    partialFractionsTitle: "Разложение на простейшие дроби",
+    partialFractionsHint: "Раскладывает P(x) / Q(x) на простые дроби. Целые коэффициенты; множители без рациональных корней остаются целыми.",
+    partialFractionsError: "Нужны целые коэффициенты и знаменатель степени 1 или выше",
+    numerator: "Числитель P(x):",
+    denominatorQ: "Знаменатель Q(x):",
+    decompose: "Разложить",
+    decomposition: "Разложение"
 };
 
 // Export for use in browser

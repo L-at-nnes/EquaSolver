@@ -673,7 +673,15 @@ const en = {
     systemSize: "Number of unknowns",
     gaussianSteps: "Elimination steps",
     systemStart: "Augmented matrix",
-    factoredForm: "Factored form"
+    factoredForm: "Factored form",
+    partialFractions: "Partial Fractions",
+    partialFractionsTitle: "Partial Fractions",
+    partialFractionsHint: "Split P(x) / Q(x) into simpler fractions. Integer coefficients; factors without rational roots stay whole.",
+    partialFractionsError: "Needs integer coefficients and a denominator of degree 1 or more",
+    numerator: "Numerator P(x):",
+    denominatorQ: "Denominator Q(x):",
+    decompose: "Decompose",
+    decomposition: "Decomposition"
 };
 
 // Export for use in browser

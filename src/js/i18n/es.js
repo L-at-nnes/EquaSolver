@@ -661,7 +661,15 @@ const es = {
     systemSize: "Número de incógnitas",
     gaussianSteps: "Pasos de eliminación",
     systemStart: "Matriz ampliada",
-    factoredForm: "Forma factorizada"
+    factoredForm: "Forma factorizada",
+    partialFractions: "Fracciones parciales",
+    partialFractionsTitle: "Fracciones parciales",
+    partialFractionsHint: "Descompone P(x) / Q(x) en fracciones más simples. Coeficientes enteros; los factores sin raíz racional se mantienen enteros.",
+    partialFractionsError: "Requiere coeficientes enteros y un denominador de grado 1 o más",
+    numerator: "Numerador P(x):",
+    denominatorQ: "Denominador Q(x):",
+    decompose: "Descomponer",
+    decomposition: "Descomposición"
 };
 
 // Export for use in browser

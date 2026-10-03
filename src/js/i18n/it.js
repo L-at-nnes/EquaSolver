@@ -661,7 +661,15 @@ const it = {
     systemSize: "Numero di incognite",
     gaussianSteps: "Passaggi di eliminazione",
     systemStart: "Matrice completa",
-    factoredForm: "Forma fattorizzata"
+    factoredForm: "Forma fattorizzata",
+    partialFractions: "Frazioni parziali",
+    partialFractionsTitle: "Frazioni parziali",
+    partialFractionsHint: "Scompone P(x) / Q(x) in frazioni più semplici. Coefficienti interi; i fattori senza radice razionale restano interi.",
+    partialFractionsError: "Servono coefficienti interi e un denominatore di grado 1 o superiore",
+    numerator: "Numeratore P(x):",
+    denominatorQ: "Denominatore Q(x):",
+    decompose: "Scomponi",
+    decomposition: "Scomposizione"
 };
 
 // Export for use in browser

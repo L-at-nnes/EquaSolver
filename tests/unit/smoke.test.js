@@ -43,7 +43,7 @@ const SOLVE_BUTTONS = [
     'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
-    'dividePolynomials', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
+    'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
 ];
 
 describe('application smoke test', () => {
@@ -131,5 +131,23 @@ describe('polynomial division shows the factored form', () => {
         document.getElementById('polyDivisor').value = 'x';
         document.getElementById('dividePolynomials').click();
         expect(document.getElementById('polynomialDivisionSolution').textContent).not.toMatch(/Factored form|Forme factoris/);
+    });
+});
+
+describe('partial fractions panel', () => {
+    test('decomposes the default example', () => {
+        document.getElementById('pfNumerator').value = '3x + 5';
+        document.getElementById('pfDenominator').value = 'x^2 - x - 6';
+        document.getElementById('decomposePartialFractions').click();
+        const text = document.getElementById('partialFractionsSolution').textContent;
+        expect(text).toContain('14/(5(x - 3))');
+        expect(text).toContain('1/(5(x + 2))');
+    });
+
+    test('invalid input shows an error', () => {
+        document.getElementById('pfNumerator').value = '1';
+        document.getElementById('pfDenominator').value = '(x+1)';
+        document.getElementById('decomposePartialFractions').click();
+        expect(document.getElementById('partialFractionsSolution').querySelector('.error')).not.toBeNull();
     });
 });

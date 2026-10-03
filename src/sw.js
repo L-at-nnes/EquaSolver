@@ -43,6 +43,7 @@ const STATIC_ASSETS = [
     './js/solvers/inequality.js',
     './js/solvers/polynomial-division.js',
     './js/solvers/factor.js',
+    './js/solvers/partial-fractions.js',
     './js/solvers/exponential-log.js',
     './js/solvers/absolute.js',
     './js/solvers/trigonometric.js',

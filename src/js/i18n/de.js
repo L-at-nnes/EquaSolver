@@ -661,7 +661,15 @@ const de = {
     systemSize: "Anzahl der Unbekannten",
     gaussianSteps: "Eliminationsschritte",
     systemStart: "Erweiterte Matrix",
-    factoredForm: "Faktorisierte Form"
+    factoredForm: "Faktorisierte Form",
+    partialFractions: "Partialbruchzerlegung",
+    partialFractionsTitle: "Partialbruchzerlegung",
+    partialFractionsHint: "Zerlegt P(x) / Q(x) in einfachere Brüche. Ganzzahlige Koeffizienten; Faktoren ohne rationale Nullstelle bleiben ganz.",
+    partialFractionsError: "Ganzzahlige Koeffizienten und ein Nenner vom Grad 1 oder höher nötig",
+    numerator: "Zähler P(x):",
+    denominatorQ: "Nenner Q(x):",
+    decompose: "Zerlegen",
+    decomposition: "Zerlegung"
 };
 
 // Export for use in browser

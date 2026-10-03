@@ -673,7 +673,15 @@ const fr = {
     systemSize: "Nombre d'inconnues",
     gaussianSteps: "Étapes d'élimination",
     systemStart: "Matrice augmentée",
-    factoredForm: "Forme factorisée"
+    factoredForm: "Forme factorisée",
+    partialFractions: "Fractions partielles",
+    partialFractionsTitle: "Décomposition en éléments simples",
+    partialFractionsHint: "Décompose P(x) / Q(x) en fractions plus simples. Coefficients entiers ; les facteurs sans racine rationnelle restent entiers.",
+    partialFractionsError: "Coefficients entiers et dénominateur de degré 1 ou plus requis",
+    numerator: "Numérateur P(x) :",
+    denominatorQ: "Dénominateur Q(x) :",
+    decompose: "Décomposer",
+    decomposition: "Décomposition"
 };
 
 // Export for use in browser
