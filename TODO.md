@@ -31,9 +31,9 @@
 - [x] Implement numerical integration (trapezoidal, Simpson's rule)
 
 ### User Experience
-- [ ] Implement undo/redo functionality for calculator
+- [x] Implement undo/redo functionality for calculator
 - [x] Add favorites system to bookmark frequent calculations
-- [ ] Add print-friendly view for solutions
+- [x] Add print-friendly view for solutions
 
 ### Visualization
 - [x] Add 3D graphing capabilities for 3-variable equations (z = f(x, y) surface plotter)
