@@ -334,3 +334,18 @@ describe('Print stylesheet', () => {
         expect(css).toContain('.calculator-panel:not(.active)');
     });
 });
+
+describe('Early colour mode script', () => {
+    const fs = require('fs');
+    const path = require('path');
+    const html = fs.readFileSync(path.join(__dirname, '../../src/index.html'), 'utf8');
+
+    test('runs inline right after the body opens, before any content', () => {
+        const bodyStart = html.indexOf('<body');
+        const script = html.indexOf('<script>', bodyStart);
+        const firstContent = html.indexOf('<div', bodyStart);
+        expect(script).toBeGreaterThan(bodyStart);
+        expect(script).toBeLessThan(firstContent);
+        expect(html.slice(script, html.indexOf('</script>', script))).toContain("prefers-color-scheme: dark");
+    });
+});

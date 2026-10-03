@@ -22,6 +22,14 @@
     <link rel="stylesheet" href="css/print.css" media="print">
 </head>
 <body class="theme-matrix light-mode">
+    <script>
+        // Set the colour mode before first paint so a dark system never flashes light
+        try {
+            var saved = JSON.parse(localStorage.getItem('equasolver_settings') || '{}');
+            var dark = saved.modeChosen ? saved.mode === 'dark' : window.matchMedia('(prefers-color-scheme: dark)').matches;
+            document.body.classList.toggle('light-mode', !dark);
+        } catch (e) { /* keep the light default */ }
+    </script>
     <div class="scroll-progress" aria-hidden="true"></div>
     <!-- Settings Button -->
     <button class="settings-btn" id="settingsBtn" title="Settings" aria-label="Settings">
