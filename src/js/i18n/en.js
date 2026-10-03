@@ -685,7 +685,14 @@ const en = {
     surface3d: "3D Surface",
     surface3dTitle: "3D Surface",
     surface3dDesc: "Plot z = f(x, y) and rotate it",
-    surface3dHint: "Drag to rotate, scroll or pinch to zoom, arrow keys rotate, double-click to reset."
+    surface3dHint: "Drag to rotate, scroll or pinch to zoom, arrow keys rotate, double-click to reset.",
+    exprTab: "Expression",
+    exprTitle: "Expression Calculator",
+    exprHint: "Type a whole expression and press Enter. Use ans for the previous result.",
+    exprDesc: "Type a full formula and get the result",
+    exprEmpty: "Type an expression",
+    exprSyntax: "Invalid expression",
+    exprMath: "Result is undefined"
 };
 
 // Export for use in browser

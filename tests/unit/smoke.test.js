@@ -171,3 +171,11 @@ describe('3D surface panel', () => {
         expect(document.getElementById('surfaceExpr').value).toBe('x^2 - y^2');
     });
 });
+
+describe('expression calculator panel', () => {
+    test('evaluates a typed expression through the real page wiring', () => {
+        document.getElementById('exprInput').value = '2 + 3 * (4 - 1)^2';
+        document.getElementById('exprCalculate').click();
+        expect(document.getElementById('exprResult').textContent).toBe('29');
+    });
+});

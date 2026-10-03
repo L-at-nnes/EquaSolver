@@ -5,6 +5,14 @@
 // run arbitrary JavaScript. Supports unary minus (-x^2), implicit
 // multiplication (2x, 3(x+1), 2sin(x)), constants (pi, e) and common functions.
 
+// n! for whole numbers up to 170 (beyond that a double overflows); NaN otherwise
+function factorialOf(n) {
+    if (!Number.isInteger(n) || n < 0 || n > 170) return NaN;
+    let result = 1;
+    for (let i = 2; i <= n; i++) result *= i;
+    return result;
+}
+
 const EXPRESSION_FUNCTIONS = {
     sin: Math.sin,
     cos: Math.cos,
@@ -29,7 +37,8 @@ const EXPRESSION_FUNCTIONS = {
     pow: Math.pow,
     min: Math.min,
     max: Math.max,
-    atan2: Math.atan2
+    atan2: Math.atan2,
+    fact: factorialOf
 };
 
 const EXPRESSION_CONSTANTS = {

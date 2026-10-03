@@ -64,6 +64,7 @@ const STATIC_ASSETS = [
     './js/ui/history.js',
     './js/ui/export.js',
     './js/ui/calculator.js',
+    './js/ui/expression-calc.js',
     './js/ui/exponential-log.js',
     './js/ui/system-n.js',
     './js/ui/derivatives-integrals.js',

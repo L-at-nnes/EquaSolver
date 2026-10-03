@@ -673,7 +673,14 @@ const de = {
     surface3d: "3D-Fläche",
     surface3dTitle: "3D-Fläche",
     surface3dDesc: "Zeichne z = f(x, y) und drehe sie",
-    surface3dHint: "Ziehen zum Drehen, Scrollen oder Pinch zum Zoomen, Pfeiltasten drehen, Doppelklick zum Zurücksetzen."
+    surface3dHint: "Ziehen zum Drehen, Scrollen oder Pinch zum Zoomen, Pfeiltasten drehen, Doppelklick zum Zurücksetzen.",
+    exprTab: "Ausdruck",
+    exprTitle: "Ausdrucksrechner",
+    exprHint: "Gib einen ganzen Ausdruck ein und drücke Enter. Mit ans verwendest du das vorige Ergebnis.",
+    exprDesc: "Gib eine ganze Formel ein und erhalte das Ergebnis",
+    exprEmpty: "Gib einen Ausdruck ein",
+    exprSyntax: "Ungültiger Ausdruck",
+    exprMath: "Das Ergebnis ist nicht definiert"
 };
 
 // Export for use in browser

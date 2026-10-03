@@ -198,6 +198,19 @@
                     <p data-translate="standardDesc">Basic calculator operations</p>
                 </div>
 
+                <div class="tool-card" data-tool="expression">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M4 7h16"></path>
+                            <path d="M4 12h10"></path>
+                            <path d="M4 17h6"></path>
+                            <path d="M17 14l3 3-3 3"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="exprTab">Expression</h3>
+                    <p data-translate="exprDesc">Type a full formula and get the result</p>
+                </div>
+
                 <div class="tool-card" data-tool="multi-degree">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -460,6 +473,7 @@
             <!-- Calculator Tabs -->
             <div class="tabs">
                 <button class="tab active" data-tab="standard" data-translate="standard">Standard</button>
+                <button class="tab" data-tab="expression" data-translate="exprTab">Expression</button>
                 <button class="tab" data-tab="linear" data-translate="linear">Linear</button>
                 <button class="tab" data-tab="quadratic" data-translate="quadratic">Quadratic</button>
                 <button class="tab" data-tab="cubic" data-translate="cubic">Cubic</button>
@@ -547,6 +561,44 @@
                     <button class="btn scientific" data-action="mminus" title="Subtract from memory">M&minus;</button>
                     <button class="btn scientific angle-toggle" data-action="angle" aria-label="Angle unit" aria-pressed="false">RAD</button>
                 </div>
+            </div>
+
+            <!-- Expression Calculator -->
+            <div class="calculator-panel" id="expression">
+                <div class="equation-display">
+                    <h3 data-translate="exprTitle">Expression Calculator</h3>
+                    <p class="equation-preview" data-translate="exprHint">Type a whole expression and press Enter. Use ans for the previous result.</p>
+                </div>
+
+                <div class="expr-field">
+                    <input type="text" id="exprInput" class="equation-text-input expr-input" placeholder="2 + 3 * (4 - 1)^2" autocomplete="off" spellcheck="false" aria-label="Expression">
+                    <button class="btn-solve" id="exprCalculate" data-translate="calculate">Calculate</button>
+                    <button class="graph-btn" id="exprClear" data-translate="clear">Clear</button>
+                </div>
+
+                <div class="expr-keys">
+                        <button type="button" class="expr-key" data-insert="("></button>
+                        <button type="button" class="expr-key" data-insert=")">)</button>
+                        <button type="button" class="expr-key" data-insert="^">^</button>
+                        <button type="button" class="expr-key" data-insert="+">+</button>
+                        <button type="button" class="expr-key" data-insert="-">−</button>
+                        <button type="button" class="expr-key" data-insert="*">×</button>
+                        <button type="button" class="expr-key" data-insert="/">÷</button>
+                        <button type="button" class="expr-key" data-insert="sqrt(">√</button>
+                        <button type="button" class="expr-key" data-insert="pi">π</button>
+                        <button type="button" class="expr-key" data-insert="e">e</button>
+                        <button type="button" class="expr-key" data-insert="sin(">sin</button>
+                        <button type="button" class="expr-key" data-insert="cos(">cos</button>
+                        <button type="button" class="expr-key" data-insert="tan(">tan</button>
+                        <button type="button" class="expr-key" data-insert="ln(">ln</button>
+                        <button type="button" class="expr-key" data-insert="log10(">log</button>
+                        <button type="button" class="expr-key" data-insert="abs(">abs</button>
+                        <button type="button" class="expr-key" data-insert="fact(">n!</button>
+                        <button type="button" class="expr-key" data-insert="ans">ans</button>
+                </div>
+
+                <output class="expr-result" id="exprResult" aria-live="polite"></output>
+                <ul class="expr-history" id="exprHistory"></ul>
             </div>
 
             <!-- Linear Equation Solver -->
@@ -2254,6 +2306,7 @@
     <script src="js/ui/history.js" defer></script>
     <script src="js/ui/export.js" defer></script>
     <script src="js/ui/calculator.js" defer></script>
+    <script src="js/ui/expression-calc.js" defer></script>
     <script src="js/ui/exponential-log.js" defer></script>
     <script src="js/ui/system-n.js" defer></script>
     <script src="js/ui/derivatives-integrals.js" defer></script>

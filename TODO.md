@@ -71,7 +71,7 @@
 
 ### Next round
 - [x] Follow the system light/dark preference until the user picks a mode
-- [ ] Expression calculator: type `2 + 3 * (4 - 1)^2` or `sqrt(2) * pi` and get the result
+- [x] Expression calculator: type `2 + 3 * (4 - 1)^2` or `sqrt(2) * pi` and get the result
 - [ ] Statistics: quartiles, IQR, outliers, and a histogram
 - [ ] Linear regression with R-squared and a scatter plot with the fitted line
 - [ ] Matrix extras: transpose, trace, rank and 3x3 eigenvalues

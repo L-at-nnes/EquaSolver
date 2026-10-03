@@ -685,7 +685,14 @@ const fr = {
     surface3d: "Surface 3D",
     surface3dTitle: "Surface 3D",
     surface3dDesc: "Tracez z = f(x, y) et faites-la pivoter",
-    surface3dHint: "Glissez pour pivoter, molette ou pincement pour zoomer, flèches pour tourner, double-clic pour réinitialiser."
+    surface3dHint: "Glissez pour pivoter, molette ou pincement pour zoomer, flèches pour tourner, double-clic pour réinitialiser.",
+    exprTab: "Expression",
+    exprTitle: "Calculatrice d'expressions",
+    exprHint: "Saisissez une expression complète et appuyez sur Entrée. Utilisez ans pour le résultat précédent.",
+    exprDesc: "Saisissez une formule entière et obtenez le résultat",
+    exprEmpty: "Saisissez une expression",
+    exprSyntax: "Expression invalide",
+    exprMath: "Le résultat n'est pas défini"
 };
 
 // Export for use in browser

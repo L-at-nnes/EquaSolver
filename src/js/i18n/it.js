@@ -673,7 +673,14 @@ const it = {
     surface3d: "Superficie 3D",
     surface3dTitle: "Superficie 3D",
     surface3dDesc: "Disegna z = f(x, y) e ruotala",
-    surface3dHint: "Trascina per ruotare, rotella o pizzico per ingrandire, frecce per ruotare, doppio clic per reimpostare."
+    surface3dHint: "Trascina per ruotare, rotella o pizzico per ingrandire, frecce per ruotare, doppio clic per reimpostare.",
+    exprTab: "Espressione",
+    exprTitle: "Calcolatrice di espressioni",
+    exprHint: "Scrivi un'espressione completa e premi Invio. Usa ans per il risultato precedente.",
+    exprDesc: "Scrivi una formula completa e ottieni il risultato",
+    exprEmpty: "Scrivi un'espressione",
+    exprSyntax: "Espressione non valida",
+    exprMath: "Il risultato non è definito"
 };
 
 // Export for use in browser
