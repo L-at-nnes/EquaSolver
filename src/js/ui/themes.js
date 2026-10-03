@@ -5,6 +5,21 @@
 let currentTheme = 'matrix';
 let currentLang = 'en';
 let currentMode = 'light';
+// True once the user has clicked a mode button: from then on the saved choice wins over the system setting
+let modeChosen = false;
+
+/** The operating system's preference, 'light' when it cannot be read. */
+function systemMode() {
+    try {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+    } catch (e) {
+        return 'light';
+    }
+}
+
+function isModeChosen() {
+    return modeChosen;
+}
 
 // Custom theme colors
 let customThemeColors = {
@@ -173,8 +188,9 @@ function changeLanguage(lang, translations = null, updateTranslationsFn = null) 
     saveSettings();
 }
 
-function changeMode(mode) {
+function changeMode(mode, explicit = false) {
     currentMode = mode;
+    if (explicit) modeChosen = true;
     
     if (mode === 'light') {
         document.body.classList.add('light-mode');
@@ -214,6 +230,7 @@ function saveSettings() {
             theme: currentTheme,
             lang: currentLang,
             mode: currentMode,
+            modeChosen,
             customTheme: customThemeColors
         }));
     } catch (e) {
@@ -222,7 +239,7 @@ function saveSettings() {
 }
 
 function loadSettings() {
-    const defaults = { theme: 'matrix', lang: 'en', mode: 'light' };
+    const defaults = { theme: 'matrix', lang: 'en', mode: systemMode() };
     let settings;
     try {
         const saved = localStorage.getItem('equasolver_settings');
@@ -231,6 +248,7 @@ function loadSettings() {
         settings = null;
     }
     if (!settings || typeof settings !== 'object') {
+        modeChosen = false;
         return defaults;
     }
 
@@ -238,7 +256,11 @@ function loadSettings() {
         customThemeColors = Object.assign({}, customThemeColors, settings.customTheme);
         syncColorPickers();
     }
-    return Object.assign({}, defaults, settings);
+    modeChosen = Boolean(settings.modeChosen);
+    const merged = Object.assign({}, defaults, settings);
+    // Without an explicit choice the system preference decides, so a dark OS gets the dark theme
+    if (!modeChosen) merged.mode = defaults.mode;
+    return merged;
 }
 
 // Custom theme builder
@@ -339,6 +361,8 @@ if (typeof module !== 'undefined' && module.exports) {
         isSettingsOpen,
         handleSettingsKeydown,
         setupSettingsPanel,
+        systemMode,
+        isModeChosen,
         changeTheme,
         changeLanguage,
         changeMode,
@@ -369,6 +393,8 @@ if (typeof window !== 'undefined') {
     window.saveCustomTheme = saveCustomTheme;
     window.toggleSettings = toggleSettings;
     window.setupSettingsPanel = setupSettingsPanel;
+    window.systemMode = systemMode;
+    window.isModeChosen = isModeChosen;
     window.setupCustomThemeBuilder = setupCustomThemeBuilder;
 }
 

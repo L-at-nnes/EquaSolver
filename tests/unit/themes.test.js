@@ -147,3 +147,62 @@ describe('Settings panel accessibility', () => {
         expect(themes.isSettingsOpen()).toBe(false);
     });
 });
+
+describe('System colour scheme', () => {
+    const mockScheme = dark => {
+        window.matchMedia = jest.fn(() => ({ matches: dark, addEventListener() {}, removeEventListener() {} }));
+    };
+
+    beforeEach(() => {
+        localStorage.clear();
+        buildDom();
+    });
+
+    afterEach(() => {
+        delete window.matchMedia;
+    });
+
+    test('systemMode reads prefers-color-scheme', () => {
+        mockScheme(true);
+        expect(themes.systemMode()).toBe('dark');
+        mockScheme(false);
+        expect(themes.systemMode()).toBe('light');
+    });
+
+    test('systemMode falls back to light when matchMedia is missing or throws', () => {
+        expect(themes.systemMode()).toBe('light');
+        window.matchMedia = () => { throw new Error('nope'); };
+        expect(themes.systemMode()).toBe('light');
+    });
+
+    test('a first visit on a dark system starts in dark mode', () => {
+        mockScheme(true);
+        expect(themes.loadSettings().mode).toBe('dark');
+    });
+
+    test('a saved mode without an explicit choice yields to the system', () => {
+        mockScheme(true);
+        localStorage.setItem('equasolver_settings', JSON.stringify({ theme: 'ocean', lang: 'fr', mode: 'light' }));
+        const settings = themes.loadSettings();
+        expect(settings.mode).toBe('dark');
+        expect(settings.theme).toBe('ocean');
+    });
+
+    test('an explicit choice survives a reload and beats the system', () => {
+        mockScheme(true);
+        themes.loadSettings();
+        themes.changeMode('light', true);
+        expect(themes.isModeChosen()).toBe(true);
+        const settings = themes.loadSettings();
+        expect(settings.mode).toBe('light');
+        expect(themes.isModeChosen()).toBe(true);
+    });
+
+    test('changeMode without the explicit flag does not lock the choice', () => {
+        mockScheme(false);
+        localStorage.clear();
+        themes.loadSettings();
+        themes.changeMode('dark');
+        expect(themes.isModeChosen()).toBe(false);
+    });
+});

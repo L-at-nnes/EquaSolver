@@ -25,7 +25,7 @@ document.addEventListener('DOMContentLoaded', () => {
     
     window.currentTheme = savedSettings.theme || 'matrix';
     window.currentLang = savedSettings.lang || 'en';
-    window.currentMode = savedSettings.mode || 'light';
+    window.currentMode = savedSettings.mode || systemMode();
     
     changeTheme(window.currentTheme);
     changeLanguage(window.currentLang);
@@ -97,7 +97,7 @@ function initEventListeners() {
     document.querySelectorAll('.mode-btn').forEach(btn => {
         btn.addEventListener('click', () => {
             window.currentMode = btn.dataset.mode;
-            changeMode(window.currentMode);
+            changeMode(window.currentMode, true);
         });
     });
     
@@ -170,6 +170,17 @@ function initEventListeners() {
     // Back to home button
     document.getElementById('backBtn')?.addEventListener('click', showHomeScreen);
     
+    // Follow the operating system's light/dark switch until the user picks a mode
+    if (window.matchMedia) {
+        const query = window.matchMedia('(prefers-color-scheme: dark)');
+        const follow = () => {
+            if (isModeChosen()) return;
+            window.currentMode = systemMode();
+            changeMode(window.currentMode);
+        };
+        if (query.addEventListener) query.addEventListener('change', follow);
+    }
+
     // Deep links: #quadratic opens that tool, also on back/forward
     window.addEventListener('hashchange', openToolFromHash);
     
