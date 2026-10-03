@@ -669,7 +669,11 @@ const de = {
     numerator: "Zähler P(x):",
     denominatorQ: "Nenner Q(x):",
     decompose: "Zerlegen",
-    decomposition: "Zerlegung"
+    decomposition: "Zerlegung",
+    surface3d: "3D-Fläche",
+    surface3dTitle: "3D-Fläche",
+    surface3dDesc: "Zeichne z = f(x, y) und drehe sie",
+    surface3dHint: "Ziehen zum Drehen, Scrollen oder Pinch zum Zoomen, Pfeiltasten drehen, Doppelklick zum Zurücksetzen."
 };
 
 // Export for use in browser

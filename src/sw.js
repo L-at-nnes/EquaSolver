@@ -72,6 +72,7 @@ const STATIC_ASSETS = [
     './js/graphing/parametric.js',
     './js/graphing/polar.js',
     './js/graphing/plotter.js',
+    './js/graphing/surface.js',
     // Main script (must load after all modules above)
     './js/script.js',
     // Assets

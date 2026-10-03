@@ -329,6 +329,17 @@
                     <p data-translate="plotterDesc">Several curves, pan and zoom</p>
                 </div>
 
+                <div class="tool-card" data-tool="surface3d">
+                    <div class="tool-icon">
+                        <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M3 14l9-5 9 5-9 5z"></path>
+                            <path d="M3 14v-3l9-5 9 5v3"></path>
+                        </svg>
+                    </div>
+                    <h3 data-translate="surface3d">3D Surface</h3>
+                    <p data-translate="surface3dDesc">Plot z = f(x, y) and rotate it</p>
+                </div>
+
                 <div class="tool-card" data-tool="history">
                     <div class="tool-icon">
                         <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -451,6 +462,7 @@
                 <button class="tab" data-tab="matrix" data-translate="matrix">Matrix</button>
                 <button class="tab" data-tab="graph" data-translate="graph">Graph</button>
                 <button class="tab" data-tab="plotter" data-translate="plotter">Plotter</button>
+                <button class="tab" data-tab="surface3d" data-translate="surface3d">3D Surface</button>
                 <button class="tab" data-tab="parametric" data-translate="parametric">Parametric</button>
                 <button class="tab" data-tab="polar" data-translate="polar">Polar</button>
                 <button class="tab" data-tab="latex" data-translate="latex">LaTeX</button>
@@ -1193,6 +1205,50 @@
 
                 <h4 class="plotter-points-title" data-translate="pointsOfInterest">Points of interest</h4>
                 <ul class="plotter-points" id="plotterPoints"></ul>
+            </div>
+
+            <!-- 3D Surface -->
+            <div class="calculator-panel" id="surface3d">
+                <div class="equation-display">
+                    <h3 data-translate="surface3dTitle">3D Surface</h3>
+                    <p class="equation-preview" id="surfaceHint" data-translate="surface3dHint">Drag to rotate, scroll or pinch to zoom, arrow keys rotate, double-click to reset.</p>
+                </div>
+
+                <div class="surface-controls">
+                    <div class="input-group surface-expression">
+                        <label for="surfaceExpr">z =</label>
+                        <input type="text" id="surfaceExpr" class="equation-text-input" value="sin(x) * cos(y)" placeholder="x^2 - y^2" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="range-group">
+                        <label data-translate="xRange">X Range:</label>
+                        <div class="range-inputs">
+                            <input type="text" inputmode="decimal" id="surfaceXMin" value="-3.14" class="range-input" aria-label="x min">
+                            <span>to</span>
+                            <input type="text" inputmode="decimal" id="surfaceXMax" value="3.14" class="range-input" aria-label="x max">
+                        </div>
+                    </div>
+                    <div class="range-group">
+                        <label data-translate="yRange">Y Range:</label>
+                        <div class="range-inputs">
+                            <input type="text" inputmode="decimal" id="surfaceYMin" value="-3.14" class="range-input" aria-label="y min">
+                            <span>to</span>
+                            <input type="text" inputmode="decimal" id="surfaceYMax" value="3.14" class="range-input" aria-label="y max">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="plotter-toolbar">
+                    <button type="button" class="graph-btn surface-preset" data-expr="x^2 + y^2">x² + y²</button>
+                    <button type="button" class="graph-btn surface-preset" data-expr="x^2 - y^2">x² − y²</button>
+                    <button type="button" class="graph-btn surface-preset" data-expr="sin(x) * cos(y)">sin x · cos y</button>
+                    <button type="button" class="graph-btn surface-preset" data-expr="sin(sqrt(x^2 + y^2))">sin √(x² + y²)</button>
+                    <button type="button" class="graph-btn" id="surfaceReset" data-translate="resetView">Reset view</button>
+                </div>
+
+                <div class="graph-container plotter-stage">
+                    <canvas id="surfaceCanvas" width="900" height="520" role="img" aria-label="3D surface" aria-describedby="surfaceHint" tabindex="0"></canvas>
+                </div>
+                <p class="plotter-readout" id="surfaceInfo"></p>
             </div>
 
             <!-- Parametric Equations -->
@@ -2199,6 +2255,7 @@
     <script src="js/graphing/parametric.js" defer></script>
     <script src="js/graphing/polar.js" defer></script>
     <script src="js/graphing/plotter.js" defer></script>
+    <script src="js/graphing/surface.js" defer></script>
     
     <!-- Main script (must be last) -->
     <script src="js/script.js" defer></script>

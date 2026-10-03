@@ -669,7 +669,11 @@ const ru = {
     numerator: "Числитель P(x):",
     denominatorQ: "Знаменатель Q(x):",
     decompose: "Разложить",
-    decomposition: "Разложение"
+    decomposition: "Разложение",
+    surface3d: "3D-поверхность",
+    surface3dTitle: "3D-поверхность",
+    surface3dDesc: "Постройте z = f(x, y) и вращайте её",
+    surface3dHint: "Перетаскивайте для вращения, колесо или щипок для масштаба, стрелки вращают, двойной щелчок для сброса."
 };
 
 // Export for use in browser

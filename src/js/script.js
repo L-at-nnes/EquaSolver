@@ -41,6 +41,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupParametricGraph();
     setupPolarGraph();
     setupPlotter();
+    setupSurface();
     setupSystemN();
     setupCustomThemeBuilder();
     setupToolSearch();

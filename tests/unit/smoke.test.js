@@ -151,3 +151,23 @@ describe('partial fractions panel', () => {
         expect(document.getElementById('partialFractionsSolution').querySelector('.error')).not.toBeNull();
     });
 });
+
+describe('3D surface panel', () => {
+    test('renders without errors and reports the height range', () => {
+        document.getElementById('surfaceExpr').value = 'x^2 + y^2';
+        document.getElementById('surfaceExpr').dispatchEvent(new Event('input'));
+        expect(document.getElementById('surfaceExpr').getAttribute('aria-invalid')).toBeNull();
+        expect(document.getElementById('surfaceInfo').textContent).toMatch(/^z ∈ \[/);
+    });
+
+    test('an invalid expression is flagged', () => {
+        document.getElementById('surfaceExpr').value = 'sin(';
+        document.getElementById('surfaceExpr').dispatchEvent(new Event('input'));
+        expect(document.getElementById('surfaceExpr').getAttribute('aria-invalid')).toBe('true');
+    });
+
+    test('presets fill the expression', () => {
+        document.querySelector('.surface-preset[data-expr="x^2 - y^2"]').click();
+        expect(document.getElementById('surfaceExpr').value).toBe('x^2 - y^2');
+    });
+});

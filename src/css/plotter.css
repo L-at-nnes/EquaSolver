@@ -73,6 +73,29 @@
         }
     }
 
+    .surface-controls {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: flex-end;
+        gap: var(--space-4);
+        margin-bottom: var(--space-4);
+
+        & .surface-expression {
+            flex: 1 1 18rem;
+        }
+
+        & .range-group {
+            display: flex;
+            flex-direction: column;
+            gap: var(--space-1);
+        }
+    }
+
+    #surfaceExpr[aria-invalid="true"] {
+        border-color: var(--danger);
+        outline-color: var(--danger);
+    }
+
     .plotter-stage canvas {
         aspect-ratio: 900 / 520;
         height: auto;

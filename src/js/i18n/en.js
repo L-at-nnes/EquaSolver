@@ -681,7 +681,11 @@ const en = {
     numerator: "Numerator P(x):",
     denominatorQ: "Denominator Q(x):",
     decompose: "Decompose",
-    decomposition: "Decomposition"
+    decomposition: "Decomposition",
+    surface3d: "3D Surface",
+    surface3dTitle: "3D Surface",
+    surface3dDesc: "Plot z = f(x, y) and rotate it",
+    surface3dHint: "Drag to rotate, scroll or pinch to zoom, arrow keys rotate, double-click to reset."
 };
 
 // Export for use in browser

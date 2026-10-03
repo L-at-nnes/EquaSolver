@@ -36,7 +36,7 @@
 - [ ] Add print-friendly view for solutions
 
 ### Visualization
-- [ ] Add 3D graphing capabilities for 3-variable equations
+- [x] Add 3D graphing capabilities for 3-variable equations (z = f(x, y) surface plotter)
 - [x] Implement zoom and pan gestures on touch devices
 - [x] Add animation for graph plotting (curves of the function plotter draw themselves)
 - [x] Support for multiple equations overlay on same graph

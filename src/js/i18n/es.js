@@ -669,7 +669,11 @@ const es = {
     numerator: "Numerador P(x):",
     denominatorQ: "Denominador Q(x):",
     decompose: "Descomponer",
-    decomposition: "Descomposición"
+    decomposition: "Descomposición",
+    surface3d: "Superficie 3D",
+    surface3dTitle: "Superficie 3D",
+    surface3dDesc: "Dibuja z = f(x, y) y gírala",
+    surface3dHint: "Arrastra para girar, rueda o pellizco para ampliar, flechas para rotar, doble clic para restablecer."
 };
 
 // Export for use in browser
