@@ -660,7 +660,8 @@ const es = {
     systemNHint: "Eliminación gaussiana con pivoteo parcial. Cada fila es una ecuación; la última columna es el término independiente.",
     systemSize: "Número de incógnitas",
     gaussianSteps: "Pasos de eliminación",
-    systemStart: "Matriz ampliada"
+    systemStart: "Matriz ampliada",
+    factoredForm: "Forma factorizada"
 };
 
 // Export for use in browser

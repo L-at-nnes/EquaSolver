@@ -116,3 +116,20 @@ describe('application smoke test', () => {
         expect(document.getElementById('display').value).toBe('7');
     });
 });
+
+describe('polynomial division shows the factored form', () => {
+    test('x^3 - 6x^2 + 11x - 6 is factored', () => {
+        document.getElementById('polyDividend').value = 'x^3 - 6x^2 + 11x - 6';
+        document.getElementById('polyDivisor').value = 'x - 1';
+        document.getElementById('dividePolynomials').click();
+        const text = document.getElementById('polynomialDivisionSolution').textContent;
+        expect(text).toContain('(x - 1)(x - 2)(x - 3)');
+    });
+
+    test('an irreducible dividend shows no factored line', () => {
+        document.getElementById('polyDividend').value = 'x^2 + 1';
+        document.getElementById('polyDivisor').value = 'x';
+        document.getElementById('dividePolynomials').click();
+        expect(document.getElementById('polynomialDivisionSolution').textContent).not.toMatch(/Factored form|Forme factoris/);
+    });
+});

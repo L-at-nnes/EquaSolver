@@ -660,7 +660,8 @@ const it = {
     systemNHint: "Eliminazione di Gauss con pivot parziale. Ogni riga è un'equazione; l'ultima colonna è il termine noto.",
     systemSize: "Numero di incognite",
     gaussianSteps: "Passaggi di eliminazione",
-    systemStart: "Matrice completa"
+    systemStart: "Matrice completa",
+    factoredForm: "Forma fattorizzata"
 };
 
 // Export for use in browser

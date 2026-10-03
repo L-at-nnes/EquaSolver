@@ -660,7 +660,8 @@ const de = {
     systemNHint: "Gauß-Elimination mit Teilpivotisierung. Jede Zeile ist eine Gleichung; die letzte Spalte ist die Konstante.",
     systemSize: "Anzahl der Unbekannten",
     gaussianSteps: "Eliminationsschritte",
-    systemStart: "Erweiterte Matrix"
+    systemStart: "Erweiterte Matrix",
+    factoredForm: "Faktorisierte Form"
 };
 
 // Export for use in browser

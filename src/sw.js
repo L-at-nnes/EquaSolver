@@ -42,6 +42,7 @@ const STATIC_ASSETS = [
     // Solver modules
     './js/solvers/inequality.js',
     './js/solvers/polynomial-division.js',
+    './js/solvers/factor.js',
     './js/solvers/exponential-log.js',
     './js/solvers/absolute.js',
     './js/solvers/trigonometric.js',

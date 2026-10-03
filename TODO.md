@@ -55,7 +55,8 @@
 ### Solvers
 - [x] Exact form for quadratic roots (fractions and square roots, e.g. (3 ± √5) / 2)
 - [x] Gaussian elimination with steps for linear systems up to 5x5
-- [ ] Partial fraction decomposition and polynomial factoring over the rationals
+- [x] Polynomial factoring over the rationals (shown with polynomial division)
+- [ ] Partial fraction decomposition
 
 ### Graphing
 - [x] Function plotter: several y = f(x) curves on one canvas, drag to pan, wheel to zoom

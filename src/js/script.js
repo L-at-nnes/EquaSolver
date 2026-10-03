@@ -966,6 +966,18 @@ function performPolynomialDivision() {
         <div class="result-value"><span class="highlight">${remainderStr}</span></div>
     </div>`;
     
+    // Factored form of the dividend when it has rational factors (integer coefficients only)
+    if (dividend.length > 2 && dividend.every(Number.isInteger)) {
+        const factored = factorPolynomial(dividend);
+        const interesting = factored && (factored.factors.length > 1 || factored.factors[0].multiplicity > 1 || Math.abs(factored.content) !== 1);
+        if (interesting) {
+            html += `<div class="result-group">
+                <div class="result-label">${trans.factoredForm || 'Factored form'}:</div>
+                <div class="result-value"><span class="highlight">${escapeHtml(formatFactoredPolynomial(factored))}</span></div>
+            </div>`;
+        }
+    }
+
     resultDiv.innerHTML = html;
     addToHistory(`(${dividendStr}) ÷ (${divisorStr}) = ${quotientStr} R ${remainderStr}`);
     showExportButton('polynomialDivision');

@@ -672,7 +672,8 @@ const en = {
     systemNHint: "Gaussian elimination with partial pivoting. Each row is one equation; the last column is the constant.",
     systemSize: "Number of unknowns",
     gaussianSteps: "Elimination steps",
-    systemStart: "Augmented matrix"
+    systemStart: "Augmented matrix",
+    factoredForm: "Factored form"
 };
 
 // Export for use in browser

@@ -672,7 +672,8 @@ const fr = {
     systemNHint: "Élimination de Gauss avec pivot partiel. Chaque ligne est une équation ; la dernière colonne est la constante.",
     systemSize: "Nombre d'inconnues",
     gaussianSteps: "Étapes d'élimination",
-    systemStart: "Matrice augmentée"
+    systemStart: "Matrice augmentée",
+    factoredForm: "Forme factorisée"
 };
 
 // Export for use in browser
