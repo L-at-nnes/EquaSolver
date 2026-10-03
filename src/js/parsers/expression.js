@@ -81,7 +81,7 @@ function tokenizeExpression(source) {
  * Compile an expression into a function of one variable.
  * Returns null when the expression is not syntactically valid.
  * @param {string} expr
- * @param {string} varName
+ * @param {string|string[]} varName one variable name, or several (then call the result with an array of values)
  * @param {{log?: 'ln'|'log10'}} [options] meaning of log(); defaults to natural log
  */
 function compileExpression(expr, varName, options = {}) {
@@ -179,6 +179,11 @@ function compileExpression(expr, varName, options = {}) {
 
         if (token.type === 'id') {
             if (token.value === varName) return v => v;
+            // Several variables: the compiled function takes an array of values in the same order
+            if (Array.isArray(varName)) {
+                const index = varName.indexOf(token.value);
+                if (index !== -1) return v => v[index];
+            }
 
             if (Object.prototype.hasOwnProperty.call(functions, token.value) && isOp(peek(), '(')) {
                 pos++;

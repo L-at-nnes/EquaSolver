@@ -283,3 +283,26 @@ describe('Expression Evaluator - parser robustness', () => {
         expect(evaluateExpression('x.constructor', 'x', 1)).toBeNaN();
     });
 });
+
+describe('Expression Evaluator - several variables', () => {
+    const { compileExpression } = require('../../src/js/parsers/expression.js');
+
+    test('compiles a function of x and y', () => {
+        const f = compileExpression('x^2 + 2*x*y - y', ['x', 'y']);
+        expect(f([3, 2])).toBe(9 + 12 - 2);
+    });
+
+    test('supports implicit multiplication and functions of both variables', () => {
+        const f = compileExpression('sin(x) * cos(y) + 2x', ['x', 'y']);
+        expect(f([Math.PI / 2, 0])).toBeCloseTo(1 + Math.PI, 10);
+    });
+
+    test('unknown names still fail and constants still work', () => {
+        expect(compileExpression('x + z', ['x', 'y'])).toBeNull();
+        expect(compileExpression('x + pi', ['x', 'y'])([1, 0])).toBeCloseTo(1 + Math.PI, 10);
+    });
+
+    test('single variable behaviour is unchanged', () => {
+        expect(compileExpression('x^2', 'x')(4)).toBe(16);
+    });
+});
