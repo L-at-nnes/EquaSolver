@@ -68,3 +68,13 @@
 - [x] Pin results from the history as favorites
 - [x] Smoke test that boots the real page and runs every tool with its default values
 - [x] Keyboard navigation audit (tab order, focus trap in the settings panel)
+
+### Next round
+- [ ] Follow the system light/dark preference until the user picks a mode
+- [ ] Expression calculator: type `2 + 3 * (4 - 1)^2` or `sqrt(2) * pi` and get the result
+- [ ] Statistics: quartiles, IQR, outliers, and a histogram
+- [ ] Linear regression with R-squared and a scatter plot with the fitted line
+- [ ] Matrix extras: transpose, trace, rank and 3x3 eigenvalues
+- [ ] Unit converter: swap button and more categories (speed, energy, pressure, digital storage)
+- [ ] Prime tools: primality test, next prime and a prime sieve
+- [ ] Share a link that restores the inputs of the open tool
