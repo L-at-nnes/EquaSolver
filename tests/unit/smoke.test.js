@@ -179,3 +179,14 @@ describe('expression calculator panel', () => {
         expect(document.getElementById('exprResult').textContent).toBe('29');
     });
 });
+
+describe('statistics panel extras', () => {
+    test('shows quartiles, outliers and a histogram', () => {
+        document.getElementById('statsInput').value = '1, 2, 3, 4, 5, 100';
+        document.getElementById('calculateStatistics').click();
+        const box = document.getElementById('statisticsSolution');
+        expect(box.textContent).toContain('100');
+        expect(box.querySelectorAll('.hist-bar').length).toBeGreaterThan(1);
+        expect(box.textContent).toMatch(/Q1|Q3/);
+    });
+});

@@ -692,7 +692,15 @@ const fr = {
     exprDesc: "Saisissez une formule entière et obtenez le résultat",
     exprEmpty: "Saisissez une expression",
     exprSyntax: "Expression invalide",
-    exprMath: "Le résultat n'est pas défini"
+    exprMath: "Le résultat n'est pas défini",
+    statMin: "Minimum",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Maximum",
+    statIqr: "Écart interquartile",
+    statOutliers: "Valeurs aberrantes",
+    statNoOutliers: "aucune",
+    statHistogram: "Histogramme"
 };
 
 // Export for use in browser

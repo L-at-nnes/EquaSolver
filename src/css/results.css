@@ -66,6 +66,64 @@
     }
 }
 
+/* Histogram */
+.histogram {
+    margin-top: var(--space-4);
+
+    & figcaption {
+        margin-bottom: var(--space-2);
+        color: var(--text-muted);
+        font-size: var(--text-sm);
+        font-weight: 600;
+    }
+
+    & ol {
+        display: flex;
+        align-items: flex-end;
+        gap: 3px;
+        height: 9rem;
+        padding: var(--space-3) var(--space-3) 0;
+        background: var(--surface-2);
+        border-radius: var(--radius-sm);
+        list-style: none;
+    }
+}
+
+.hist-bar {
+    flex: 1;
+    position: relative;
+    height: calc(var(--h) * 100%);
+    min-height: 2px;
+    background: var(--accent);
+    border-radius: 3px 3px 0 0;
+    transform-origin: bottom;
+    animation: grow-bar 520ms var(--ease-expo) both;
+
+    & span {
+        position: absolute;
+        inset: auto 0 100% 0;
+        color: var(--text-muted);
+        font-family: var(--font-mono);
+        font-size: var(--text-xs);
+        text-align: center;
+    }
+}
+
+.hist-axis {
+    display: flex;
+    justify-content: space-between;
+    margin-top: var(--space-1);
+    color: var(--text-muted);
+    font-family: var(--font-mono);
+    font-size: var(--text-xs);
+}
+
+@keyframes grow-bar {
+    from {
+        scale: 1 0;
+    }
+}
+
 .copy-result {
     display: inline-flex;
     align-items: center;

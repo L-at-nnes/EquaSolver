@@ -680,7 +680,15 @@ const ru = {
     exprDesc: "Введите формулу целиком и получите результат",
     exprEmpty: "Введите выражение",
     exprSyntax: "Некорректное выражение",
-    exprMath: "Результат не определён"
+    exprMath: "Результат не определён",
+    statMin: "Минимум",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Максимум",
+    statIqr: "Межквартильный размах",
+    statOutliers: "Выбросы",
+    statNoOutliers: "нет",
+    statHistogram: "Гистограмма"
 };
 
 // Export for use in browser

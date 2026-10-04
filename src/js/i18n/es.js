@@ -680,7 +680,15 @@ const es = {
     exprDesc: "Escribe una fórmula completa y obtén el resultado",
     exprEmpty: "Escribe una expresión",
     exprSyntax: "Expresión no válida",
-    exprMath: "El resultado no está definido"
+    exprMath: "El resultado no está definido",
+    statMin: "Mínimo",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Máximo",
+    statIqr: "Rango intercuartílico",
+    statOutliers: "Valores atípicos",
+    statNoOutliers: "ninguno",
+    statHistogram: "Histograma"
 };
 
 // Export for use in browser

@@ -16,7 +16,7 @@ const { gcd, lcm, gcdMultiple, lcmMultiple, primeFactorization, formatFactorizat
 const { modulo, modularInverse, modularPower } = require('./math/modular.js');
 const { factorial, factorialBig, permutation, combination } = require('./math/combinatorics.js');
 const { simplifyFraction, simplifyFractionFunc, addFractions, subtractFractions, multiplyFractions, divideFractions, fractionToDecimal, decimalToFraction, fractionToMixed, simplifyRatio } = require('./math/fractions.js');
-const { calculateMean, calculateMedian, calculateMode, calculateVariance, calculateStdDev } = require('./math/statistics.js');
+const { calculateMean, calculateMedian, calculateMode, calculateVariance, calculateStdDev, calculateQuantile, calculateQuartiles, findOutliers, buildHistogram } = require('./math/statistics.js');
 const { generateArithmeticSequence, generateGeometricSequence, generateFibonacciSequence } = require('./math/sequences.js');
 
 // Calculus modules
@@ -106,7 +106,11 @@ module.exports = {
     calculateMode,
     calculateVariance,
     calculateStdDev,
-    
+    calculateQuantile,
+    calculateQuartiles,
+    findOutliers,
+    buildHistogram,
+
     // Sequences
     generateArithmeticSequence,
     generateGeometricSequence,

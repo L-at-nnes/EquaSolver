@@ -692,7 +692,15 @@ const en = {
     exprDesc: "Type a full formula and get the result",
     exprEmpty: "Type an expression",
     exprSyntax: "Invalid expression",
-    exprMath: "Result is undefined"
+    exprMath: "Result is undefined",
+    statMin: "Minimum",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Maximum",
+    statIqr: "IQR",
+    statOutliers: "Outliers",
+    statNoOutliers: "none",
+    statHistogram: "Histogram"
 };
 
 // Export for use in browser

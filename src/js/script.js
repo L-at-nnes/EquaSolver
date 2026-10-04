@@ -1723,10 +1723,34 @@ function setupStatisticsCalculator() {
         html += `<div class="result-group"><div class="result-label">${trans.statisticalMode || 'Mode'}:</div><div class="result-value"><span class="highlight">${mode ? mode.join(', ') : trans.noMode || 'No mode'}</span></div></div>`;
         html += `<div class="result-group"><div class="result-label">${trans.variance || 'Variance'}:</div><div class="result-value"><span class="highlight">${formatNumber(variance)}</span></div></div>`;
         html += `<div class="result-group"><div class="result-label">${trans.stdDev || 'Std Dev'}:</div><div class="result-value"><span class="highlight">${formatNumber(stdDev)}</span></div></div>`;
-        
+
+        // Five number summary, outliers and a histogram
+        const quartiles = calculateQuartiles(numbers);
+        const row = (label, value) => `<div class="result-group"><div class="result-label">${label}:</div><div class="result-value">${value}</div></div>`;
+        html += row(trans.statMin || 'Minimum', formatNumber(quartiles.min));
+        html += row(trans.statQ1 || 'Q1', formatNumber(quartiles.q1));
+        html += row(trans.statQ3 || 'Q3', formatNumber(quartiles.q3));
+        html += row(trans.statMax || 'Maximum', formatNumber(quartiles.max));
+        html += row(trans.statIqr || 'IQR', formatNumber(quartiles.iqr));
+        const outliers = findOutliers(numbers);
+        html += row(trans.statOutliers || 'Outliers', outliers.length ? outliers.map(value => formatNumber(value)).join(', ') : (trans.statNoOutliers || 'none'));
+        html += renderHistogramHtml(buildHistogram(numbers), trans.statHistogram || 'Histogram');
+
         resultDiv.innerHTML = html;
         addToHistory(`Stats: mean=${formatNumber(mean)}, median=${formatNumber(median)}`);
     });
+}
+
+// Histogram as plain bars: scales with the layout and stays readable as text for assistive tech
+function renderHistogramHtml(bins, title) {
+    const tallest = Math.max(...bins.map(bin => bin.count), 1);
+    const bars = bins.map(bin => {
+        const label = `${formatNumber(bin.start, 4)} \u2013 ${formatNumber(bin.end, 4)}: ${bin.count}`;
+        return `<li class="hist-bar" style="--h:${(bin.count / tallest).toFixed(4)}" title="${label}" aria-label="${label}"><span>${bin.count}</span></li>`;
+    }).join('');
+    const first = formatNumber(bins[0].start, 4);
+    const last = formatNumber(bins[bins.length - 1].end, 4);
+    return `<figure class="histogram"><figcaption>${title}</figcaption><ol>${bars}</ol><div class="hist-axis"><span>${first}</span><span>${last}</span></div></figure>`;
 }
 
 function setupSequenceCalculator() {

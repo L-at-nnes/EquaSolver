@@ -680,7 +680,15 @@ const it = {
     exprDesc: "Scrivi una formula completa e ottieni il risultato",
     exprEmpty: "Scrivi un'espressione",
     exprSyntax: "Espressione non valida",
-    exprMath: "Il risultato non è definito"
+    exprMath: "Il risultato non è definito",
+    statMin: "Minimo",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Massimo",
+    statIqr: "Scarto interquartile",
+    statOutliers: "Valori anomali",
+    statNoOutliers: "nessuno",
+    statHistogram: "Istogramma"
 };
 
 // Export for use in browser

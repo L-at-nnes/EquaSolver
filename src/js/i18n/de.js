@@ -680,7 +680,15 @@ const de = {
     exprDesc: "Gib eine ganze Formel ein und erhalte das Ergebnis",
     exprEmpty: "Gib einen Ausdruck ein",
     exprSyntax: "Ungültiger Ausdruck",
-    exprMath: "Das Ergebnis ist nicht definiert"
+    exprMath: "Das Ergebnis ist nicht definiert",
+    statMin: "Minimum",
+    statQ1: "Q1",
+    statQ3: "Q3",
+    statMax: "Maximum",
+    statIqr: "Interquartilsabstand",
+    statOutliers: "Ausreißer",
+    statNoOutliers: "keine",
+    statHistogram: "Histogramm"
 };
 
 // Export for use in browser

@@ -274,3 +274,53 @@ describe('Statistical Properties', () => {
         expect(calculateMean(withOutlier)).toBe(22); // Mean affected significantly
     });
 });
+
+describe('Quartiles, outliers and histogram', () => {
+    const { calculateQuantile, calculateQuartiles, findOutliers, buildHistogram } = require('../../src/js/math/statistics.js');
+
+    test('quantiles interpolate between ranks', () => {
+        expect(calculateQuantile([1, 2, 3, 4, 5], 0.5)).toBe(3);
+        expect(calculateQuantile([1, 2, 3, 4], 0.5)).toBe(2.5);
+        expect(calculateQuantile([1, 2, 3, 4, 5], 0.25)).toBe(2);
+        expect(calculateQuantile([10, 20], 0.25)).toBe(12.5);
+        expect(calculateQuantile([5], 0.9)).toBe(5);
+    });
+
+    test('quantile input is validated and not mutated', () => {
+        const data = [3, 1, 2];
+        expect(calculateQuantile(data, 0.5)).toBe(2);
+        expect(data).toEqual([3, 1, 2]);
+        expect(calculateQuantile([], 0.5)).toBeNull();
+        expect(calculateQuantile([1, 2], 1.5)).toBeNull();
+        expect(calculateQuantile([1, 2], NaN)).toBeNull();
+    });
+
+    test('quartiles match the spreadsheet inclusive method', () => {
+        // QUARTILE.INC({1,2,3,4,5,6,7,8,9,10}) = 3.25, 5.5, 7.75
+        expect(calculateQuartiles([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])).toEqual({ min: 1, q1: 3.25, median: 5.5, q3: 7.75, max: 10, iqr: 4.5 });
+        expect(calculateQuartiles([])).toBeNull();
+    });
+
+    test('Tukey outliers', () => {
+        expect(findOutliers([1, 2, 3, 4, 5, 100])).toEqual([100]);
+        expect(findOutliers([-50, 10, 11, 12, 13, 14])).toEqual([-50]);
+        expect(findOutliers([1, 2, 3, 4, 5])).toEqual([]);
+        expect(findOutliers([])).toEqual([]);
+    });
+
+    test('histogram bins cover every value exactly once', () => {
+        const data = [1, 2, 2, 3, 3, 3, 4, 4, 4, 4, 10];
+        const bins = buildHistogram(data, 3);
+        expect(bins).toHaveLength(3);
+        expect(bins.reduce((sum, bin) => sum + bin.count, 0)).toBe(data.length);
+        expect(bins[0].start).toBe(1);
+        expect(bins[2].end).toBe(10);
+        expect(bins[2].count).toBeGreaterThanOrEqual(1); // the maximum lands in the last bin
+    });
+
+    test('default bin count follows Sturges and a constant dataset is one bin', () => {
+        expect(buildHistogram(Array.from({ length: 16 }, (_, i) => i)).length).toBe(5);
+        expect(buildHistogram([7, 7, 7])).toEqual([{ start: 7, end: 7, count: 3 }]);
+        expect(buildHistogram([])).toEqual([]);
+    });
+});
