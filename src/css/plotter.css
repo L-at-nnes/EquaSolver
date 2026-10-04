@@ -96,6 +96,15 @@
         outline-color: var(--danger);
     }
 
+    .regression-prediction {
+        display: block;
+        min-height: 1.5rem;
+        margin-top: var(--space-2);
+        color: var(--accent);
+        font-family: var(--font-mono);
+        font-weight: 600;
+    }
+
     .plotter-stage canvas {
         aspect-ratio: 900 / 520;
         height: auto;

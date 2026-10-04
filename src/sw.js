@@ -33,6 +33,7 @@ const STATIC_ASSETS = [
     './js/math/linear-system.js',
     './js/math/exact.js',
     './js/math/statistics.js',
+    './js/math/regression.js',
     './js/math/sequences.js',
     // Calculus modules
     './js/calculus/limits.js',
@@ -65,6 +66,7 @@ const STATIC_ASSETS = [
     './js/ui/export.js',
     './js/ui/calculator.js',
     './js/ui/expression-calc.js',
+    './js/ui/regression.js',
     './js/ui/exponential-log.js',
     './js/ui/system-n.js',
     './js/ui/derivatives-integrals.js',

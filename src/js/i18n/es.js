@@ -688,7 +688,17 @@ const es = {
     statIqr: "Rango intercuartílico",
     statOutliers: "Valores atípicos",
     statNoOutliers: "ninguno",
-    statHistogram: "Histograma"
+    statHistogram: "Histograma",
+    regression: "Regresión",
+    regressionTitle: "Regresión lineal",
+    regressionHint: "Un punto por línea: x e y separados por un espacio o una coma. Usa el punto para los decimales.",
+    regressionData: "Puntos de datos (x y):",
+    regressionPredict: "Predecir y para x =",
+    regressionLine: "Recta ajustada",
+    regressionSlope: "Pendiente",
+    regressionIntercept: "Ordenada al origen",
+    regressionBadLines: "Cada línea necesita exactamente dos números",
+    regressionNeedPoints: "Introduce al menos dos puntos con valores de x distintos"
 };
 
 // Export for use in browser

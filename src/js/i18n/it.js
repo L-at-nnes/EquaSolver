@@ -688,7 +688,17 @@ const it = {
     statIqr: "Scarto interquartile",
     statOutliers: "Valori anomali",
     statNoOutliers: "nessuno",
-    statHistogram: "Istogramma"
+    statHistogram: "Istogramma",
+    regression: "Regressione",
+    regressionTitle: "Regressione lineare",
+    regressionHint: "Un punto per riga: x e y separati da spazio o virgola. Usa il punto per i decimali.",
+    regressionData: "Punti dati (x y):",
+    regressionPredict: "Prevedi y per x =",
+    regressionLine: "Retta di regressione",
+    regressionSlope: "Pendenza",
+    regressionIntercept: "Intercetta",
+    regressionBadLines: "Ogni riga richiede esattamente due numeri",
+    regressionNeedPoints: "Inserisci almeno due punti con x diverse"
 };
 
 // Export for use in browser

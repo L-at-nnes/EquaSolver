@@ -42,7 +42,7 @@ const SOLVE_BUTTONS = [
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
     'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
-    'calculateStatistics', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
+    'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
 ];
 
@@ -188,5 +188,29 @@ describe('statistics panel extras', () => {
         expect(box.textContent).toContain('100');
         expect(box.querySelectorAll('.hist-bar').length).toBeGreaterThan(1);
         expect(box.textContent).toMatch(/Q1|Q3/);
+    });
+});
+
+describe('regression panel', () => {
+    test('fits the default data and predicts', () => {
+        document.getElementById('calculateRegression').click();
+        const text = document.getElementById('regressionSolution').textContent;
+        expect(text).toContain('y = 0.6x + 2.2');
+        expect(text).toContain('0.774597');
+        document.getElementById('regressionPredictX').value = '10';
+        document.getElementById('regressionPredictX').dispatchEvent(new Event('input'));
+        expect(document.getElementById('regressionPrediction').textContent).toBe('y(10) = 8.2');
+    });
+
+    test('malformed lines are reported by number', () => {
+        document.getElementById('regressionInput').value = '1 2\nfoo\n3 4';
+        document.getElementById('calculateRegression').click();
+        expect(document.getElementById('regressionSolution').querySelector('.error').textContent).toContain('(2)');
+    });
+
+    test('not enough points shows a message', () => {
+        document.getElementById('regressionInput').value = '1 2';
+        document.getElementById('calculateRegression').click();
+        expect(document.getElementById('regressionSolution').querySelector('.error')).not.toBeNull();
     });
 });

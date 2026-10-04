@@ -46,6 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupCustomThemeBuilder();
     setupToolSearch();
     setupExpressionCalculator();
+    setupRegression();
     setupMatrixCalculator();
     setupGcdLcmCalculator();
     setupModularCalculator();

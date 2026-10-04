@@ -700,7 +700,17 @@ const en = {
     statIqr: "IQR",
     statOutliers: "Outliers",
     statNoOutliers: "none",
-    statHistogram: "Histogram"
+    statHistogram: "Histogram",
+    regression: "Regression",
+    regressionTitle: "Linear Regression",
+    regressionHint: "One point per line: x and y separated by a space or a comma. Use a dot for decimals.",
+    regressionData: "Data points (x y):",
+    regressionPredict: "Predict y for x =",
+    regressionLine: "Fitted line",
+    regressionSlope: "Slope",
+    regressionIntercept: "Intercept",
+    regressionBadLines: "Each line needs exactly two numbers",
+    regressionNeedPoints: "Enter at least two points with different x values"
 };
 
 // Export for use in browser

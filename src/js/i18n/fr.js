@@ -700,7 +700,17 @@ const fr = {
     statIqr: "Écart interquartile",
     statOutliers: "Valeurs aberrantes",
     statNoOutliers: "aucune",
-    statHistogram: "Histogramme"
+    statHistogram: "Histogramme",
+    regression: "Régression",
+    regressionTitle: "Régression linéaire",
+    regressionHint: "Un point par ligne : x et y séparés par un espace ou une virgule. Utilisez le point pour les décimales.",
+    regressionData: "Points de données (x y) :",
+    regressionPredict: "Prédire y pour x =",
+    regressionLine: "Droite ajustée",
+    regressionSlope: "Pente",
+    regressionIntercept: "Ordonnée à l'origine",
+    regressionBadLines: "Chaque ligne doit contenir exactement deux nombres",
+    regressionNeedPoints: "Saisissez au moins deux points avec des x différents"
 };
 
 // Export for use in browser

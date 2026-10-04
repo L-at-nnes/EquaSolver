@@ -688,7 +688,17 @@ const de = {
     statIqr: "Interquartilsabstand",
     statOutliers: "Ausreißer",
     statNoOutliers: "keine",
-    statHistogram: "Histogramm"
+    statHistogram: "Histogramm",
+    regression: "Regression",
+    regressionTitle: "Lineare Regression",
+    regressionHint: "Ein Punkt pro Zeile: x und y durch Leerzeichen oder Komma getrennt. Dezimalpunkt verwenden.",
+    regressionData: "Datenpunkte (x y):",
+    regressionPredict: "y vorhersagen für x =",
+    regressionLine: "Ausgleichsgerade",
+    regressionSlope: "Steigung",
+    regressionIntercept: "Achsenabschnitt",
+    regressionBadLines: "Jede Zeile braucht genau zwei Zahlen",
+    regressionNeedPoints: "Mindestens zwei Punkte mit verschiedenen x-Werten eingeben"
 };
 
 // Export for use in browser

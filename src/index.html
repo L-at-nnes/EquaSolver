@@ -409,6 +409,7 @@
                         <p class="submenu-title" data-translate="statistics">Statistics</p>
                         <button class="submenu-btn" data-subtool="statisticsCalc" data-translate="statisticsCalc">Statistics</button>
                         <button class="submenu-btn" data-subtool="sequences" data-translate="sequences">Sequences</button>
+                        <button class="submenu-btn" data-subtool="regression" data-translate="regression">Regression</button>
                     </div>
                 </div>
 
@@ -498,6 +499,7 @@
                 <button class="tab" data-tab="unitConverter" data-translate="unitConverter">Unit Converter</button>
                 <button class="tab" data-tab="statisticsCalc" data-translate="statisticsCalc">Statistics</button>
                 <button class="tab" data-tab="sequences" data-translate="sequences">Sequences</button>
+                <button class="tab" data-tab="regression" data-translate="regression">Regression</button>
                 <button class="tab" data-tab="limits" data-translate="limits">Limits</button>
                 <button class="tab" data-tab="taylor" data-translate="taylor">Taylor Series</button>
                 <button class="tab" data-tab="integration" data-translate="integration">Integration</button>
@@ -1780,6 +1782,39 @@
                 <div class="solution-container" id="statisticsSolution"></div>
             </div>
 
+            <!-- Linear Regression -->
+            <div class="calculator-panel" id="regression">
+                <div class="equation-display">
+                    <h3 data-translate="regressionTitle">Linear Regression</h3>
+                    <p class="equation-preview" data-translate="regressionHint">One point per line: x and y separated by a space or a comma. Use a dot for decimals.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label for="regressionInput" data-translate="regressionData">Data points (x y):</label>
+                        <textarea id="regressionInput" class="latex-input" rows="6" spellcheck="false">1 2
+2 4
+3 5
+4 4
+5 5</textarea>
+                    </div>
+                    <div class="input-group">
+                        <label for="regressionPredictX" data-translate="regressionPredict">Predict y for x =</label>
+                        <input type="text" inputmode="decimal" id="regressionPredictX" class="coef-input" placeholder="6">
+                        <output class="regression-prediction" id="regressionPrediction"></output>
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateRegression" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="regressionSolution"></div>
+                <div class="graph-container plotter-stage" hidden>
+                    <canvas id="regressionCanvas" width="900" height="480" role="img" aria-label="Scatter plot with fitted line"></canvas>
+                </div>
+            </div>
+
             <!-- Sequence Calculator -->
             <div class="calculator-panel" id="sequences">
                 <div class="equation-display">
@@ -2270,6 +2305,7 @@
     <script src="js/math/linear-system.js" defer></script>
     <script src="js/math/exact.js" defer></script>
     <script src="js/math/statistics.js" defer></script>
+    <script src="js/math/regression.js" defer></script>
     <script src="js/math/sequences.js" defer></script>
     
     <!-- Calculus modules -->
@@ -2307,6 +2343,7 @@
     <script src="js/ui/export.js" defer></script>
     <script src="js/ui/calculator.js" defer></script>
     <script src="js/ui/expression-calc.js" defer></script>
+    <script src="js/ui/regression.js" defer></script>
     <script src="js/ui/exponential-log.js" defer></script>
     <script src="js/ui/system-n.js" defer></script>
     <script src="js/ui/derivatives-integrals.js" defer></script>

@@ -688,7 +688,17 @@ const ru = {
     statIqr: "Межквартильный размах",
     statOutliers: "Выбросы",
     statNoOutliers: "нет",
-    statHistogram: "Гистограмма"
+    statHistogram: "Гистограмма",
+    regression: "Регрессия",
+    regressionTitle: "Линейная регрессия",
+    regressionHint: "Одна точка в строке: x и y через пробел или запятую. Десятичная точка — точка.",
+    regressionData: "Точки данных (x y):",
+    regressionPredict: "Прогноз y для x =",
+    regressionLine: "Линия регрессии",
+    regressionSlope: "Наклон",
+    regressionIntercept: "Свободный член",
+    regressionBadLines: "В каждой строке должно быть ровно два числа",
+    regressionNeedPoints: "Введите минимум две точки с разными x"
 };
 
 // Export for use in browser
