@@ -734,7 +734,20 @@ const ru = {
     terabyte: "Терабайт (ТБ)",
     kibibyte: "Кибибайт (КиБ)",
     mebibyte: "Мебибайт (МиБ)",
-    gibibyte: "Гибибайт (ГиБ)"
+    gibibyte: "Гибибайт (ГиБ)",
+    primes: "Простые",
+    primesTitle: "Простые числа",
+    primesHint: "Проверьте число, найдите следующее или предыдущее простое или выведите все простые до границы.",
+    primeTest: "Простое ли?",
+    primeNext: "Следующее простое",
+    primePrevious: "Предыдущее простое",
+    primeList: "Все простые до",
+    primeNumber: "Число:",
+    primeYes: "простое",
+    primeNo: "не простое",
+    primeNone: "Такого простого нет",
+    primeLimit: "Введите границу от 0 до 5 000 000",
+    primeCount: "Количество"
 };
 
 // Export for use in browser

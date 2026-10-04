@@ -746,7 +746,20 @@ const en = {
     terabyte: "Terabyte (TB)",
     kibibyte: "Kibibyte (KiB)",
     mebibyte: "Mebibyte (MiB)",
-    gibibyte: "Gibibyte (GiB)"
+    gibibyte: "Gibibyte (GiB)",
+    primes: "Primes",
+    primesTitle: "Prime Numbers",
+    primesHint: "Test a number, find the next or previous prime, or list every prime up to a limit.",
+    primeTest: "Is it prime?",
+    primeNext: "Next prime",
+    primePrevious: "Previous prime",
+    primeList: "All primes up to",
+    primeNumber: "Number:",
+    primeYes: "is prime",
+    primeNo: "is not prime",
+    primeNone: "No such prime",
+    primeLimit: "Enter a limit between 0 and 5 000 000",
+    primeCount: "Count"
 };
 
 // Export for use in browser

@@ -27,6 +27,7 @@ const STATIC_ASSETS = [
     './js/math/complex.js',
     './js/math/matrix.js',
     './js/math/gcd-lcm.js',
+    './js/math/primes.js',
     './js/math/modular.js',
     './js/math/combinatorics.js',
     './js/math/fractions.js',

@@ -734,7 +734,20 @@ const it = {
     terabyte: "Terabyte (TB)",
     kibibyte: "Kibibyte (KiB)",
     mebibyte: "Mebibyte (MiB)",
-    gibibyte: "Gibibyte (GiB)"
+    gibibyte: "Gibibyte (GiB)",
+    primes: "Primi",
+    primesTitle: "Numeri primi",
+    primesHint: "Verifica un numero, trova il primo successivo o precedente, o elenca tutti i primi fino a un limite.",
+    primeTest: "È primo?",
+    primeNext: "Primo successivo",
+    primePrevious: "Primo precedente",
+    primeList: "Tutti i primi fino a",
+    primeNumber: "Numero:",
+    primeYes: "è primo",
+    primeNo: "non è primo",
+    primeNone: "Nessun primo corrispondente",
+    primeLimit: "Inserisci un limite tra 0 e 5 000 000",
+    primeCount: "Quantità"
 };
 
 // Export for use in browser

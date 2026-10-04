@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -250,5 +250,42 @@ describe('unit converter extras', () => {
         expect(document.getElementById('fromUnit').value).toBe('meterPerSecond');
         expect(document.getElementById('toUnit').value).toBe('kilometerPerHour');
         expect(document.getElementById('unitConverterSolution').textContent).toContain('129.6');
+    });
+});
+
+describe('prime numbers panel', () => {
+    const run = (operation, value) => {
+        document.getElementById('primeOperation').value = operation;
+        document.getElementById('primeInput').value = value;
+        document.getElementById('calculatePrime').click();
+        return document.getElementById('primesSolution').textContent;
+    };
+
+    test('tests primality and factors composites', () => {
+        expect(run('test', '1000000007')).toMatch(/1000000007/);
+        expect(document.getElementById('primesSolution').querySelector('.input-hint')).toBeNull();
+        run('test', '360');
+        expect(document.getElementById('primesSolution').querySelector('.input-hint').textContent).toContain('2^3');
+    });
+
+    test('next and previous', () => {
+        expect(run('next', '100')).toContain('101');
+        expect(run('previous', '100')).toContain('97');
+        expect(document.getElementById('primesSolution').querySelector('.error')).toBeNull();
+        run('previous', '2');
+        expect(document.getElementById('primesSolution').querySelector('.error')).not.toBeNull();
+    });
+
+    test('lists primes with a count', () => {
+        const text = run('list', '100');
+        expect(text).toContain('25');
+        expect(text).toContain('97');
+    });
+
+    test('rejects non integers and oversized limits', () => {
+        run('test', 'abc');
+        expect(document.getElementById('primesSolution').querySelector('.error')).not.toBeNull();
+        run('list', '6000000');
+        expect(document.getElementById('primesSolution').querySelector('.error')).not.toBeNull();
     });
 });

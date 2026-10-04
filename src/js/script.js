@@ -50,6 +50,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupMatrixCalculator();
     setupGcdLcmCalculator();
     setupModularCalculator();
+    setupPrimeCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1527,6 +1528,56 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+const PRIME_LIST_DISPLAY_LIMIT = 300;
+
+function setupPrimeCalculator() {
+    document.getElementById('calculatePrime')?.addEventListener('click', () => {
+        const operation = document.getElementById('primeOperation')?.value || 'test';
+        const raw = document.getElementById('primeInput')?.value.trim() ?? '';
+        const resultDiv = document.getElementById('primesSolution');
+        const trans = translations[window.currentLang];
+        const n = /^-?\d+$/.test(raw) ? Number(raw) : NaN;
+
+        if (!Number.isSafeInteger(n)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+
+        let html = `<h3>${trans.solution}</h3>`;
+        let summary;
+        if (operation === 'test') {
+            const prime = isPrime(n);
+            html += `<div class="result-value"><span class="highlight">${n} ${prime ? (trans.primeYes || 'is prime') : (trans.primeNo || 'is not prime')}</span></div>`;
+            if (!prime && n > 3) {
+                html += `<p class="input-hint">${n} = ${formatFactorization(primeFactorization(n))}</p>`;
+            }
+            summary = `${n}: ${prime ? 'prime' : 'not prime'}`;
+        } else if (operation === 'next' || operation === 'previous') {
+            const found = operation === 'next' ? nextPrime(n) : previousPrime(n);
+            if (found === null) {
+                html += `<p class="error">${trans.primeNone || 'No such prime'}</p>`;
+                resultDiv.innerHTML = html;
+                return;
+            }
+            html += `<div class="result-value"><span class="highlight">${found}</span></div>`;
+            summary = `${operation === 'next' ? 'next' : 'previous'} prime of ${n} = ${found}`;
+        } else {
+            const primes = primesUpTo(n);
+            if (!primes) {
+                resultDiv.innerHTML = `<p class="error">${trans.primeLimit || 'Enter a limit between 0 and 5 000 000'}</p>`;
+                return;
+            }
+            const shown = primes.slice(0, PRIME_LIST_DISPLAY_LIMIT);
+            html += `<div class="result-group"><div class="result-label">${trans.primeCount || 'Count'}:</div><div class="result-value"><span class="highlight">${primes.length}</span></div></div>`;
+            html += `<p class="prime-list">${shown.join(', ')}${primes.length > shown.length ? ' …' : ''}</p>`;
+            summary = `${primes.length} primes up to ${n}`;
+        }
+
+        resultDiv.innerHTML = html;
+        addToHistory(summary);
+    });
 }
 
 function setupModularCalculator() {

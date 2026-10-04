@@ -76,5 +76,5 @@
 - [x] Linear regression with R-squared and a scatter plot with the fitted line
 - [x] Matrix extras: transpose, trace, rank and 2x2 / 3x3 eigenvalues
 - [x] Unit converter: swap button and more categories (speed, energy, pressure, digital storage)
-- [ ] Prime tools: primality test, next prime and a prime sieve
+- [x] Prime tools: primality test, next prime and a prime sieve
 - [ ] Share a link that restores the inputs of the open tool

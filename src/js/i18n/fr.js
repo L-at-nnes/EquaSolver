@@ -746,7 +746,20 @@ const fr = {
     terabyte: "Téraoctet (To)",
     kibibyte: "Kibioctet (Kio)",
     mebibyte: "Mébioctet (Mio)",
-    gibibyte: "Gibioctet (Gio)"
+    gibibyte: "Gibioctet (Gio)",
+    primes: "Premiers",
+    primesTitle: "Nombres premiers",
+    primesHint: "Testez un nombre, trouvez le nombre premier suivant ou précédent, ou listez tous les nombres premiers jusqu'à une limite.",
+    primeTest: "Est-il premier ?",
+    primeNext: "Premier suivant",
+    primePrevious: "Premier précédent",
+    primeList: "Tous les premiers jusqu'à",
+    primeNumber: "Nombre :",
+    primeYes: "est premier",
+    primeNo: "n'est pas premier",
+    primeNone: "Aucun nombre premier correspondant",
+    primeLimit: "Saisissez une limite entre 0 et 5 000 000",
+    primeCount: "Nombre de premiers"
 };
 
 // Export for use in browser

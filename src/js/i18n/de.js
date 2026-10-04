@@ -734,7 +734,20 @@ const de = {
     terabyte: "Terabyte (TB)",
     kibibyte: "Kibibyte (KiB)",
     mebibyte: "Mebibyte (MiB)",
-    gibibyte: "Gibibyte (GiB)"
+    gibibyte: "Gibibyte (GiB)",
+    primes: "Primzahlen",
+    primesTitle: "Primzahlen",
+    primesHint: "Prüfe eine Zahl, finde die nächste oder vorige Primzahl oder liste alle Primzahlen bis zu einer Grenze.",
+    primeTest: "Ist es eine Primzahl?",
+    primeNext: "Nächste Primzahl",
+    primePrevious: "Vorige Primzahl",
+    primeList: "Alle Primzahlen bis",
+    primeNumber: "Zahl:",
+    primeYes: "ist eine Primzahl",
+    primeNo: "ist keine Primzahl",
+    primeNone: "Keine solche Primzahl",
+    primeLimit: "Grenze zwischen 0 und 5 000 000 eingeben",
+    primeCount: "Anzahl"
 };
 
 // Export for use in browser

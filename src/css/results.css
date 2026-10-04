@@ -124,6 +124,18 @@
     }
 }
 
+.prime-list {
+    max-height: 14rem;
+    overflow-y: auto;
+    padding: var(--space-3);
+    background: var(--surface-2);
+    border-radius: var(--radius-sm);
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    line-height: 1.8;
+    overflow-wrap: anywhere;
+}
+
 .copy-result {
     display: inline-flex;
     align-items: center;
