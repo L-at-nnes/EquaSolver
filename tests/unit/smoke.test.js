@@ -289,3 +289,27 @@ describe('prime numbers panel', () => {
         expect(document.getElementById('primesSolution').querySelector('.error')).not.toBeNull();
     });
 });
+
+describe('shared links', () => {
+    test('a link with inputs restores them and runs the tool', () => {
+        window.location.hash = '#quadratic?quadA=1&quadB=-7&quadC=12';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+        expect(document.getElementById('quadA').value).toBe('1');
+        expect(document.getElementById('quadB').value).toBe('-7');
+        const text = document.getElementById('quadraticSolution').textContent;
+        expect(text).toContain('4.0000');
+        expect(text).toContain('3.0000');
+    });
+
+    test('the share button copies a link containing the current values', async () => {
+        const written = [];
+        Object.defineProperty(navigator, 'clipboard', { value: { writeText: async t => { written.push(t); } }, configurable: true });
+        window.location.hash = '#cubic';
+        window.dispatchEvent(new HashChangeEvent('hashchange'));
+        document.getElementById('cubicA').value = '2';
+        await shareCurrentTool();
+        expect(written[0]).toMatch(/#cubic\?/);
+        expect(written[0]).toContain('cubicA=2');
+        delete navigator.clipboard;
+    });
+});

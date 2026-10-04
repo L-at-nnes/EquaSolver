@@ -759,7 +759,9 @@ const fr = {
     primeNo: "n'est pas premier",
     primeNone: "Aucun nombre premier correspondant",
     primeLimit: "Saisissez une limite entre 0 et 5 000 000",
-    primeCount: "Nombre de premiers"
+    primeCount: "Nombre de premiers",
+    shareLink: "Partager",
+    linkCopied: "Lien copié"
 };
 
 // Export for use in browser

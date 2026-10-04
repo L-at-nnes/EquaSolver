@@ -747,7 +747,9 @@ const ru = {
     primeNo: "не простое",
     primeNone: "Такого простого нет",
     primeLimit: "Введите границу от 0 до 5 000 000",
-    primeCount: "Количество"
+    primeCount: "Количество",
+    shareLink: "Поделиться",
+    linkCopied: "Ссылка скопирована"
 };
 
 // Export for use in browser

@@ -747,7 +747,9 @@ const it = {
     primeNo: "non è primo",
     primeNone: "Nessun primo corrispondente",
     primeLimit: "Inserisci un limite tra 0 e 5 000 000",
-    primeCount: "Quantità"
+    primeCount: "Quantità",
+    shareLink: "Condividi",
+    linkCopied: "Link copiato"
 };
 
 // Export for use in browser

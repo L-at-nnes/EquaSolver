@@ -759,7 +759,9 @@ const en = {
     primeNo: "is not prime",
     primeNone: "No such prime",
     primeLimit: "Enter a limit between 0 and 5 000 000",
-    primeCount: "Count"
+    primeCount: "Count",
+    shareLink: "Share",
+    linkCopied: "Link copied"
 };
 
 // Export for use in browser

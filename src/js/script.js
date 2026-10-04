@@ -172,6 +172,7 @@ function initEventListeners() {
     
     // Back to home button
     document.getElementById('backBtn')?.addEventListener('click', showHomeScreen);
+    document.getElementById('shareBtn')?.addEventListener('click', shareCurrentTool);
     
     // Follow the operating system's light/dark switch until the user picks a mode
     if (window.matchMedia) {
@@ -237,12 +238,34 @@ function setupExportButtons() {
 
 function openToolFromHash() {
     const toolIds = [...document.querySelectorAll('.calculator-panel')].map(panel => panel.id);
-    const tool = parseToolHash(window.location.hash, toolIds);
+    const { tool, params } = parseToolRoute(window.location.hash, toolIds);
     if (tool) {
         showCalculatorScreen(tool);
+        // A shared link carries the inputs: restore them and run the tool's main action
+        if (Object.keys(params).length > 0) {
+            const panel = document.getElementById(tool);
+            if (applyPanelParams(panel, params) > 0) {
+                panel.querySelector('.btn-solve')?.click();
+            }
+        }
     } else if (window.location.hash === '#history') {
         showHistoryScreen();
     }
+}
+
+// Copy a link that reopens the current tool with its inputs
+async function shareCurrentTool() {
+    const panel = document.querySelector('.calculator-panel.active');
+    const button = document.getElementById('shareBtn');
+    if (!panel || !button) return;
+    const base = window.location.origin + window.location.pathname + window.location.search;
+    const url = buildShareUrl(base, panel.id, collectPanelParams(panel));
+    const ok = await copyTextToClipboard(url);
+    const labels = translations[window.currentLang] || {};
+    const label = button.querySelector('span');
+    const original = labels.shareLink || 'Share';
+    label.textContent = ok ? (labels.linkCopied || 'Link copied') : (labels.copyFailed || 'Copy failed');
+    setTimeout(() => { label.textContent = original; }, 1600);
 }
 
 function showHomeScreen() {

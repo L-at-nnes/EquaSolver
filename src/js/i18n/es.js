@@ -747,7 +747,9 @@ const es = {
     primeNo: "no es primo",
     primeNone: "No existe tal primo",
     primeLimit: "Introduce un límite entre 0 y 5 000 000",
-    primeCount: "Cantidad"
+    primeCount: "Cantidad",
+    shareLink: "Compartir",
+    linkCopied: "Enlace copiado"
 };
 
 // Export for use in browser

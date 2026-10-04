@@ -77,4 +77,4 @@
 - [x] Matrix extras: transpose, trace, rank and 2x2 / 3x3 eigenvalues
 - [x] Unit converter: swap button and more categories (speed, energy, pressure, digital storage)
 - [x] Prime tools: primality test, next prime and a prime sieve
-- [ ] Share a link that restores the inputs of the open tool
+- [x] Share a link that restores the inputs of the open tool

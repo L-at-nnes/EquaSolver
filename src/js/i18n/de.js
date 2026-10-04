@@ -747,7 +747,9 @@ const de = {
     primeNo: "ist keine Primzahl",
     primeNone: "Keine solche Primzahl",
     primeLimit: "Grenze zwischen 0 und 5 000 000 eingeben",
-    primeCount: "Anzahl"
+    primeCount: "Anzahl",
+    shareLink: "Teilen",
+    linkCopied: "Link kopiert"
 };
 
 // Export for use in browser
