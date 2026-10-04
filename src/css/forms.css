@@ -314,6 +314,25 @@ input[type="range"],
     background: var(--surface-2);
 }
 
+/* Unit converter swap key */
+.swap-units {
+    align-self: flex-end;
+    width: var(--control-height);
+    height: var(--control-height);
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    font-size: var(--text-lg);
+    line-height: 1;
+    transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease), rotate 300ms var(--ease-expo);
+
+    &:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+        rotate: 180deg;
+    }
+}
+
 /* Graphs */
 .graph-container {
     margin-top: var(--space-4);

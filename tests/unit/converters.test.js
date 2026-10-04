@@ -288,3 +288,50 @@ describe('Unit conversion - exact definitions', () => {
         expect(convertUnit(1, 'volume', 'gallon', 'cup')).toBeCloseTo(16, 8);
     });
 });
+
+describe('Unit conversion - added categories', () => {
+    test('speed', () => {
+        expect(convertUnit(36, 'speed', 'kilometerPerHour', 'meterPerSecond')).toBeCloseTo(10, 10);
+        expect(convertUnit(1, 'speed', 'milePerHour', 'kilometerPerHour')).toBeCloseTo(1.609344, 8);
+        expect(convertUnit(1, 'speed', 'knot', 'kilometerPerHour')).toBeCloseTo(1.852, 10);
+    });
+
+    test('energy', () => {
+        expect(convertUnit(1, 'energy', 'kilocalorie', 'joule')).toBeCloseTo(4184, 8);
+        expect(convertUnit(1, 'energy', 'kilowattHour', 'wattHour')).toBeCloseTo(1000, 8);
+        expect(convertUnit(1, 'energy', 'kilowattHour', 'kilojoule')).toBeCloseTo(3600, 8);
+    });
+
+    test('pressure', () => {
+        expect(convertUnit(1, 'pressure', 'atmosphere', 'pascal')).toBeCloseTo(101325, 6);
+        expect(convertUnit(1, 'pressure', 'bar', 'kilopascal')).toBeCloseTo(100, 8);
+        expect(convertUnit(1, 'pressure', 'atmosphere', 'psi')).toBeCloseTo(14.6959488, 6);
+        expect(convertUnit(760, 'pressure', 'mmHg', 'atmosphere')).toBeCloseTo(1, 6);
+    });
+
+    test('digital storage distinguishes SI and binary prefixes', () => {
+        expect(convertUnit(1, 'storage', 'byte', 'bit')).toBe(8);
+        expect(convertUnit(1, 'storage', 'kilobyte', 'byte')).toBeCloseTo(1000, 8);
+        expect(convertUnit(1, 'storage', 'kibibyte', 'byte')).toBeCloseTo(1024, 8);
+        expect(convertUnit(1, 'storage', 'gibibyte', 'mebibyte')).toBeCloseTo(1024, 6);
+        expect(convertUnit(1, 'storage', 'gigabyte', 'megabyte')).toBeCloseTo(1000, 6);
+    });
+
+    test('every table has a base unit equal to 1 and only positive factors', () => {
+        ['speed', 'energy', 'pressure', 'storage'].forEach(category => {
+            const factors = Object.values(unitConversions[category]);
+            expect(factors).toContain(1);
+            expect(factors.every(f => f > 0 && Number.isFinite(f))).toBe(true);
+        });
+    });
+
+    test('round trips are lossless within floating point', () => {
+        Object.entries(unitConversions).filter(([name]) => name !== 'temperature').forEach(([category, units]) => {
+            const names = Object.keys(units);
+            names.forEach(from => names.forEach(to => {
+                const there = convertUnit(123.456, category, from, to);
+                expect(convertUnit(there, category, to, from)).toBeCloseTo(123.456, 6);
+            }));
+        });
+    });
+});

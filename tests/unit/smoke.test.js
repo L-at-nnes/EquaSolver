@@ -234,3 +234,21 @@ describe('matrix extras', () => {
         expect(document.getElementById('matrixSolution').textContent).toContain('Aᵀ');
     });
 });
+
+describe('unit converter extras', () => {
+    test('new categories list their units and the swap key converts back', () => {
+        const category = document.getElementById('unitCategory');
+        category.value = 'speed';
+        category.dispatchEvent(new Event('change'));
+        expect(document.querySelectorAll('#fromUnit option')).toHaveLength(5);
+        document.getElementById('unitValue').value = '36';
+        document.getElementById('fromUnit').value = 'kilometerPerHour';
+        document.getElementById('toUnit').value = 'meterPerSecond';
+        document.getElementById('convertUnit').click();
+        expect(document.getElementById('unitConverterSolution').textContent).toContain('10');
+        document.getElementById('swapUnits').click();
+        expect(document.getElementById('fromUnit').value).toBe('meterPerSecond');
+        expect(document.getElementById('toUnit').value).toBe('kilometerPerHour');
+        expect(document.getElementById('unitConverterSolution').textContent).toContain('129.6');
+    });
+});

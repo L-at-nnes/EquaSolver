@@ -2152,6 +2152,15 @@ function setupUnitConverter() {
     if (convertBtn) {
         convertBtn.addEventListener('click', performUnitConversion);
     }
+
+    // Swap the two units and convert again so the result follows
+    document.getElementById('swapUnits')?.addEventListener('click', () => {
+        const from = document.getElementById('fromUnit');
+        const to = document.getElementById('toUnit');
+        if (!from || !to) return;
+        [from.value, to.value] = [to.value, from.value];
+        performUnitConversion();
+    });
     
     if (categorySelect) {
         categorySelect.addEventListener('change', updateUnitOptions);

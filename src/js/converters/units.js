@@ -43,6 +43,41 @@ const unitConversions = {
         acre: 1 / 4046.8564224,
         hectare: 0.0001
     },
+    speed: {
+        meterPerSecond: 1,
+        kilometerPerHour: 3.6,
+        milePerHour: 3600 / 1609.344,
+        knot: 3600 / 1852,
+        footPerSecond: 1 / 0.3048
+    },
+    energy: {
+        joule: 1,
+        kilojoule: 0.001,
+        calorie: 1 / 4.184,
+        kilocalorie: 1 / 4184,
+        wattHour: 1 / 3600,
+        kilowattHour: 1 / 3600000,
+        btu: 1 / 1055.05585262
+    },
+    pressure: {
+        pascal: 1,
+        kilopascal: 0.001,
+        bar: 0.00001,
+        atmosphere: 1 / 101325,
+        psi: 1 / 6894.757293168,
+        mmHg: 1 / 133.322387415
+    },
+    storage: {
+        byte: 1,
+        bit: 8,
+        kilobyte: 1e-3,
+        megabyte: 1e-6,
+        gigabyte: 1e-9,
+        terabyte: 1e-12,
+        kibibyte: 1 / 1024,
+        mebibyte: 1 / 1048576,
+        gibibyte: 1 / 1073741824
+    },
     volume: {
         liter: 1,
         milliliter: 1000,
