@@ -698,7 +698,12 @@ const es = {
     regressionSlope: "Pendiente",
     regressionIntercept: "Ordenada al origen",
     regressionBadLines: "Cada línea necesita exactamente dos números",
-    regressionNeedPoints: "Introduce al menos dos puntos con valores de x distintos"
+    regressionNeedPoints: "Introduce al menos dos puntos con valores de x distintos",
+    matrixTranspose: "Transpuesta",
+    matrixProperties: "Traza, rango, valores propios",
+    matrixTrace: "Traza",
+    matrixRank: "Rango",
+    matrixEigenvalues: "Valores propios"
 };
 
 // Export for use in browser

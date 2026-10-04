@@ -214,3 +214,23 @@ describe('regression panel', () => {
         expect(document.getElementById('regressionSolution').querySelector('.error')).not.toBeNull();
     });
 });
+
+describe('matrix extras', () => {
+    test('trace, rank and eigenvalues are listed for a 2x2 matrix', () => {
+        document.getElementById('matrixSize').value = '2';
+        document.getElementById('matrixSize').dispatchEvent(new Event('change'));
+        const values = [['2', '0'], ['0', '3']];
+        values.forEach((row, i) => row.forEach((v, j) => { document.getElementById(`matrixA_${i}_${j}`).value = v; }));
+        document.getElementById('matrixOperation').value = 'properties';
+        document.getElementById('calculateMatrix').click();
+        const text = document.getElementById('matrixSolution').textContent;
+        expect(text).toContain('5');
+        expect(text).toMatch(/2\.0000,\s+3\.0000|3\.0000,\s+2\.0000/);
+    });
+
+    test('transpose shows the transposed matrix', () => {
+        document.getElementById('matrixOperation').value = 'transpose';
+        document.getElementById('calculateMatrix').click();
+        expect(document.getElementById('matrixSolution').textContent).toContain('Aᵀ');
+    });
+});

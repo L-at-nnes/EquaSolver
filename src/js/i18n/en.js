@@ -710,7 +710,12 @@ const en = {
     regressionSlope: "Slope",
     regressionIntercept: "Intercept",
     regressionBadLines: "Each line needs exactly two numbers",
-    regressionNeedPoints: "Enter at least two points with different x values"
+    regressionNeedPoints: "Enter at least two points with different x values",
+    matrixTranspose: "Transpose",
+    matrixProperties: "Trace, rank, eigenvalues",
+    matrixTrace: "Trace",
+    matrixRank: "Rank",
+    matrixEigenvalues: "Eigenvalues"
 };
 
 // Export for use in browser

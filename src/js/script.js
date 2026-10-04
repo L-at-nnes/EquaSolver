@@ -1355,8 +1355,8 @@ function updateMatrixBVisibility() {
     const matrixBWrapper = document.getElementById('matrixBWrapper');
     
     if (matrixBWrapper) {
-        // Hide matrix B for determinant and inverse operations
-        matrixBWrapper.style.display = (operation === 'determinant' || operation === 'inverse') ? 'none' : 'block';
+        // Hide matrix B for the single-matrix operations
+        matrixBWrapper.style.display = ['determinant', 'inverse', 'transpose', 'properties'].includes(operation) ? 'none' : 'block';
     }
 }
 
@@ -1451,6 +1451,25 @@ function calculateMatrix() {
                     html += formatMatrixHtml(inv, 'A⁻¹');
                     addToHistory(`Matrix Inverse calculated, det(A) = ${det.toFixed(4)}`);
                 }
+                break;
+            }
+            case 'transpose': {
+                html += formatMatrixHtml(matrixA, 'A');
+                html += `<p class="matrix-operator">=</p>`;
+                html += formatMatrixHtml(transposeMatrix(matrixA), 'Aᵀ');
+                addToHistory('Matrix transpose calculated');
+                break;
+            }
+            case 'properties': {
+                // Trace, rank and (for 2x2 / 3x3) the eigenvalues
+                const eigenvalues = matrixEigenvalues(matrixA);
+                html += formatMatrixHtml(matrixA, 'A');
+                html += `<div class="result-group"><div class="result-label">${trans.matrixTrace || 'Trace'}:</div><div class="result-value"><span class="highlight">${formatNumber(matrixTrace(matrixA))}</span></div></div>`;
+                html += `<div class="result-group"><div class="result-label">${trans.matrixRank || 'Rank'}:</div><div class="result-value"><span class="highlight">${matrixRank(matrixA)}</span></div></div>`;
+                if (eigenvalues) {
+                    html += `<div class="result-group"><div class="result-label">${trans.matrixEigenvalues || 'Eigenvalues'}:</div><div class="result-value">${eigenvalues.map(value => escapeHtml(formatComplex(value))).join(',  ')}</div></div>`;
+                }
+                addToHistory(`Matrix: trace = ${formatNumber(matrixTrace(matrixA))}, rank = ${matrixRank(matrixA)}`);
                 break;
             }
             default:

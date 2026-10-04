@@ -698,7 +698,12 @@ const de = {
     regressionSlope: "Steigung",
     regressionIntercept: "Achsenabschnitt",
     regressionBadLines: "Jede Zeile braucht genau zwei Zahlen",
-    regressionNeedPoints: "Mindestens zwei Punkte mit verschiedenen x-Werten eingeben"
+    regressionNeedPoints: "Mindestens zwei Punkte mit verschiedenen x-Werten eingeben",
+    matrixTranspose: "Transponierte",
+    matrixProperties: "Spur, Rang, Eigenwerte",
+    matrixTrace: "Spur",
+    matrixRank: "Rang",
+    matrixEigenvalues: "Eigenwerte"
 };
 
 // Export for use in browser

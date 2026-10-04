@@ -698,7 +698,12 @@ const ru = {
     regressionSlope: "Наклон",
     regressionIntercept: "Свободный член",
     regressionBadLines: "В каждой строке должно быть ровно два числа",
-    regressionNeedPoints: "Введите минимум две точки с разными x"
+    regressionNeedPoints: "Введите минимум две точки с разными x",
+    matrixTranspose: "Транспонирование",
+    matrixProperties: "След, ранг, собственные числа",
+    matrixTrace: "След",
+    matrixRank: "Ранг",
+    matrixEigenvalues: "Собственные числа"
 };
 
 // Export for use in browser

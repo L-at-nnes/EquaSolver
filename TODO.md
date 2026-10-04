@@ -74,7 +74,7 @@
 - [x] Expression calculator: type `2 + 3 * (4 - 1)^2` or `sqrt(2) * pi` and get the result
 - [x] Statistics: quartiles, IQR, outliers, and a histogram
 - [x] Linear regression with R-squared and a scatter plot with the fitted line
-- [ ] Matrix extras: transpose, trace, rank and 3x3 eigenvalues
+- [x] Matrix extras: transpose, trace, rank and 2x2 / 3x3 eigenvalues
 - [ ] Unit converter: swap button and more categories (speed, energy, pressure, digital storage)
 - [ ] Prime tools: primality test, next prime and a prime sieve
 - [ ] Share a link that restores the inputs of the open tool

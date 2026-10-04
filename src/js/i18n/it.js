@@ -698,7 +698,12 @@ const it = {
     regressionSlope: "Pendenza",
     regressionIntercept: "Intercetta",
     regressionBadLines: "Ogni riga richiede esattamente due numeri",
-    regressionNeedPoints: "Inserisci almeno due punti con x diverse"
+    regressionNeedPoints: "Inserisci almeno due punti con x diverse",
+    matrixTranspose: "Trasposta",
+    matrixProperties: "Traccia, rango, autovalori",
+    matrixTrace: "Traccia",
+    matrixRank: "Rango",
+    matrixEigenvalues: "Autovalori"
 };
 
 // Export for use in browser

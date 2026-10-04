@@ -710,7 +710,12 @@ const fr = {
     regressionSlope: "Pente",
     regressionIntercept: "Ordonnée à l'origine",
     regressionBadLines: "Chaque ligne doit contenir exactement deux nombres",
-    regressionNeedPoints: "Saisissez au moins deux points avec des x différents"
+    regressionNeedPoints: "Saisissez au moins deux points avec des x différents",
+    matrixTranspose: "Transposée",
+    matrixProperties: "Trace, rang, valeurs propres",
+    matrixTrace: "Trace",
+    matrixRank: "Rang",
+    matrixEigenvalues: "Valeurs propres"
 };
 
 // Export for use in browser

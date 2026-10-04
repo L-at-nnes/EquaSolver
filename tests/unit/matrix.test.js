@@ -244,3 +244,74 @@ function invertMatrix(matrix) {
     
     return null;
 }
+
+describe('Matrix extras', () => {
+    const { transposeMatrix, matrixTrace, matrixRank, matrixEigenvalues } = require('../../src/js/math/matrix.js');
+    const sortedReal = values => values.map(v => Math.round(v.re * 1e6) / 1e6).sort((a, b) => a - b);
+
+    test('transpose', () => {
+        expect(transposeMatrix([[1, 2], [3, 4]])).toEqual([[1, 3], [2, 4]]);
+        expect(transposeMatrix([[1, 2, 3], [4, 5, 6], [7, 8, 9]])).toEqual([[1, 4, 7], [2, 5, 8], [3, 6, 9]]);
+    });
+
+    test('transposing twice gives the original', () => {
+        const m = [[1, 2, 3], [4, 5, 6], [7, 8, 10]];
+        expect(transposeMatrix(transposeMatrix(m))).toEqual(m);
+    });
+
+    test('trace', () => {
+        expect(matrixTrace([[1, 2], [3, 4]])).toBe(5);
+        expect(matrixTrace([[2, 0, 0], [0, 3, 0], [0, 0, 4]])).toBe(9);
+    });
+
+    test('rank', () => {
+        expect(matrixRank([[1, 2], [3, 4]])).toBe(2);
+        expect(matrixRank([[1, 2], [2, 4]])).toBe(1);
+        expect(matrixRank([[0, 0], [0, 0]])).toBe(0);
+        expect(matrixRank([[1, 2, 3], [4, 5, 6], [7, 8, 9]])).toBe(2);
+        expect(matrixRank([[1, 0, 0], [0, 1, 0], [0, 0, 1]])).toBe(3);
+    });
+
+    test('rank ignores the scale of the matrix', () => {
+        expect(matrixRank([[1e-9, 2e-9], [2e-9, 4e-9]])).toBe(1);
+        expect(matrixRank([[1e9, 2e9], [2e9, 4e9]])).toBe(1);
+    });
+
+    test('2x2 eigenvalues, real and complex', () => {
+        expect(sortedReal(matrixEigenvalues([[2, 0], [0, 3]]))).toEqual([2, 3]);
+        expect(sortedReal(matrixEigenvalues([[4, 1], [2, 3]]))).toEqual([2, 5]);
+        const rotation = matrixEigenvalues([[0, -1], [1, 0]]);
+        expect(rotation).toHaveLength(2);
+        expect(Math.abs(rotation[0].im)).toBeCloseTo(1, 10);
+        expect(rotation[0].re).toBeCloseTo(0, 10);
+        expect(rotation[0].im).toBeCloseTo(-rotation[1].im, 10);
+    });
+
+    test('a repeated 2x2 eigenvalue is listed twice', () => {
+        expect(sortedReal(matrixEigenvalues([[2, 1], [0, 2]]))).toEqual([2, 2]);
+    });
+
+    test('3x3 eigenvalues', () => {
+        expect(sortedReal(matrixEigenvalues([[2, 0, 0], [0, 3, 0], [0, 0, 5]]))).toEqual([2, 3, 5]);
+        expect(sortedReal(matrixEigenvalues([[2, -1, 0], [-1, 2, -1], [0, -1, 2]]))).toEqual([
+            Math.round((2 - Math.SQRT2) * 1e6) / 1e6, 2, Math.round((2 + Math.SQRT2) * 1e6) / 1e6]);
+    });
+
+    test('3x3 with a repeated eigenvalue keeps its multiplicity', () => {
+        expect(sortedReal(matrixEigenvalues([[2, 0, 0], [0, 2, 0], [0, 0, 5]]))).toEqual([2, 2, 5]);
+        expect(sortedReal(matrixEigenvalues([[3, 0, 0], [0, 3, 0], [0, 0, 3]]))).toEqual([3, 3, 3]);
+    });
+
+    test('eigenvalues sum to the trace and multiply to the determinant', () => {
+        const m = [[2, 1, 0], [1, 3, 1], [0, 1, 4]];
+        const values = matrixEigenvalues(m);
+        const sum = values.reduce((s, v) => s + v.re, 0);
+        expect(sum).toBeCloseTo(matrixTrace(m), 8);
+        expect(values.reduce((p, v) => p * v.re, 1)).toBeCloseTo(18, 6);
+    });
+
+    test('other sizes are not supported', () => {
+        expect(matrixEigenvalues([[1]])).toBeNull();
+        expect(matrixEigenvalues([[1, 0, 0, 0], [0, 1, 0, 0], [0, 0, 1, 0], [0, 0, 0, 1]])).toBeNull();
+    });
+});
