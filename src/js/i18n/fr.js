@@ -804,7 +804,19 @@ const fr = {
     geometryPerimeter: "Périmètre",
     geometryVolume: "Volume",
     geometrySurface: "Aire totale",
-    geometrySlant: "Apothème"
+    geometrySlant: "Apothème",
+    probability: "Probabilités",
+    probabilityTitle: "Probabilités",
+    probabilityHint: "Normale : moyenne, écart-type. Binomiale : essais, probabilité de succès. Poisson : taux.",
+    probabilityDistribution: "Loi :",
+    probabilityParams: "Paramètres :",
+    probabilityValue: "Valeur x :",
+    distNormal: "Normale",
+    distBinomial: "Binomiale",
+    distPoisson: "Poisson",
+    probabilityNeedInteger: "x doit être un entier pour cette loi",
+    probabilityInvalidParams: "Paramètres invalides pour cette loi",
+    probabilityVariance: "Variance"
 };
 
 // Export for use in browser

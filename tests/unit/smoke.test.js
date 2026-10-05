@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateGeometry', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateGeometry', 'calculateProbability', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -396,5 +396,42 @@ describe('geometry panel', () => {
         expect(run('circle', 'x').querySelector('.error')).not.toBeNull();
         expect(run('triangle', '1 2 9').querySelector('.error')).not.toBeNull();
         expect(run('circle', '-3').querySelector('.error')).not.toBeNull();
+    });
+});
+
+describe('probability panel', () => {
+    const run = (distribution, params, x) => {
+        const select = document.getElementById('probabilityDistribution');
+        select.value = distribution;
+        document.getElementById('probabilityParams').value = params;
+        document.getElementById('probabilityX').value = x;
+        document.getElementById('calculateProbability').click();
+        return document.getElementById('probabilitySolution');
+    };
+
+    test('normal distribution', () => {
+        const text = run('normal', '0, 1', '1.96').textContent;
+        expect(text).toContain('0.9750021');
+        expect(text).toContain('0.024997895');
+    });
+
+    test('binomial and poisson', () => {
+        expect(run('binomial', '10, 0.5', '5').textContent).toContain('0.62304688');
+        expect(run('poisson', '2', '2').textContent).toContain('0.67667642');
+    });
+
+    test('changing distribution loads matching defaults', () => {
+        const select = document.getElementById('probabilityDistribution');
+        select.value = 'binomial';
+        select.dispatchEvent(new Event('change'));
+        expect(document.getElementById('probabilityParams').value).toBe('10, 0.5');
+        expect(document.getElementById('probabilityX').value).toBe('5');
+    });
+
+    test('rejects wrong parameter count, bad probability and fractional x', () => {
+        expect(run('normal', '0', '1').querySelector('.error')).not.toBeNull();
+        expect(run('binomial', '10, 1.5', '3').querySelector('.error')).not.toBeNull();
+        expect(run('poisson', '2', '1.5').querySelector('.error')).not.toBeNull();
+        expect(run('normal', '0, 0', '1').querySelector('.error')).not.toBeNull();
     });
 });

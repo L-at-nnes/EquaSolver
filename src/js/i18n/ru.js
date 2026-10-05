@@ -792,7 +792,19 @@ const ru = {
     geometryPerimeter: "Периметр",
     geometryVolume: "Объём",
     geometrySurface: "Площадь поверхности",
-    geometrySlant: "Образующая"
+    geometrySlant: "Образующая",
+    probability: "Вероятность",
+    probabilityTitle: "Вероятность",
+    probabilityHint: "Нормальное: среднее, стандартное отклонение. Биномиальное: число испытаний, вероятность успеха. Пуассона: интенсивность.",
+    probabilityDistribution: "Распределение:",
+    probabilityParams: "Параметры:",
+    probabilityValue: "Значение x:",
+    distNormal: "Нормальное",
+    distBinomial: "Биномиальное",
+    distPoisson: "Пуассона",
+    probabilityNeedInteger: "Для этого распределения x должно быть целым",
+    probabilityInvalidParams: "Недопустимые параметры распределения",
+    probabilityVariance: "Дисперсия"
 };
 
 // Export for use in browser

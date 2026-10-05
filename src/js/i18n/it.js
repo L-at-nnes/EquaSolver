@@ -792,7 +792,19 @@ const it = {
     geometryPerimeter: "Perimetro",
     geometryVolume: "Volume",
     geometrySurface: "Superficie totale",
-    geometrySlant: "Apotema"
+    geometrySlant: "Apotema",
+    probability: "Probabilità",
+    probabilityTitle: "Probabilità",
+    probabilityHint: "Normale: media, deviazione standard. Binomiale: prove, probabilità di successo. Poisson: tasso.",
+    probabilityDistribution: "Distribuzione:",
+    probabilityParams: "Parametri:",
+    probabilityValue: "Valore x:",
+    distNormal: "Normale",
+    distBinomial: "Binomiale",
+    distPoisson: "Poisson",
+    probabilityNeedInteger: "x deve essere un intero per questa distribuzione",
+    probabilityInvalidParams: "Parametri non validi per questa distribuzione",
+    probabilityVariance: "Varianza"
 };
 
 // Export for use in browser

@@ -54,6 +54,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupComplexCalculator();
     setupVectorCalculator();
     setupGeometryCalculator();
+    setupProbabilityCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1554,6 +1555,81 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+const DISTRIBUTION_DEFAULTS = {
+    normal: { params: '0, 1', x: '1.96' },
+    binomial: { params: '10, 0.5', x: '5' },
+    poisson: { params: '4', x: '3' }
+};
+
+function setupProbabilityCalculator() {
+    const select = document.getElementById('probabilityDistribution');
+    select?.addEventListener('change', () => {
+        const defaults = DISTRIBUTION_DEFAULTS[select.value];
+        document.getElementById('probabilityParams').value = defaults.params;
+        document.getElementById('probabilityX').value = defaults.x;
+    });
+
+    document.getElementById('calculateProbability')?.addEventListener('click', () => {
+        const distribution = select?.value || 'normal';
+        const resultDiv = document.getElementById('probabilitySolution');
+        const trans = translations[window.currentLang];
+        const params = parseDimensions(document.getElementById('probabilityParams')?.value ?? '');
+        const x = parseDecimal(document.getElementById('probabilityX')?.value ?? '');
+        const expected = { normal: 2, binomial: 2, poisson: 1 }[distribution];
+
+        if (!params || params.length !== expected || !Number.isFinite(x)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+
+        let density, atMost, atLeast, mean, variance;
+        if (distribution === 'normal') {
+            const [mu, sigma] = params;
+            density = normalPdf(x, mu, sigma);
+            atMost = normalCdf(x, mu, sigma);
+            atLeast = 1 - atMost;
+            mean = mu;
+            variance = sigma * sigma;
+        } else {
+            if (!Number.isInteger(x)) {
+                resultDiv.innerHTML = `<p class="error">${trans.probabilityNeedInteger || 'x must be a whole number for this distribution'}</p>`;
+                return;
+            }
+            if (distribution === 'binomial') {
+                const [n, p] = params;
+                density = binomialPmf(x, n, p);
+                atMost = binomialCdf(x, n, p);
+                atLeast = 1 - binomialCdf(x - 1, n, p);
+                mean = n * p;
+                variance = n * p * (1 - p);
+            } else {
+                const [lambda] = params;
+                density = poissonPmf(x, lambda);
+                atMost = poissonCdf(x, lambda);
+                atLeast = 1 - poissonCdf(x - 1, lambda);
+                mean = lambda;
+                variance = lambda;
+            }
+        }
+        if (![density, atMost, atLeast, mean, variance].every(Number.isFinite)) {
+            resultDiv.innerHTML = `<p class="error">${trans.probabilityInvalidParams || 'Invalid parameters for this distribution'}</p>`;
+            return;
+        }
+
+        const fmt = v => parseFloat(v.toPrecision(8));
+        const row = (label, value) => `<div class="result-group"><div class="result-label">${label}</div><div class="result-value"><span class="highlight">${fmt(value)}</span></div></div>`;
+        let html = `<h3>${trans.solution}</h3>`;
+        html += row(distribution === 'normal' ? `f(${x})` : `P(X = ${x})`, density);
+        html += row(`P(X ≤ ${x})`, atMost);
+        html += row(`P(X ≥ ${x})`, Math.max(0, atLeast));
+        html += row(trans.mean || 'Mean', mean);
+        html += row(trans.probabilityVariance || 'Variance', variance);
+
+        resultDiv.innerHTML = html;
+        addToHistory(`${distribution}(${params.join(', ')}): P(X ≤ ${x}) = ${fmt(atMost)}`);
+    });
 }
 
 function setupGeometryCalculator() {

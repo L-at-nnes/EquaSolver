@@ -792,7 +792,19 @@ const de = {
     geometryPerimeter: "Umfang",
     geometryVolume: "Volumen",
     geometrySurface: "Oberfläche",
-    geometrySlant: "Mantellinie"
+    geometrySlant: "Mantellinie",
+    probability: "Wahrscheinlichkeit",
+    probabilityTitle: "Wahrscheinlichkeit",
+    probabilityHint: "Normal: Mittelwert, Standardabweichung. Binomial: Versuche, Erfolgswahrscheinlichkeit. Poisson: Rate.",
+    probabilityDistribution: "Verteilung:",
+    probabilityParams: "Parameter:",
+    probabilityValue: "Wert x:",
+    distNormal: "Normal",
+    distBinomial: "Binomial",
+    distPoisson: "Poisson",
+    probabilityNeedInteger: "x muss für diese Verteilung eine ganze Zahl sein",
+    probabilityInvalidParams: "Ungültige Parameter für diese Verteilung",
+    probabilityVariance: "Varianz"
 };
 
 // Export for use in browser

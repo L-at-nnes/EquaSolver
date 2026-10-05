@@ -391,6 +391,7 @@
                         <button class="submenu-btn" data-subtool="complex" data-translate="complex">Complex</button>
                         <button class="submenu-btn" data-subtool="vectors" data-translate="vectors">Vectors</button>
                         <button class="submenu-btn" data-subtool="geometry" data-translate="geometry">Geometry</button>
+                        <button class="submenu-btn" data-subtool="probability" data-translate="probability">Probability</button>
                         <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
                         <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
@@ -509,6 +510,7 @@
                 <button class="tab" data-tab="complex" data-translate="complex">Complex</button>
                 <button class="tab" data-tab="vectors" data-translate="vectors">Vectors</button>
                 <button class="tab" data-tab="geometry" data-translate="geometry">Geometry</button>
+                <button class="tab" data-tab="probability" data-translate="probability">Probability</button>
                 <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
                 <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
                 <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
@@ -1622,6 +1624,39 @@
                 <div class="solution-container" id="geometrySolution"></div>
             </div>
 
+            <!-- Probability -->
+            <div class="calculator-panel" id="probability">
+                <div class="equation-display">
+                    <h3 data-translate="probabilityTitle">Probability</h3>
+                    <p class="equation-preview" data-translate="probabilityHint">Normal: mean, standard deviation. Binomial: trials, success probability. Poisson: rate.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="control-group">
+                        <label for="probabilityDistribution" data-translate="probabilityDistribution">Distribution:</label>
+                        <select id="probabilityDistribution" class="matrix-select">
+                            <option value="normal" data-translate="distNormal">Normal</option>
+                            <option value="binomial" data-translate="distBinomial">Binomial</option>
+                            <option value="poisson" data-translate="distPoisson">Poisson</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="probabilityParams" data-translate="probabilityParams">Parameters:</label>
+                        <input type="text" id="probabilityParams" class="equation-input" value="0, 1" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="input-group">
+                        <label for="probabilityX" data-translate="probabilityValue">Value x:</label>
+                        <input type="text" inputmode="decimal" id="probabilityX" class="coef-input" value="1.96">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateProbability" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="probabilitySolution"></div>
+            </div>
+
             <!-- Modular Arithmetic Calculator -->
             <div class="calculator-panel" id="modular">
                 <div class="equation-display">
@@ -2454,6 +2489,7 @@
     <script src="js/math/complex-tools.js" defer></script>
     <script src="js/math/vectors.js" defer></script>
     <script src="js/math/geometry.js" defer></script>
+    <script src="js/math/probability.js" defer></script>
     <script src="js/math/modular.js" defer></script>
     <script src="js/math/combinatorics.js" defer></script>
     <script src="js/math/fractions.js" defer></script>
