@@ -390,6 +390,7 @@
                         <button class="submenu-btn" data-subtool="primes" data-translate="primes">Primes</button>
                         <button class="submenu-btn" data-subtool="complex" data-translate="complex">Complex</button>
                         <button class="submenu-btn" data-subtool="vectors" data-translate="vectors">Vectors</button>
+                        <button class="submenu-btn" data-subtool="geometry" data-translate="geometry">Geometry</button>
                         <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
                         <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
@@ -507,6 +508,7 @@
                 <button class="tab" data-tab="primes" data-translate="primes">Primes</button>
                 <button class="tab" data-tab="complex" data-translate="complex">Complex</button>
                 <button class="tab" data-tab="vectors" data-translate="vectors">Vectors</button>
+                <button class="tab" data-tab="geometry" data-translate="geometry">Geometry</button>
                 <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
                 <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
                 <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
@@ -1587,6 +1589,39 @@
                 <div class="solution-container" id="vectorsSolution"></div>
             </div>
 
+            <!-- Geometry -->
+            <div class="calculator-panel" id="geometry">
+                <div class="equation-display">
+                    <h3 data-translate="geometryTitle">Geometry</h3>
+                    <p class="equation-preview" data-translate="geometryHint">Pick a shape and enter its dimensions in the order shown, separated by commas or spaces.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="control-group">
+                        <label for="geometryShape" data-translate="geometryShape">Shape:</label>
+                        <select id="geometryShape" class="matrix-select">
+                            <option value="circle" data-translate="shapeCircle">Circle (radius)</option>
+                            <option value="rectangle" data-translate="shapeRectangle">Rectangle (width, height)</option>
+                            <option value="triangle" data-translate="shapeTriangle">Triangle (sides a, b, c)</option>
+                            <option value="sphere" data-translate="shapeSphere">Sphere (radius)</option>
+                            <option value="cylinder" data-translate="shapeCylinder">Cylinder (radius, height)</option>
+                            <option value="cone" data-translate="shapeCone">Cone (radius, height)</option>
+                            <option value="box" data-translate="shapeBox">Box (length, width, height)</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="geometryDims" data-translate="geometryDims">Dimensions:</label>
+                        <input type="text" id="geometryDims" class="equation-input" value="5" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateGeometry" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="geometrySolution"></div>
+            </div>
+
             <!-- Modular Arithmetic Calculator -->
             <div class="calculator-panel" id="modular">
                 <div class="equation-display">
@@ -2418,6 +2453,7 @@
     <script src="js/math/primes.js" defer></script>
     <script src="js/math/complex-tools.js" defer></script>
     <script src="js/math/vectors.js" defer></script>
+    <script src="js/math/geometry.js" defer></script>
     <script src="js/math/modular.js" defer></script>
     <script src="js/math/combinatorics.js" defer></script>
     <script src="js/math/fractions.js" defer></script>

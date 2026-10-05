@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateGeometry', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -372,5 +372,29 @@ describe('vectors panel', () => {
         const out = run('0, 0', '1, 1');
         expect(out.querySelector('.error')).toBeNull();
         expect(out.textContent).not.toContain('rad');
+    });
+});
+
+describe('geometry panel', () => {
+    const run = (shape, dims) => {
+        document.getElementById('geometryShape').value = shape;
+        document.getElementById('geometryDims').value = dims;
+        document.getElementById('calculateGeometry').click();
+        return document.getElementById('geometrySolution');
+    };
+
+    test('2D and 3D results', () => {
+        expect(run('rectangle', '3, 5').textContent).toContain('15');
+        expect(run('triangle', '3 4 5').textContent).toContain('6');
+        const cone = run('cone', '3, 4').textContent;
+        expect(cone).toContain('37.699112');
+        expect(cone).toContain('5');
+    });
+
+    test('wrong count, bad input and impossible triangle', () => {
+        expect(run('circle', '1, 2').querySelector('.error')).not.toBeNull();
+        expect(run('circle', 'x').querySelector('.error')).not.toBeNull();
+        expect(run('triangle', '1 2 9').querySelector('.error')).not.toBeNull();
+        expect(run('circle', '-3').querySelector('.error')).not.toBeNull();
     });
 });

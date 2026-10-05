@@ -785,7 +785,26 @@ const en = {
     vectorSecond: "Vector B:",
     vectorSizeMismatch: "Both vectors need the same number of components",
     vectorAngle: "Angle",
-    vectorProjection: "Projection of A on B"
+    vectorProjection: "Projection of A on B",
+    geometry: "Geometry",
+    geometryTitle: "Geometry",
+    geometryHint: "Pick a shape and enter its dimensions in the order shown, separated by commas or spaces.",
+    geometryShape: "Shape:",
+    geometryDims: "Dimensions:",
+    shapeCircle: "Circle (radius)",
+    shapeRectangle: "Rectangle (width, height)",
+    shapeTriangle: "Triangle (sides a, b, c)",
+    shapeSphere: "Sphere (radius)",
+    shapeCylinder: "Cylinder (radius, height)",
+    shapeCone: "Cone (radius, height)",
+    shapeBox: "Box (length, width, height)",
+    geometryWrongCount: "This shape needs {n} value(s)",
+    geometryInvalid: "These dimensions do not describe a valid shape",
+    geometryArea: "Area",
+    geometryPerimeter: "Perimeter",
+    geometryVolume: "Volume",
+    geometrySurface: "Surface area",
+    geometrySlant: "Slant height"
 };
 
 // Export for use in browser

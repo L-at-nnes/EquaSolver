@@ -53,6 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupPrimeCalculator();
     setupComplexCalculator();
     setupVectorCalculator();
+    setupGeometryCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1553,6 +1554,45 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+function setupGeometryCalculator() {
+    document.getElementById('calculateGeometry')?.addEventListener('click', () => {
+        const shape = document.getElementById('geometryShape')?.value || 'circle';
+        const resultDiv = document.getElementById('geometrySolution');
+        const trans = translations[window.currentLang];
+        const dims = parseDimensions(document.getElementById('geometryDims')?.value ?? '');
+
+        if (!dims) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+        if (dims.length !== SHAPE_DIMENSIONS[shape]) {
+            resultDiv.innerHTML = `<p class="error">${(trans.geometryWrongCount || 'This shape needs {n} value(s)').replace('{n}', SHAPE_DIMENSIONS[shape])}</p>`;
+            return;
+        }
+        const measures = computeShape(shape, dims);
+        if (!measures) {
+            resultDiv.innerHTML = `<p class="error">${trans.geometryInvalid || 'These dimensions do not describe a valid shape'}</p>`;
+            return;
+        }
+
+        const labels = {
+            area: trans.geometryArea || 'Area',
+            perimeter: trans.geometryPerimeter || 'Perimeter',
+            volume: trans.geometryVolume || 'Volume',
+            surface: trans.geometrySurface || 'Surface area',
+            slant: trans.geometrySlant || 'Slant height'
+        };
+        let html = `<h3>${trans.solution}</h3>`;
+        Object.entries(measures).forEach(([key, value]) => {
+            html += `<div class="result-group"><div class="result-label">${labels[key]}:</div><div class="result-value"><span class="highlight">${parseFloat(value.toFixed(6))}</span></div></div>`;
+        });
+
+        resultDiv.innerHTML = html;
+        const first = Object.entries(measures)[0];
+        addToHistory(`${shape}(${dims.join(', ')}): ${first[0]} = ${parseFloat(first[1].toFixed(6))}`);
+    });
 }
 
 function setupVectorCalculator() {

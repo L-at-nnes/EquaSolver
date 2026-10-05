@@ -773,7 +773,26 @@ const ru = {
     vectorSecond: "Вектор B:",
     vectorSizeMismatch: "У векторов должно быть одинаковое число компонент",
     vectorAngle: "Угол",
-    vectorProjection: "Проекция A на B"
+    vectorProjection: "Проекция A на B",
+    geometry: "Геометрия",
+    geometryTitle: "Геометрия",
+    geometryHint: "Выберите фигуру и введите размеры в указанном порядке через запятую или пробел.",
+    geometryShape: "Фигура:",
+    geometryDims: "Размеры:",
+    shapeCircle: "Круг (радиус)",
+    shapeRectangle: "Прямоугольник (ширина, высота)",
+    shapeTriangle: "Треугольник (стороны a, b, c)",
+    shapeSphere: "Шар (радиус)",
+    shapeCylinder: "Цилиндр (радиус, высота)",
+    shapeCone: "Конус (радиус, высота)",
+    shapeBox: "Параллелепипед (длина, ширина, высота)",
+    geometryWrongCount: "Для этой фигуры нужно значений: {n}",
+    geometryInvalid: "Эти размеры не задают допустимую фигуру",
+    geometryArea: "Площадь",
+    geometryPerimeter: "Периметр",
+    geometryVolume: "Объём",
+    geometrySurface: "Площадь поверхности",
+    geometrySlant: "Образующая"
 };
 
 // Export for use in browser

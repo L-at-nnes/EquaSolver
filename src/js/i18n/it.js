@@ -773,7 +773,26 @@ const it = {
     vectorSecond: "Vettore B:",
     vectorSizeMismatch: "Entrambi i vettori devono avere lo stesso numero di componenti",
     vectorAngle: "Angolo",
-    vectorProjection: "Proiezione di A su B"
+    vectorProjection: "Proiezione di A su B",
+    geometry: "Geometria",
+    geometryTitle: "Geometria",
+    geometryHint: "Scegli una figura e inserisci le sue dimensioni nell'ordine indicato, separate da virgole o spazi.",
+    geometryShape: "Figura:",
+    geometryDims: "Dimensioni:",
+    shapeCircle: "Cerchio (raggio)",
+    shapeRectangle: "Rettangolo (larghezza, altezza)",
+    shapeTriangle: "Triangolo (lati a, b, c)",
+    shapeSphere: "Sfera (raggio)",
+    shapeCylinder: "Cilindro (raggio, altezza)",
+    shapeCone: "Cono (raggio, altezza)",
+    shapeBox: "Parallelepipedo (lunghezza, larghezza, altezza)",
+    geometryWrongCount: "Questa figura richiede {n} valore/i",
+    geometryInvalid: "Queste dimensioni non descrivono una figura valida",
+    geometryArea: "Area",
+    geometryPerimeter: "Perimetro",
+    geometryVolume: "Volume",
+    geometrySurface: "Superficie totale",
+    geometrySlant: "Apotema"
 };
 
 // Export for use in browser
