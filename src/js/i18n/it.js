@@ -749,7 +749,23 @@ const it = {
     primeLimit: "Inserisci un limite tra 0 e 5 000 000",
     primeCount: "Quantità",
     shareLink: "Condividi",
-    linkCopied: "Link copiato"
+    linkCopied: "Link copiato",
+    complex: "Complessi",
+    complexTitle: "Numeri complessi",
+    complexHint: "Inserisci numeri come 3+4i. Potenze e radici usano un intero come secondo valore.",
+    complexFirst: "Primo valore:",
+    complexSecond: "Secondo valore:",
+    complexAdd: "Somma",
+    complexSub: "Sottrai",
+    complexMul: "Moltiplica",
+    complexDiv: "Dividi",
+    complexPowOp: "Potenza",
+    complexRootsOp: "Radici",
+    complexConj: "Coniugato",
+    complexPolar: "Forma polare",
+    complexNeedInteger: "Il secondo valore deve essere un intero",
+    complexModulus: "Modulo",
+    complexArgument: "Argomento"
 };
 
 // Export for use in browser

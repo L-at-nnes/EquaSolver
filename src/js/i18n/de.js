@@ -749,7 +749,23 @@ const de = {
     primeLimit: "Grenze zwischen 0 und 5 000 000 eingeben",
     primeCount: "Anzahl",
     shareLink: "Teilen",
-    linkCopied: "Link kopiert"
+    linkCopied: "Link kopiert",
+    complex: "Komplex",
+    complexTitle: "Komplexe Zahlen",
+    complexHint: "Zahlen wie 3+4i eingeben. Potenzen und Wurzeln verwenden eine ganze Zahl als zweiten Wert.",
+    complexFirst: "Erster Wert:",
+    complexSecond: "Zweiter Wert:",
+    complexAdd: "Addieren",
+    complexSub: "Subtrahieren",
+    complexMul: "Multiplizieren",
+    complexDiv: "Dividieren",
+    complexPowOp: "Potenz",
+    complexRootsOp: "Wurzeln",
+    complexConj: "Konjugierte",
+    complexPolar: "Polarform",
+    complexNeedInteger: "Der zweite Wert muss eine ganze Zahl sein",
+    complexModulus: "Betrag",
+    complexArgument: "Argument"
 };
 
 // Export for use in browser

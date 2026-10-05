@@ -761,7 +761,23 @@ const en = {
     primeLimit: "Enter a limit between 0 and 5 000 000",
     primeCount: "Count",
     shareLink: "Share",
-    linkCopied: "Link copied"
+    linkCopied: "Link copied",
+    complex: "Complex",
+    complexTitle: "Complex Numbers",
+    complexHint: "Enter numbers like 3+4i. Powers and roots take a whole number as the second value.",
+    complexFirst: "First value:",
+    complexSecond: "Second value:",
+    complexAdd: "Add",
+    complexSub: "Subtract",
+    complexMul: "Multiply",
+    complexDiv: "Divide",
+    complexPowOp: "Power",
+    complexRootsOp: "Roots",
+    complexConj: "Conjugate",
+    complexPolar: "Polar form",
+    complexNeedInteger: "The second value must be a whole number",
+    complexModulus: "Modulus",
+    complexArgument: "Argument"
 };
 
 // Export for use in browser

@@ -749,7 +749,23 @@ const es = {
     primeLimit: "Introduce un límite entre 0 y 5 000 000",
     primeCount: "Cantidad",
     shareLink: "Compartir",
-    linkCopied: "Enlace copiado"
+    linkCopied: "Enlace copiado",
+    complex: "Complejos",
+    complexTitle: "Números complejos",
+    complexHint: "Introduce números como 3+4i. Las potencias y raíces usan un entero como segundo valor.",
+    complexFirst: "Primer valor:",
+    complexSecond: "Segundo valor:",
+    complexAdd: "Sumar",
+    complexSub: "Restar",
+    complexMul: "Multiplicar",
+    complexDiv: "Dividir",
+    complexPowOp: "Potencia",
+    complexRootsOp: "Raíces",
+    complexConj: "Conjugado",
+    complexPolar: "Forma polar",
+    complexNeedInteger: "El segundo valor debe ser un número entero",
+    complexModulus: "Módulo",
+    complexArgument: "Argumento"
 };
 
 // Export for use in browser

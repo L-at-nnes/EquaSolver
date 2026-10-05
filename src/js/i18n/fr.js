@@ -761,7 +761,23 @@ const fr = {
     primeLimit: "Saisissez une limite entre 0 et 5 000 000",
     primeCount: "Nombre de premiers",
     shareLink: "Partager",
-    linkCopied: "Lien copié"
+    linkCopied: "Lien copié",
+    complex: "Complexes",
+    complexTitle: "Nombres complexes",
+    complexHint: "Saisissez des nombres comme 3+4i. Les puissances et racines prennent un entier comme seconde valeur.",
+    complexFirst: "Première valeur :",
+    complexSecond: "Seconde valeur :",
+    complexAdd: "Additionner",
+    complexSub: "Soustraire",
+    complexMul: "Multiplier",
+    complexDiv: "Diviser",
+    complexPowOp: "Puissance",
+    complexRootsOp: "Racines",
+    complexConj: "Conjugué",
+    complexPolar: "Forme polaire",
+    complexNeedInteger: "La seconde valeur doit être un entier",
+    complexModulus: "Module",
+    complexArgument: "Argument"
 };
 
 // Export for use in browser

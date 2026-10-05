@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -311,5 +311,34 @@ describe('shared links', () => {
         expect(written[0]).toMatch(/#cubic\?/);
         expect(written[0]).toContain('cubicA=2');
         delete navigator.clipboard;
+    });
+});
+
+describe('complex numbers panel', () => {
+    const run = (a, operation, b = '') => {
+        document.getElementById('complexA').value = a;
+        document.getElementById('complexOperation').value = operation;
+        document.getElementById('complexB').value = b;
+        document.getElementById('calculateComplex').click();
+        return document.getElementById('complexSolution');
+    };
+
+    test('arithmetic', () => {
+        expect(run('3+4i', 'add', '1-2i').textContent).toContain('4.0000 + 2.0000i');
+        expect(run('1+i', 'mul', '1-i').textContent).toContain('2.0000');
+        expect(run('1', 'div', '0').querySelector('.error')).not.toBeNull();
+    });
+
+    test('powers, roots, conjugate and polar form', () => {
+        expect(run('1+i', 'pow', '4').textContent).toContain('-4.0000');
+        expect(run('-1', 'roots', '2').querySelectorAll('.result-group')).toHaveLength(2);
+        expect(run('3+4i', 'conj').textContent).toContain('3.0000 - 4.0000i');
+        expect(run('3+4i', 'polar').textContent).toContain('5.0000');
+    });
+
+    test('rejects bad input and non integer exponents', () => {
+        expect(run('abc', 'add', '1').querySelector('.error')).not.toBeNull();
+        expect(run('2', 'pow', '0.5').querySelector('.error')).not.toBeNull();
+        expect(run('2', 'roots', '0').querySelector('.error')).not.toBeNull();
     });
 });

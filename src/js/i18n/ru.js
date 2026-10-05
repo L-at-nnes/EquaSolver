@@ -749,7 +749,23 @@ const ru = {
     primeLimit: "Введите границу от 0 до 5 000 000",
     primeCount: "Количество",
     shareLink: "Поделиться",
-    linkCopied: "Ссылка скопирована"
+    linkCopied: "Ссылка скопирована",
+    complex: "Комплексные",
+    complexTitle: "Комплексные числа",
+    complexHint: "Вводите числа вида 3+4i. Для степени и корней второе значение должно быть целым.",
+    complexFirst: "Первое значение:",
+    complexSecond: "Второе значение:",
+    complexAdd: "Сложить",
+    complexSub: "Вычесть",
+    complexMul: "Умножить",
+    complexDiv: "Разделить",
+    complexPowOp: "Степень",
+    complexRootsOp: "Корни",
+    complexConj: "Сопряжённое",
+    complexPolar: "Полярная форма",
+    complexNeedInteger: "Второе значение должно быть целым числом",
+    complexModulus: "Модуль",
+    complexArgument: "Аргумент"
 };
 
 // Export for use in browser

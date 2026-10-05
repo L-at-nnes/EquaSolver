@@ -388,6 +388,7 @@
                         <button class="submenu-btn" data-subtool="gcdlcm" data-translate="gcdlcm">GCD/LCM</button>
                         <button class="submenu-btn" data-subtool="modular" data-translate="modular">Modular</button>
                         <button class="submenu-btn" data-subtool="primes" data-translate="primes">Primes</button>
+                        <button class="submenu-btn" data-subtool="complex" data-translate="complex">Complex</button>
                         <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
                         <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
@@ -503,6 +504,7 @@
                 <button class="tab" data-tab="gcdlcm" data-translate="gcdlcm">GCD/LCM</button>
                 <button class="tab" data-tab="modular" data-translate="modular">Modular</button>
                 <button class="tab" data-tab="primes" data-translate="primes">Primes</button>
+                <button class="tab" data-tab="complex" data-translate="complex">Complex</button>
                 <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
                 <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
                 <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
@@ -1520,6 +1522,44 @@
                 <div class="solution-container" id="primesSolution"></div>
             </div>
 
+            <!-- Complex Numbers -->
+            <div class="calculator-panel" id="complex">
+                <div class="equation-display">
+                    <h3 data-translate="complexTitle">Complex Numbers</h3>
+                    <p class="equation-preview" data-translate="complexHint">Enter numbers like 3+4i. Powers and roots take a whole number as the second value.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label for="complexA" data-translate="complexFirst">First value:</label>
+                        <input type="text" id="complexA" class="equation-input" value="3+4i" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="control-group">
+                        <label for="complexOperation" data-translate="operation">Operation:</label>
+                        <select id="complexOperation" class="matrix-select">
+                            <option value="add" data-translate="complexAdd">Add</option>
+                            <option value="sub" data-translate="complexSub">Subtract</option>
+                            <option value="mul" data-translate="complexMul">Multiply</option>
+                            <option value="div" data-translate="complexDiv">Divide</option>
+                            <option value="pow" data-translate="complexPowOp">Power</option>
+                            <option value="roots" data-translate="complexRootsOp">Roots</option>
+                            <option value="conj" data-translate="complexConj">Conjugate</option>
+                            <option value="polar" data-translate="complexPolar">Polar form</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="complexB" data-translate="complexSecond">Second value:</label>
+                        <input type="text" id="complexB" class="equation-input" value="1-2i" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateComplex" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="complexSolution"></div>
+            </div>
+
             <!-- Modular Arithmetic Calculator -->
             <div class="calculator-panel" id="modular">
                 <div class="equation-display">
@@ -2349,6 +2389,7 @@
     <script src="js/math/matrix.js" defer></script>
     <script src="js/math/gcd-lcm.js" defer></script>
     <script src="js/math/primes.js" defer></script>
+    <script src="js/math/complex-tools.js" defer></script>
     <script src="js/math/modular.js" defer></script>
     <script src="js/math/combinatorics.js" defer></script>
     <script src="js/math/fractions.js" defer></script>

@@ -51,6 +51,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupGcdLcmCalculator();
     setupModularCalculator();
     setupPrimeCalculator();
+    setupComplexCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1551,6 +1552,73 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+function setupComplexCalculator() {
+    document.getElementById('calculateComplex')?.addEventListener('click', () => {
+        const operation = document.getElementById('complexOperation')?.value || 'add';
+        const resultDiv = document.getElementById('complexSolution');
+        const trans = translations[window.currentLang];
+        const a = parseComplex(document.getElementById('complexA')?.value ?? '');
+        const rawB = document.getElementById('complexB')?.value ?? '';
+        const needsSecond = !['conj', 'polar'].includes(operation);
+        const b = needsSecond ? parseComplex(rawB) : null;
+
+        if (!a || (needsSecond && !b)) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+
+        const row = (label, z) => `<div class="result-group"><div class="result-label">${label}</div><div class="result-value"><span class="highlight">${formatComplex(z)}</span></div></div>`;
+        let html = `<h3>${trans.solution}</h3>`;
+        let summary;
+        const aText = `(${formatComplex(a)})`;
+
+        if (operation === 'pow' || operation === 'roots') {
+            const n = b.im === 0 ? b.re : NaN;
+            if (!Number.isInteger(n) || Math.abs(n) > 360 || (operation === 'roots' && n < 1)) {
+                resultDiv.innerHTML = `<p class="error">${trans.complexNeedInteger || 'The second value must be a whole number'}</p>`;
+                return;
+            }
+            if (operation === 'pow') {
+                if (n < 0 && isEssentiallyZero(a)) {
+                    resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+                    return;
+                }
+                const z = complexIntPow(a, n);
+                html += row(`${aText}^${n}`, z);
+                summary = `${aText}^${n} = ${formatComplex(z)}`;
+            } else {
+                const roots = complexRoots(a, n);
+                roots.forEach((z, k) => { html += row(`z${k + 1}`, z); });
+                summary = `${n} roots of ${aText}`;
+            }
+        } else if (operation === 'conj') {
+            const z = complexConjugate(a);
+            html += row(`conj${aText}`, z);
+            summary = `conj${aText} = ${formatComplex(z)}`;
+        } else if (operation === 'polar') {
+            const { r, theta } = toPolar(a);
+            html += `<div class="result-group"><div class="result-label">${trans.complexModulus || 'Modulus'}:</div><div class="result-value"><span class="highlight">${r.toFixed(4)}</span></div></div>`;
+            html += `<div class="result-group"><div class="result-label">${trans.complexArgument || 'Argument'}:</div><div class="result-value"><span class="highlight">${theta.toFixed(4)} rad (${(theta * 180 / Math.PI).toFixed(2)}°)</span></div></div>`;
+            html += `<p class="input-hint">${formatPolar(a)}</p>`;
+            summary = `polar${aText}: r = ${r.toFixed(4)}, θ = ${theta.toFixed(4)}`;
+        } else {
+            const symbols = { add: '+', sub: '-', mul: '×', div: '/' };
+            const ops = { add: complexAdd, sub: complexSub, mul: complexMul, div: complexDiv };
+            const z = ops[operation](a, b);
+            if (!Number.isFinite(z.re) || !Number.isFinite(z.im)) {
+                resultDiv.innerHTML = `<p class="error">${trans.divisionByZero || trans.invalidInput}</p>`;
+                return;
+            }
+            html += row(`${aText} ${symbols[operation]} (${formatComplex(b)})`, z);
+            if (!isEssentiallyZero(z)) html += `<p class="input-hint">${formatPolar(z)}</p>`;
+            summary = `${aText} ${symbols[operation]} (${formatComplex(b)}) = ${formatComplex(z)}`;
+        }
+
+        resultDiv.innerHTML = html;
+        addToHistory(summary);
+    });
 }
 
 const PRIME_LIST_DISPLAY_LIMIT = 300;
