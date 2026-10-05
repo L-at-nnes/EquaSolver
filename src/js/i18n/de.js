@@ -765,7 +765,15 @@ const de = {
     complexPolar: "Polarform",
     complexNeedInteger: "Der zweite Wert muss eine ganze Zahl sein",
     complexModulus: "Betrag",
-    complexArgument: "Argument"
+    complexArgument: "Argument",
+    vectors: "Vektoren",
+    vectorsTitle: "Vektoren",
+    vectorsHint: "Komponenten durch Kommas oder Leerzeichen trennen, zum Beispiel 1, 2, 3. Das Kreuzprodukt braucht zwei oder drei Komponenten.",
+    vectorFirst: "Vektor A:",
+    vectorSecond: "Vektor B:",
+    vectorSizeMismatch: "Beide Vektoren brauchen gleich viele Komponenten",
+    vectorAngle: "Winkel",
+    vectorProjection: "Projektion von A auf B"
 };
 
 // Export for use in browser

@@ -765,7 +765,15 @@ const ru = {
     complexPolar: "Полярная форма",
     complexNeedInteger: "Второе значение должно быть целым числом",
     complexModulus: "Модуль",
-    complexArgument: "Аргумент"
+    complexArgument: "Аргумент",
+    vectors: "Векторы",
+    vectorsTitle: "Векторы",
+    vectorsHint: "Введите компоненты через запятую или пробел, например 1, 2, 3. Для векторного произведения нужны две или три компоненты.",
+    vectorFirst: "Вектор A:",
+    vectorSecond: "Вектор B:",
+    vectorSizeMismatch: "У векторов должно быть одинаковое число компонент",
+    vectorAngle: "Угол",
+    vectorProjection: "Проекция A на B"
 };
 
 // Export for use in browser

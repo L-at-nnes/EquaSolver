@@ -389,6 +389,7 @@
                         <button class="submenu-btn" data-subtool="modular" data-translate="modular">Modular</button>
                         <button class="submenu-btn" data-subtool="primes" data-translate="primes">Primes</button>
                         <button class="submenu-btn" data-subtool="complex" data-translate="complex">Complex</button>
+                        <button class="submenu-btn" data-subtool="vectors" data-translate="vectors">Vectors</button>
                         <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
                         <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
@@ -505,6 +506,7 @@
                 <button class="tab" data-tab="modular" data-translate="modular">Modular</button>
                 <button class="tab" data-tab="primes" data-translate="primes">Primes</button>
                 <button class="tab" data-tab="complex" data-translate="complex">Complex</button>
+                <button class="tab" data-tab="vectors" data-translate="vectors">Vectors</button>
                 <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
                 <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
                 <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
@@ -1560,6 +1562,31 @@
                 <div class="solution-container" id="complexSolution"></div>
             </div>
 
+            <!-- Vectors -->
+            <div class="calculator-panel" id="vectors">
+                <div class="equation-display">
+                    <h3 data-translate="vectorsTitle">Vectors</h3>
+                    <p class="equation-preview" data-translate="vectorsHint">Enter components separated by commas or spaces, for example 1, 2, 3. The cross product needs two or three components.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label for="vectorA" data-translate="vectorFirst">Vector A:</label>
+                        <input type="text" id="vectorA" class="equation-input" value="1, 2, 3" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="input-group">
+                        <label for="vectorB" data-translate="vectorSecond">Vector B:</label>
+                        <input type="text" id="vectorB" class="equation-input" value="4, -5, 6" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateVectors" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="vectorsSolution"></div>
+            </div>
+
             <!-- Modular Arithmetic Calculator -->
             <div class="calculator-panel" id="modular">
                 <div class="equation-display">
@@ -2390,6 +2417,7 @@
     <script src="js/math/gcd-lcm.js" defer></script>
     <script src="js/math/primes.js" defer></script>
     <script src="js/math/complex-tools.js" defer></script>
+    <script src="js/math/vectors.js" defer></script>
     <script src="js/math/modular.js" defer></script>
     <script src="js/math/combinatorics.js" defer></script>
     <script src="js/math/fractions.js" defer></script>

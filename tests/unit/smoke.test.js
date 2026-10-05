@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -340,5 +340,37 @@ describe('complex numbers panel', () => {
         expect(run('abc', 'add', '1').querySelector('.error')).not.toBeNull();
         expect(run('2', 'pow', '0.5').querySelector('.error')).not.toBeNull();
         expect(run('2', 'roots', '0').querySelector('.error')).not.toBeNull();
+    });
+});
+
+describe('vectors panel', () => {
+    const run = (a, b) => {
+        document.getElementById('vectorA').value = a;
+        document.getElementById('vectorB').value = b;
+        document.getElementById('calculateVectors').click();
+        return document.getElementById('vectorsSolution');
+    };
+
+    test('shows sum, dot, cross, norm and angle for 3D vectors', () => {
+        const text = run('1, 2, 3', '4, -5, 6').textContent;
+        expect(text).toContain('(5, -3, 9)');
+        expect(text).toContain('12');
+        expect(text).toContain('(27, 6, -13)');
+        expect(text).toContain('rad');
+    });
+
+    test('2D vectors give a scalar cross product', () => {
+        expect(run('1, 2', '3, 4').textContent).toContain('-2');
+    });
+
+    test('rejects mismatched sizes and bad input', () => {
+        expect(run('1, 2', '1, 2, 3').querySelector('.error')).not.toBeNull();
+        expect(run('a, b', '1, 2').querySelector('.error')).not.toBeNull();
+    });
+
+    test('zero vector omits the angle instead of failing', () => {
+        const out = run('0, 0', '1, 1');
+        expect(out.querySelector('.error')).toBeNull();
+        expect(out.textContent).not.toContain('rad');
     });
 });

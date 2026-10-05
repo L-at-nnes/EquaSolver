@@ -765,7 +765,15 @@ const es = {
     complexPolar: "Forma polar",
     complexNeedInteger: "El segundo valor debe ser un número entero",
     complexModulus: "Módulo",
-    complexArgument: "Argumento"
+    complexArgument: "Argumento",
+    vectors: "Vectores",
+    vectorsTitle: "Vectores",
+    vectorsHint: "Introduce las componentes separadas por comas o espacios, por ejemplo 1, 2, 3. El producto vectorial necesita dos o tres componentes.",
+    vectorFirst: "Vector A:",
+    vectorSecond: "Vector B:",
+    vectorSizeMismatch: "Ambos vectores deben tener el mismo número de componentes",
+    vectorAngle: "Ángulo",
+    vectorProjection: "Proyección de A sobre B"
 };
 
 // Export for use in browser

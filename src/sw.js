@@ -1,6 +1,6 @@
-const CACHE_NAME = 'equasolver-v3.8.0';
-const STATIC_CACHE = 'equasolver-static-v3.8.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v3.8.0';
+const CACHE_NAME = 'equasolver-v3.9.0';
+const STATIC_CACHE = 'equasolver-static-v3.9.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.9.0';
 
 // Keep in sync with the <script src="js/..."> tags in index.html.
 const STATIC_ASSETS = [
@@ -29,6 +29,7 @@ const STATIC_ASSETS = [
     './js/math/gcd-lcm.js',
     './js/math/primes.js',
     './js/math/complex-tools.js',
+    './js/math/vectors.js',
     './js/math/modular.js',
     './js/math/combinatorics.js',
     './js/math/fractions.js',

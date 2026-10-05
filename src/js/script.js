@@ -52,6 +52,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupModularCalculator();
     setupPrimeCalculator();
     setupComplexCalculator();
+    setupVectorCalculator();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1552,6 +1553,44 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+function setupVectorCalculator() {
+    document.getElementById('calculateVectors')?.addEventListener('click', () => {
+        const resultDiv = document.getElementById('vectorsSolution');
+        const trans = translations[window.currentLang];
+        const a = parseVector(document.getElementById('vectorA')?.value ?? '');
+        const b = parseVector(document.getElementById('vectorB')?.value ?? '');
+
+        if (!a || !b) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+        if (a.length !== b.length) {
+            resultDiv.innerHTML = `<p class="error">${trans.vectorSizeMismatch || 'Both vectors need the same number of components'}</p>`;
+            return;
+        }
+
+        const row = (label, value) => `<div class="result-group"><div class="result-label">${label}</div><div class="result-value"><span class="highlight">${value}</span></div></div>`;
+        const cross = crossProduct(a, b);
+        const angle = vectorAngle(a, b);
+        const projection = vectorProjection(a, b);
+
+        let html = `<h3>${trans.solution}</h3>`;
+        html += row('A + B', formatVector(vectorAdd(a, b)));
+        html += row('A - B', formatVector(vectorSub(a, b)));
+        html += row('A · B', parseFloat(dotProduct(a, b).toFixed(6)));
+        if (cross !== null) html += row('A × B', Array.isArray(cross) ? formatVector(cross) : parseFloat(cross.toFixed(6)));
+        html += row('|A|', parseFloat(vectorNorm(a).toFixed(6)));
+        html += row('|B|', parseFloat(vectorNorm(b).toFixed(6)));
+        if (angle !== null) {
+            html += row(trans.vectorAngle || 'Angle', `${angle.toFixed(4)} rad (${(angle * 180 / Math.PI).toFixed(2)}°)`);
+        }
+        if (projection) html += row(trans.vectorProjection || 'Projection of A on B', formatVector(projection));
+
+        resultDiv.innerHTML = html;
+        addToHistory(`A = ${formatVector(a)}, B = ${formatVector(b)}: A·B = ${parseFloat(dotProduct(a, b).toFixed(6))}`);
+    });
 }
 
 function setupComplexCalculator() {

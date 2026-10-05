@@ -777,7 +777,15 @@ const en = {
     complexPolar: "Polar form",
     complexNeedInteger: "The second value must be a whole number",
     complexModulus: "Modulus",
-    complexArgument: "Argument"
+    complexArgument: "Argument",
+    vectors: "Vectors",
+    vectorsTitle: "Vectors",
+    vectorsHint: "Enter components separated by commas or spaces, for example 1, 2, 3. The cross product needs two or three components.",
+    vectorFirst: "Vector A:",
+    vectorSecond: "Vector B:",
+    vectorSizeMismatch: "Both vectors need the same number of components",
+    vectorAngle: "Angle",
+    vectorProjection: "Projection of A on B"
 };
 
 // Export for use in browser
