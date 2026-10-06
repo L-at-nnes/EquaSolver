@@ -831,7 +831,15 @@ const fr = {
     rootStart: "Point de départ :",
     rootNone: "Aucune racine trouvée dans cette plage",
     rootNoSignChange: "f(a) et f(b) doivent être de signes opposés",
-    rootNotConverged: "La méthode n'a pas convergé ; essayez un autre point de départ ou intervalle."
+    rootNotConverged: "La méthode n'a pas convergé ; essayez un autre point de départ ou intervalle.",
+    shortcutsTitle: "Raccourcis clavier",
+    shortcutHelp: "Afficher cette aide",
+    shortcutInput: "Saisir dans la calculatrice standard",
+    shortcutCalculate: "Calculer",
+    shortcutBackspace: "Supprimer le dernier chiffre",
+    shortcutEscape: "Effacer la calculatrice, fermer un panneau",
+    shortcutUndo: "Annuler, rétablir",
+    shortcutRotate: "Faire tourner la surface 3D"
 };
 
 // Export for use in browser

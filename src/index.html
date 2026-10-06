@@ -39,6 +39,30 @@
         </svg>
     </button>
 
+    <!-- Shortcuts Button -->
+    <button class="shortcuts-btn" id="shortcutsBtn" title="Keyboard shortcuts (?)" aria-label="Keyboard shortcuts" aria-haspopup="dialog">?</button>
+
+    <dialog class="shortcuts-dialog" id="shortcutsDialog" aria-labelledby="shortcutsTitle">
+        <h2 id="shortcutsTitle" data-translate="shortcutsTitle">Keyboard shortcuts</h2>
+        <dl class="shortcuts-list">
+            <dt><kbd>?</kbd></dt>
+            <dd data-translate="shortcutHelp">Show this help</dd>
+            <dt><kbd>0</kbd>–<kbd>9</kbd> <kbd>+</kbd> <kbd>-</kbd> <kbd>*</kbd> <kbd>/</kbd></dt>
+            <dd data-translate="shortcutInput">Type in the standard calculator</dd>
+            <dt><kbd>Enter</kbd> <kbd>=</kbd></dt>
+            <dd data-translate="shortcutCalculate">Calculate</dd>
+            <dt><kbd>Backspace</kbd></dt>
+            <dd data-translate="shortcutBackspace">Delete the last digit</dd>
+            <dt><kbd>Esc</kbd></dt>
+            <dd data-translate="shortcutEscape">Clear the calculator, close a panel</dd>
+            <dt><kbd>Ctrl</kbd> <kbd>Z</kbd> / <kbd>Y</kbd></dt>
+            <dd data-translate="shortcutUndo">Undo, redo</dd>
+            <dt><kbd>←</kbd> <kbd>→</kbd> <kbd>↑</kbd> <kbd>↓</kbd></dt>
+            <dd data-translate="shortcutRotate">Rotate the 3D surface</dd>
+        </dl>
+        <button class="btn-solve" id="shortcutsClose" data-translate="close">Close</button>
+    </dialog>
+
     <!-- Settings Panel -->
     <div class="settings-panel" id="settingsPanel" role="dialog" aria-label="Settings" aria-hidden="true">
         <div class="settings-content">
@@ -2563,6 +2587,7 @@
     <script src="js/ui/motion.js" defer></script>
     <script src="js/ui/router.js" defer></script>
     <script src="js/ui/search.js" defer></script>
+    <script src="js/ui/shortcuts.js" defer></script>
     <script src="js/ui/clipboard.js" defer></script>
     <script src="js/ui/animations.js" defer></script>
     <script src="js/ui/themes.js" defer></script>

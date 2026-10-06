@@ -819,7 +819,15 @@ const it = {
     rootStart: "Punto iniziale:",
     rootNone: "Nessuna radice trovata in questo intervallo",
     rootNoSignChange: "f(a) e f(b) devono avere segni opposti",
-    rootNotConverged: "Il metodo non è convergente; prova un altro punto iniziale o intervallo."
+    rootNotConverged: "Il metodo non è convergente; prova un altro punto iniziale o intervallo.",
+    shortcutsTitle: "Scorciatoie da tastiera",
+    shortcutHelp: "Mostra questo aiuto",
+    shortcutInput: "Digita nella calcolatrice standard",
+    shortcutCalculate: "Calcola",
+    shortcutBackspace: "Cancella l'ultima cifra",
+    shortcutEscape: "Azzera la calcolatrice, chiudi un pannello",
+    shortcutUndo: "Annulla, ripristina",
+    shortcutRotate: "Ruota la superficie 3D"
 };
 
 // Export for use in browser

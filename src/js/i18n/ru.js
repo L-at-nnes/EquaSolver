@@ -819,7 +819,15 @@ const ru = {
     rootStart: "Начальная точка:",
     rootNone: "На этом промежутке корней не найдено",
     rootNoSignChange: "f(a) и f(b) должны иметь разные знаки",
-    rootNotConverged: "Метод не сошёлся; попробуйте другую начальную точку или отрезок."
+    rootNotConverged: "Метод не сошёлся; попробуйте другую начальную точку или отрезок.",
+    shortcutsTitle: "Горячие клавиши",
+    shortcutHelp: "Показать эту справку",
+    shortcutInput: "Ввод в обычном калькуляторе",
+    shortcutCalculate: "Вычислить",
+    shortcutBackspace: "Удалить последнюю цифру",
+    shortcutEscape: "Очистить калькулятор, закрыть панель",
+    shortcutUndo: "Отменить, повторить",
+    shortcutRotate: "Вращать 3D-поверхность"
 };
 
 // Export for use in browser

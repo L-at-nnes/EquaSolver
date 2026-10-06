@@ -1,6 +1,6 @@
-const CACHE_NAME = 'equasolver-v3.12.0';
-const STATIC_CACHE = 'equasolver-static-v3.12.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v3.12.0';
+const CACHE_NAME = 'equasolver-v3.13.0';
+const STATIC_CACHE = 'equasolver-static-v3.13.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.13.0';
 
 // Keep in sync with the <script src="js/..."> tags in index.html.
 const STATIC_ASSETS = [
@@ -65,6 +65,7 @@ const STATIC_ASSETS = [
     './js/ui/motion.js',
     './js/ui/router.js',
     './js/ui/search.js',
+    './js/ui/shortcuts.js',
     './js/ui/clipboard.js',
     './js/ui/animations.js',
     './js/ui/themes.js',

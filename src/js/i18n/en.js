@@ -831,7 +831,15 @@ const en = {
     rootStart: "Starting point:",
     rootNone: "No root found in this range",
     rootNoSignChange: "f(a) and f(b) must have opposite signs",
-    rootNotConverged: "The method did not converge; try another starting point or interval."
+    rootNotConverged: "The method did not converge; try another starting point or interval.",
+    shortcutsTitle: "Keyboard shortcuts",
+    shortcutHelp: "Show this help",
+    shortcutInput: "Type in the standard calculator",
+    shortcutCalculate: "Calculate",
+    shortcutBackspace: "Delete the last digit",
+    shortcutEscape: "Clear the calculator, close a panel",
+    shortcutUndo: "Undo, redo",
+    shortcutRotate: "Rotate the 3D surface"
 };
 
 // Export for use in browser

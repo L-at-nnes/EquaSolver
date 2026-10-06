@@ -20,6 +20,102 @@
     transition: border-color var(--duration) var(--ease);
 }
 
+.shortcuts-btn {
+    position: fixed;
+    right: calc(var(--space-5) + 3.5rem);
+    bottom: var(--space-5);
+    z-index: 1000;
+    display: grid;
+    place-items: center;
+    width: 2.75rem;
+    height: 2.75rem;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 50%;
+    color: var(--text);
+    font: 600 var(--text-base, 1rem) var(--font-mono);
+    transition: border-color var(--duration) var(--ease), color var(--duration) var(--ease);
+
+    &:hover {
+        border-color: var(--accent);
+        color: var(--accent);
+    }
+}
+
+.shortcuts-dialog {
+    width: min(30rem, calc(100vw - 2rem));
+    padding: var(--space-5);
+    background: var(--surface);
+    color: var(--text);
+    border: 1px solid var(--border);
+    border-radius: var(--radius-lg, 1rem);
+    box-shadow: 0 1.5rem 3rem -1rem oklch(20% 0.04 265 / 0.35);
+    opacity: 1;
+    transform: none;
+    transition:
+        opacity var(--duration) var(--ease),
+        transform var(--duration) var(--ease),
+        display var(--duration) allow-discrete,
+        overlay var(--duration) allow-discrete;
+
+    &::backdrop {
+        background: oklch(20% 0.04 265 / 0.45);
+        transition: background var(--duration) var(--ease), display var(--duration) allow-discrete, overlay var(--duration) allow-discrete;
+    }
+
+    @starting-style {
+        opacity: 0;
+        transform: translateY(0.75rem);
+
+        &::backdrop {
+            background: transparent;
+        }
+    }
+
+    &:not([open]) {
+        opacity: 0;
+        transform: translateY(0.75rem);
+    }
+
+    & h2 {
+        margin-block: 0 var(--space-4);
+        font-size: 1.125rem;
+    }
+
+    & .btn-solve {
+        margin-block-start: var(--space-4);
+        width: 100%;
+    }
+}
+
+.shortcuts-list {
+    display: grid;
+    grid-template-columns: max-content 1fr;
+    gap: var(--space-3) var(--space-4);
+    margin: 0;
+    align-items: center;
+
+    & dt {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 0.25rem;
+    }
+
+    & dd {
+        margin: 0;
+        color: var(--text-muted);
+    }
+
+    & kbd {
+        padding: 0.125rem 0.5rem;
+        background: var(--surface-2);
+        border: 1px solid var(--border);
+        border-radius: var(--radius-sm);
+        font: 600 var(--text-sm) var(--font-mono);
+        color: var(--text);
+    }
+}
+
 .settings-btn:hover {
     border-color: var(--accent);
     color: var(--accent);

@@ -12,4 +12,4 @@ Next round of features. Each item ships with unit tests, translations in the six
 - [x] Numeric root finder for any expression (bisection and Newton, with iteration table)
 
 ## Interface
-- [ ] Keyboard shortcuts help dialog (`?`)
+- [x] Keyboard shortcuts help dialog (`?`)

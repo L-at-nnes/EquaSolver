@@ -819,7 +819,15 @@ const de = {
     rootStart: "Startwert:",
     rootNone: "Keine Nullstelle in diesem Bereich gefunden",
     rootNoSignChange: "f(a) und f(b) müssen unterschiedliche Vorzeichen haben",
-    rootNotConverged: "Das Verfahren ist nicht konvergiert; anderen Startwert oder anderes Intervall versuchen."
+    rootNotConverged: "Das Verfahren ist nicht konvergiert; anderen Startwert oder anderes Intervall versuchen.",
+    shortcutsTitle: "Tastenkürzel",
+    shortcutHelp: "Diese Hilfe anzeigen",
+    shortcutInput: "Im Standardrechner tippen",
+    shortcutCalculate: "Berechnen",
+    shortcutBackspace: "Letzte Ziffer löschen",
+    shortcutEscape: "Rechner löschen, Bereich schließen",
+    shortcutUndo: "Rückgängig, wiederherstellen",
+    shortcutRotate: "3D-Fläche drehen"
 };
 
 // Export for use in browser

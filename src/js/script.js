@@ -45,6 +45,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupSystemN();
     setupCustomThemeBuilder();
     setupToolSearch();
+    setupShortcutsHelp();
     setupExpressionCalculator();
     setupRegression();
     setupMatrixCalculator();
