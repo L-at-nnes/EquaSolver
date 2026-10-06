@@ -40,7 +40,7 @@ const SOLVE_BUTTONS = [
     'solveLinear', 'solveQuadratic', 'solveCubic', 'solveQuartic', 'solveQuintic', 'solveSystems',
     'solveSystem3x3', 'solveSystemN', 'calculateMatrix', 'solveInequalityLinear', 'solveInequalityQuadratic',
     'solveAbsoluteEquation', 'solveAbsoluteInequality', 'solveTrigonometric', 'plotGraph', 'plotParametric',
-    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateGeometry', 'calculateProbability', 'calculateCombinatorics',
+    'plotPolar', 'solveLatex', 'calculateGcdLcm', 'calculateModular', 'calculatePrime', 'calculateComplex', 'calculateVectors', 'calculateGeometry', 'calculateProbability', 'calculateRoot', 'calculateCombinatorics',
     'calculateFractions', 'calculatePercentage', 'calculateRatio', 'convertBase', 'convertUnit',
     'calculateStatistics', 'calculateRegression', 'calculateSequence', 'calculateLimit', 'calculateTaylor', 'calculateIntegration',
     'dividePolynomials', 'decomposePartialFractions', 'calculateDerivative', 'calculateIntegral', 'solveExponential', 'solveLogarithmic'
@@ -433,5 +433,45 @@ describe('probability panel', () => {
         expect(run('binomial', '10, 1.5', '3').querySelector('.error')).not.toBeNull();
         expect(run('poisson', '2', '1.5').querySelector('.error')).not.toBeNull();
         expect(run('normal', '0, 0', '1').querySelector('.error')).not.toBeNull();
+    });
+});
+
+describe('root finder panel', () => {
+    const run = (equation, method, params) => {
+        const select = document.getElementById('rootMethod');
+        select.value = method;
+        select.dispatchEvent(new Event('change'));
+        document.getElementById('rootExpression').value = equation;
+        document.getElementById('rootParams').value = params;
+        document.getElementById('calculateRoot').click();
+        return document.getElementById('rootfinderSolution');
+    };
+
+    test('scan lists every root', () => {
+        const out = run('x^3 - x', 'scan', '-2, 2');
+        expect(out.querySelectorAll('.result-group')).toHaveLength(3);
+    });
+
+    test('bisection and newton show an iteration table', () => {
+        const b = run('x^2 = 2', 'bisection', '0, 2');
+        expect(b.textContent).toContain('1.414213');
+        expect(b.querySelectorAll('.iteration-table tbody tr').length).toBeGreaterThan(5);
+        const n = run('cos(x) = x', 'newton', '1');
+        expect(n.textContent).toContain('0.739085');
+    });
+
+    test('changing the method swaps the default parameters', () => {
+        run('x', 'newton', '1');
+        const select = document.getElementById('rootMethod');
+        select.value = 'bisection';
+        select.dispatchEvent(new Event('change'));
+        expect(document.getElementById('rootParams').value).toBe('0, 1');
+    });
+
+    test('errors', () => {
+        expect(run('x^2 + 1', 'bisection', '-1, 1').querySelector('.error')).not.toBeNull();
+        expect(run('x^2 + 1', 'scan', '-5, 5').querySelector('.error')).not.toBeNull();
+        expect(run('x +', 'scan', '-5, 5').querySelector('.error')).not.toBeNull();
+        expect(run('x', 'newton', '1, 2').querySelector('.error')).not.toBeNull();
     });
 });

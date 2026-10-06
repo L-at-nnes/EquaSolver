@@ -136,6 +136,36 @@
     overflow-wrap: anywhere;
 }
 
+.table-scroll {
+    overflow-x: auto;
+    margin-block-start: var(--space-3);
+}
+
+.iteration-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-family: var(--font-mono);
+    font-size: var(--text-sm);
+    font-variant-numeric: tabular-nums;
+
+    & th,
+    & td {
+        padding: 0.25rem var(--space-3);
+        text-align: right;
+        white-space: nowrap;
+    }
+
+    & thead th {
+        color: var(--text-muted);
+        font-weight: 600;
+        border-block-end: 1px solid var(--border);
+    }
+
+    & tbody tr:nth-child(even) {
+        background: var(--surface-2);
+    }
+}
+
 .copy-result {
     display: inline-flex;
     align-items: center;

@@ -804,7 +804,22 @@ const de = {
     distPoisson: "Poisson",
     probabilityNeedInteger: "x muss für diese Verteilung eine ganze Zahl sein",
     probabilityInvalidParams: "Ungültige Parameter für diese Verteilung",
-    probabilityVariance: "Varianz"
+    probabilityVariance: "Varianz",
+    rootFinder: "Nullstellen",
+    rootFinderTitle: "Numerische Nullstellensuche",
+    rootFinderHint: "Löst f(x) = 0 für beliebige Ausdrücke. Das Intervallhalbierungsverfahren braucht ein Intervall, Newton einen Startwert, der Scan listet alle Nullstellen eines Bereichs.",
+    rootExpression: "Gleichung in x:",
+    rootMethod: "Verfahren:",
+    rootScan: "Bereich scannen",
+    rootBisection: "Intervallhalbierung",
+    rootNewton: "Newton",
+    rootParams: "Bereich:",
+    rootRange: "Bereich:",
+    rootInterval: "Intervall a, b:",
+    rootStart: "Startwert:",
+    rootNone: "Keine Nullstelle in diesem Bereich gefunden",
+    rootNoSignChange: "f(a) und f(b) müssen unterschiedliche Vorzeichen haben",
+    rootNotConverged: "Das Verfahren ist nicht konvergiert; anderen Startwert oder anderes Intervall versuchen."
 };
 
 // Export for use in browser

@@ -804,7 +804,22 @@ const it = {
     distPoisson: "Poisson",
     probabilityNeedInteger: "x deve essere un intero per questa distribuzione",
     probabilityInvalidParams: "Parametri non validi per questa distribuzione",
-    probabilityVariance: "Varianza"
+    probabilityVariance: "Varianza",
+    rootFinder: "Radici numeriche",
+    rootFinderTitle: "Ricerca numerica delle radici",
+    rootFinderHint: "Risolve f(x) = 0 per qualsiasi espressione. La bisezione richiede un intervallo, Newton un punto iniziale e la scansione elenca tutte le radici di un intervallo.",
+    rootExpression: "Equazione in x:",
+    rootMethod: "Metodo:",
+    rootScan: "Scansiona un intervallo",
+    rootBisection: "Bisezione",
+    rootNewton: "Newton",
+    rootParams: "Intervallo:",
+    rootRange: "Intervallo:",
+    rootInterval: "Intervallo a, b:",
+    rootStart: "Punto iniziale:",
+    rootNone: "Nessuna radice trovata in questo intervallo",
+    rootNoSignChange: "f(a) e f(b) devono avere segni opposti",
+    rootNotConverged: "Il metodo non è convergente; prova un altro punto iniziale o intervallo."
 };
 
 // Export for use in browser

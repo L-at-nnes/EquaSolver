@@ -9,7 +9,7 @@ Next round of features. Each item ships with unit tests, translations in the six
 - [x] Probability: normal, binomial and Poisson distributions
 
 ## Solvers
-- [ ] Numeric root finder for any expression (bisection and Newton, with iteration table)
+- [x] Numeric root finder for any expression (bisection and Newton, with iteration table)
 
 ## Interface
 - [ ] Keyboard shortcuts help dialog (`?`)

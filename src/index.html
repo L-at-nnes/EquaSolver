@@ -392,6 +392,7 @@
                         <button class="submenu-btn" data-subtool="vectors" data-translate="vectors">Vectors</button>
                         <button class="submenu-btn" data-subtool="geometry" data-translate="geometry">Geometry</button>
                         <button class="submenu-btn" data-subtool="probability" data-translate="probability">Probability</button>
+                        <button class="submenu-btn" data-subtool="rootfinder" data-translate="rootFinder">Root finder</button>
                         <button class="submenu-btn" data-subtool="combinatorics" data-translate="combinatorics">Combinatorics</button>
                         <button class="submenu-btn" data-subtool="fractions" data-translate="fractions">Fractions</button>
                         <button class="submenu-btn" data-subtool="percentage" data-translate="percentage">Percentage</button>
@@ -511,6 +512,7 @@
                 <button class="tab" data-tab="vectors" data-translate="vectors">Vectors</button>
                 <button class="tab" data-tab="geometry" data-translate="geometry">Geometry</button>
                 <button class="tab" data-tab="probability" data-translate="probability">Probability</button>
+                <button class="tab" data-tab="rootfinder" data-translate="rootFinder">Root finder</button>
                 <button class="tab" data-tab="combinatorics" data-translate="combinatorics">Combinatorics</button>
                 <button class="tab" data-tab="fractions" data-translate="fractions">Fractions</button>
                 <button class="tab" data-tab="percentage" data-translate="percentage">Percentage</button>
@@ -1657,6 +1659,39 @@
                 <div class="solution-container" id="probabilitySolution"></div>
             </div>
 
+            <!-- Numeric Root Finder -->
+            <div class="calculator-panel" id="rootfinder">
+                <div class="equation-display">
+                    <h3 data-translate="rootFinderTitle">Numeric Root Finder</h3>
+                    <p class="equation-preview" data-translate="rootFinderHint">Solve f(x) = 0 for any expression. Bisection needs an interval, Newton a starting point, and the scan lists every root in a range.</p>
+                </div>
+
+                <div class="equation-builder">
+                    <div class="input-group">
+                        <label for="rootExpression" data-translate="rootExpression">Equation in x:</label>
+                        <input type="text" id="rootExpression" class="equation-input" value="cos(x) = x" autocomplete="off" spellcheck="false">
+                    </div>
+                    <div class="control-group">
+                        <label for="rootMethod" data-translate="rootMethod">Method:</label>
+                        <select id="rootMethod" class="matrix-select">
+                            <option value="scan" data-translate="rootScan">Scan a range</option>
+                            <option value="bisection" data-translate="rootBisection">Bisection</option>
+                            <option value="newton" data-translate="rootNewton">Newton</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="rootParams" data-translate="rootParams">Range:</label>
+                        <input type="text" id="rootParams" class="equation-input" value="-10, 10" autocomplete="off" spellcheck="false">
+                    </div>
+                </div>
+
+                <div class="button-group">
+                    <button class="btn-solve" id="calculateRoot" data-translate="calculate">Calculate</button>
+                </div>
+
+                <div class="solution-container" id="rootfinderSolution"></div>
+            </div>
+
             <!-- Modular Arithmetic Calculator -->
             <div class="calculator-panel" id="modular">
                 <div class="equation-display">
@@ -2509,6 +2544,7 @@
     <script src="js/solvers/inequality.js" defer></script>
     <script src="js/solvers/polynomial-division.js" defer></script>
     <script src="js/solvers/factor.js" defer></script>
+    <script src="js/solvers/root-finding.js" defer></script>
     <script src="js/solvers/partial-fractions.js" defer></script>
     <script src="js/solvers/exponential-log.js" defer></script>
     <script src="js/solvers/absolute.js" defer></script>

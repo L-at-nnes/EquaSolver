@@ -804,7 +804,22 @@ const es = {
     distPoisson: "Poisson",
     probabilityNeedInteger: "x debe ser un entero para esta distribución",
     probabilityInvalidParams: "Parámetros no válidos para esta distribución",
-    probabilityVariance: "Varianza"
+    probabilityVariance: "Varianza",
+    rootFinder: "Raíces numéricas",
+    rootFinderTitle: "Búsqueda numérica de raíces",
+    rootFinderHint: "Resuelve f(x) = 0 para cualquier expresión. La bisección necesita un intervalo, Newton un punto inicial y el barrido lista todas las raíces de un rango.",
+    rootExpression: "Ecuación en x:",
+    rootMethod: "Método:",
+    rootScan: "Barrer un rango",
+    rootBisection: "Bisección",
+    rootNewton: "Newton",
+    rootParams: "Rango:",
+    rootRange: "Rango:",
+    rootInterval: "Intervalo a, b:",
+    rootStart: "Punto inicial:",
+    rootNone: "No se encontró ninguna raíz en este rango",
+    rootNoSignChange: "f(a) y f(b) deben tener signos opuestos",
+    rootNotConverged: "El método no convergió; prueba otro punto inicial o intervalo."
 };
 
 // Export for use in browser

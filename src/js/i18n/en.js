@@ -816,7 +816,22 @@ const en = {
     distPoisson: "Poisson",
     probabilityNeedInteger: "x must be a whole number for this distribution",
     probabilityInvalidParams: "Invalid parameters for this distribution",
-    probabilityVariance: "Variance"
+    probabilityVariance: "Variance",
+    rootFinder: "Root finder",
+    rootFinderTitle: "Numeric Root Finder",
+    rootFinderHint: "Solve f(x) = 0 for any expression. Bisection needs an interval, Newton a starting point, and the scan lists every root in a range.",
+    rootExpression: "Equation in x:",
+    rootMethod: "Method:",
+    rootScan: "Scan a range",
+    rootBisection: "Bisection",
+    rootNewton: "Newton",
+    rootParams: "Range:",
+    rootRange: "Range:",
+    rootInterval: "Interval a, b:",
+    rootStart: "Starting point:",
+    rootNone: "No root found in this range",
+    rootNoSignChange: "f(a) and f(b) must have opposite signs",
+    rootNotConverged: "The method did not converge; try another starting point or interval."
 };
 
 // Export for use in browser

@@ -804,7 +804,22 @@ const ru = {
     distPoisson: "Пуассона",
     probabilityNeedInteger: "Для этого распределения x должно быть целым",
     probabilityInvalidParams: "Недопустимые параметры распределения",
-    probabilityVariance: "Дисперсия"
+    probabilityVariance: "Дисперсия",
+    rootFinder: "Корни численно",
+    rootFinderTitle: "Численный поиск корней",
+    rootFinderHint: "Решает f(x) = 0 для любого выражения. Для бисекции нужен отрезок, для Ньютона начальная точка, а сканирование находит все корни на промежутке.",
+    rootExpression: "Уравнение относительно x:",
+    rootMethod: "Метод:",
+    rootScan: "Сканировать промежуток",
+    rootBisection: "Бисекция",
+    rootNewton: "Ньютон",
+    rootParams: "Промежуток:",
+    rootRange: "Промежуток:",
+    rootInterval: "Отрезок a, b:",
+    rootStart: "Начальная точка:",
+    rootNone: "На этом промежутке корней не найдено",
+    rootNoSignChange: "f(a) и f(b) должны иметь разные знаки",
+    rootNotConverged: "Метод не сошёлся; попробуйте другую начальную точку или отрезок."
 };
 
 // Export for use in browser

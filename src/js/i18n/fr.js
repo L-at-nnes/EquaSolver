@@ -816,7 +816,22 @@ const fr = {
     distPoisson: "Poisson",
     probabilityNeedInteger: "x doit être un entier pour cette loi",
     probabilityInvalidParams: "Paramètres invalides pour cette loi",
-    probabilityVariance: "Variance"
+    probabilityVariance: "Variance",
+    rootFinder: "Racines numériques",
+    rootFinderTitle: "Recherche de racines numérique",
+    rootFinderHint: "Résout f(x) = 0 pour toute expression. La dichotomie demande un intervalle, Newton un point de départ, et le balayage liste toutes les racines d'une plage.",
+    rootExpression: "Équation en x :",
+    rootMethod: "Méthode :",
+    rootScan: "Balayer une plage",
+    rootBisection: "Dichotomie",
+    rootNewton: "Newton",
+    rootParams: "Plage :",
+    rootRange: "Plage :",
+    rootInterval: "Intervalle a, b :",
+    rootStart: "Point de départ :",
+    rootNone: "Aucune racine trouvée dans cette plage",
+    rootNoSignChange: "f(a) et f(b) doivent être de signes opposés",
+    rootNotConverged: "La méthode n'a pas convergé ; essayez un autre point de départ ou intervalle."
 };
 
 // Export for use in browser

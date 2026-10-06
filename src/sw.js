@@ -1,6 +1,6 @@
-const CACHE_NAME = 'equasolver-v3.11.0';
-const STATIC_CACHE = 'equasolver-static-v3.11.0';
-const DYNAMIC_CACHE = 'equasolver-dynamic-v3.11.0';
+const CACHE_NAME = 'equasolver-v3.12.0';
+const STATIC_CACHE = 'equasolver-static-v3.12.0';
+const DYNAMIC_CACHE = 'equasolver-dynamic-v3.12.0';
 
 // Keep in sync with the <script src="js/..."> tags in index.html.
 const STATIC_ASSETS = [
@@ -49,6 +49,7 @@ const STATIC_ASSETS = [
     './js/solvers/inequality.js',
     './js/solvers/polynomial-division.js',
     './js/solvers/factor.js',
+    './js/solvers/root-finding.js',
     './js/solvers/partial-fractions.js',
     './js/solvers/exponential-log.js',
     './js/solvers/absolute.js',

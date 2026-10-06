@@ -55,6 +55,7 @@ document.addEventListener('DOMContentLoaded', () => {
     setupVectorCalculator();
     setupGeometryCalculator();
     setupProbabilityCalculator();
+    setupRootFinder();
     setupCombinatoricsCalculator();
     setupFractionCalculator();
     setupPercentageCalculator();
@@ -1555,6 +1556,73 @@ function calculateGcdLcm() {
     
     resultDiv.innerHTML = html;
     addToHistory(`GCD(${numbers.join(', ')}) = ${gcdResult}, LCM = ${lcmResult}`);
+}
+
+const ROOT_METHOD_DEFAULTS = {
+    scan: { params: '-10, 10', labelKey: 'rootRange', label: 'Range:' },
+    bisection: { params: '0, 1', labelKey: 'rootInterval', label: 'Interval a, b:' },
+    newton: { params: '1', labelKey: 'rootStart', label: 'Starting point:' }
+};
+
+function setupRootFinder() {
+    const select = document.getElementById('rootMethod');
+    select?.addEventListener('change', () => {
+        const defaults = ROOT_METHOD_DEFAULTS[select.value];
+        const label = document.querySelector('label[for="rootParams"]');
+        if (label) {
+            label.setAttribute('data-translate', defaults.labelKey);
+            label.textContent = translations[window.currentLang][defaults.labelKey] || defaults.label;
+        }
+        document.getElementById('rootParams').value = defaults.params;
+    });
+
+    document.getElementById('calculateRoot')?.addEventListener('click', () => {
+        const method = select?.value || 'scan';
+        const resultDiv = document.getElementById('rootfinderSolution');
+        const trans = translations[window.currentLang];
+        const equation = toRootExpression(document.getElementById('rootExpression')?.value ?? '');
+        const f = equation && compileExpression(equation, 'x');
+        const params = parseDimensions(document.getElementById('rootParams')?.value ?? '');
+        const expected = method === 'newton' ? 1 : 2;
+
+        if (!f || !params || params.length !== expected) {
+            resultDiv.innerHTML = `<p class="error">${trans.invalidInput}</p>`;
+            return;
+        }
+
+        const fmt = v => (Number.isFinite(v) ? parseFloat(v.toPrecision(10)) : '–');
+        const rootRow = (x, label) => `<div class="result-group"><div class="result-label">${label}</div><div class="result-value"><span class="highlight">${fmt(x)}</span></div></div>`;
+        let html = `<h3>${trans.solution}</h3>`;
+        let summary;
+
+        if (method === 'scan') {
+            const roots = scanRoots(f, params[0], params[1]);
+            if (!roots.length) {
+                resultDiv.innerHTML = `<p class="error">${trans.rootNone || 'No root found in this range'}</p>`;
+                return;
+            }
+            roots.forEach((x, i) => { html += rootRow(x, `x${i + 1} =`); });
+            summary = `f(x) = 0 on [${params.join(', ')}]: ${roots.map(fmt).join(', ')}`;
+        } else {
+            const found = method === 'newton' ? newton(f, params[0]) : bisection(f, params[0], params[1]);
+            if (!found) {
+                const message = method === 'newton' ? trans.invalidInput : (trans.rootNoSignChange || 'f(a) and f(b) must have opposite signs');
+                resultDiv.innerHTML = `<p class="error">${message}</p>`;
+                return;
+            }
+            html += rootRow(found.root, 'x =');
+            if (!found.converged) html += `<p class="input-hint">${trans.rootNotConverged || 'The method did not converge; try another starting point or interval.'}</p>`;
+            if (found.steps.length) {
+                const head = method === 'newton' ? ['n', 'x', 'f(x)', "f'(x)"] : ['n', 'a', 'b', 'x', 'f(x)'];
+                const body = found.steps.map(s => `<tr>${(method === 'newton' ? [s.n, s.x, s.fx, s.dfx] : [s.n, s.a, s.b, s.x, s.fx]).map((v, i) => `<td>${i === 0 ? v : fmt(v)}</td>`).join('')}</tr>`).join('');
+                html += `<div class="table-scroll"><table class="iteration-table"><thead><tr>${head.map(h => `<th>${h}</th>`).join('')}</tr></thead><tbody>${body}</tbody></table></div>`;
+            }
+            summary = `f(x) = 0 (${method}): x = ${fmt(found.root)}`;
+        }
+
+        resultDiv.innerHTML = html;
+        addToHistory(summary);
+    });
 }
 
 const DISTRIBUTION_DEFAULTS = {
